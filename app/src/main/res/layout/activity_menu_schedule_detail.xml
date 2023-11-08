@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".activity.MenuScheduleDetailActivity">
+
+    <kr.jeet.edu.manager.view.CustomAppbarLayout
+        android:id="@+id/customAppbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingHorizontal="@dimen/layout_margin">
+
+            <TextView
+                android:id="@+id/tv_sc_detail_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:textColor="@color/font_color_default"
+                android:textStyle="bold"
+                android:hint="날짜 정보없음"
+                android:textSize="@dimen/font_size_large"
+                android:lineSpacingMultiplier="1.2"/>
+
+            <TextView
+                android:id="@+id/tv_sc_detail_campus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:textColor="@color/font_color_default"
+                android:textSize="@dimen/font_size"
+                android:hint="캠퍼스 정보없음"
+                android:lineSpacingMultiplier="1.2"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:background="@color/line_2"/>
+
+            <TextView
+                android:id="@+id/tv_sc_detail_target"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/font_color_blue_sub"
+                android:hint="@string/hint_empty_school_grade"
+                android:textStyle="bold"
+                android:textSize="@dimen/font_size_large"
+                android:lineSpacingMultiplier="1.2"/>
+
+            <TextView
+                android:id="@+id/tv_sc_detail_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/font_size_large"
+                android:hint="일정 정보없음"
+                android:textColor="@color/font_color_default"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="16dp"
+                android:lineSpacingMultiplier="1.2"/>
+
+            <TextView
+                android:id="@+id/tv_sc_detail_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/bg_schedule_detail_box"
+                android:minLines="4"
+                android:padding="8dp"
+                android:textSize="@dimen/font_size"
+                android:hint="상세내용 정보없음"
+                android:textColor="@color/font_color_default"
+                android:lineSpacingMultiplier="1.2"/>
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/layout_recipient_control"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="12dp"
+                app:layout_constraintVertical_bias="0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/recycler_board_file"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:visibility="gone">
+                <TextView
+                    android:id="@+id/tv_title_recipient"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/title_main_recipient"
+                    android:textSize="@dimen/font_size_small"
+                    android:textColor="@color/font_color_default"
+                    android:textStyle="bold"
+                    android:gravity="start"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:layout_weight="1"/>
+                <TextView
+                    android:id="@+id/tv_recipient_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="알림 수신인"
+                    android:text=""
+                    android:textColor="@color/font_color_default"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:textSize="@dimen/font_size_small"
+                    android:textStyle="bold"
+                    android:layout_gravity="center_vertical|right"
+                    android:gravity="right|center_vertical"
+                    />
+                <android.widget.Button
+                    android:id="@+id/btn_append_recipient"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/layout_margin_small"
+                    android:text="@string/title_btn_append"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/font_size_small"
+                    android:background="@drawable/selector_bt_demand"
+                    android:stateListAnimator="@xml/animate_button_push"
+                    android:visibility="gone"
+                    />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_chip"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/layout_margin_xxsmall"
+                android:paddingHorizontal="@dimen/layout_margin_xxsmall"
+                android:background="@drawable/bg_edittext"
+                android:orientation="vertical"
+                android:padding="@dimen/layout_margin_xxxsmall"
+                tools:listitem="@layout/layout_chip_item"
+                android:nestedScrollingEnabled="true"
+                android:visibility="gone"
+                />
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

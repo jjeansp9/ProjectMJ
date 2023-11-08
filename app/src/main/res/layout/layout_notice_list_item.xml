@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingHorizontal="@dimen/layout_margin"
+    android:paddingVertical="8dp"
+    android:foreground="?android:attr/selectableItemBackground">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/layout_notice_state"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+        <TextView
+            android:id="@+id/tv_notice_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="@dimen/layout_margin_xxxsmall"
+            android:background="@drawable/bg_layout_parent"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="2dp"
+            android:text="시스템알림"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="@dimen/font_size_xsmall"
+            android:textStyle="bold"/>
+        <TextView
+            android:id="@+id/tv_notice_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:hint=""
+            android:textColor="@color/font_color_default"
+            android:textSize="@dimen/font_size"/>
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/layout_notice_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layout_notice_state"
+        android:layout_marginTop="4dp">
+        <ImageView
+            android:id="@+id/img_notice_send_and_receiver"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="4dp" />
+        <TextView
+            android:id="@+id/tv_notice_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:hint="날짜 정보없음"
+            android:textSize="@dimen/font_size"
+            android:textColor="@color/font_color_default"/>
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <TextView
+        android:id="@+id/tv_notice_receiver"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:hint="수신인 정보없음"
+        android:textColor="@color/font_color_default"
+        android:textSize="@dimen/font_size"
+        android:visibility="gone"/>
+
+    <ImageButton
+        android:id="@+id/btn_notice_next"
+        android:layout_width="@dimen/file_icon_size"
+        android:layout_height="@dimen/file_icon_size"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@drawable/ic_vector_arrow_right"
+        android:backgroundTint="@color/darkgray"
+        android:clickable="false"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

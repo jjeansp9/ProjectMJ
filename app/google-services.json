@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "1097787349857",
+    "project_id": "jeeteducation-ae542",
+    "storage_bucket": "jeeteducation-ae542.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1097787349857:android:526ab19b09fe4cc6ef0320",
+        "android_client_info": {
+          "package_name": "kr.jeet.edu.manager"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1097787349857-7o28ntcdscio34upqp1fvpvdp16udg46.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAptUVKp9-SEQ9mLVltEaMnv0pqE7om1-U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1097787349857-7o28ntcdscio34upqp1fvpvdp16udg46.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1097787349857:android:22f986edaee96e76ef0320",
+        "android_client_info": {
+          "package_name": "kr.jeet.edu.student"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1097787349857-7o28ntcdscio34upqp1fvpvdp16udg46.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAptUVKp9-SEQ9mLVltEaMnv0pqE7om1-U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1097787349857-7o28ntcdscio34upqp1fvpvdp16udg46.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

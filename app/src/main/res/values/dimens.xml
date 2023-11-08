@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="main_menu_icon_size">80dp</dimen>
+    <dimen name="layout_margin_xxxxsmall">2dp</dimen>
+    <dimen name="layout_margin_xxxsmall">4dp</dimen>
+    <dimen name="layout_margin_xxsmall">8dp</dimen>
+    <dimen name="layout_margin_xsmall">12dp</dimen>
+    <dimen name="layout_margin_small">16dp</dimen>
+    <dimen name="layout_margin">20dp</dimen>
+    <dimen name="layout_margin_large">24dp</dimen>
+    <dimen name="layout_margin_xlarge">28dp</dimen>
+    <dimen name="layout_margin_xxlarge">32dp</dimen>
+    <dimen name="layout_margin_xxxlarge">36dp</dimen>
+    <dimen name="layout_margin_xxxxlarge">40dp</dimen>
+    <dimen name="layout_margin_ultralarge">60dp</dimen>
+
+    <dimen name="font_size_xxxsmall">8dp</dimen>
+    <dimen name="font_size_xxsmall">10dp</dimen>
+    <dimen name="font_size_xsmall">12dp</dimen>
+    <dimen name="font_size_small">14dp</dimen>
+    <dimen name="font_size">16dp</dimen>
+    <dimen name="font_size_large">18dp</dimen>
+    <dimen name="font_size_xlarge">20dp</dimen>
+    <dimen name="font_size_xxlarge">22dp</dimen>
+    <dimen name="font_size_xxxlarge">24dp</dimen>
+
+    <dimen name="divider_height">1dp</dimen>
+    <dimen name="spinner_divider_height">0.4dp</dimen>
+    <dimen name="header_height">60dp</dimen>
+    <dimen name="header_btn_height">40dp</dimen>
+    <dimen name="under_line_height">1dp</dimen>
+    <dimen name="bottom_button_layout_height">54dp</dimen>
+    <dimen name="editbox_padding">12dp</dimen>
+    <dimen name="spinner_padding">10dp</dimen>
+    <dimen name="spinner_popup_min_width">240dp</dimen>
+
+    <dimen name="profile_size">80dp</dimen>
+    <dimen name="spinner_item_height">38dp</dimen>
+    <dimen name="spinner_item_height_small">36dp</dimen>
+    <dimen name="spinner_popup_elevation">2dp</dimen>
+    <dimen name="image_pallet_size">108dp</dimen>
+    <dimen name="briefing_main_image_size">128dp</dimen>
+    <dimen name="file_icon_size">24dp</dimen>
+    <dimen name="settings_btn_width">70dp</dimen>
+    <dimen name="settings_btn_height">30dp</dimen>
+    <dimen name="settings_btn_corner">8dp</dimen>
+
+    <dimen name="calendar_arrow_size">24dp</dimen>
+    <dimen name="usergubun_badge_corner">4dp</dimen>
+    <dimen name="usergubun_badge_padding_horizontal">10dp</dimen>
+    <dimen name="usergubun_badge_padding_vertical">1dp</dimen>
+    <dimen name="checkbox_size">24dp</dimen>
+    <dimen name="checkbox_size_large">32dp</dimen>
+    <dimen name="checkbox_size_xlarge">40dp</dimen>
+    <dimen name="checkbox_size_xxlarge">52dp</dimen>
+
+    <dimen name="dot_sex_size">10dp</dimen>
+    <dimen name="layout_sex_size">30dp</dimen>
+
+    <dimen name="test_reserve_detail_item_margin">8dp</dimen>
+    <dimen name="test_reserve_detail_item_title_margin">10dp</dimen>
+    <dimen name="test_reserve_detail_layout_study_sub">4dp</dimen>
+
+
+    <dimen name="bottom_sheet_corner_radius">20dp</dimen>
+    <dimen name="bottom_sheet_top_padding">16dp</dimen>
+    <dimen name="bus_state_icon_size">32dp</dimen>
+    <dimen name="fab_size">56dp</dimen>
+    <dimen name="fab_icon_size">48dp</dimen>
+    <dimen name="fab_progress_size">72dp</dimen>
+    <dimen name="progress_bar_size">16dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+
+    <dimen name="anim_move">20dp</dimen>
+</resources>

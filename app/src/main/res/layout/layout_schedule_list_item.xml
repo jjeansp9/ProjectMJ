@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="90dp"-->
+<!--    xmlns:app="http://schemas.android.com/apk/res-auto"-->
+<!--    android:foreground="?android:attr/selectableItemBackground"-->
+<!--    android:background="@color/white"-->
+<!--    android:paddingHorizontal="@dimen/layout_margin"-->
+<!--    android:paddingVertical="8dp">-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/tv_schedule_campus"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:layout_constraintStart_toEndOf="@id/layout_schedule_date"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        android:maxLines="1"-->
+<!--        android:ellipsize="end"-->
+<!--        android:textColor="@color/font_color_999"-->
+<!--        android:textSize="@dimen/font_size_small"/>-->
+
+<!--    <LinearLayout-->
+<!--        android:id="@+id/layout_schedule_date"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/tv_schedule_campus"-->
+<!--        android:orientation="horizontal"-->
+<!--        android:visibility="gone">-->
+<!--        <ImageView-->
+<!--            android:id="@+id/img_schedule_new"-->
+<!--            android:layout_width="6dp"-->
+<!--            android:layout_height="6dp"-->
+<!--            android:layout_marginEnd="4dp"-->
+<!--            android:layout_marginTop="6dp"-->
+<!--            android:src="@drawable/icon_dot_red"-->
+<!--            android:visibility="visible"/>-->
+<!--        <TextView-->
+<!--            android:id="@+id/tv_schedule_date"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="5.5 (금)"-->
+<!--            android:textSize="@dimen/font_size_xlarge"-->
+<!--            android:textColor="@color/font_color_default"-->
+<!--            android:textStyle="bold"/>-->
+<!--    </LinearLayout>-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/tv_schedule_target"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:layout_constraintStart_toEndOf="@id/layout_schedule_date"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/tv_schedule_campus"-->
+<!--        android:maxLines="1"-->
+<!--        android:ellipsize="end"-->
+<!--        android:textColor="@color/font_color_blue_sub"-->
+<!--        android:textStyle="bold"-->
+<!--        android:textSize="@dimen/font_size_large"/>-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/tv_schedule_title"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:layout_constraintStart_toEndOf="@id/layout_schedule_date"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/tv_schedule_target"-->
+<!--        android:layout_marginTop="4dp"-->
+<!--        android:maxLines="1"-->
+<!--        android:ellipsize="end"-->
+<!--        android:textColor="@color/font_color_default"-->
+<!--        android:textSize="@dimen/font_size"/>-->
+
+<!--</androidx.constraintlayout.widget.ConstraintLayout>-->
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="60dp"
+    android:orientation="vertical"
+    android:foreground="?android:attr/selectableItemBackground"
+    android:background="@color/white"
+    android:paddingHorizontal="@dimen/layout_margin"
+    android:paddingVertical="6dp"
+    android:gravity="center_vertical">
+
+    <TextView
+        android:id="@+id/tv_schedule_campus"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:textColor="@color/font_color_999"
+        android:textSize="@dimen/font_size_small"/>
+
+    <LinearLayout
+        android:id="@+id/layout_schedule_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:visibility="gone">
+        <ImageView
+            android:id="@+id/img_schedule_new"
+            android:layout_width="6dp"
+            android:layout_height="6dp"
+            android:layout_marginEnd="4dp"
+            android:layout_marginTop="6dp"
+            android:src="@drawable/icon_dot_red"
+            android:visibility="visible"/>
+        <TextView
+            android:id="@+id/tv_schedule_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="5.5 (금)"
+            android:textSize="@dimen/font_size_xlarge"
+            android:textColor="@color/font_color_default"
+            android:textStyle="bold"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_schedule_target"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:textColor="@color/font_color_blue_sub"
+        android:textStyle="bold"
+        android:textSize="@dimen/font_size_large"/>
+
+    <TextView
+        android:id="@+id/tv_schedule_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="2dp"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:textColor="@color/font_color_default"
+        android:textSize="@dimen/font_size"/>
+
+</LinearLayout>

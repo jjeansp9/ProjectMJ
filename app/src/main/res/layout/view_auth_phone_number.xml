@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+    <!-- 휴대폰번호 -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/phonenumber"
+        android:textColor="@color/font_color_default"
+        android:textSize="@dimen/font_size"
+        android:textStyle="bold"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="10dp"
+        android:weightSum="5"
+        >
+
+        <EditText
+            android:id="@+id/edit_phonenum"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="4"
+            android:background="@drawable/bg_edittext"
+            android:textSize="@dimen/font_size_large"
+            android:textColor="@color/font_color_default"
+            android:padding="@dimen/editbox_padding"
+            android:inputType="number"
+            android:maxLength="20"
+            />
+
+        <android.widget.Button
+            android:id="@+id/btn_check_phone"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/auth_request"
+            android:textColor="@color/white"
+            android:textSize="@dimen/font_size"
+            android:background="@drawable/selector_bt_demand"
+            android:layout_marginStart="10dp"
+            android:stateListAnimator="@xml/animate_button_push"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_input_auth_no"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+
+        android:weightSum="5"
+        >
+
+        <EditText
+            android:id="@+id/edit_phone_authnum"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:background="@drawable/bg_edittext"
+            android:hint="@string/input_auth_number"
+            android:textColorHint="@color/font_color_999"
+            android:textSize="@dimen/font_size_large"
+            android:textColor="@color/font_color_default"
+            android:padding="@dimen/editbox_padding"
+            android:inputType="number"
+            android:enabled="false"
+            android:maxLength="10"
+            />
+
+        <TextView
+            android:id="@+id/timer"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="00:00"
+            android:textColor="@color/blackgray"
+            android:textSize="@dimen/font_size_small"
+            android:layout_marginStart="10dp"
+            android:layout_weight="1"
+            />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/check_txt_phone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/auth_complete"
+        android:textSize="@dimen/font_size_small"
+        android:textColor="@color/font_color_default"
+        android:layout_marginTop="4dp"
+        android:visibility="gone"
+        />
+</LinearLayout>

@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+
+    <LinearLayout
+        android:id="@+id/dialog_ly"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/bg_dialog_layout"
+        android:layout_centerInParent="true"
+        android:clipToOutline="true"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+
+            <LinearLayout
+                android:id="@+id/title_ly"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/layout_margin_small"
+                android:background="@color/popup_title_bg"
+                >
+
+                <TextView
+                    android:id="@+id/title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="title"
+                    android:gravity="center"
+                    android:textColor="@color/font_color_default"
+                    android:textSize="@dimen/font_size_large"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="80dp"
+                android:orientation="vertical"
+                android:padding="@dimen/layout_margin_small"
+                android:gravity="center_vertical"
+                >
+
+                <TextView
+                    android:id="@+id/content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="content"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/font_size"
+                    />
+
+                <TextView
+                    android:id="@+id/note"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="note"
+                    android:textColor="@color/font_color_default"
+                    android:textSize="@dimen/font_size"
+                    android:layout_marginTop="12dp"
+                    />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/popup_line"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+
+            <!--            <android.widget.Button-->
+            <!--                android:id="@+id/cancelBtn"-->
+            <!--                android:layout_width="0dp"-->
+            <!--                android:layout_height="match_parent"-->
+            <!--                android:layout_weight="1"-->
+            <!--                android:padding="16dp"-->
+            <!--                android:gravity="center"-->
+            <!--                android:background="@color/white"-->
+            <!--                android:stateListAnimator="@xml/animate_button_push"-->
+            <!--                android:layout_marginRight="1dp"-->
+            <!--                android:text="@string/cancel"-->
+            <!--                android:textColor="@color/font_color_default"-->
+            <!--                android:textSize="@dimen/font_size_large"-->
+            <!--                />-->
+
+            <android.widget.Button
+                android:id="@+id/okBtn"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:padding="16dp"
+                android:gravity="center"
+                android:background="@drawable/selector_normal_button"
+                android:stateListAnimator="@xml/animate_button_pull"
+                android:text="@string/ok"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_size_large"
+                />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>

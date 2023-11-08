@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginVertical="@dimen/layout_margin_xxxxsmall"
+    android:background="@drawable/bg_monthly_attendance_item"
+    android:id="@+id/layout_root">
+
+    <TextView
+        android:id="@+id/tv_date"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintDimensionRatio="V,1:1"
+        android:padding="@dimen/layout_margin_xxxxsmall"
+        android:gravity="center"
+        android:background="@drawable/bg_circle_white"
+        android:hint="31일"
+        android:textColor="@color/font_color_default"
+        android:textStyle="bold"
+        android:textSize="@dimen/font_size"
+        android:maxLines="1"
+        android:ellipsize="end"/>
+    <TextView
+        android:id="@+id/tv_state"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/tv_date"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:paddingVertical="@dimen/layout_margin_xsmall"
+        android:hint="31일"
+        android:textColor="@color/white"
+        android:textSize="@dimen/font_size_large"
+        android:layout_marginStart="@dimen/layout_margin_xsmall"
+        android:maxLines="1"
+        android:ellipsize="end"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="@color/blackgray"/>
+    <corners android:radius="@dimen/usergubun_badge_corner"/>
+</shape>

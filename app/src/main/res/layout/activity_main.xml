@@ -1,0 +1,477 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".activity.MainActivity">
+
+    <kr.jeet.edu.manager.view.CustomAppbarLayout
+        android:id="@+id/customAppbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+        android:background="@drawable/img_pattern"
+        android:scrollbars="none"
+        >
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline_v40"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.4" />
+            <!--profile -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_teacher_info"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_main_profile"
+                android:layout_marginTop="@dimen/layout_margin_small"
+                android:layout_marginHorizontal="@dimen/layout_margin"
+                android:paddingVertical="@dimen/layout_margin_small"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                >
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline_profile_v6"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.06" />
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline_profile_v25"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.25" />
+<!--                <androidx.constraintlayout.widget.Guideline-->
+<!--                    android:id="@+id/guideline_profile_v75"-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:orientation="vertical"-->
+<!--                    app:layout_constraintGuide_percent="0.75" />-->
+<!--                <androidx.constraintlayout.widget.Guideline-->
+<!--                    android:id="@+id/guideline_profile_v78"-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:orientation="vertical"-->
+<!--                    app:layout_constraintGuide_percent="0.78" />-->
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline_profile_v94"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.94" />
+                <ImageView
+                    android:id="@+id/img_teacher"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:src="@drawable/img_teacher"
+                    android:scaleType="fitCenter"
+                    app:layout_constraintDimensionRatio="H,1:1"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/guideline_profile_v6"
+                    app:layout_constraintEnd_toEndOf="@id/guideline_profile_v25"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_manager_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/title_anonymous"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    app:layout_constraintStart_toEndOf="@id/guideline_profile_v25"
+                    app:layout_constraintEnd_toStartOf="@id/tv_teacher_designation"
+                    app:layout_constraintHorizontal_bias="0"
+                    app:layout_constraintHorizontal_chainStyle="packed"
+                    app:layout_constraintTop_toTopOf="@id/img_teacher"
+                    app:layout_constraintBottom_toTopOf="@id/tv_campus"
+                    android:layout_marginStart="@dimen/layout_margin_xxxsmall"
+
+                    android:textSize="@dimen/font_size_xlarge"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"/>
+
+                <TextView
+                    android:id="@+id/tv_teacher_designation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/main_teacher_sub"
+                    app:layout_constraintStart_toEndOf="@id/tv_manager_name"
+                    app:layout_constraintEnd_toStartOf="@id/guideline_profile_v94"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_manager_name"
+                    android:layout_marginStart="@dimen/layout_margin_xxxsmall"
+                    android:textSize="@dimen/font_size"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"/>
+
+                <TextView
+                    android:id="@+id/tv_campus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/error_main_campus_not_found"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    app:layout_constraintStart_toEndOf="@id/guideline_profile_v25"
+                    app:layout_constraintEnd_toStartOf="@id/guideline_profile_v94"
+                    app:layout_constraintHorizontal_bias="0"
+                    app:layout_constraintTop_toBottomOf="@id/tv_manager_name"
+                    app:layout_constraintBottom_toTopOf="@id/tv_department"
+                    android:layout_marginStart="@dimen/layout_margin_xxxsmall"
+                    android:textSize="@dimen/font_size_small"
+                    android:textColor="@color/black"/>
+
+                <TextView
+                    android:id="@+id/tv_department"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/main_teacher_department_not_found"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    app:layout_constraintStart_toEndOf="@id/guideline_profile_v25"
+                    app:layout_constraintEnd_toStartOf="@id/guideline_profile_v94"
+                    app:layout_constraintHorizontal_bias="0"
+                    app:layout_constraintTop_toBottomOf="@id/tv_campus"
+                    app:layout_constraintBottom_toBottomOf="@id/img_teacher"
+                    android:layout_marginStart="@dimen/layout_margin_xxxsmall"
+                    android:textSize="@dimen/font_size_small"
+                    android:textColor="@color/black"/>
+
+<!--                <RelativeLayout-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="0dp"-->
+<!--                    android:background="@drawable/bg_main_profile_date"-->
+<!--                    android:foreground="?android:attr/selectableItemBackground"-->
+<!--                    app:layout_constraintStart_toStartOf="@id/guideline_profile_v78"-->
+<!--                    app:layout_constraintEnd_toEndOf="@id/guideline_profile_v94"-->
+<!--                    app:layout_constraintTop_toTopOf="parent"-->
+<!--                    app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                    app:layout_constrainedWidth="true"-->
+<!--                    app:layout_constraintHeight="true"-->
+<!--                    app:layout_constraintDimensionRatio="1:1"-->
+<!--                    android:visibility="gone">-->
+
+<!--                    <TextView-->
+<!--                        android:id="@+id/tv_date"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_centerInParent="true"-->
+<!--                        android:gravity="center"-->
+<!--                        android:paddingHorizontal="@dimen/layout_margin_xxxsmall"-->
+<!--                        android:ellipsize="end"-->
+<!--                        android:maxLines="2"-->
+<!--                        android:textColor="@color/white"-->
+<!--                        android:autoSizeTextType="uniform"-->
+<!--                        android:autoSizeMaxTextSize="@dimen/font_size_xlarge"-->
+<!--                        android:autoSizeMinTextSize="@dimen/font_size_xxxsmall"/>-->
+<!--                </RelativeLayout>-->
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!--menu -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_menu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/layout_teacher_info"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="@dimen/layout_margin_xxsmall"
+                android:layout_marginHorizontal="@dimen/layout_margin"
+                android:orientation="vertical"
+                tools:listitem="@layout/layout_main_menu_item"
+                android:overScrollMode="never"
+                android:nestedScrollingEnabled="false"
+                />
+
+            <!-- divider -->
+            <View
+                android:id="@+id/divider"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/divider_height"
+                android:background="@color/bg_gray"
+                app:layout_constraintTop_toBottomOf="@id/recycler_menu"
+                android:layout_marginTop="@dimen/layout_margin_small"
+                android:layout_marginHorizontal="@dimen/layout_margin"
+                android:visibility="invisible"/>
+            <!-- notice -->
+<!--            <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--                android:id="@+id/btn_notice_menu"-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="0dp"-->
+<!--                android:background="@drawable/selector_main_box"-->
+<!--                android:foreground="?android:attr/selectableItemBackground"-->
+<!--                android:padding="@dimen/layout_margin_small"-->
+<!--                android:layout_marginTop="@dimen/layout_margin_small"-->
+<!--                android:layout_marginStart="@dimen/layout_margin"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintEnd_toEndOf="@id/guideline_v40"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/divider"-->
+<!--                app:layout_constraintBottom_toBottomOf="@id/noticebarrier"-->
+<!--                android:onClick="onClick"-->
+<!--                >-->
+
+<!--                <ImageView-->
+<!--                    android:id="@+id/img_notice_menu"-->
+<!--                    android:layout_width="60dp"-->
+<!--                    android:layout_height="60dp"-->
+<!--                    android:src="@drawable/icon_menu_notify"-->
+<!--                    android:scaleType="fitCenter"-->
+<!--                    app:layout_constraintVertical_chainStyle="packed"-->
+<!--                    app:layout_constraintEnd_toEndOf="parent"-->
+<!--                    app:layout_constraintStart_toStartOf="parent"-->
+<!--                    app:layout_constraintTop_toTopOf="parent"-->
+<!--                    app:layout_constraintBottom_toTopOf="@id/tv_notice_title"-->
+<!--                    />-->
+
+<!--                <TextView-->
+<!--                    android:id="@+id/tv_notice_title"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="@string/main_tv_first_notify"-->
+<!--                    android:textSize="@dimen/font_size_large"-->
+<!--                    android:textColor="@color/black"-->
+<!--                    android:textStyle="bold"-->
+<!--                    android:autoSizeTextType="uniform"-->
+<!--                    android:autoSizeMaxTextSize="@dimen/font_size_large"-->
+<!--                    android:autoSizeMinTextSize="@dimen/font_size_small"-->
+<!--                    app:layout_constraintEnd_toEndOf="parent"-->
+<!--                    app:layout_constraintStart_toStartOf="parent"-->
+<!--                    app:layout_constraintTop_toBottomOf="@id/img_notice_menu"-->
+<!--                    app:layout_constraintBottom_toTopOf="@id/tv_notify_content"/>-->
+
+<!--                <TextView-->
+<!--                    android:id="@+id/tv_notify_content"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginTop="@dimen/layout_margin_xxxsmall"-->
+<!--                    android:hint="@string/main_tv_second_notify"-->
+<!--                    android:textColor="@color/black"-->
+<!--                    android:textSize="@dimen/font_size"-->
+<!--                    android:gravity="center"-->
+<!--                    android:maxLines="1"-->
+<!--                    android:ellipsize="end"-->
+<!--                    app:layout_constraintEnd_toEndOf="parent"-->
+<!--                    app:layout_constraintStart_toStartOf="parent"-->
+<!--                    app:layout_constraintTop_toBottomOf="@id/tv_notice_title"-->
+<!--                    app:layout_constraintBottom_toBottomOf="parent"/>-->
+
+
+<!--            </androidx.constraintlayout.widget.ConstraintLayout>-->
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/btn_teacher_profile"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/selector_main_box"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:padding="@dimen/layout_margin_xxsmall"
+                android:layout_marginStart="@dimen/layout_margin"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/btn_request_consulting"
+                app:layout_constraintTop_toBottomOf="@id/divider"
+                android:onClick="onClick"
+                >
+
+                <ImageView
+                    android:id="@+id/img_teacher_profile"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/icon_menu_teacher"
+                    android:scaleType="fitCenter"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toTopOf="@id/tv_teacher_profile"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_teacher_profile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/title_main_teacher_profile"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:maxLines="1"
+                    android:textSize="@dimen/font_size_large"
+                    android:autoSizeTextType="uniform"
+                    android:autoSizeMaxTextSize="@dimen/font_size_large"
+                    android:autoSizeMinTextSize="@dimen/font_size_xsmall"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/img_teacher_profile"
+                    app:layout_constraintBottom_toTopOf="@id/tv_confirm"/>
+
+                <TextView
+                    android:id="@+id/tv_confirm"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/title_btn_confirm"
+                    android:textColor="@color/black"
+                    android:maxLines="1"
+                    android:textSize="@dimen/font_size"
+                    android:autoSizeTextType="uniform"
+                    android:autoSizeMaxTextSize="@dimen/font_size"
+                    android:autoSizeMinTextSize="@dimen/font_size_xsmall"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_teacher_profile"
+                    app:layout_constraintBottom_toBottomOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/btn_request_consulting"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/selector_main_box"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:padding="@dimen/layout_margin_xxsmall"
+                android:layout_marginStart="@dimen/layout_margin_xxsmall"
+                android:layout_marginEnd="@dimen/layout_margin"
+                app:layout_constraintStart_toEndOf="@id/btn_teacher_profile"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/btn_teacher_profile"
+                android:onClick="onClick"
+                >
+<!--                <androidx.constraintlayout.widget.Guideline-->
+<!--                    android:id="@+id/guideline_inner_v85"-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:orientation="vertical"-->
+<!--                    app:layout_constraintGuide_percent="0.85" />-->
+                <ImageView
+                    android:id="@+id/img_consulting_new"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_vector_alert_new"
+                    android:scaleType="fitCenter"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:visibility="invisible"
+                    />
+                <ImageView
+                    android:id="@+id/img_request_consulting"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/icon_menu_counsel"
+                    android:scaleType="fitCenter"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toTopOf="@id/tv_title_request_consulting"
+
+                    />
+
+                <TextView
+                    android:id="@+id/tv_title_request_consulting"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/title_main_request_consulting"
+                    android:textSize="@dimen/font_size_large"
+                    android:autoSizeTextType="uniform"
+                    android:autoSizeMaxTextSize="@dimen/font_size_large"
+                    android:autoSizeMinTextSize="@dimen/font_size_xsmall"
+                    android:maxLines="2"
+                    android:ellipsize="end"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/img_request_consulting"
+                    app:layout_constraintBottom_toBottomOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/btn_announcement_state"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btn_teacher_profile"
+                android:layout_marginHorizontal="@dimen/layout_margin"
+                android:background="@drawable/selector_main_box"
+                android:layout_marginTop="@dimen/layout_margin_xxsmall"
+                android:layout_marginBottom="@dimen/layout_margin_small"
+                android:paddingVertical="@dimen/layout_margin_xsmall"
+                >
+
+                <ImageView
+                    android:id="@+id/img_announcement_state"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/icon_menu_notify"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:layout_marginStart="12dp"/>
+
+                <TextView
+                    android:id="@+id/tv_announcement_states"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:gravity="start"
+                    android:text="@string/main_menu_announcement_summary"
+                    android:textSize="@dimen/font_size_large"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    app:layout_constraintTop_toTopOf="@id/img_announcement_state"
+                    app:layout_constraintBottom_toBottomOf="@id/img_announcement_state"
+                    app:layout_constraintStart_toEndOf="@+id/img_announcement_state"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginEnd="12dp"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_announcement"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/img_announcement_state"
+                    android:layout_marginHorizontal="12dp"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    android:orientation="vertical"
+                    tools:listitem="@layout/layout_announcement_list_item"
+                    android:background="@drawable/bg_white_panel"
+                    android:layout_marginTop="8dp"
+                    android:overScrollMode="never"/>
+
+                <TextView
+                    android:id="@+id/tv_main_empty_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_announcement_states"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginHorizontal="@dimen/layout_margin_xsmall"
+                    android:paddingVertical="16dp"
+                    android:background="@drawable/bg_white_panel"
+                    android:gravity="center"
+                    android:text="@string/announcement_list_empty"
+                    android:textColor="@color/font_color_999"
+                    android:textSize="@dimen/font_size"
+                    android:textStyle="bold"
+                    android:visibility="gone"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </ScrollView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

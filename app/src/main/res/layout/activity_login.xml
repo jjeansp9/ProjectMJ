@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_manager"
+    android:padding="@dimen/layout_margin"
+    tools:context=".activity.LoginActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/img_login_jeet" />
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/ly_login"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
+<!--            <LinearLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:orientation="horizontal"-->
+<!--                android:visibility="visible">-->
+
+<!--                <androidx.appcompat.widget.AppCompatToggleButton-->
+<!--                    android:id="@+id/tab_parents"-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:background="@drawable/selector_login_tab"-->
+<!--                    android:text="@string/parents"-->
+<!--                    android:textColor="@color/font_color_default"-->
+<!--                    android:textSize="@dimen/font_size_large"-->
+<!--                    android/>-->
+
+<!--                <ToggleButton-->
+<!--                    android:id="@+id/tab_student"-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:background="@drawable/selector_login_tab"-->
+<!--                    android:text="@string/student"-->
+<!--                    android:textColor="@color/font_color_default"-->
+<!--                    android:textSize="@dimen/font_size_large" />-->
+
+<!--            </LinearLayout>-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/img_login_textbox02"
+                android:orientation="vertical"
+                android:padding="@dimen/layout_margin_small">
+
+                <EditText
+                    android:id="@+id/edit_id"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_edittext_login"
+                    android:hint="@string/id"
+                    android:maxLength="100"
+                    android:padding="@dimen/editbox_padding"
+                    android:textColor="@color/font_color_default"
+                    android:textColorHint="@color/font_color_999"
+                    android:inputType="textVisiblePassword"
+                    android:digits="@string/id_pattern"
+                    android:textSize="@dimen/font_size" />
+
+                <EditText
+                    android:id="@+id/edit_pw"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/bg_edittext_login"
+                    android:hint="@string/password"
+                    android:inputType="textPassword"
+                    android:maxLength="100"
+                    android:padding="@dimen/editbox_padding"
+                    android:textColor="@color/font_color_default"
+                    android:textColorHint="@color/font_color_999"
+                    android:textSize="@dimen/font_size" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_login"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/layout_margin_small"
+                    android:background="@drawable/selector_bt_login_manager"
+                    android:stateListAnimator="@xml/animate_button_push"
+                    android:text="@string/login"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/font_size_large" />
+
+            </LinearLayout>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <RelativeLayout
+            android:id="@+id/ly_choice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/layout_margin">
+
+            <CheckBox
+                android:id="@+id/checkbox_login"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:background="@drawable/selector_bt_login_check"
+                android:button="@null" />
+
+            <TextView
+                android:id="@+id/checkbox_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="4dp"
+                android:layout_toRightOf="@id/checkbox_login"
+                android:stateListAnimator="@xml/animate_button_push"
+                android:text="@string/auto_login"
+                android:textColor="@color/font_color_default"
+                android:textSize="@dimen/font_size" />
+
+            <TextView
+                android:id="@+id/tv_find"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:gravity="center_vertical"
+                android:stateListAnimator="@xml/animate_button_push"
+                android:text="@string/find_id_pw"
+                android:textColor="@color/font_color_default"
+                android:textSize="@dimen/font_size" />
+
+            <ImageView
+                android:id="@+id/dot"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="8dp"
+                android:layout_toLeftOf="@id/tv_find"
+                android:background="@drawable/bt_login_dot" />
+
+            <TextView
+                android:id="@+id/tv_join"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@id/dot"
+                android:paddingHorizontal="8dp"
+                android:stateListAnimator="@xml/animate_button_push"
+                android:text="@string/join"
+                android:textColor="@color/font_color_default"
+                android:textSize="@dimen/font_size" />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="40dp"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/btn_naver"
+                android:layout_width="52dp"
+                android:layout_height="52dp"
+                android:background="@drawable/btn_sns_naver"
+                android:stateListAnimator="@xml/animate_button_push" />
+
+            <ImageButton
+                android:id="@+id/btn_kakao"
+                android:layout_width="52dp"
+                android:layout_height="52dp"
+                android:layout_marginHorizontal="30dp"
+                android:background="@drawable/btn_sns_kakao"
+                android:stateListAnimator="@xml/animate_button_push" />
+
+            <ImageButton
+                android:id="@+id/btn_google"
+                android:layout_width="52dp"
+                android:layout_height="52dp"
+                android:background="@drawable/btn_sns_google"
+                android:stateListAnimator="@xml/animate_button_push"
+                android:visibility="gone"/>
+
+            <ImageButton
+                android:id="@+id/btn_apple"
+                android:layout_width="52dp"
+                android:layout_height="52dp"
+                android:background="@drawable/btn_sns_apple"
+                android:stateListAnimator="@xml/animate_button_push"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>
