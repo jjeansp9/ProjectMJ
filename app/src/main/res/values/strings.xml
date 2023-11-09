@@ -34,6 +34,7 @@
     <string name="ok">확인</string>
     <string name="contact">연락처</string>
     <string name="phone">전화번호</string>
+    <string name="cancel_reservation">예약취소</string>
 
     <string name="id_pattern">0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_-</string>
 
@@ -95,6 +96,7 @@
     <string name="empty_phonenumber">휴대폰번호 정보가 없습니다.</string>
     <string name="msg_re_auth">휴대폰번호를 다시 인증해 주세요.</string>
     <string name="check_id_empty">아이디를 입력해 주세요.</string>
+    <string name="check_name_pattern">이름 형식이 올바르지 않습니다.</string>
     <string name="check_id_min_length">아이디는 최소 4글자 이상 입력해주세요.</string>
     <string name="check_id_duplicate">아이디 중복체크 확인이 필요합니다.</string>
     <string name="password_does_not_match">비밀번호가 일치하지 않습니다.</string>
@@ -149,6 +151,7 @@
     <string name="select_all">전체선택</string>
     <string name="select_multiple">일괄선택</string>
     <string name="message_note">텍스트 입력</string>
+    <string name="hint_main_school_level">초/중/고</string>
     <string name="hint_main_school_grade">캠퍼스구분</string>
     <string name="hint_main_school_grade_short">구분</string>
     <string name="hint_empty_school_grade">캠퍼스구분 정보 없음</string>
@@ -250,7 +253,8 @@
     <string name="reservation_item_confirm_delete">선택한 예약을 취소하시겠습니까?</string>
     <string name="board_item_deleted">게시물이 정상적으로 삭제되었습니다.</string>
     <string name="board_item_deleted_fail">오류가 발생하여 게시물이 삭제되지 않았습니다.</string>
-
+    <string name="leveltest_item_canceled">테스트예약이 정상적으로 취소되었습니다.</string>
+    <string name="leveltest_item_canceled_fail">오류가 발생하여 테스트예약이 취소되지 않았습니다.</string>
     <string name="error_msg_fail_to_save">다운로드된 파일을 저장에 실패하였습니다.</string>
     <string name="error_msg_fail_to_download">다운로드에 실패하였습니다.</string>
     <string name="msg_success_to_download">파일을 Download 폴더로 다운로드하였습니다.</string>

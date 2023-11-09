@@ -353,4 +353,54 @@ public class Constants {
     public static final int CLICK_DEFAULT_DATE = 0;
     public static final int CLICK_START_DATE = 1;
     public static final int CLICK_END_DATE = 2;
+
+    public enum StudentGrade{
+        ALL(0, "전체"),
+        FIRST(1, "1학년"),
+        SECOND(2, "2학년"),
+        THIRD(3, "3학년"),
+        FOURTH(4, "4학년"),
+        FIFTH(5, "5학년"),
+        SIXTH(6, "6학년")
+        ;
+
+        private int code;
+        private String nameKor;
+        private StudentGrade(int code, String name) {
+            this.code = code;
+            this.nameKor = name;
+        }
+        public int getCode() {
+            return code;
+        }
+        public String getNameKor() {
+            return nameKor;
+        }
+        public static StudentGrade getByCode(int code) {
+            for (StudentGrade type : StudentGrade.values()) {
+                if (type.getCode() == code) {
+                    return type;
+                }
+            }
+            return null; // 해당하는 코드 값이 없을 경우 null 반환 또는 다른 처리
+        }
+        public static StudentGrade getByName(String name) {
+            for (StudentGrade status : StudentGrade.values()) {
+                if (status.getNameKor().equals(name)) {
+                    return status;
+                }
+            }
+            return null; // 해당하는 코드 값이 없을 경우 null 반환 또는 다른 처리
+        }
+        public static List<String> getNameList(boolean isElementary) {
+            List<String> nameList = new ArrayList<>();
+            for (StudentGrade status : StudentGrade.values()) {
+                if(!isElementary && status.code >= 4 ) {
+                    break;
+                }
+                nameList.add(status.getNameKor());
+            }
+            return nameList;
+        }
+    }
 }

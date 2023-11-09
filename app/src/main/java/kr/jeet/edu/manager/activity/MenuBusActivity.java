@@ -166,8 +166,8 @@ public class MenuBusActivity extends BaseActivity {
 
         _spinnerCampus.setLifecycleOwner(this);
         if(_selectedBusCampus == null){
-            if(_campusList != null) {
-                _spinnerCampus.selectItemByIndex(0); //전체
+            if(_campusList != null && !_campusList.isEmpty()) {
+                _spinnerCampus.selectItemByIndex(0);
             }
         }
     }

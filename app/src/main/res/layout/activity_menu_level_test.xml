@@ -26,16 +26,20 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-
             android:paddingHorizontal="16dp"
             android:paddingVertical="12dp"
             android:background="@color/bg_gray">
-
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline_h50"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.50"/>
             <com.skydoves.powerspinner.PowerSpinnerView
                 android:id="@+id/spinner_campus"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/layout_margin_xxxsmall"
+                android:layout_marginBottom="@dimen/layout_margin_xxxsmall"
                 android:paddingHorizontal="@dimen/layout_margin_small"
                 android:paddingVertical="@dimen/layout_margin_xsmall"
                 android:hint="@string/hint_select_campus"
@@ -46,84 +50,75 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/guideline_h50"
                 app:spinner_arrow_gravity="end"
                 app:spinner_arrow_tint="@color/darkgray"
                 app:spinner_selected_item_background="@color/color_spinner_selected_item"
                 app:spinner_divider_color="@color/line"
                 app:spinner_divider_show="true"
-                app:spinner_divider_size="0.4dp"
+                app:spinner_divider_size="@dimen/spinner_divider_height"
                 app:spinner_popup_animation="dropdown"
                 app:spinner_popup_background="@drawable/selector_spinner_item"
-                app:spinner_popup_elevation="2dp"
+                app:spinner_popup_elevation="@dimen/spinner_popup_elevation"
                 android:focusable="true"
                 android:background="@drawable/selector_spinner_normal"/>
-<!--            <androidx.constraintlayout.widget.ConstraintLayout-->
-<!--                android:id="@+id/layout_calendar"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                app:layout_constraintTop_toBottomOf="@id/spinner_campus"-->
-<!--                app:layout_constraintBottom_toBottomOf="parent"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintEnd_toEndOf="parent"-->
-<!--                android:layout_marginHorizontal="@dimen/layout_margin_small"-->
-<!--                android:layout_marginTop="@dimen/layout_margin_small"-->
-<!--                >-->
-<!--                -->
-<!--                <androidx.appcompat.widget.AppCompatButton-->
-<!--                    android:id="@+id/btn_calendar_previous"-->
-<!--                    android:layout_height="@dimen/calendar_arrow_size"-->
-<!--                    android:layout_width="@dimen/calendar_arrow_size"-->
-<!--                    app:layout_constraintTop_toTopOf="parent"-->
-<!--                    app:layout_constraintBottom_toBottomOf="parent"-->
-<!--                    app:layout_constraintStart_toStartOf="parent"-->
-<!--                    app:layout_constraintEnd_toStartOf="@id/tv_calendar"-->
-<!--                    app:layout_constraintHorizontal_chainStyle="spread"-->
-<!--                    android:background="@drawable/ic_vector_arrow_left"-->
-<!--                    android:stateListAnimator="@xml/animate_button_push"/>-->
-<!--                <TextView-->
-<!--                    android:id="@+id/tv_calendar"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    app:layout_constraintTop_toTopOf="parent"-->
-<!--                    app:layout_constraintBottom_toBottomOf="parent"-->
-<!--                    app:layout_constraintStart_toEndOf="@id/btn_calendar_previous"-->
-<!--                    app:layout_constraintEnd_toStartOf="@id/btn_calendar_next"-->
-<!--                    app:layout_constraintHorizontal_chainStyle="packed"-->
-<!--                    android:layout_marginHorizontal="@dimen/layout_margin_xxxsmall"-->
-<!--                    android:drawableEnd="@drawable/ic_vector_calendar"-->
-<!--                    android:drawablePadding="@dimen/layout_margin_small"-->
-<!--                    android:gravity="center"-->
-<!--                    android:textColor="@color/black"-->
-<!--                    android:hint="@string/title_date"-->
-<!--                    android:textStyle="bold"-->
-<!--                    android:textSize="@dimen/font_size"-->
-<!--                    android:maxLines="1"-->
-<!--                    android:ellipsize="end"-->
-<!--                    android:stateListAnimator="@xml/animate_button_push"/>-->
-<!--                <androidx.appcompat.widget.AppCompatButton-->
-<!--                    android:id="@+id/btn_calendar_next"-->
-<!--                    android:layout_height="@dimen/calendar_arrow_size"-->
-<!--                    android:layout_width="@dimen/calendar_arrow_size"-->
-<!--                    app:layout_constraintTop_toTopOf="parent"-->
-<!--                    app:layout_constraintBottom_toBottomOf="parent"-->
-<!--                    app:layout_constraintStart_toEndOf="@id/tv_calendar"-->
-<!--                    app:layout_constraintEnd_toEndOf="parent"-->
-<!--                    android:background="@drawable/ic_vector_arrow_right"-->
-<!--                    android:backgroundTint="@color/blackgray"-->
-<!--                    android:stateListAnimator="@xml/animate_button_push"/>-->
 
-<!--            </androidx.constraintlayout.widget.ConstraintLayout>-->
-
-
-            <!--        <View-->
-            <!--            android:id="@+id/line_notice_top"-->
-            <!--            android:layout_width="match_parent"-->
-            <!--            android:layout_height="0.5dp"-->
-            <!--            app:layout_constraintTop_toBottomOf="@id/layout_notice_filter"-->
-            <!--            android:background="@color/line"-->
-            <!--            />-->
-
-
+            <com.skydoves.powerspinner.PowerSpinnerView
+                android:id="@+id/spinner_school_level"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/layout_margin_xxxsmall"
+                android:layout_marginEnd="@dimen/layout_margin_xxxsmall"
+                android:paddingHorizontal="@dimen/layout_margin_small"
+                android:paddingVertical="@dimen/layout_margin_xsmall"
+                android:hint="@string/hint_main_school_level"
+                android:textColor="@color/black"
+                android:textSize="@dimen/font_size"
+                android:maxLines="1"
+                android:ellipsize="end"
+                app:layout_constraintTop_toBottomOf="@id/guideline_h50"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/spinner_grade"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:spinner_arrow_gravity="end"
+                app:spinner_arrow_tint="@color/darkgray"
+                app:spinner_selected_item_background="@color/color_spinner_selected_item"
+                app:spinner_divider_color="@color/line"
+                app:spinner_divider_show="true"
+                app:spinner_divider_size="@dimen/spinner_divider_height"
+                app:spinner_popup_animation="dropdown"
+                app:spinner_popup_background="@drawable/selector_spinner_item"
+                app:spinner_popup_elevation="@dimen/spinner_popup_elevation"
+                android:focusable="true"
+                android:background="@drawable/selector_spinner_normal"/>
+            <com.skydoves.powerspinner.PowerSpinnerView
+                android:id="@+id/spinner_grade"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/layout_margin_xxxsmall"
+                android:layout_marginStart="@dimen/layout_margin_xxxsmall"
+                android:paddingHorizontal="@dimen/layout_margin_small"
+                android:paddingVertical="@dimen/layout_margin_xsmall"
+                android:hint="@string/hint_select_clst"
+                android:textColor="@color/black"
+                android:textSize="@dimen/font_size"
+                android:maxLines="1"
+                android:ellipsize="end"
+                app:layout_constraintTop_toBottomOf="@id/guideline_h50"
+                app:layout_constraintStart_toEndOf="@id/spinner_school_level"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:spinner_arrow_gravity="end"
+                app:spinner_arrow_tint="@color/darkgray"
+                app:spinner_selected_item_background="@color/color_spinner_selected_item"
+                app:spinner_divider_color="@color/line"
+                app:spinner_divider_show="true"
+                app:spinner_divider_size="@dimen/spinner_divider_height"
+                app:spinner_popup_animation="dropdown"
+                app:spinner_popup_background="@drawable/selector_spinner_item"
+                app:spinner_popup_elevation="@dimen/spinner_popup_elevation"
+                android:focusable="true"
+                android:background="@drawable/selector_spinner_normal"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/refresh_layout"

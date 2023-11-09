@@ -315,7 +315,7 @@ public interface RetrofitApi {
 
     //레벨테스트 이력조회
     @GET("levelTests")
-    Call<LevelTestListResponse> getLevelTestList(@Query("memberSeq") int memberSeq, @Query("ltcCode") String ltcCode, @Query("lastSeq") int lastSeq);
+    Call<LevelTestListResponse> getLevelTestList(@Query("memberSeq") int memberSeq, @Query("ltcCode") String ltcCode, @Query("grade") String grade, @Query("lastSeq") int lastSeq);
     //레벨테스트 시간 조회
     @GET("levelTest/testTimes")
     Call<LevelTestTimeListResponse> getLevelTestTimeList();
@@ -325,7 +325,9 @@ public interface RetrofitApi {
     //레벨테스트 시간 삭제
     @DELETE("levelTest/testTime/{seq}")
     Call<BaseResponse> deleteLevelTestTime(@Path("seq") int seq);
-
+    // 레벨테스트 예약 취소
+    @DELETE("levelTest")
+    Call<BaseResponse> cancelLevelTestReservation(@Query("seq") int seq, @Query("stCode") int stCode, @Query("sfCode") int sfCode, @Query("subjectCode") int subjectCode);
     //버스 캠퍼스 조회
     @GET("bus/campuses")
     Call<BCListResponse> getBusCampusList();

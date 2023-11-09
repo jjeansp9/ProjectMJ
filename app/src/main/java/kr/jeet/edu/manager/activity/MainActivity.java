@@ -77,11 +77,6 @@ import java.util.stream.Collectors;
 
 public class MainActivity extends BaseActivity {
 
-    // TODO
-    /**
-    * 회원가입시 이름, 비밀번호 체크로직 살펴보기
-    * */
-
     private String TAG = MainActivity.class.getSimpleName();
 
 //    TextView tvProfileDate;
@@ -198,6 +193,7 @@ public class MainActivity extends BaseActivity {
     public void onBackPressed() {
         if (doubleBackToExitPressedOnce) {
             super.onBackPressed();
+            finishAffinity();
             return;
         }
 

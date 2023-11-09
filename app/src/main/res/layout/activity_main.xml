@@ -26,7 +26,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             >
-
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline_v40"
                 android:layout_width="0dp"

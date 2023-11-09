@@ -462,4 +462,8 @@ public class Utils {
      * 문자열이 null 또는 길이가 0인 경우, 빈 문자열로 대체하여 예외를 방지
      * */
     public static String getStr(String s){ return TextUtils.isEmpty(s) ? "" : s; }
+    /**
+     * 한글(자음,모음 비허용), 영어, 공백만 허용, 이외의 문자를 입력했는지 체크
+     * */
+    public static boolean nameCheck(String str){ return Pattern.compile("^[a-zA-Z가-힣\\s]+$").matcher(str).find(); }
 }

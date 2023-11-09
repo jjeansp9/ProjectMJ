@@ -20,7 +20,7 @@ import kr.jeet.edu.manager.model.data.LTCData;
 import kr.jeet.edu.manager.model.data.LevelTestData;
 
 public class LevelTestListAdapter extends RecyclerView.Adapter<LevelTestListAdapter.ViewHolder> {
-    public interface ItemClickListener{ public void onItemClick(LevelTestData item); }
+    public interface ItemClickListener{ public void onItemClick(int position, LevelTestData item); }
 
     private Context mContext;
     private ArrayList<LevelTestData> mList;
@@ -72,7 +72,7 @@ public class LevelTestListAdapter extends RecyclerView.Adapter<LevelTestListAdap
 
             itemView.setOnClickListener(v -> {
                 int position = getBindingAdapterPosition();
-                if (position != NO_POSITION) if (mList.size() > 0) _listener.onItemClick(mList.get(position));
+                if (position != NO_POSITION) if (mList.size() > 0) _listener.onItemClick(position, mList.get(position));
             });
         }
     }

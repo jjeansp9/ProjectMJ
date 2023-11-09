@@ -200,8 +200,15 @@ public class JoinActivity extends BaseActivity {
 
     private boolean checkJoin() {
 
-        if(TextUtils.isEmpty(mEditName.getText().toString())) {
+        String name = mEditName.getText().toString();
+
+        if(TextUtils.isEmpty(name)) {
             Toast.makeText(mContext, R.string.empty_name, Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if(!Utils.nameCheck(name)) {
+            Toast.makeText(mContext, R.string.check_name_pattern, Toast.LENGTH_SHORT).show();
             return false;
         }
 

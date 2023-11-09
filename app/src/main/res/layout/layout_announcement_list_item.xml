@@ -54,7 +54,7 @@
         app:layout_constraintTop_toBottomOf="@id/tv_brf_date"
         app:layout_constraintBottom_toTopOf="@+id/tv_brf_campus"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/guideline"
+        app:layout_constraintEnd_toStartOf="@id/img_brf"
         app:layout_constraintVertical_bias="1"
         android:layout_marginEnd="8dp"
         android:maxLines="1"

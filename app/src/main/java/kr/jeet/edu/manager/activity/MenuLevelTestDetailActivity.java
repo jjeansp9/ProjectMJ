@@ -1,13 +1,21 @@
 package kr.jeet.edu.manager.activity;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.SpannableString;
 import android.text.TextUtils;
+import android.text.style.ForegroundColorSpan;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.ArrayList;
 
 import kr.jeet.edu.manager.R;
 import kr.jeet.edu.manager.common.Constants;
@@ -16,15 +24,22 @@ import kr.jeet.edu.manager.common.IntentParams;
 import kr.jeet.edu.manager.model.data.LTCData;
 import kr.jeet.edu.manager.model.data.LevelTestData;
 import kr.jeet.edu.manager.model.data.SchoolData;
+import kr.jeet.edu.manager.model.response.BaseResponse;
+import kr.jeet.edu.manager.server.RetrofitClient;
 import kr.jeet.edu.manager.utils.LogMgr;
 import kr.jeet.edu.manager.utils.PreferenceUtil;
 import kr.jeet.edu.manager.utils.Utils;
 import kr.jeet.edu.manager.view.CustomAppbarLayout;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MenuLevelTestDetailActivity extends BaseActivity {
     private final static String TAG = "leveltestdetail";
     private LevelTestData mInfo;
+    private int _currentDataPosition;
     int _userGubun = 1;
+    Menu _menu;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +60,9 @@ public class MenuLevelTestDetailActivity extends BaseActivity {
                 }else{
                     mInfo = intent.getParcelableExtra(IntentParams.PARAM_LEVELTEST_INFO);
                 }
+            }
+            if(intent.hasExtra(IntentParams.PARAM_BOARD_POSITION)) {
+                _currentDataPosition = intent.getIntExtra(IntentParams.PARAM_BOARD_POSITION, -1);
             }
         }
         if(mInfo == null) {
@@ -275,6 +293,80 @@ public class MenuLevelTestDetailActivity extends BaseActivity {
         if(!str.isEmpty()) ((TextView)findViewById(R.id.txt_etc)).setText(str);
         else ((ConstraintLayout)findViewById(R.id.ly_etc)).setVisibility(View.GONE);
 
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        if(mInfo != null) {
+            if ((_userGubun == Constants.USER_TYPE_ADMIN)
+                    || _userGubun == Constants.USER_TYPE_SUPER_ADMIN){
+                getMenuInflater().inflate(R.menu.menu_cancel_reservation, menu);
+                int positionOfMenuItem = 0;
+                try {
+                    MenuItem item = menu.getItem(positionOfMenuItem);
+                    SpannableString span = new SpannableString(item.getTitle());
+                    span.setSpan(new ForegroundColorSpan(ContextCompat.getColor(mContext, R.color.red)), 0, span.length(), 0);
+                    item.setTitle(span);
+                }catch(Exception ex){}
+                this._menu = menu;
+            }
+        }
+        return (super.onCreateOptionsMenu(menu));
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()) {
+            case R.id.action_cancel:
+                showMessageDialog(getString(R.string.dialog_title_alarm)
+                        , getString(R.string.reservation_item_confirm_delete)
+                        , new View.OnClickListener() {  //OKClickListener
+                            @Override
+                            public void onClick(View view) {
+                                if (item != null) {
+                                    cancelLevelTestReservation();
+                                }
+                                hideMessageDialog();
+                            }
+                        },
+                        new View.OnClickListener() {    //cancelClickListener
+                            @Override
+                            public void onClick(View view) {
+                                hideMessageDialog();
+                            }
+                        });
+                return true;
+            default:
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+    private void cancelLevelTestReservation() {
+        if(RetrofitClient.getInstance() != null) {
+            RetrofitClient.getApiInterface().cancelLevelTestReservation(mInfo.seq, mInfo.stCode, PreferenceUtil.getUserSFCode(mContext), mInfo.subjectCode).enqueue(new Callback<BaseResponse>() {
+                @Override
+                public void onResponse(Call<BaseResponse> call, Response<BaseResponse> response) {
+                    try{
+                        if(response.isSuccessful()) {
+                            Toast.makeText(mContext, R.string.leveltest_item_canceled, Toast.LENGTH_SHORT).show();
+                            Intent deleteIntent = new Intent();
+                            deleteIntent.putExtra(IntentParams.PARAM_BOARD_DELETED, true);
+                            deleteIntent.putExtra(IntentParams.PARAM_BOARD_POSITION, _currentDataPosition);
+                            setResult(RESULT_OK, deleteIntent);
+                            finish();
+                        }else{
+                            Toast.makeText(mContext, R.string.leveltest_item_canceled_fail, Toast.LENGTH_SHORT).show();
+                        }
+                    }catch(Exception ex) {
+
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<BaseResponse> call, Throwable t) {
+                    Toast.makeText(mContext, R.string.leveltest_item_canceled_fail, Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
 
     private String removeLastSpace(String str) {
