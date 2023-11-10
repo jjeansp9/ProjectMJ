@@ -24,9 +24,14 @@ public class RecipientChipListAdapter extends RecyclerView.Adapter<RecipientChip
 //        void onItemClick(RecipientData item);
         void onDeleteClick(int position, RecipientData item);
     }
+    public interface longClickListener{
+        //        void onItemClick(RecipientData item);
+        void onLongClick(int position, RecipientData item, Chip chip, ConstraintLayout root);
+    }
     private Context mContext;
     private List<RecipientData> _recipientList;
     private onItemClickListener _listener;
+    private longClickListener _listenerLong;
     Constants.BoardEditMode _editMode = Constants.BoardEditMode.New;
 //    private boolean _isMemberLoggedIn = false;
 
@@ -34,6 +39,11 @@ public class RecipientChipListAdapter extends RecyclerView.Adapter<RecipientChip
         this.mContext = mContext;
         this._recipientList = mList;
         this._listener = listener;
+    }
+    public RecipientChipListAdapter(Context mContext, List<RecipientData> mList, longClickListener listenerLong){
+        this.mContext = mContext;
+        this._recipientList = mList;
+        this._listenerLong = listenerLong;
     }
     public void setEditMode(Constants.BoardEditMode editMode) {
         this._editMode = editMode;
@@ -96,9 +106,9 @@ public class RecipientChipListAdapter extends RecyclerView.Adapter<RecipientChip
 
         public ViewHolder(@NonNull View itemView){
             super(itemView);
-            rootLayout = itemView.findViewById(R.id.root);
+            rootLayout = itemView.findViewById(R.id.layout_root);
             chip = itemView.findViewById(R.id.chip);
-            chip.setCheckable(true);
+            chip.setCheckable(false);
 //            chip.setChecked(true);
 //            chip.setCheckedIconVisible(true);
             chip.setTextStartPadding(4f);
@@ -116,6 +126,16 @@ public class RecipientChipListAdapter extends RecyclerView.Adapter<RecipientChip
                 });
             }else{
                 chip.setCloseIconVisible(false);
+            }
+
+            if(_editMode.equals(Constants.BoardEditMode.Show)) {
+                chip.setOnLongClickListener(v -> {
+                    int position = getBindingAdapterPosition();
+                    if (_listenerLong != null) {
+                        _listenerLong.onLongClick(position, _recipientList.get(position), chip, rootLayout);
+                    }
+                    return true;
+                });
             }
 
 //            itemView.setOnClickListener(v -> {

@@ -7,14 +7,19 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.widget.LinearLayoutCompat;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,8 +27,10 @@ import com.google.android.flexbox.FlexDirection;
 import com.google.android.flexbox.FlexWrap;
 import com.google.android.flexbox.FlexboxLayoutManager;
 import com.google.android.flexbox.JustifyContent;
+import com.google.android.material.chip.Chip;
+import com.tomergoldst.tooltips.ToolTip;
+import com.tomergoldst.tooltips.ToolTipsManager;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -37,6 +44,7 @@ import kr.jeet.edu.manager.adapter.RecipientChipListAdapter;
 import kr.jeet.edu.manager.common.Constants;
 import kr.jeet.edu.manager.common.IntentParams;
 import kr.jeet.edu.manager.model.data.RecipientData;
+import kr.jeet.edu.manager.model.data.RecipientStudentData;
 import kr.jeet.edu.manager.model.data.ScheduleData;
 import kr.jeet.edu.manager.model.response.BaseResponse;
 import kr.jeet.edu.manager.model.response.ScheduleDetailResponse;
@@ -48,7 +56,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MenuScheduleDetailActivity extends BaseActivity {
+public class MenuScheduleDetailActivity extends BaseActivity implements ToolTipsManager.TipListener {
 
     private static final String TAG = "ScheduleDetailActivity";
 
@@ -56,6 +64,7 @@ public class MenuScheduleDetailActivity extends BaseActivity {
 
     private ScheduleData _currentData = null;
     private TextView tvRecipient;
+    private ImageView imgInfo;
     RecyclerView _recyclerViewRecipient;
     private LinearLayoutCompat layoutControlRecipient;
     RecipientChipListAdapter _recipientListAdapter;
@@ -66,6 +75,10 @@ public class MenuScheduleDetailActivity extends BaseActivity {
     Menu _menu;
     private int _currentSeq = -1;
     private boolean isEdited = false;
+
+    private ToolTip.Builder builder;
+    private ToolTipsManager toolTipsMgr;
+
     //작성화면 resultLauncher
     ActivityResultLauncher<Intent> resultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
         @Override
@@ -90,11 +103,13 @@ public class MenuScheduleDetailActivity extends BaseActivity {
         mContext = this;
         _userGubun = PreferenceUtil.getUserGubun(this);
         _seq = PreferenceUtil.getUserSeq(this);
+        toolTipsMgr = new ToolTipsManager(this);
         initIntentData();
         initView();
         initAppbar();
         initData();
     }
+
     @Override
     public void onBackPressed() {
         LogMgr.d(TAG,"onBackPressed edit? " + isEdited);
@@ -129,7 +144,7 @@ public class MenuScheduleDetailActivity extends BaseActivity {
 
     @Override
     void initView() {
-
+        imgInfo = findViewById(R.id.img_info);
         tvDate = findViewById(R.id.tv_sc_detail_date);
         tvCampus = findViewById(R.id.tv_sc_detail_campus);
         tvTarget = findViewById(R.id.tv_sc_detail_target);
@@ -149,7 +164,13 @@ public class MenuScheduleDetailActivity extends BaseActivity {
                 tvRecipient.setText(getString(R.string.content_recipient_counts, _recipientList.size()));
             }
         });
-        _recipientListAdapter.setEditMode(Constants.BoardEditMode.Edit);
+        _recipientListAdapter = new RecipientChipListAdapter(mContext, _recipientList, new RecipientChipListAdapter.longClickListener() {
+            @Override
+            public void onLongClick(int position, RecipientData item, Chip chip, ConstraintLayout root) {
+                navigate2DetailActivity(item);
+            }
+        });
+        _recipientListAdapter.setEditMode(Constants.BoardEditMode.Show);
         FlexboxLayoutManager fblManager = new FlexboxLayoutManager(this);
         fblManager.setFlexWrap(FlexWrap.WRAP);
         fblManager.setFlexDirection(FlexDirection.ROW);
@@ -158,6 +179,7 @@ public class MenuScheduleDetailActivity extends BaseActivity {
         _recyclerViewRecipient.setAdapter(_recipientListAdapter);
         //endregion
     }
+
     void initData() {
         if(_currentData != null) {
 //            if(_currentData.writerSeq == _seq) {
@@ -194,6 +216,7 @@ public class MenuScheduleDetailActivity extends BaseActivity {
         }
 
     }
+
     private void initChipGroup() {
         if(_currentData != null) {
             _recipientList.clear();
@@ -203,12 +226,40 @@ public class MenuScheduleDetailActivity extends BaseActivity {
         }
         if(_recipientList.size() > 0) {
             _recyclerViewRecipient.setVisibility(View.VISIBLE);
+            imgInfo.setVisibility(View.VISIBLE);
             Collections.sort(_recipientList);
             _recipientListAdapter.notifyDataSetChanged();
         }else{
             _recyclerViewRecipient.setVisibility(View.GONE);
+            imgInfo.setVisibility(View.GONE);
         }
         tvRecipient.setText(getString(R.string.content_recipient_counts, _recipientList.size()));
+
+        imgInfo.setOnClickListener(v -> {
+
+            builder = new ToolTip.Builder(mContext, imgInfo, findViewById(R.id.test_root), "수신인을 길게 클릭하면 원생정보를 자세히 알 수 있어요", ToolTip.POSITION_LEFT_TO);
+
+            builder.setAlign(ToolTip.ALIGN_RIGHT);
+            builder.setBackgroundColor(getColor(R.color.darkgray));
+
+            toolTipsMgr.show(builder.build());
+
+//            if (builder == null) {
+//                builder = new ToolTip.Builder(mContext, imgInfo, findViewById(R.id.test_root), "수신인을 길게 클릭하면 원생정보를 자세히 알 수 있어요", ToolTip.POSITION_LEFT_TO);
+//
+//                builder.setAlign(ToolTip.ALIGN_RIGHT);
+//                builder.setBackgroundColor(R.color.blackgray2);
+//
+//                toolTipsMgr.show(builder.build());
+//            }
+
+//            if (builder != null) {
+//                builder = null;
+//                new Handler().postDelayed(() -> {
+//                    toolTipsMgr.dismissAll();
+//                }, 3000);
+//            }
+        });
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -320,5 +371,17 @@ public class MenuScheduleDetailActivity extends BaseActivity {
         editIntent.putExtra(IntentParams.PARAM_SCHEDULE_INFO, _currentData);
         resultLauncher.launch(editIntent);
 
+    }
+
+    @Override
+    public void onTipDismissed(View view, int anchorViewId, boolean byUser) {}
+
+    private void navigate2DetailActivity(RecipientData data) {
+        Intent intent = new Intent(mContext, DetailStudentInfoActivity.class);
+        //원생정보 seq, stCode
+        intent.putExtra(IntentParams.PARAM_STU_SEQ, data.seq);
+        intent.putExtra(IntentParams.PARAM_STU_STCODE, data.stCode);
+        startActivity(intent);
+        overridePendingTransition(R.anim.horizontal_enter, R.anim.horizontal_out);
     }
 }

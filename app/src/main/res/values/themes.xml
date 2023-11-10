@@ -18,7 +18,7 @@
     </style>
     <style name="CustomToolbarStyle" parent="@style/Widget.MaterialComponents.Toolbar">
         <item name="titleMarginStart">0dp</item>
-        <item name="contentInsetStart">0dp</item>
+<!--        <item name="contentInsetStart">0dp</item>-->
         <item name="contentInsetStartWithNavigation">0dp</item>
         <item name="titleTextAppearance">@style/ToolbartitleTextAppearance</item>
     </style>

@@ -156,7 +156,11 @@ public class MainActivity extends BaseActivity {
                     requestBoardInfoList();
                     break;
                 case CMD_GET_LAST_ANNOUNCEMENT_BOARD:
-                    requestAnnouncementBoardList(PreferenceUtil.getAppAcaCode(mContext), "");
+                    if(_managerInfo != null) {
+                        requestAnnouncementBoardList(PreferenceUtil.getAppAcaCode(mContext), "");
+                    }else{
+                        mHandler.sendEmptyMessageDelayed(msg.what, 1000);
+                    }
                     break;
 
 //                case CMD_PUSH_MESSAGE_RECEIVED:

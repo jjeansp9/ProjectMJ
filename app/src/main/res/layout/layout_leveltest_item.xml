@@ -47,7 +47,7 @@
         android:textSize="@dimen/font_size_small" />
 
     <TextView
-        android:id="@+id/tv_test_reserve_date"
+        android:id="@+id/tv_test_register_date"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
@@ -61,7 +61,24 @@
         android:textColor="@color/font_color_999"
         android:maxLines="1"
         android:ellipsize="end"/>
-
+<!--    <TextView-->
+<!--        android:id="@+id/tv_test_reserve_date"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:layout_constraintStart_toEndOf="@id/tv_test_register_date"-->
+<!--        app:layout_constraintEnd_toStartOf="@+id/img_test_reserve_see_more"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/tv_test_reserve_campus"-->
+<!--        app:layout_constraintHorizontal_bias="1"-->
+<!--        android:drawableStart="@drawable/ic_vector_test"-->
+<!--        android:drawablePadding="@dimen/layout_margin_xxxsmall"-->
+<!--        android:gravity="end|top"-->
+<!--        android:layout_marginEnd="8dp"-->
+<!--        android:layout_marginTop="2dp"-->
+<!--        android:hint="0000-00-00"-->
+<!--        android:textSize="@dimen/font_size_small"-->
+<!--        android:textColor="@color/font_color_default"-->
+<!--        android:maxLines="1"-->
+<!--        android:ellipsize="end"/>-->
     <ImageView
         android:id="@+id/img_test_reserve_see_more"
         android:layout_width="wrap_content"

@@ -250,23 +250,27 @@ public class MenuLevelTestActivity extends BaseActivity {
                         && newState == RecyclerView.SCROLL_STATE_IDLE
                         && (_list != null && !_list.isEmpty()))
                 {
-//                    int lastNoticeSeq = _list.get(_list.size() - 1).seq;
+                    // 희망일 순 정렬된 리스트 데이터의 마지막 seq로 페이징 요청
                     // 컨셉 변경 -> 리스트 내에서 최소 seq 값을 lastNoticeSeq 로 변경
-                    Optional optional = _list.stream().min(new Comparator<LevelTestData>() {
-                        @Override
-                        public int compare(LevelTestData t1, LevelTestData t2) {
-                            if (t1.seq > t2.seq) return 1;
-                            else if(t1.seq < t2.seq) return -1;
-                            else return 0;
-                        }
-                    });
-                    if(optional.isPresent()){
-                        int lastNoticeSeq = ((LevelTestData)optional.get()).seq;
-                        LogMgr.w(TAG, "scroll listener lastNoticeSeq= " + lastNoticeSeq);
-                        requestBoardList(_selectedLTC.ltcCode, lastNoticeSeq);
-                    }else{
-                        LogMgr.w(TAG, "optional is not present");
-                    }
+                    // 컨셉 변경 -> 서버에서 등록일 순으로 데이터를 정렬해서 주는 것으로 변경-> 앱에서는 rollback
+                    int lastNoticeSeq = _list.get(_list.size() - 1).seq;
+                    LogMgr.w(TAG, "scroll listener lastNoticeSeq= " + lastNoticeSeq);
+                    requestBoardList(_selectedLTC.ltcCode, lastNoticeSeq);
+//                    Optional optional = _list.stream().min(new Comparator<LevelTestData>() {
+//                        @Override
+//                        public int compare(LevelTestData t1, LevelTestData t2) {
+//                            if (t1.seq > t2.seq) return 1;
+//                            else if(t1.seq < t2.seq) return -1;
+//                            else return 0;
+//                        }
+//                    });
+//                    if(optional.isPresent()){
+//                        int lastNoticeSeq = ((LevelTestData)optional.get()).seq;
+//                        LogMgr.w(TAG, "scroll listener lastNoticeSeq= " + lastNoticeSeq);
+//                        requestBoardList(_selectedLTC.ltcCode, lastNoticeSeq);
+//                    }else{
+//                        LogMgr.w(TAG, "optional is not present");
+//                    }
 
                 }
             }

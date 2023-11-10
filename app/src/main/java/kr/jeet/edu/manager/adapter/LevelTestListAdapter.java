@@ -11,10 +11,15 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 import java.util.Optional;
 
 import kr.jeet.edu.manager.R;
+import kr.jeet.edu.manager.common.Constants;
 import kr.jeet.edu.manager.common.DataManager;
 import kr.jeet.edu.manager.model.data.LTCData;
 import kr.jeet.edu.manager.model.data.LevelTestData;
@@ -25,7 +30,8 @@ public class LevelTestListAdapter extends RecyclerView.Adapter<LevelTestListAdap
     private Context mContext;
     private ArrayList<LevelTestData> mList;
     private ItemClickListener _listener;
-
+    SimpleDateFormat _dateSecondFormat = new SimpleDateFormat(Constants.DATE_FORMATTER_YYYY_MM_DD_HH_mm_ss, Locale.KOREA);
+    SimpleDateFormat _dateMinuteFormat = new SimpleDateFormat(Constants.DATE_FORMATTER_YYYY_MM_DD_HH_mm, Locale.KOREA);
     public LevelTestListAdapter(Context mContext, ArrayList<LevelTestData> mList, ItemClickListener _listener) {
         this.mContext = mContext;
         this.mList = mList;
@@ -49,7 +55,17 @@ public class LevelTestListAdapter extends RecyclerView.Adapter<LevelTestListAdap
             if(currentData != null) {
                 holder.tvCampus.setText(currentData.ltcName);
             }
-            holder.tvDate.setText(item.reservationDate);
+            try {
+                Date insertDate = _dateSecondFormat.parse(item.insertDate);
+
+                holder.tvRegisterDate.setText(_dateMinuteFormat.format(insertDate));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+
+//            holder.tvReserveDate.setText(item.reservationDate);
         }
     }
 
@@ -61,14 +77,15 @@ public class LevelTestListAdapter extends RecyclerView.Adapter<LevelTestListAdap
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 
-        private TextView tvName, tvCampus, tvDate;
+        private TextView tvName, tvCampus, tvRegisterDate;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             tvName = itemView.findViewById(R.id.tv_test_reserve_name);
             tvCampus = itemView.findViewById(R.id.tv_test_reserve_campus);
-            tvDate = itemView.findViewById(R.id.tv_test_reserve_date);
+            tvRegisterDate = itemView.findViewById(R.id.tv_test_register_date);
+//            tvReserveDate = itemView.findViewById(R.id.tv_test_reserve_date);
 
             itemView.setOnClickListener(v -> {
                 int position = getBindingAdapterPosition();

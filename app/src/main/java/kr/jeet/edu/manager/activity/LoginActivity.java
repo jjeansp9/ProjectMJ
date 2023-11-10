@@ -227,35 +227,35 @@ public class LoginActivity extends BaseActivity {
                         if (res != null && res.data != null) {
                             //super관리자
                             if(res.data.userGubun == Constants.USER_TYPE_SUPER_ADMIN){
-                                if(res.data.sfCode == Constants.USER_TYPE_SUPER_ADMIN) {
-                                    PreferenceUtil.setUserSeq(mContext, res.data.seq);
-                                    PreferenceUtil.setUserGubun(mContext, res.data.userGubun);
-                                    PreferenceUtil.setUserSFCode(mContext, res.data.sfCode);
 
-                                    Utils.refreshPushToken(mContext, res.data.seq);
-                                    if(res.data.pushStatus != null){
-                                        //공지사항
-                                        PreferenceUtil.setNotificationAnnouncement(mContext, res.data.pushStatus.pushNotice.equals("Y"));
-                                        //설명회
-                                        PreferenceUtil.setNotificationSeminar(mContext, res.data.pushStatus.pushInformationSession.equals("Y"));
-                                        //출석
-                                        PreferenceUtil.setNotificationAttendance(mContext, res.data.pushStatus.pushAttendance.equals("Y"));
-                                        //시스템알림
-                                        PreferenceUtil.setNotificationSystem(mContext, res.data.pushStatus.pushSystem.equals("Y"));
-                                    }else{
-                                        //공지사항
-                                        PreferenceUtil.setNotificationAnnouncement(mContext, true);
-                                        //설명회
-                                        PreferenceUtil.setNotificationSeminar(mContext, true);
-                                        //출석
-                                        PreferenceUtil.setNotificationAttendance(mContext, true);
-                                        //시스템알림
-                                        PreferenceUtil.setNotificationSystem(mContext, true);
-                                    }
-                                    Intent intent = new Intent(mContext, MainActivity.class);
-                                    startActivity(intent);
-                                    finish();
+                                PreferenceUtil.setUserSeq(mContext, res.data.seq);
+                                PreferenceUtil.setUserGubun(mContext, res.data.userGubun);
+                                PreferenceUtil.setUserSFCode(mContext, res.data.sfCode);
+
+                                Utils.refreshPushToken(mContext, res.data.seq);
+                                if(res.data.pushStatus != null){
+                                    //공지사항
+                                    PreferenceUtil.setNotificationAnnouncement(mContext, res.data.pushStatus.pushNotice.equals("Y"));
+                                    //설명회
+                                    PreferenceUtil.setNotificationSeminar(mContext, res.data.pushStatus.pushInformationSession.equals("Y"));
+                                    //출석
+                                    PreferenceUtil.setNotificationAttendance(mContext, res.data.pushStatus.pushAttendance.equals("Y"));
+                                    //시스템알림
+                                    PreferenceUtil.setNotificationSystem(mContext, res.data.pushStatus.pushSystem.equals("Y"));
+                                }else{
+                                    //공지사항
+                                    PreferenceUtil.setNotificationAnnouncement(mContext, true);
+                                    //설명회
+                                    PreferenceUtil.setNotificationSeminar(mContext, true);
+                                    //출석
+                                    PreferenceUtil.setNotificationAttendance(mContext, true);
+                                    //시스템알림
+                                    PreferenceUtil.setNotificationSystem(mContext, true);
                                 }
+                                Intent intent = new Intent(mContext, MainActivity.class);
+                                startActivity(intent);
+                                finish();
+
                             } else if (res.data.userGubun <= Constants.USER_TYPE_TEACHER) {
                                 if (res.data.sfCode > 0) {
                                     PreferenceUtil.setUserSeq(mContext, res.data.seq);
