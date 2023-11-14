@@ -169,7 +169,8 @@ public class MenuNoticeActivity extends BaseActivity implements MonthPickerDialo
                     }else{
                         _spinnerCampus.selectItemByIndex(0);
                     }
-                    _handler.sendEmptyMessage(CMD_GET_DATAS);
+                    //_handler.sendEmptyMessage(CMD_GET_DATAS);
+                    LogMgr.e(TAG, "EVENT1!!");
                     break;
                 case CMD_GET_GRADE_LIST:
                     if (_GradeList != null && !_GradeList.isEmpty()) {
@@ -289,6 +290,7 @@ public class MenuNoticeActivity extends BaseActivity implements MonthPickerDialo
 
         _spinnerCampus.setOnSpinnerItemSelectedListener((oldIndex, oldItem, newIndex, newItem) -> {
             if(oldItem != null && oldItem.equals(newItem)) return;
+            LogMgr.e(TAG, "EVENT2!!");
             Optional optional =  _ACAList.stream().filter(t -> t.acaName == newItem).findFirst();
             if(optional.isPresent()) {
                 if(_selectedNotice != null) {
