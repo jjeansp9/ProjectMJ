@@ -1233,20 +1233,25 @@ public class MenuManageStudentActivity extends BaseActivity {
 
         SmsRequest request = new SmsRequest();
         request.msg = _installSMSContent;
+        request.senderCode = String.valueOf(_sfCode);
         List<RecipientData> recipientList = DataManager.getInstance().getRecipientList();
         List<String> phoneList = new ArrayList<>();
+        List<String> receiverList = new ArrayList<>();
         if(totalPage > 0) {
             if(currentPage < totalPage) {
                 phoneList = recipientList.subList(currentPage * Constants.MAX_RECIPIENT_COUNT, (currentPage + 1) * Constants.MAX_RECIPIENT_COUNT).stream().map(t->t.phoneNumber).collect(Collectors.toList());
-                request.receiver = String.join(",", phoneList);
+                receiverList = recipientList.subList(currentPage * Constants.MAX_RECIPIENT_COUNT, (currentPage + 1) * Constants.MAX_RECIPIENT_COUNT).stream().map(t->String.valueOf(t.stCode)).collect(Collectors.toList());
             }else{
                 phoneList = recipientList.subList(currentPage * Constants.MAX_RECIPIENT_COUNT, recipientList.size()).stream().map(t->t.phoneNumber).collect(Collectors.toList());
-                request.receiver = String.join(",", phoneList);
+                receiverList = recipientList.subList(currentPage * Constants.MAX_RECIPIENT_COUNT, recipientList.size()).stream().map(t->String.valueOf(t.stCode)).collect(Collectors.toList());
             }
         }else {
             phoneList = recipientList.stream().map(t->t.phoneNumber).collect(Collectors.toList());
-            request.receiver = String.join(",", phoneList);
+            receiverList = recipientList.stream().map(t->String.valueOf(t.stCode)).collect(Collectors.toList());
         }
+
+        request.receiver = String.join(",", phoneList);
+        request.receiverCode = String.join(",", receiverList);
         request.sender = _selectedACA.acaTel;   //대표번호
 
         if(RetrofitClient.getInstance() != null) {

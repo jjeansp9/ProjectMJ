@@ -151,21 +151,22 @@
                 android:nestedScrollingEnabled="true"
                 android:visibility="gone"
                 />
-            <LinearLayout
+            <RelativeLayout
+                android:id="@+id/tooltip_root"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
                 android:layout_marginTop="8dp"
-                android:id="@+id/test_root">
+                android:visibility="gone">
 
                 <ImageView
                     android:id="@+id/img_info"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentEnd="true"
+                    android:stateListAnimator="@xml/animate_button_push"
                     android:src="@drawable/icon_info"/>
 
-            </LinearLayout>
+            </RelativeLayout>
 
         </LinearLayout>
 

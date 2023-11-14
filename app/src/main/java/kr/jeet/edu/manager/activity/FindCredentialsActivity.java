@@ -291,6 +291,8 @@ public class FindCredentialsActivity extends BaseActivity {
         request.msg = msg;
         request.receiver = phoneNo;
         request.sender = "@";
+        request.senderCode = Constants.SMS_SENDER_CODE;
+        request.receiverCode = Constants.SMS_RECEIVER_CODE;
 
         if(RetrofitClient.getInstance() != null) {
             showProgressDialog();

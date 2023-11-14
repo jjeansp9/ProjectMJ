@@ -24,14 +24,13 @@ public class RecipientChipListAdapter extends RecyclerView.Adapter<RecipientChip
 //        void onItemClick(RecipientData item);
         void onDeleteClick(int position, RecipientData item);
     }
-    public interface longClickListener{
-        //        void onItemClick(RecipientData item);
-        void onLongClick(int position, RecipientData item, Chip chip, ConstraintLayout root);
-    }
+//    public interface longClickListener{
+//        void onLongClick(int position, RecipientData item, Chip chip, ConstraintLayout root);
+//    }
     private Context mContext;
     private List<RecipientData> _recipientList;
     private onItemClickListener _listener;
-    private longClickListener _listenerLong;
+    //private longClickListener _listenerLong;
     Constants.BoardEditMode _editMode = Constants.BoardEditMode.New;
 //    private boolean _isMemberLoggedIn = false;
 
@@ -40,11 +39,11 @@ public class RecipientChipListAdapter extends RecyclerView.Adapter<RecipientChip
         this._recipientList = mList;
         this._listener = listener;
     }
-    public RecipientChipListAdapter(Context mContext, List<RecipientData> mList, longClickListener listenerLong){
-        this.mContext = mContext;
-        this._recipientList = mList;
-        this._listenerLong = listenerLong;
-    }
+//    public RecipientChipListAdapter(Context mContext, List<RecipientData> mList, longClickListener listenerLong){
+//        this.mContext = mContext;
+//        this._recipientList = mList;
+//        this._listenerLong = listenerLong;
+//    }
     public void setEditMode(Constants.BoardEditMode editMode) {
         this._editMode = editMode;
     }
@@ -106,9 +105,9 @@ public class RecipientChipListAdapter extends RecyclerView.Adapter<RecipientChip
 
         public ViewHolder(@NonNull View itemView){
             super(itemView);
-            rootLayout = itemView.findViewById(R.id.layout_root);
+            rootLayout = itemView.findViewById(R.id.root);
             chip = itemView.findViewById(R.id.chip);
-            chip.setCheckable(false);
+            chip.setCheckable(true);
 //            chip.setChecked(true);
 //            chip.setCheckedIconVisible(true);
             chip.setTextStartPadding(4f);
@@ -128,15 +127,15 @@ public class RecipientChipListAdapter extends RecyclerView.Adapter<RecipientChip
                 chip.setCloseIconVisible(false);
             }
 
-            if(_editMode.equals(Constants.BoardEditMode.Show)) {
-                chip.setOnLongClickListener(v -> {
-                    int position = getBindingAdapterPosition();
-                    if (_listenerLong != null) {
-                        _listenerLong.onLongClick(position, _recipientList.get(position), chip, rootLayout);
-                    }
-                    return true;
-                });
-            }
+//            if(_editMode.equals(Constants.BoardEditMode.Show)) {
+//                chip.setOnLongClickListener(v -> {
+//                    int position = getBindingAdapterPosition();
+//                    if (_listenerLong != null) {
+//                        _listenerLong.onLongClick(position, _recipientList.get(position), chip, rootLayout);
+//                    }
+//                    return true;
+//                });
+//            }
 
 //            itemView.setOnClickListener(v -> {
 //                int position = getBindingAdapterPosition();

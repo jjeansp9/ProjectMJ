@@ -19,6 +19,7 @@ import androidx.annotation.Nullable;
 import java.io.IOException;
 
 import kr.jeet.edu.manager.R;
+import kr.jeet.edu.manager.common.Constants;
 import kr.jeet.edu.manager.model.request.SmsRequest;
 import kr.jeet.edu.manager.model.response.BaseResponse;
 import kr.jeet.edu.manager.server.RetrofitApi;
@@ -200,6 +201,8 @@ public class AuthPhoneNumberView extends LinearLayout implements View.OnClickLis
         mAuthCompletedPhoneNo = mAuthPhoneNo;
         request.receiver = mAuthPhoneNo;
         request.sender = "@";   //대표번호
+        request.senderCode = Constants.SMS_SENDER_CODE;
+        request.receiverCode = Constants.SMS_RECEIVER_CODE;
 
         if(RetrofitClient.getInstance() != null) {
 //            showProgressDialog();

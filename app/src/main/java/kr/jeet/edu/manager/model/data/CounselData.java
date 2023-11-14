@@ -28,6 +28,9 @@ public class CounselData {
     @SerializedName("acaName")
     public String acaName;
 
+    @SerializedName("stCode")
+    public int stCode;
+
     @SerializedName("sfCode")
     public int sfCode;
 
