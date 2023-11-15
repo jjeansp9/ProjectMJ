@@ -52,10 +52,12 @@ public class FCMManager {
     public static final int NOTIFICATION_ID_SYSTEM = 1000006;
     public static final int NOTIFICATION_ID_LEVEL_TEST = 1000007;
     public static final int NOTIFICATION_ID_COUNSEL = 1000008;
+    public static final int NOTIFICATION_ID_NONE = 20;
 
     Context _context;
     PushMessage _pushMessage;
     int _notifyID;
+    int requestCode;
 
     public FCMManager(Context context) {
         this._context = context;
@@ -79,35 +81,28 @@ public class FCMManager {
         if (message.pushType.equals(MSG_TYPE_NOTICE)) {
             if (PreferenceUtil.getNotificationAnnouncement(_context) == false) {
                 isReject = true;
-                _notifyID = NOTIFICATION_ID_NOTICE;
             }
         } else if (message.pushType.equals(MSG_TYPE_PT) || message.pushType.equals(MSG_TYPE_PT_REZ_CNL)) {
             if (PreferenceUtil.getNotificationSeminar(_context) == false) {
                 isReject = true;
-                _notifyID = NOTIFICATION_ID_PT;
             }
         } else if (message.pushType.equals(MSG_TYPE_ATTEND)) {
             if (PreferenceUtil.getNotificationAttendance(_context) == false) {
                 isReject = true;
                 isRequireConfirmReceived = true;
-                _notifyID = NOTIFICATION_ID_ATTEND;
             }
         } else if (message.pushType.equals(MSG_TYPE_SYSTEM)) {
             if (PreferenceUtil.getNotificationSystem(_context) == false) {
                 isReject = true;
                 isRequireConfirmReceived = true;
-                _notifyID = NOTIFICATION_ID_SYSTEM;
             }
         } else if (message.pushType.equals(MSG_TYPE_LEVEL_TEST)) {
             isReject = false;
-            _notifyID = NOTIFICATION_ID_LEVEL_TEST;
 
         } else if (message.pushType.equals(MSG_TYPE_COUNSEL)) {
             isReject = false;
-            _notifyID = NOTIFICATION_ID_COUNSEL;
         } else if (message.pushType.equals(MSG_TYPE_ACA_SCHEDULE)) {
             isReject = false;
-            _notifyID = NOTIFICATION_ID_ACA_SCHEDULE;
         }
         LogMgr.d(TAG, "isReject = " + isReject);
         if(!isReject) {
@@ -217,10 +212,11 @@ public class FCMManager {
                 break;
         }
         PendingIntent pendingIntent;
+        requestCode = NotificationID.getID();
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            pendingIntent = PendingIntent.getActivity(_context, 0, intent, PendingIntent.FLAG_ONE_SHOT | PendingIntent.FLAG_IMMUTABLE);
+            pendingIntent = PendingIntent.getActivity(_context, requestCode, intent, PendingIntent.FLAG_ONE_SHOT | PendingIntent.FLAG_IMMUTABLE);
         }else{
-            pendingIntent = PendingIntent.getActivity(_context, 0, intent, PendingIntent.FLAG_ONE_SHOT);
+            pendingIntent = PendingIntent.getActivity(_context, requestCode, intent, PendingIntent.FLAG_ONE_SHOT);
         }
         String channelId = _context.getString(R.string.default_notification_headup_channel_id);
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(_context, channelId)
@@ -249,6 +245,7 @@ public class FCMManager {
             channel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
             notificationManager.createNotificationChannel(channel);
         }
+        _notifyID = NotificationID.getID();
         notificationManager.notify(_notifyID, notificationBuilder.build());
     }
 }
