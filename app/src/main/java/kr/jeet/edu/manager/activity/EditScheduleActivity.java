@@ -708,6 +708,7 @@ public class EditScheduleActivity extends BaseActivity implements DatePickerFrag
             return false;
         }
         if(TextUtils.isEmpty(etTitle.getText())) {   //제목
+            showKeyboard(mContext, etTitle);
             Toast.makeText(mContext, R.string.error_message_empty_subject, Toast.LENGTH_SHORT).show();
             return false;
         }

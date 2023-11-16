@@ -3,6 +3,7 @@ package kr.jeet.edu.manager.activity;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -63,7 +64,7 @@ public class SetPasswordActivity extends BaseActivity {
         mEtPw = findViewById(R.id.et_set_pw);
         mEtPwConfirm = findViewById(R.id.et_set_pw_confirm);
         mCheckPwTxt = findViewById(R.id.check_txt_pw);
-
+        new Handler().postDelayed(() -> showKeyboard(mContext, mEtPw), Constants.SHOW_KEBOARD_DELAY);
         mEtPw.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}

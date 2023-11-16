@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -19,6 +20,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import kr.jeet.edu.manager.R;
+import kr.jeet.edu.manager.common.Constants;
 
 public class PopupDialog extends Dialog {
 
@@ -113,17 +115,17 @@ public class PopupDialog extends Dialog {
         else editText.setVisibility(View.GONE);
     }
     public void setEditText(String content) {
-//        if(editText.getVisibility() == View.VISIBLE) {
-            editText.setText(content);
-            editText.requestFocus();
-//        }
+        editText.setText(content);
+        editText.requestFocus();
+        InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+        editText.postDelayed(() -> imm.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT), Constants.SHOW_KEBOARD_DELAY);
     }
     public void setEditMinMaxLines(int min, int max) {
 //        if(editText.getVisibility() == View.VISIBLE) {
             editText.setMinLines(min);
             editText.setMaxLines(max);
             if(min == 1 && max == 1) {
-                editText.setGravity(Gravity.CENTER);
+                editText.setGravity(Gravity.START);
             }else {
                 editText.setGravity(Gravity.TOP);
             }

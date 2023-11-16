@@ -203,11 +203,13 @@ public class JoinActivity extends BaseActivity {
         String name = mEditName.getText().toString();
 
         if(TextUtils.isEmpty(name)) {
+            showKeyboard(mContext, mEditName);
             Toast.makeText(mContext, R.string.empty_name, Toast.LENGTH_SHORT).show();
             return false;
         }
 
         if(!Utils.nameCheck(name)) {
+            showKeyboard(mContext, mEditName);
             Toast.makeText(mContext, R.string.check_name_pattern, Toast.LENGTH_SHORT).show();
             return false;
         }
@@ -215,10 +217,17 @@ public class JoinActivity extends BaseActivity {
         // 일반 회원가입인 경우 패스워드 체크
         if(mLoginType == Constants.LOGIN_TYPE_NORMAL) {
             if (mEditId.getText().toString().length() < MIN_ID_LENGTH){
+                showKeyboard(mContext, mEditId);
                 Toast.makeText(mContext, R.string.check_id_min_length, Toast.LENGTH_SHORT).show();
                 return false;
             }
-            if (TextUtils.isEmpty(mEditPassword1.getText().toString()) || TextUtils.isEmpty(mEditPassword2.getText().toString())){
+            if (TextUtils.isEmpty(mEditPassword1.getText().toString())){
+                showKeyboard(mContext, mEditPassword1);
+                Toast.makeText(mContext, R.string.password_empty, Toast.LENGTH_SHORT).show();
+                return false;
+            }
+            if (TextUtils.isEmpty(mEditPassword2.getText().toString())){
+                showKeyboard(mContext, mEditPassword2);
                 Toast.makeText(mContext, R.string.password_empty, Toast.LENGTH_SHORT).show();
                 return false;
             }

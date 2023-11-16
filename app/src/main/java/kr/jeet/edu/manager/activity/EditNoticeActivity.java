@@ -5,9 +5,12 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.content.ClipData;
 import android.content.ContentResolver;
 import android.content.Intent;
@@ -101,6 +104,8 @@ public class EditNoticeActivity extends BaseActivity {
     TextView tvFileCount, tvRecipient, tvRecipientEmpty;
 //    ChipGroup recipientChipGroup;
     LinearLayout layoutCheckSMS;
+    NestedScrollView scrollView;
+    LinearLayoutCompat layoutBottom;
     CheckBox cbSendSMS;
     //endregion
 
@@ -377,6 +382,8 @@ public class EditNoticeActivity extends BaseActivity {
     void initView() {
         findViewById(R.id.layout_root).setOnClickListener(this);
 
+        scrollView = ((NestedScrollView)findViewById(R.id.scrollview));
+        layoutBottom = ((LinearLayoutCompat)findViewById(R.id.layout_bottom));
         spinnerCampus = findViewById(R.id.spinner_campus);
         spinnerGrade = findViewById(R.id.spinner_grade);
         etTitle = findViewById(R.id.et_content_title);
@@ -658,26 +665,51 @@ public class EditNoticeActivity extends BaseActivity {
 
     private boolean checkValid() {
         if(selectedACA == null) {   //캠퍼스 선택
+            spinnerCampus.requestFocus();
             Toast.makeText(mContext, R.string.error_message_unselected_campus, Toast.LENGTH_SHORT).show();
+
             return false;
         }
         if(_selectedGrade == null) {
+            spinnerGrade.requestFocus();
             Toast.makeText(mContext, R.string.msg_empty_school_grade, Toast.LENGTH_SHORT).show();
             return false;
         }
         if(TextUtils.isEmpty(etTitle.getText())) {   //제목
+            showKeyboard(mContext, etTitle);
             Toast.makeText(mContext, R.string.error_message_empty_subject, Toast.LENGTH_SHORT).show();
             return false;
         }
         if(TextUtils.isEmpty(etContent.getText())) {   //내용
+            showKeyboard(mContext, etContent);
             Toast.makeText(mContext, R.string.error_message_empty_content, Toast.LENGTH_SHORT).show();
             return false;
         }
         if(_recipientList.size() < 1) {   //수신인
+
+            showBtnAnimation();
+
             Toast.makeText(mContext, R.string.error_message_empty_recipient, Toast.LENGTH_SHORT).show();
             return false;
         }
         return true;
+    }
+    private void showBtnAnimation() {
+        int[] location = new int[2];
+        btnAppendRecipient.getLocationOnScreen(location);
+
+        int scrollDuration = 500;
+        int duration = getResources().getInteger(R.integer.btn_push_duration) + 100;
+
+        int screenHeight = getResources().getDisplayMetrics().heightPixels; // 디바이스 화면의 높이
+        int resultLocation = location[1] + layoutBottom.getHeight();
+
+        if (resultLocation >= screenHeight) ((NestedScrollView)findViewById(R.id.scrollview)).smoothScrollTo(0 ,location[1], scrollDuration);
+
+        _handler.postDelayed(() -> {
+            btnAppendRecipient.setPressed(true);
+            _handler.postDelayed(() -> btnAppendRecipient.setPressed(false), duration);
+        }, scrollDuration);
     }
     private RequestBody buildRequestData() {
         _currentData.title = etTitle.getText().toString();

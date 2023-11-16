@@ -415,4 +415,6 @@ public class Constants {
     // 설치문자 전송을 제외한 나머지 경우 무조건 아래 지정한 값으로 전달
     public static final String SMS_SENDER_CODE = "556"; // 발신자코드(sfCode)
     public static final String SMS_RECEIVER_CODE = "-1"; // 수신자코드(stCode)
+
+    public static final int SHOW_KEBOARD_DELAY = 200;
 }

@@ -923,18 +923,22 @@ public class EditBriefingActivity extends BaseActivity implements DatePickerFrag
             return false;
         }
         if(TextUtils.isEmpty(etTitle.getText())) {   //제목
+            showKeyboard(mContext, etTitle);
             Toast.makeText(mContext, R.string.error_message_empty_subject, Toast.LENGTH_SHORT).show();
             return false;
         }
         if(TextUtils.isEmpty(etContent.getText())) {   //내용
+            showKeyboard(mContext, etContent);
             Toast.makeText(mContext, R.string.error_message_empty_content, Toast.LENGTH_SHORT).show();
             return false;
         }
         if(TextUtils.isEmpty(etLocation.getText())) {   //장소
+            showKeyboard(mContext, etLocation);
             Toast.makeText(mContext, R.string.error_message_empty_location, Toast.LENGTH_SHORT).show();
             return false;
         }
         if(TextUtils.isEmpty(etMemberCount.getText())) {   //정원
+            showKeyboard(mContext, etMemberCount);
             Toast.makeText(mContext, R.string.error_message_empty_member_count, Toast.LENGTH_SHORT).show();
             return false;
         }else{
@@ -946,6 +950,7 @@ public class EditBriefingActivity extends BaseActivity implements DatePickerFrag
                 }catch(Exception ex) {
                 }
                 if(quota < _currentData.reservationCnt) {
+                    showKeyboard(mContext, etMemberCount);
                     Toast.makeText(mContext, getString(R.string.error_message_over_reserved_cnt, _currentData.reservationCnt), Toast.LENGTH_SHORT).show();
                     return false;
                 }

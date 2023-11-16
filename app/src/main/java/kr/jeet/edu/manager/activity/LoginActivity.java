@@ -187,10 +187,12 @@ public class LoginActivity extends BaseActivity {
 
     private boolean checkLogin() {
         if(mEditId.getText().toString().trim().isEmpty()) {
+            showKeyboard(mContext, mEditId);
             Toast.makeText(mContext, getString(R.string.id) + " " + getString(R.string.empty_info), Toast.LENGTH_SHORT).show();
             return false;
         }
         if(mEditPw.getText().toString().trim().isEmpty()) {
+            showKeyboard(mContext, mEditPw);
             Toast.makeText(mContext, getString(R.string.password) + " " + getString(R.string.empty_info), Toast.LENGTH_SHORT).show();
             return false;
         }

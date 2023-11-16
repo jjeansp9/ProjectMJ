@@ -758,10 +758,12 @@ public class EditAnnouncementActivity extends BaseActivity {
             return false;
         }
         if(TextUtils.isEmpty(etSubject.getText())) {   //제목
+            showKeyboard(mContext, etSubject);
             Toast.makeText(mContext, R.string.error_message_empty_subject, Toast.LENGTH_SHORT).show();
             return false;
         }
         if(TextUtils.isEmpty(etContent.getText())) {   //내용
+            showKeyboard(mContext, etContent);
             Toast.makeText(mContext, R.string.error_message_empty_content, Toast.LENGTH_SHORT).show();
             return false;
         }

@@ -305,6 +305,7 @@ public class SetAccountActivity extends BaseActivity {
         popupDialog.setContent(getString(R.string.msg_pw_confirm));
         popupDialog.setEdit(true);
         popupDialog.setEditMinMaxLines(1,1);
+        popupDialog.setEditText("");
         popupDialog.setEditTextInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
         popupDialog.setOnOkButtonClickListener(ok -> { if(checkLogin()) { confirmPw(); } });
         popupDialog.setOnCancelButtonClickListener(cancel -> { if(popupDialog != null && popupDialog.isShowing()) popupDialog.dismiss(); });

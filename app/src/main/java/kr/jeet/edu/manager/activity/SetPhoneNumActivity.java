@@ -57,6 +57,8 @@ public class SetPhoneNumActivity extends BaseActivity {
                 hideProgressDialog();
             }
         });
+
+        showKeyboard(mContext, mEtPhoneNum);
     }
 
     @Override
