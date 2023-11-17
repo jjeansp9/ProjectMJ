@@ -180,7 +180,8 @@
     <string name="title_edit_briefing">설명회 수정</string>
     <string name="title_append_recipient">알림수신인 추가</string>
     <string name="title_send_report_card">성적표 전송</string>
-    <string name="announcement_list_empty">공지사항이 없습니다</string>
+    <string name="announcement_list_empty">공지사항이 없습니다.</string>
+    <string name="new_announcement_list_empty">최신글이 없습니다.</string>
 
     <string name="title_report_card">성적표</string>
 

@@ -462,7 +462,7 @@
                     android:paddingVertical="16dp"
                     android:background="@drawable/bg_white_panel"
                     android:gravity="center"
-                    android:text="@string/announcement_list_empty"
+                    android:text="@string/new_announcement_list_empty"
                     android:textColor="@color/font_color_999"
                     android:textSize="@dimen/font_size"
                     android:textStyle="bold"
