@@ -450,7 +450,7 @@
                 android:paddingVertical="@dimen/layout_margin_xsmall"
                 android:layout_marginTop="@dimen/layout_margin_xxsmall"
                 android:text="@string/description_schedule_recipient"
-                android:textSize="@dimen/font_size_small"
+                android:textSize="@dimen/font_size"
                 android:textColor="@color/font_color_999"
                 android:minLines="5"
                 android:gravity="center" />

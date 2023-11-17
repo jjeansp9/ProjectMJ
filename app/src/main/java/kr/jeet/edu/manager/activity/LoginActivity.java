@@ -96,7 +96,7 @@ public class LoginActivity extends BaseActivity {
 
     @Override
     void initView() {
-        findViewById(R.id.layout_root).setOnClickListener(this);
+//        findViewById(R.id.layout_root).setOnClickListener(this);
         findViewById(R.id.tv_find).setOnClickListener(this);
         findViewById(R.id.tv_join).setOnClickListener(this);
         findViewById(R.id.btn_naver).setOnClickListener(this);
@@ -124,9 +124,6 @@ public class LoginActivity extends BaseActivity {
         int loginType = Constants.LOGIN_TYPE_NORMAL;
 
         switch (view.getId()) {
-            case R.id.layout_root:
-                Utils.hideKeyboard(mContext, mEditId, mEditPw);
-                break;
             case R.id.btn_naver:
 
                 selectedSNSLoginType = Constants.LOGIN_TYPE_SNS_NAVER;
@@ -172,8 +169,6 @@ public class LoginActivity extends BaseActivity {
                 break;
 
             case R.id.btn_login :
-                Utils.hideKeyboard(mContext, mEditId, mEditPw);
-
                 if(checkLogin()) {
                     requestLogin();
                 }
@@ -187,12 +182,12 @@ public class LoginActivity extends BaseActivity {
 
     private boolean checkLogin() {
         if(mEditId.getText().toString().trim().isEmpty()) {
-            showKeyboard(mContext, mEditId);
+            showKeyboard(mEditId);
             Toast.makeText(mContext, getString(R.string.id) + " " + getString(R.string.empty_info), Toast.LENGTH_SHORT).show();
             return false;
         }
         if(mEditPw.getText().toString().trim().isEmpty()) {
-            showKeyboard(mContext, mEditPw);
+            showKeyboard(mEditPw);
             Toast.makeText(mContext, getString(R.string.password) + " " + getString(R.string.empty_info), Toast.LENGTH_SHORT).show();
             return false;
         }

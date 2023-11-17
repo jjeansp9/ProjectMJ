@@ -355,7 +355,6 @@ public class EditScheduleActivity extends BaseActivity implements DatePickerFrag
     }
     @Override
     void initView() {
-        findViewById(R.id.layout_root).setOnClickListener(this);
         layoutBottom = findViewById(R.id.layout_bottom);
         layoutDateStart = findViewById(R.id.layout_date_start);
         layoutDateEnd = findViewById(R.id.layout_date_end);
@@ -675,9 +674,6 @@ public class EditScheduleActivity extends BaseActivity implements DatePickerFrag
     @Override
     public void onClick(View view) {
         switch(view.getId()) {
-            case R.id.layout_root:
-                Utils.hideKeyboard(mContext, etTitle, etContent);
-                break;
             case R.id.tv_content_date:
                 clickType = Constants.CLICK_DEFAULT_DATE;
                 showDatePicker();
@@ -708,7 +704,7 @@ public class EditScheduleActivity extends BaseActivity implements DatePickerFrag
             return false;
         }
         if(TextUtils.isEmpty(etTitle.getText())) {   //제목
-            showKeyboard(mContext, etTitle);
+            showKeyboard(etTitle);
             Toast.makeText(mContext, R.string.error_message_empty_subject, Toast.LENGTH_SHORT).show();
             return false;
         }
@@ -739,6 +735,7 @@ public class EditScheduleActivity extends BaseActivity implements DatePickerFrag
         LogMgr.w(TAG, "requestUpdateRecipient  " + seqs + " /" + currentPage + " / " +  prevResult);
         RecipientRequest request = new RecipientRequest();
         request.seqs = seqs;
+        request.sfCode = _sfCode;
         if(totalPage > 0) {
             if(currentPage < totalPage) {
                 request.receiverList = _recipientList.subList(currentPage * Constants.MAX_RECIPIENT_COUNT, (currentPage + 1) * Constants.MAX_RECIPIENT_COUNT);

@@ -36,7 +36,6 @@ import kr.jeet.edu.manager.R;
 import kr.jeet.edu.manager.common.Constants;
 import kr.jeet.edu.manager.model.data.AttendanceData;
 import kr.jeet.edu.manager.utils.LogMgr;
-import kr.jeet.edu.manager.utils.Utils;
 
 public class StudentInfoListAdapter extends RecyclerView.Adapter<StudentInfoListAdapter.ViewHolder>{
     private static final String TAG = "studendlistadapter";
@@ -114,7 +113,7 @@ public class StudentInfoListAdapter extends RecyclerView.Adapter<StudentInfoList
 
                 //set spinner status
 //                holder.spinnerStatus.setItems(Constants.AttendanceStatus.getNameList());
-                AttendanceSpinnerAdapter adapter = new AttendanceSpinnerAdapter(_context, Constants.AttendanceStatus.getColoredNameList(_context), holder.spinnerStatus);
+                ColoredSpinnerAdapter adapter = new ColoredSpinnerAdapter(_context, Constants.AttendanceStatus.getColoredNameList(_context), holder.spinnerStatus);
                 adapter.setOnSpinnerItemSelectedListener(holder.spinnerSelectListener);
                 holder.spinnerStatus.setSpinnerAdapter(adapter);
 

@@ -43,6 +43,7 @@ public class FCMManager {
     public static final String MSG_TYPE_SYSTEM = "SYSTEM";  //시스템
     public static final String MSG_TYPE_LEVEL_TEST = "LEVEL_TEST";    //테스트예약
     public static final String MSG_TYPE_COUNSEL = "COUNSEL";    //상담요청
+    public static final String MSG_TYPE_REPORTCARD = "REPORT";  //성적표
 
     public static final int NOTIFICATION_ID_NOTICE = 1000001;
     public static final int NOTIFICATION_ID_VIDEO = 1000002;
@@ -102,6 +103,8 @@ public class FCMManager {
         } else if (message.pushType.equals(MSG_TYPE_COUNSEL)) {
             isReject = false;
         } else if (message.pushType.equals(MSG_TYPE_ACA_SCHEDULE)) {
+            isReject = false;
+        } else if(message.pushType.equals(MSG_TYPE_REPORTCARD)) {
             isReject = false;
         }
         LogMgr.d(TAG, "isReject = " + isReject);

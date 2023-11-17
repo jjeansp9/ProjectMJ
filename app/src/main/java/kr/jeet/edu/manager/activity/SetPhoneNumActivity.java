@@ -58,7 +58,7 @@ public class SetPhoneNumActivity extends BaseActivity {
             }
         });
 
-        showKeyboard(mContext, mEtPhoneNum);
+        showKeyboard(mEtPhoneNum);
     }
 
     @Override

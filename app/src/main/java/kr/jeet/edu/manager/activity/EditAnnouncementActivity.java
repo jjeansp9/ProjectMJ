@@ -384,7 +384,7 @@ public class EditAnnouncementActivity extends BaseActivity {
 
     @Override
     void initView() {
-        findViewById(R.id.layout_root).setOnClickListener(this);
+
         layoutBottom = findViewById(R.id.layout_bottom);
 
         etSubject = findViewById(R.id.et_subject);
@@ -728,9 +728,6 @@ public class EditAnnouncementActivity extends BaseActivity {
     @Override
     public void onClick(View view) {
         switch(view.getId()) {
-            case R.id.layout_root:
-                Utils.hideKeyboard(mContext, etSubject, etContent);
-                break;
             case R.id.btn_attach_photo:
                 openImagePicker();
                 break;
@@ -758,12 +755,12 @@ public class EditAnnouncementActivity extends BaseActivity {
             return false;
         }
         if(TextUtils.isEmpty(etSubject.getText())) {   //제목
-            showKeyboard(mContext, etSubject);
+            showKeyboard(etSubject);
             Toast.makeText(mContext, R.string.error_message_empty_subject, Toast.LENGTH_SHORT).show();
             return false;
         }
         if(TextUtils.isEmpty(etContent.getText())) {   //내용
-            showKeyboard(mContext, etContent);
+            showKeyboard(etContent);
             Toast.makeText(mContext, R.string.error_message_empty_content, Toast.LENGTH_SHORT).show();
             return false;
         }
@@ -983,6 +980,7 @@ public class EditAnnouncementActivity extends BaseActivity {
         LogMgr.w(TAG, "requestUpdateRecipient  " + seq + " /" + currentPage + " / " +  prevResult);
         RecipientRequest request = new RecipientRequest();
         request.seq = seq;
+        request.sfCode = _sfCode;
         if(totalPage > 0) {
             if(currentPage < totalPage) {
                 request.receiverList = _recipientList.subList(currentPage * Constants.MAX_RECIPIENT_COUNT, (currentPage + 1) * Constants.MAX_RECIPIENT_COUNT);

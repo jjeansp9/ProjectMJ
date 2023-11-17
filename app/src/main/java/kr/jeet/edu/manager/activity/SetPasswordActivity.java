@@ -58,13 +58,12 @@ public class SetPasswordActivity extends BaseActivity {
 
     @Override
     void initView() {
-        findViewById(R.id.set_pw_root).setOnClickListener(this);
         findViewById(R.id.btn_update_pw_complete).setOnClickListener(this);
 
         mEtPw = findViewById(R.id.et_set_pw);
         mEtPwConfirm = findViewById(R.id.et_set_pw_confirm);
         mCheckPwTxt = findViewById(R.id.check_txt_pw);
-        new Handler().postDelayed(() -> showKeyboard(mContext, mEtPw), Constants.SHOW_KEBOARD_DELAY);
+        new Handler().postDelayed(() -> showKeyboard(mEtPw), Constants.SHOW_KEBOARD_DELAY);
         mEtPw.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
@@ -94,9 +93,6 @@ public class SetPasswordActivity extends BaseActivity {
     public void onClick(View view) {
         super.onClick(view);
         switch (view.getId()) {
-            case R.id.set_pw_root:
-                Utils.hideKeyboard(mContext, mEtPw, mEtPwConfirm);
-                break;
             case R.id.btn_update_pw_complete:
                 if (checkPw()){
                     requestSetPw();

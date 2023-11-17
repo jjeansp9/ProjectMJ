@@ -374,7 +374,6 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toTopOf="@id/tv_title_request_consulting"
-
                     />
 
                 <TextView

@@ -255,11 +255,11 @@ public class AuthPhoneNumberView extends LinearLayout implements View.OnClickLis
             mTimer = null;
         }
     }
-    public void hideKeyboard(InputMethodManager imm) {
-        imm.hideSoftInputFromWindow(mEditPhoneNo.getWindowToken(), 0);
-        imm.hideSoftInputFromWindow(mEditAuthNo.getWindowToken(), 0);
-//        mEditName.clearFocus();
-    }
+//    public void hideKeyboard(InputMethodManager imm) {
+//        imm.hideSoftInputFromWindow(mEditPhoneNo.getWindowToken(), 0);
+//        imm.hideSoftInputFromWindow(mEditAuthNo.getWindowToken(), 0);
+////        mEditName.clearFocus();
+//    }
     public void release() {
         if(mTimer != null) {
             mTimer.cancel();

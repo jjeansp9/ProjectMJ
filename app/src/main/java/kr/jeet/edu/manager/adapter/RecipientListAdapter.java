@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import kr.jeet.edu.manager.R;
-import kr.jeet.edu.manager.model.data.RecipientData;
+import kr.jeet.edu.manager.common.Constants;
 import kr.jeet.edu.manager.model.data.RecipientStudentData;
 import kr.jeet.edu.manager.utils.LogMgr;
 
@@ -45,8 +45,16 @@ public class RecipientListAdapter extends RecyclerView.Adapter<RecipientListAdap
     private Drawable disableDrawable;
     private Drawable installedDrawable;
     private Drawable uninstalledDrawable;
-    private boolean _isEditMode = true; //보기/설정 모드
-    private boolean _isIgnoreInstalled = false; //관리자가 원생관리 진입시 설정모드에서는 설치된 폰은 대상이 아님
+    /**
+     * 보기/설정 모드
+     * true : 설정모드
+     */
+    private boolean _isEditMode = true;
+    /**
+     * 표시 열 설정
+     */
+    private Constants.ShowCheckboxColumnType _columnType = Constants.ShowCheckboxColumnType.TYPE_BOTH;
+    private boolean _isIgnoreInstalled = false;
     public RecipientListAdapter(Context context, List<RecipientStudentData> list, onItemClickListener listener) {
         this._context = context;
         this._list = list;
@@ -61,6 +69,9 @@ public class RecipientListAdapter extends RecyclerView.Adapter<RecipientListAdap
     }
     public void setIgnoreInstalled(boolean isIgnore) {
         _isIgnoreInstalled = isIgnore;
+    }
+    public void setShowColumns(Constants.ShowCheckboxColumnType type) {
+        _columnType = type;
     }
     @NonNull
     @Override
@@ -79,91 +90,128 @@ public class RecipientListAdapter extends RecyclerView.Adapter<RecipientListAdap
             holder.rootView.setBackgroundColor(_context.getColor(R.color.white));
         }
         holder.tvName.setText(recipientData.stName);
-        if(_isEditMode) {
+        if(_isEditMode) {   //수정모드
             holder.rootView.setClickable(false);
-            holder.cbParent.setVisibility(View.VISIBLE);
-            holder.cbStudent.setVisibility(View.VISIBLE);
-            holder.cbBoth.setVisibility(View.VISIBLE);
-            if (TextUtils.isEmpty(recipientData.parentPhoneNumber)) {
-                holder.cbParent.setEnabled(false);
-                holder.cbParent.setBackground(disableDrawable);
-                holder.viewParentInstall.setBackground(null);
+            holder.layoutCheckBoxBoth.setClickable(true);
+            holder.layoutCheckBoxStudent.setClickable(true);
+            holder.layoutCheckBoxParent.setClickable(true);
+            if (_columnType != Constants.ShowCheckboxColumnType.TYPE_NONE) {
+                holder.cbBoth.setVisibility(View.VISIBLE);
             } else {
-                holder.cbParent.setEnabled(true);
-                holder.cbParent.setBackground(null);
-                if (recipientData.parentInstall.equals("Y")) {
-                    holder.viewParentInstall.setBackground(installedDrawable);
-                } else {
-                    holder.viewParentInstall.setBackground(uninstalledDrawable);
-                }
+                holder.cbBoth.setVisibility(View.INVISIBLE);
             }
-            if (TextUtils.isEmpty(recipientData.stPhoneNumber)) {
-                holder.cbStudent.setEnabled(false);
-                holder.cbStudent.setBackground(disableDrawable);
-                holder.viewStudentInstall.setBackground(null);
+            if (_columnType.ordinal() >= Constants.ShowCheckboxColumnType.TYPE_PARENT_ONLY.ordinal()) {
+                holder.cbParent.setVisibility(View.VISIBLE);
+                if (TextUtils.isEmpty(recipientData.parentPhoneNumber)) {
+                    holder.cbParent.setEnabled(false);
+                    holder.cbParent.setBackground(disableDrawable);
+                    holder.viewParentInstall.setBackground(null);
+                } else {
+                    holder.cbParent.setEnabled(true);
+                    holder.cbParent.setBackground(null);
+                    if (recipientData.parentInstall.equals("Y")) {
+                        holder.viewParentInstall.setBackground(installedDrawable);
+                    } else {
+                        holder.viewParentInstall.setBackground(uninstalledDrawable);
+                    }
+                }
             } else {
-                holder.cbStudent.setEnabled(true);
-                holder.cbStudent.setBackground(null);
-                if (recipientData.stInstall.equals("Y")) {
-                    holder.viewStudentInstall.setBackground(installedDrawable);
-                } else {
-                    holder.viewStudentInstall.setBackground(uninstalledDrawable);
-                }
+                holder.cbParent.setVisibility(View.INVISIBLE);
             }
-            if(_isIgnoreInstalled) {
-                if (recipientData.stInstall.equals("Y")) {
+            if (_columnType == Constants.ShowCheckboxColumnType.TYPE_STUDENT_ONLY ||
+                    _columnType == Constants.ShowCheckboxColumnType.TYPE_BOTH) {
+                holder.cbStudent.setVisibility(View.VISIBLE);
+                if (TextUtils.isEmpty(recipientData.stPhoneNumber)) {
+                    holder.cbStudent.setEnabled(false);
+                    holder.cbStudent.setBackground(disableDrawable);
+                    holder.viewStudentInstall.setBackground(null);
+                } else {
+                    holder.cbStudent.setEnabled(true);
+                    holder.cbStudent.setBackground(null);
+                    if (recipientData.stInstall.equals("Y")) {
+                        holder.viewStudentInstall.setBackground(installedDrawable);
+                    } else {
+                        holder.viewStudentInstall.setBackground(uninstalledDrawable);
+                    }
+                }
+            } else {
+                holder.cbStudent.setVisibility(View.INVISIBLE);
+            }
+            if (_isIgnoreInstalled) {
+                if (holder.cbStudent.getVisibility() == View.VISIBLE && recipientData.stInstall.equals("Y")) {
                     holder.cbStudent.setEnabled(false);
                     holder.cbStudent.setBackground(disableDrawable);
                 }
-                if (recipientData.parentInstall.equals("Y")) {
+                if (holder.cbParent.getVisibility() == View.VISIBLE && recipientData.parentInstall.equals("Y")) {
                     holder.cbParent.setEnabled(false);
                     holder.cbParent.setBackground(disableDrawable);
                 }
             }
-            if(holder.cbParent.isEnabled()) {
-                holder.cbParent.setChecked(recipientData.isCheckParent);
-            }else{
-                holder.cbParent.setChecked(false);
+            if (holder.cbParent.getVisibility() == View.VISIBLE) {
+                if (holder.cbParent.isEnabled()) {
+                    holder.cbParent.setChecked(recipientData.isCheckParent);
+                } else {
+                    holder.cbParent.setChecked(false);
+                }
             }
-            if(holder.cbStudent.isEnabled()) {
-                holder.cbStudent.setChecked(recipientData.isCheckStudent);
-            }else{
-                holder.cbStudent.setChecked(false);
+            if (holder.cbStudent.getVisibility() == View.VISIBLE) {
+                if (holder.cbStudent.isEnabled()) {
+                    holder.cbStudent.setChecked(recipientData.isCheckStudent);
+                } else {
+                    holder.cbStudent.setChecked(false);
+                }
             }
-            if(!holder.cbParent.isEnabled() && !holder.cbStudent.isEnabled()){
-                holder.cbBoth.setEnabled(false);
-                holder.cbBoth.setBackground(disableDrawable);
+            if (holder.cbBoth.getVisibility() == View.VISIBLE) {
+                if (!holder.cbParent.isEnabled() && !holder.cbStudent.isEnabled()) {
+                    holder.cbBoth.setEnabled(false);
+                    holder.cbBoth.setBackground(disableDrawable);
+                } else {
+                    holder.cbBoth.setEnabled(true);
+                    holder.cbBoth.setBackground(null);
+                }
+                if (holder.cbBoth.isEnabled()) {
+                    holder.cbBoth.setChecked(
+                            (recipientData.isCheckParent || TextUtils.isEmpty(recipientData.parentPhoneNumber) || (_isIgnoreInstalled && recipientData.parentInstall.equals("Y")))
+                                    && (recipientData.isCheckStudent || TextUtils.isEmpty(recipientData.stPhoneNumber) || (_isIgnoreInstalled && recipientData.stInstall.equals("Y")))
+                    );
+                }
             }else{
-                holder.cbBoth.setEnabled(true);
                 holder.cbBoth.setBackground(null);
             }
-            if(holder.cbBoth.isEnabled()) {
-                holder.cbBoth.setChecked(
-                        (recipientData.isCheckParent || TextUtils.isEmpty(recipientData.parentPhoneNumber) || (_isIgnoreInstalled && recipientData.parentInstall.equals("Y")))
-                                && (recipientData.isCheckStudent || TextUtils.isEmpty(recipientData.stPhoneNumber) || (_isIgnoreInstalled && recipientData.stInstall.equals("Y")))
-                );
-            }
-        }else{
+        }else{  //보기 모드
             holder.rootView.setClickable(true);
+            holder.layoutCheckBoxBoth.setClickable(false);
+            holder.layoutCheckBoxStudent.setClickable(false);
+            holder.layoutCheckBoxParent.setClickable(false);
             holder.cbParent.setVisibility(View.INVISIBLE);
-            if (TextUtils.isEmpty(recipientData.parentPhoneNumber)) {
-                holder.viewParentInstall.setBackground(null);
-            } else {
-                if (recipientData.parentInstall.equals("Y")) {
-                    holder.viewParentInstall.setBackground(installedDrawable);
+            if(_columnType == Constants.ShowCheckboxColumnType.TYPE_BOTH ||
+                _columnType == Constants.ShowCheckboxColumnType.TYPE_PARENT_ONLY) {
+                if (TextUtils.isEmpty(recipientData.parentPhoneNumber)) {
+                    holder.viewParentInstall.setBackground(null);
                 } else {
-                    holder.viewParentInstall.setBackground(uninstalledDrawable);
+                    if (recipientData.parentInstall.equals("Y")) {
+                        holder.viewParentInstall.setBackground(installedDrawable);
+                    } else {
+                        holder.viewParentInstall.setBackground(uninstalledDrawable);
+                    }
                 }
+            }else{
+                holder.viewParentInstall.setBackground(null);
             }
             holder.cbStudent.setVisibility(View.INVISIBLE);
-            if (TextUtils.isEmpty(recipientData.stPhoneNumber)) {
-                holder.viewStudentInstall.setBackground(null);
-            } else {
-                if (recipientData.stInstall.equals("Y")) {
-                    holder.viewStudentInstall.setBackground(installedDrawable);
+            if(_columnType == Constants.ShowCheckboxColumnType.TYPE_BOTH ||
+                    _columnType == Constants.ShowCheckboxColumnType.TYPE_STUDENT_ONLY) {
+                if (TextUtils.isEmpty(recipientData.stPhoneNumber)) {
+                    holder.viewStudentInstall.setBackground(null);
                 } else {
-                    holder.viewStudentInstall.setBackground(uninstalledDrawable);
+                    if (recipientData.stInstall.equals("Y")) {
+                        holder.viewStudentInstall.setBackground(installedDrawable);
+                    } else {
+                        holder.viewStudentInstall.setBackground(uninstalledDrawable);
+                    }
                 }
+            }else{
+                holder.viewStudentInstall.setBackground(null);
             }
             holder.cbBoth.setVisibility(View.INVISIBLE);
         }
@@ -265,7 +313,7 @@ public class RecipientListAdapter extends RecyclerView.Adapter<RecipientListAdap
                         recipient.isCheckStudent = b;
 //                        notifyItemChanged(position);
                         if(cbBoth.isEnabled()) {
-                            if (b && (recipient.isCheckParent || TextUtils.isEmpty(recipient.parentPhoneNumber) || recipient.parentInstall.equals("Y"))) {
+                            if (b && (recipient.isCheckParent || TextUtils.isEmpty(recipient.parentPhoneNumber) || (_isIgnoreInstalled && recipient.parentInstall.equals("Y")))) {
                                 cbBoth.setChecked(true);
                             } else {
                                 cbBoth.setChecked(false);
@@ -287,7 +335,7 @@ public class RecipientListAdapter extends RecyclerView.Adapter<RecipientListAdap
                         recipient.isCheckParent = b;
 //                        notifyItemChanged(position);
                         if(cbBoth.isEnabled()) {
-                            if (b && (recipient.isCheckStudent || TextUtils.isEmpty(recipient.stPhoneNumber) || recipient.stInstall.equals("Y"))) {
+                            if (b && (recipient.isCheckStudent || TextUtils.isEmpty(recipient.stPhoneNumber) || (_isIgnoreInstalled && recipient.stInstall.equals("Y")))) {
                                 cbBoth.setChecked(true);
                             } else {
                                 cbBoth.setChecked(false);
@@ -348,7 +396,7 @@ public class RecipientListAdapter extends RecyclerView.Adapter<RecipientListAdap
                         RecipientStudentData recipient = _filteredlist.get(position);
                         if (cbParent.isEnabled()) {
                             cbParent.setChecked(!cbParent.isChecked());
-                            _itemClickListener.onCheckedParent(getBindingAdapterPosition(), cbParent.isChecked());
+                            _itemClickListener.onCheckedParent(position, cbParent.isChecked());
                         } else {
                             if(TextUtils.isEmpty(recipient.parentPhoneNumber)) {
                                 Toast.makeText(_context, R.string.error_msg_empty_phonenumber, Toast.LENGTH_SHORT).show();

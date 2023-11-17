@@ -25,7 +25,7 @@ public class IntentParams {
     public final static String PARAM_STU_GRADECODE = "gradeCode";  // 구분 코드
 
 
-    public final static String PARAM_CHILD_STUDENT_INFO = "childStudentInfo";  // 자녀원생 정보
+    public final static String PARAM_STUDENT_INFO = "studentInfo";  // 원생 정보
     public final static String PARAM_ANNOUNCEMENT_INFO = "announcementInfo";  // 선택한 공지사항 정보
     public final static String PARAM_ANNOUNCEMENT_SEQ = "announcementSeq";  // 공지사항 게시글 seq
     public final static String PARAM_BOARD_POSITION = "board_position";  // 선택한 아이템 position
@@ -58,4 +58,6 @@ public class IntentParams {
     public final static String PARAM_MANAGER_INFO = "managerInfo"; // Main에서 강사프로필 클릭 시 전달
     public final static String PARAM_LEVELTEST_INFO = "levelTestInfo";  // 선택한 레벨테스트 정보
     public final static String PARAM_RECIPIENT_FILTERTYPE = "recipientFilterType";  //띄워야 할 수신인 FilterType
+    //성적표
+    public final static String PARAM_REPORT_CARD_LIST = "reportcardlist";  // 선택한 성적표 정보
 }

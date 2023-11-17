@@ -8,14 +8,12 @@ import android.os.Message;
 import android.text.SpannableString;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
-import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,7 +43,6 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import kr.jeet.edu.manager.R;
-import kr.jeet.edu.manager.adapter.AttendanceSpinnerAdapter;
 import kr.jeet.edu.manager.adapter.RecipientListAdapter;
 import kr.jeet.edu.manager.adapter.SchoolListAdapter;
 import kr.jeet.edu.manager.adapter.WrapContentSpinnerAdapter;
@@ -136,7 +133,7 @@ public class AppendRecipientActivity extends BaseActivity implements MonthPicker
                 case CMD_GET_ACA_LIST:
                     break;
                 case CMD_GET_DEPT_LIST:
-                    if (_DeptList != null) {
+                    if (_DeptList != null && !_DeptList.isEmpty()) {
                         spinnerDept.setEnabled(true);
 //                        spinnerDept.setItems(_DeptList.stream().map(t -> t.deptName).collect(Collectors.toList()));
                         Utils.updateSpinnerList(spinnerDept, _DeptList.stream().map(t -> t.deptName).collect(Collectors.toList()));
@@ -144,7 +141,7 @@ public class AppendRecipientActivity extends BaseActivity implements MonthPicker
                     }
                     break;
                 case CMD_GET_CLST_LIST:
-                    if (_ClstList != null) {
+                    if (_ClstList != null && !_ClstList.isEmpty()) {
                         spinnerClst.setEnabled(true);
 //                        spinnerClst.setItems(_ClstList.stream().map(t -> t.clstName).collect(Collectors.toList()));
 
@@ -152,7 +149,7 @@ public class AppendRecipientActivity extends BaseActivity implements MonthPicker
                     }
                     break;
                 case CMD_GET_CLASS_LIST:
-                    if (_ClassList != null) {
+                    if (_ClassList != null && !_ClassList.isEmpty()) {
                         spinnerClass.setEnabled(true);
 //                        spinnerClass.setItems(_ClassList.stream().map(t -> t.clsName).collect(Collectors.toList()));
 
@@ -222,7 +219,6 @@ public class AppendRecipientActivity extends BaseActivity implements MonthPicker
     }
     @Override
     void initView() {
-        findViewById(R.id.layout_root).setOnClickListener(this);
         //region button
         tvSearchBtn = findViewById(R.id.tv_search_btn);
         tvSearchBtn.setOnClickListener(this);
@@ -501,7 +497,7 @@ public class AppendRecipientActivity extends BaseActivity implements MonthPicker
                     LogMgr.e(TAG, "onCheckedParent in adapter " + b);
                     cbParentTotal.setChecked(false);
                 }else {
-                    if (_adapterRecipient._filteredlist.stream().allMatch(t -> t.isCheckParent == true)) {
+                    if (_adapterRecipient._filteredlist.stream().allMatch(t -> t.isCheckParent == true|| TextUtils.isEmpty(t.parentPhoneNumber))) {
                         LogMgr.e(TAG, "onCheckedParent in allmatch true");
                         cbParentTotal.setChecked(true);
                     } else {
@@ -517,7 +513,7 @@ public class AppendRecipientActivity extends BaseActivity implements MonthPicker
                 if(!b) {
                     cbStudentTotal.setChecked(false);
                 }else {
-                    if (_adapterRecipient._filteredlist.stream().allMatch(t -> t.isCheckStudent == true)) {
+                    if (_adapterRecipient._filteredlist.stream().allMatch(t -> t.isCheckStudent == true || TextUtils.isEmpty(t.stPhoneNumber))) {
                         cbStudentTotal.setChecked(true);
                     } else {
                         cbStudentTotal.setChecked(false);
@@ -532,14 +528,14 @@ public class AppendRecipientActivity extends BaseActivity implements MonthPicker
 
                 }else {
                     LogMgr.e(TAG, "itemcount > 0");
-                    if (_adapterRecipient._filteredlist.stream().allMatch(t -> t.isCheckParent)) {
+                    if (_adapterRecipient._filteredlist.stream().allMatch(t -> t.isCheckParent || TextUtils.isEmpty(t.parentPhoneNumber))) {
                         LogMgr.e(TAG, "searchFilter in allmatch true");
                         cbParentTotal.setChecked(true);
                     } else {
                         LogMgr.e(TAG, "searchFilter in allmatch false");
                         cbParentTotal.setChecked(false);
                     }
-                    if (_adapterRecipient._filteredlist.stream().allMatch(t -> t.isCheckStudent)) {
+                    if (_adapterRecipient._filteredlist.stream().allMatch(t -> t.isCheckStudent || TextUtils.isEmpty(t.stPhoneNumber))) {
                         cbStudentTotal.setChecked(true);
                     } else {
                         cbStudentTotal.setChecked(false);
@@ -644,9 +640,6 @@ public class AppendRecipientActivity extends BaseActivity implements MonthPicker
     @Override
     public void onClick(View view) {
         switch(view.getId()) {
-            case R.id.layout_root:
-                Utils.hideKeyboard(mContext, etSearch);
-                break;
             case R.id.tv_content_date:
                 LogMgr.e(TAG, "yearmonthpicker");
                 Calendar cal = Calendar.getInstance();
@@ -654,7 +647,6 @@ public class AppendRecipientActivity extends BaseActivity implements MonthPicker
                 Utils.yearMonthPicker(mContext, this, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH));
                 break;
             case R.id.tv_search_btn:
-                Utils.hideKeyboard(mContext, etSearch);
                 if(checkValid()) {
                     _handler.sendEmptyMessage(CMD_SEARCH);
                 }
@@ -838,13 +830,15 @@ public class AppendRecipientActivity extends BaseActivity implements MonthPicker
                             if (response.body() != null) {
 
                                 List<DepartmentData> getData = response.body().data;
-                                if (getData != null) {
+                                _DeptList.clear();
+                                if (getData != null && !getData.isEmpty()) {
 //                                    if (getData.size() != _DeptList.size()) Utils.updateSpinnerList(spinnerDept);
-                                    _DeptList.clear();
+
                                     _DeptList.add(new DepartmentData(getString(R.string.item_total), 0));
                                     _DeptList.addAll(getData);
-                                    _handler.sendEmptyMessage(CMD_GET_DEPT_LIST);
+
                                 } else LogMgr.e(TAG + " DetailData is null");
+                                _handler.sendEmptyMessage(CMD_GET_DEPT_LIST);
                             }
                         } else {
                             Toast.makeText(mContext, R.string.server_fail, Toast.LENGTH_SHORT).show();
@@ -884,13 +878,15 @@ public class AppendRecipientActivity extends BaseActivity implements MonthPicker
                             if (response.body() != null) {
 
                                 List<ClstData> getData = response.body().data;
-                                if (getData != null) {
+                                _ClstList.clear();
+                                if (getData != null && !getData.isEmpty()) {
 //                                    if (getData.size() != _ClstList.size()) Utils.updateSpinnerList(spinnerClst);
-                                    _ClstList.clear();
+
                                     _ClstList.add(new ClstData(getString(R.string.item_total), 0));
                                     _ClstList.addAll(getData);
-                                    _handler.sendEmptyMessage(CMD_GET_CLST_LIST);
+
                                 } else LogMgr.e(TAG + " DetailData is null");
+                                _handler.sendEmptyMessage(CMD_GET_CLST_LIST);
                             }
                         } else {
                             Toast.makeText(mContext, R.string.server_fail, Toast.LENGTH_SHORT).show();
@@ -923,7 +919,7 @@ public class AppendRecipientActivity extends BaseActivity implements MonthPicker
         if (RetrofitClient.getInstance() != null) {
             _retrofitApi = RetrofitClient.getApiInterface();
 
-            _retrofitApi.getClassList(acaCode, deptCode, clstCode, date).enqueue(new Callback<GetClassListResponse>() {
+            _retrofitApi.getClassList2(acaCode, deptCode, clstCode, date, _sfCode).enqueue(new Callback<GetClassListResponse>() {
                 @Override
                 public void onResponse(Call<GetClassListResponse> call, Response<GetClassListResponse> response) {
                     try {
@@ -932,9 +928,10 @@ public class AppendRecipientActivity extends BaseActivity implements MonthPicker
                             if (response.body() != null) {
 
                                 List<ClassData> getData = response.body().data;
-                                if (getData != null) {
+                                _ClassList.clear();
+                                if (getData != null && !getData.isEmpty()) {
 //                                    if (getData.size() != _ClassList.size()) Utils.updateSpinnerList(spinnerClass);
-                                    _ClassList.clear();
+
                                     _ClassList.add(new ClassData(getString(R.string.item_total), 0));
                                     _ClassList.addAll(getData);
                                     _handler.sendEmptyMessage(CMD_GET_CLASS_LIST);
@@ -965,7 +962,7 @@ public class AppendRecipientActivity extends BaseActivity implements MonthPicker
             _retrofitApi = RetrofitClient.getApiInterface();
             Call<GetRecipientStudentResponse> call = null;
             if(_filterType.equals(Constants.RecipientFilterType.TYPE_CLASS)) {
-                call = _retrofitApi.getRecipientStudentList(acaCode, deptCode, clstCode, clsCode, date);
+                call = _retrofitApi.getRecipientStudentList3(acaCode, deptCode, clstCode, clsCode, date, _sfCode);
             }else{
                 int scCode = 0;
                 if(_selectedSchoolData != null) scCode = _selectedSchoolData.scCode;
@@ -1040,22 +1037,4 @@ public class AppendRecipientActivity extends BaseActivity implements MonthPicker
         }
     }
 
-//    private void updateSpinnerList(PowerSpinnerView powerSpinner, List<String> newList) {
-//        powerSpinner.setItems(newList);
-//        PopupWindow popupWindow = powerSpinner.getSpinnerWindow();
-//        if (popupWindow != null) {
-//            int itemCount = newList.size();
-//            int maxHeight = calculatePopupMaxHeight(itemCount);
-//            popupWindow.setHeight(maxHeight);
-//        }
-//    }
-//
-//    private int calculatePopupMaxHeight(int itemCount) {
-//        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
-//        int screenHeight = displayMetrics.heightPixels;
-//        int maxItemHeight = getResources().getDimensionPixelSize(R.dimen.spinner_item_height); // spinner에서 설정한 item 의 높이
-//        int maxHeight = Math.min(screenHeight * 4 / 5, maxItemHeight * itemCount);
-//
-//        return maxHeight;
-//    }
 }

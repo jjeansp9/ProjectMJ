@@ -37,6 +37,7 @@
     <dimen name="profile_size">80dp</dimen>
     <dimen name="spinner_item_height">38dp</dimen>
     <dimen name="spinner_item_height_small">36dp</dimen>
+    <dimen name="spinner_reportcard_width">120dp</dimen>
     <dimen name="spinner_popup_elevation">2dp</dimen>
     <dimen name="image_pallet_size">108dp</dimen>
     <dimen name="briefing_main_image_size">128dp</dimen>

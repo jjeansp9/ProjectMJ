@@ -90,7 +90,6 @@ public class JoinActivity extends BaseActivity {
     }
     @Override
     void initView() {
-        findViewById(R.id.join_root).setOnClickListener(this);
         findViewById(R.id.btn_next).setOnClickListener(this);
 //        findViewById(R.id.btn_check_phone).setOnClickListener(this);
         _authPhoneNoView = findViewById(R.id.cv_auth_phoneno);
@@ -178,7 +177,6 @@ public class JoinActivity extends BaseActivity {
 
         switch (view.getId()) {
             case R.id.btn_next:
-                Utils.hideKeyboard(mContext, mEditName, mEditId, mEditPassword1, mEditPassword2);
                 if(checkJoin()) {
                     if(mLoginType == Constants.LOGIN_TYPE_NORMAL) {
                         userJoin();
@@ -192,9 +190,6 @@ public class JoinActivity extends BaseActivity {
 
                 }
                 break;
-            case R.id.join_root:
-                Utils.hideKeyboard(mContext, mEditName, mEditId, mEditPassword1, mEditPassword2);
-                break;
         }
     }
 
@@ -203,13 +198,13 @@ public class JoinActivity extends BaseActivity {
         String name = mEditName.getText().toString();
 
         if(TextUtils.isEmpty(name)) {
-            showKeyboard(mContext, mEditName);
+            showKeyboard(mEditName);
             Toast.makeText(mContext, R.string.empty_name, Toast.LENGTH_SHORT).show();
             return false;
         }
 
         if(!Utils.nameCheck(name)) {
-            showKeyboard(mContext, mEditName);
+            showKeyboard(mEditName);
             Toast.makeText(mContext, R.string.check_name_pattern, Toast.LENGTH_SHORT).show();
             return false;
         }
@@ -217,17 +212,17 @@ public class JoinActivity extends BaseActivity {
         // 일반 회원가입인 경우 패스워드 체크
         if(mLoginType == Constants.LOGIN_TYPE_NORMAL) {
             if (mEditId.getText().toString().length() < MIN_ID_LENGTH){
-                showKeyboard(mContext, mEditId);
+                showKeyboard(mEditId);
                 Toast.makeText(mContext, R.string.check_id_min_length, Toast.LENGTH_SHORT).show();
                 return false;
             }
             if (TextUtils.isEmpty(mEditPassword1.getText().toString())){
-                showKeyboard(mContext, mEditPassword1);
+                showKeyboard(mEditPassword1);
                 Toast.makeText(mContext, R.string.password_empty, Toast.LENGTH_SHORT).show();
                 return false;
             }
             if (TextUtils.isEmpty(mEditPassword2.getText().toString())){
-                showKeyboard(mContext, mEditPassword2);
+                showKeyboard(mEditPassword2);
                 Toast.makeText(mContext, R.string.password_empty, Toast.LENGTH_SHORT).show();
                 return false;
             }

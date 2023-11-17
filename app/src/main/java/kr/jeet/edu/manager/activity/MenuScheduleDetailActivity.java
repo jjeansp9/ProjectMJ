@@ -26,6 +26,7 @@ import com.google.android.flexbox.JustifyContent;
 import com.tomergoldst.tooltips.ToolTip;
 import com.tomergoldst.tooltips.ToolTipsManager;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -50,11 +51,11 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MenuScheduleDetailActivity extends BaseActivity implements ToolTipsManager.TipListener {
+public class MenuScheduleDetailActivity extends BaseActivity { //implements ToolTipsManager.TipListener {
 
     private static final String TAG = "ScheduleDetailActivity";
 
-    private TextView tvDate, tvCampus, tvTitle, tvTarget, tvContent;
+    private TextView tvDate, tvCampus, tvTitle, tvTarget, tvContent, tvWriter;
 
     private ScheduleData _currentData = null;
     private TextView tvRecipient;
@@ -97,7 +98,7 @@ public class MenuScheduleDetailActivity extends BaseActivity implements ToolTips
         mContext = this;
         _userGubun = PreferenceUtil.getUserGubun(this);
         _seq = PreferenceUtil.getUserSeq(this);
-        toolTipsMgr = new ToolTipsManager(this);
+//        toolTipsMgr = new ToolTipsManager(this);
         initIntentData();
         initView();
         initAppbar();
@@ -142,6 +143,7 @@ public class MenuScheduleDetailActivity extends BaseActivity implements ToolTips
         tvCampus = findViewById(R.id.tv_sc_detail_campus);
         tvTarget = findViewById(R.id.tv_sc_detail_target);
         tvTitle = findViewById(R.id.tv_sc_detail_title);
+        tvWriter = findViewById(R.id.tv_sc_detail_name);
         tvContent = findViewById(R.id.tv_sc_detail_content);
         tvRecipient = findViewById(R.id.tv_recipient_count);
         layoutControlRecipient = findViewById(R.id.layout_recipient_control);
@@ -349,8 +351,8 @@ public class MenuScheduleDetailActivity extends BaseActivity implements ToolTips
 
     }
 
-    @Override
-    public void onTipDismissed(View view, int anchorViewId, boolean byUser) {}
+//    @Override
+//    public void onTipDismissed(View view, int anchorViewId, boolean byUser) {}
 //
 //    private void navigate2DetailActivity(RecipientData data) {
 //        Intent intent = new Intent(mContext, DetailStudentInfoActivity.class);

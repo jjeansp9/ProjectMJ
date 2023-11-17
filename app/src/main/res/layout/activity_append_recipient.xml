@@ -26,8 +26,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toTopOf="@id/refresh_layout"
             android:paddingHorizontal="@dimen/layout_margin_small"
-            android:paddingTop="@dimen/layout_margin_xsmall"
-            android:paddingBottom="@dimen/layout_margin_xxxsmall"
+            android:paddingVertical="@dimen/layout_margin_xsmall"
             android:background="@color/bg_gray"
             android:animateLayoutChanges="true">
             <androidx.constraintlayout.widget.Guideline
@@ -226,7 +225,7 @@
                 app:layout_constraintTop_toBottomOf="@id/spinner_dept"
                 app:layout_constraintBottom_toTopOf="@id/layout_total_checkbox"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/guideline_v60"
+                app:layout_constraintEnd_toEndOf="@id/spinner_clst"
                 android:layout_marginTop="@dimen/layout_margin_xxsmall"
                 android:background="@drawable/bg_edittext"
                 android:textSize="@dimen/font_size"
@@ -243,7 +242,7 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toTopOf="@id/et_search"
                 app:layout_constraintBottom_toBottomOf="@id/et_search"
-                app:layout_constraintStart_toEndOf="@id/guideline_v60"
+                app:layout_constraintStart_toEndOf="@id/et_search"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:drawableStart="@drawable/ic_vector_search"
                 android:drawablePadding="@dimen/layout_margin_xxsmall"
@@ -267,7 +266,7 @@
                 app:layout_constraintStart_toStartOf="parent"
 
                 android:orientation="horizontal"
-                android:paddingVertical="@dimen/layout_margin_xxsmall"
+                android:paddingTop="@dimen/layout_margin_xxsmall"
                 android:paddingRight="@dimen/layout_margin_xsmall"
                 android:gravity="center_vertical"
                 android:stateListAnimator="@xml/animate_button_push">
@@ -307,7 +306,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@id/guideline_v80"
                 android:orientation="horizontal"
-                android:paddingVertical="@dimen/layout_margin_xxsmall"
+                android:paddingTop="@dimen/layout_margin_xxsmall"
                 android:gravity="center_vertical"
                 android:stateListAnimator="@xml/animate_button_push"
                 android:animateLayoutChanges="true">
@@ -340,7 +339,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1"
                 android:orientation="horizontal"
-                android:paddingVertical="@dimen/layout_margin_xxsmall"
+                android:paddingTop="@dimen/layout_margin_xxsmall"
                 android:gravity="center_vertical"
                 android:stateListAnimator="@xml/animate_button_push"
                 android:animateLayoutChanges="true">
@@ -398,7 +397,7 @@
             android:paddingHorizontal="@dimen/layout_margin_small"
             android:gravity="center"
             android:text="@string/empty_list_recipient"
-            android:textSize="@dimen/font_size"
+            android:textSize="@dimen/font_size_xlarge"
             android:textColor="@color/font_color_999"
             android:elevation="@dimen/layout_margin_xxxsmall"/>
     </androidx.constraintlayout.widget.ConstraintLayout>

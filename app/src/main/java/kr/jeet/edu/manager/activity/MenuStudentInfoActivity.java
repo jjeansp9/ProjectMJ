@@ -40,7 +40,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import kr.jeet.edu.manager.R;
-import kr.jeet.edu.manager.adapter.AttendanceSpinnerAdapter;
+import kr.jeet.edu.manager.adapter.ColoredSpinnerAdapter;
 import kr.jeet.edu.manager.adapter.StudentInfoListAdapter;
 import kr.jeet.edu.manager.adapter.WrapContentSpinnerAdapter;
 import kr.jeet.edu.manager.common.Constants;
@@ -332,7 +332,7 @@ public class MenuStudentInfoActivity extends BaseActivity implements DatePickerF
         _spinnerAttendanceMultiple = findViewById(R.id.spinner_attendance_status_all);
         _spinnerAttendanceMultiple.setIsFocusable(true);
         _spinnerAttendanceMultiple.setItems(Constants.AttendanceStatus.getNameList());
-        AttendanceSpinnerAdapter adapter = new AttendanceSpinnerAdapter(mContext, Constants.AttendanceStatus.getColoredNameList(mContext), _spinnerAttendanceMultiple);
+        ColoredSpinnerAdapter adapter = new ColoredSpinnerAdapter(mContext, Constants.AttendanceStatus.getColoredNameList(mContext), _spinnerAttendanceMultiple);
         _spinnerAttendanceMultiple.setSpinnerAdapter(adapter);
         _spinnerAttendanceMultiple.setSpinnerPopupHeight(ConstraintLayout.LayoutParams.WRAP_CONTENT);
         _spinnerAttendanceMultiple.setOnSpinnerItemSelectedListener(new OnSpinnerItemSelectedListener<SpannableString>() {
@@ -765,6 +765,7 @@ public class MenuStudentInfoActivity extends BaseActivity implements DatePickerF
         request.clsCode = clsCode;
         request.clsName = _selectedClassData.clsName;
         request.stCode = sbStCode.toString();
+        request.sfCode = _sfCode;
         request.stName = data.stName;
         request.attendanceGubun = sbAttendanceGubun.toString();
         request.isPushSend = isPushUpdate? "Y" : "N";

@@ -77,7 +77,7 @@ public class FindCredentialsActivity extends BaseActivity {
     }
     @Override
     void initView() {
-        findViewById(R.id.layout_root).setOnClickListener(this);
+//        findViewById(R.id.layout_root).setOnClickListener(this);
         findViewById(R.id.btn_next).setOnClickListener(this);
 //        findViewById(R.id.btn_check_phone).setOnClickListener(this);
 
@@ -121,11 +121,7 @@ public class FindCredentialsActivity extends BaseActivity {
         super.onClick(view);
 
         switch (view.getId()) {
-            case R.id.layout_root:
-                Utils.hideKeyboard(mContext, mEditId);
-                break;
             case R.id.btn_next:
-                hideKeyboard();
                 if(checkFind()) {
                     if(mFindType == Constants.FIND_TYPE_ID) {
                         LogMgr.e(TAG, "findID");
@@ -147,7 +143,7 @@ public class FindCredentialsActivity extends BaseActivity {
         // ID 인 경우 id 체크
         if(mFindType == Constants.FIND_TYPE_PW) {
             if (TextUtils.isEmpty(mEditId.getText().toString())) {
-                showKeyboard(mContext, mEditId);
+                showKeyboard(mEditId);
                 Toast.makeText(mContext, R.string.check_id_empty, Toast.LENGTH_SHORT).show();
                 return false;
             }
@@ -324,12 +320,6 @@ public class FindCredentialsActivity extends BaseActivity {
         }
     }
 
-    private void hideKeyboard() {
-        InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(mEditId.getWindowToken(), 0);
-        _authPhoneNoView.hideKeyboard(imm);
-//        mEditName.clearFocus();
-    }
 
 
 

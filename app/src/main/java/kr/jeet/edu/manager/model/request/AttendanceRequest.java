@@ -6,6 +6,9 @@ public class AttendanceRequest {
     @SerializedName("stCode")
     public String stCode;
 
+    @SerializedName("sfCode")
+    public int sfCode;
+
     @SerializedName("stName")
     public String stName;
 

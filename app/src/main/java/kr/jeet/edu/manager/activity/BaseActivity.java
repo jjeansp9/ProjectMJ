@@ -195,6 +195,7 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
         controller.setAppearanceLightStatusBars(lightStatusBar); // status bar
         controller.setAppearanceLightNavigationBars(lightNavigationBar); // navigation bar
     }
+
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
@@ -211,9 +212,9 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
         }
         return super.dispatchTouchEvent( event );
     }
-    public static void showKeyboard(Context context, View view) {
+    protected void showKeyboard(View view) {
         view.requestFocus();
-        InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+        InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
         if (imm != null) {
             imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT);
         }

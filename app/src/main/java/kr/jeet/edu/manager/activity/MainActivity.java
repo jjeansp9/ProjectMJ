@@ -557,6 +557,7 @@ public class MainActivity extends BaseActivity {
                         if(response.body() != null) {
                             ManagerInfo res = response.body().data;
                             _managerInfo = res;
+                            PreferenceUtil.setUserName(mContext, res.name);
                             tvManagerName.setText(res.name);
                             //API 변경으로 찾을 필요 없어짐
 //                            if(DataManager.getInstance().getACAList() != null) {
@@ -751,7 +752,8 @@ public class MainActivity extends BaseActivity {
         menuList.add(new MainMenuItemData(R.drawable.icon_menu_bus, R.string.main_menu_bus_info, MenuBusActivity.class));
         //설명회예약
         menuList.add(new MainMenuItemData(R.drawable.icon_menu_briefing, R.string.main_menu_briefing_reserve, MenuBriefingActivity.class));
-
+        //성적표
+        menuList.add(new MainMenuItemData(R.drawable.icon_menu_report, R.string.title_report_card, MenuReportCardActivity.class));
         mListAdapter.notifyDataSetChanged();
     }
 
@@ -772,7 +774,7 @@ public class MainActivity extends BaseActivity {
     }
     private void setAnnouncementView() {
         _announcementListAdapter.notifyDataSetChanged();
-        if(announcementList == null || announcementList.size() == 0) {
+        if(announcementList == null || announcementList.isEmpty()) {
             tvEmptyList.setVisibility(View.VISIBLE);
         }else{
             tvEmptyList.setVisibility(View.GONE);

@@ -160,9 +160,11 @@
     <string name="msg_empty_day_of_week">요일을 선택해 주세요.</string>
     <string name="msg_empty_time">시간을 설정해 주세요.</string>
     <string name="msg_duplicate_data">동일한 시간이 있습니다.</string>
+    <string name="hint_reportcard_select">미지정</string>
+    <string name="hint_reportcard_content">전달사항을 입력해주세요. (필수)</string>
 
 
-    <string name="main_menu_student_info">원생정보</string>
+    <string name="main_menu_student_info">원생목록</string>
     <string name="main_menu_student_manage">원생관리</string>
     <string name="main_menu_announcement">공지사항</string>
     <string name="main_menu_announcement_summary">최근 공지사항</string>
@@ -177,7 +179,10 @@
     <string name="title_register_briefing">설명회 등록</string>
     <string name="title_edit_briefing">설명회 수정</string>
     <string name="title_append_recipient">알림수신인 추가</string>
+    <string name="title_send_report_card">성적표 전송</string>
     <string name="announcement_list_empty">공지사항이 없습니다</string>
+
+    <string name="title_report_card">성적표</string>
 
     <string name="settings_title">설정</string>
     <string name="settings_notice_system">시스템알림</string>
@@ -212,6 +217,7 @@
     <string name="title_main_request_consulting">학부모\n상담요청</string>
     <string name="title_request_consulting">상담요청</string>
     <string name="menu_item_settings">설정</string>
+    <string name="menu_item_send">전송</string>
     <string name="menu_item_add">작성</string>
     <string name="menu_item_edit">수정</string>
     <string name="menu_item_delete">삭제</string>
@@ -261,6 +267,7 @@
     <string name="error_msg_empty_phonenumber">전화번호 정보가 없습니다.</string>
     <string name="error_msg_already_install">이미 설치되어 있습니다.</string>
     <string name="msg_empty_announcement_full">공지사항이 없습니다.</string>
+    <string name="description_announcement_recipient">공지사항 알림을 보낼 수신인을 추가해 주세요.</string>
 
     <!-- 원생정보 -->
     <string name="format_count_per_all">%d / %d</string>
@@ -324,6 +331,7 @@
     <string name="recipient_unit">명</string>
     <string name="selected_count">선택 %d 명</string>
     <string name="content_recipient_counts">총 %d명</string>
+    <string name="content_item_counts">총 %d건</string>
     <string name="briefing_reserved_list">예약자 명단</string>
     <string name="title_memo">메모</string>
 
@@ -331,7 +339,6 @@
     <string name="description_briefing_recipient">설명회 안내 알림을 보낼 수신인을 추가해 주세요.\n(알림은 추가된 수신인에게 전송됩니다.)</string>
     <string name="empty_list_recipient">필터를 설정하고 검색버튼을 눌러\n조건에 맞는 학생을 검색할 수 있습니다.\n또한 이름을 검색하여\n원하는 학생을 찾을 수 있습니다.</string>
     <string name="msg_fail_to_register_recipient">게시글 작성은 완료되었으나 알림 전송에 실패하였습니다.</string>
-    <string name="error_msg_have_to_select_dept">최소한 </string>
 
     <string name="description_notice_recipient">알림을 보낼 수신인을 추가해 주세요.</string>
     <string name="msg_fail_to_register_notice_recipient">알림 작성은 완료되었으나 알림 전송에 실패하였습니다.</string>
@@ -407,4 +414,10 @@
     <string name="msg_empty_open_with">파일을 실행할 앱이 확인되지 않습니다. 실행할 앱을 다운로드해 주세요.</string>
     <string name="board_item_confirm_download">Download 폴더에 동일한 이름의 파일이 이미 있습니다.\n다운로드하시겠습니까?</string>
     <string name="description_file_open_after_download">선택한 파일을 다운로드하였습니다.\n파일을 여시겠습니까?</string>
+
+    <string name="empty_reportcard_content">전달사항을 입력해주세요.</string>
+    <string name="error_reportcard_select_type">성적표 구분값을 모두 선택해 주세요.</string>
+    <string name="empty_list_report_card">성적표 정보가 없습니다.</string>
+    <string name="msg_confirm_send_reportcard">성적표를 전송하시겠습니까?</string>
+    <string name="msg_send_reportcard_success">성적표 전송을 완료하였습니다.</string>
 </resources>

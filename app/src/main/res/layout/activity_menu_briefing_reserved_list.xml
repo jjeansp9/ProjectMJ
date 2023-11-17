@@ -126,7 +126,7 @@
                 android:text="예약자가 없습니다"
                 android:textSize="@dimen/font_size_xlarge"
                 android:visibility="gone"
-                android:textColor="@color/font_color_666"
+                android:textColor="@color/font_color_999"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

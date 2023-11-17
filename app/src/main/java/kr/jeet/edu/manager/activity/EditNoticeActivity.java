@@ -380,8 +380,6 @@ public class EditNoticeActivity extends BaseActivity {
     }
     @Override
     void initView() {
-        findViewById(R.id.layout_root).setOnClickListener(this);
-
         scrollView = ((NestedScrollView)findViewById(R.id.scrollview));
         layoutBottom = ((LinearLayoutCompat)findViewById(R.id.layout_bottom));
         spinnerCampus = findViewById(R.id.spinner_campus);
@@ -645,9 +643,6 @@ public class EditNoticeActivity extends BaseActivity {
     @Override
     public void onClick(View view) {
         switch(view.getId()) {
-            case R.id.layout_root:
-                Utils.hideKeyboard(mContext, etTitle, etContent);
-                break;
             case R.id.btn_attach_photo:
                 openImagePicker();
                 break;
@@ -667,7 +662,6 @@ public class EditNoticeActivity extends BaseActivity {
         if(selectedACA == null) {   //캠퍼스 선택
             spinnerCampus.requestFocus();
             Toast.makeText(mContext, R.string.error_message_unselected_campus, Toast.LENGTH_SHORT).show();
-
             return false;
         }
         if(_selectedGrade == null) {
@@ -676,12 +670,12 @@ public class EditNoticeActivity extends BaseActivity {
             return false;
         }
         if(TextUtils.isEmpty(etTitle.getText())) {   //제목
-            showKeyboard(mContext, etTitle);
+            showKeyboard(etTitle);
             Toast.makeText(mContext, R.string.error_message_empty_subject, Toast.LENGTH_SHORT).show();
             return false;
         }
         if(TextUtils.isEmpty(etContent.getText())) {   //내용
-            showKeyboard(mContext, etContent);
+            showKeyboard(etContent);
             Toast.makeText(mContext, R.string.error_message_empty_content, Toast.LENGTH_SHORT).show();
             return false;
         }
@@ -704,7 +698,7 @@ public class EditNoticeActivity extends BaseActivity {
         int screenHeight = getResources().getDisplayMetrics().heightPixels; // 디바이스 화면의 높이
         int resultLocation = location[1] + layoutBottom.getHeight();
 
-        if (resultLocation >= screenHeight) ((NestedScrollView)findViewById(R.id.scrollview)).smoothScrollTo(0 ,location[1], scrollDuration);
+        if (resultLocation >= screenHeight) scrollView.smoothScrollTo(0 ,location[1], scrollDuration);
 
         _handler.postDelayed(() -> {
             btnAppendRecipient.setPressed(true);
@@ -782,6 +776,7 @@ public class EditNoticeActivity extends BaseActivity {
         LogMgr.w(TAG, "requestUpdateRecipient  " + currentPage + " /" + totalPage + " / " +  prevResult);
         RecipientRequest request = new RecipientRequest();
         request.seq = seq;
+        request.sfCode = _sfCode;
         request.smsSender = selectedACA.acaTel;
         if(totalPage > 0) {
             if(currentPage < totalPage) {

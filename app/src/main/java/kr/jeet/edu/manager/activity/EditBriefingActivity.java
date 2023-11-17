@@ -492,7 +492,6 @@ public class EditBriefingActivity extends BaseActivity implements DatePickerFrag
     }
     @Override
     void initView() {
-        findViewById(R.id.layout_root).setOnClickListener(this);
         layoutBottom = findViewById(R.id.layout_bottom);
         spinnerCampus = findViewById(R.id.spinner_campus);
         tvDate = findViewById(R.id.tv_content_date);
@@ -889,9 +888,6 @@ public class EditBriefingActivity extends BaseActivity implements DatePickerFrag
     @Override
     public void onClick(View view) {
         switch(view.getId()) {
-            case R.id.layout_root:
-                Utils.hideKeyboard(mContext, etTitle, etContent, etLocation, etMemberCount);
-                break;
             case R.id.tv_content_date:
                 showDatePicker();
                 break;
@@ -923,22 +919,22 @@ public class EditBriefingActivity extends BaseActivity implements DatePickerFrag
             return false;
         }
         if(TextUtils.isEmpty(etTitle.getText())) {   //제목
-            showKeyboard(mContext, etTitle);
+            showKeyboard(etTitle);
             Toast.makeText(mContext, R.string.error_message_empty_subject, Toast.LENGTH_SHORT).show();
             return false;
         }
         if(TextUtils.isEmpty(etContent.getText())) {   //내용
-            showKeyboard(mContext, etContent);
+            showKeyboard(etContent);
             Toast.makeText(mContext, R.string.error_message_empty_content, Toast.LENGTH_SHORT).show();
             return false;
         }
         if(TextUtils.isEmpty(etLocation.getText())) {   //장소
-            showKeyboard(mContext, etLocation);
+            showKeyboard(etLocation);
             Toast.makeText(mContext, R.string.error_message_empty_location, Toast.LENGTH_SHORT).show();
             return false;
         }
         if(TextUtils.isEmpty(etMemberCount.getText())) {   //정원
-            showKeyboard(mContext, etMemberCount);
+            showKeyboard(etMemberCount);
             Toast.makeText(mContext, R.string.error_message_empty_member_count, Toast.LENGTH_SHORT).show();
             return false;
         }else{
@@ -950,7 +946,7 @@ public class EditBriefingActivity extends BaseActivity implements DatePickerFrag
                 }catch(Exception ex) {
                 }
                 if(quota < _currentData.reservationCnt) {
-                    showKeyboard(mContext, etMemberCount);
+                    showKeyboard(etMemberCount);
                     Toast.makeText(mContext, getString(R.string.error_message_over_reserved_cnt, _currentData.reservationCnt), Toast.LENGTH_SHORT).show();
                     return false;
                 }
@@ -1032,6 +1028,7 @@ public class EditBriefingActivity extends BaseActivity implements DatePickerFrag
         LogMgr.w(TAG, "requestUpdateRecipient  " + seq + " /" + currentPage + " / " +  prevResult);
         RecipientRequest request = new RecipientRequest();
         request.seq = seq;
+        request.sfCode = _sfCode;
         if(totalPage > 0) {
             if(currentPage < totalPage) {
                 request.receiverList = _recipientList.subList(currentPage * Constants.MAX_RECIPIENT_COUNT, (currentPage + 1) * Constants.MAX_RECIPIENT_COUNT);

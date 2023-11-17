@@ -12,6 +12,7 @@ import kr.jeet.edu.manager.model.request.SmsRequest;
 import kr.jeet.edu.manager.model.request.UpdateProfileRequest;
 import kr.jeet.edu.manager.model.request.UpdatePushStatusRequest;
 import kr.jeet.edu.manager.model.request.UpdatePushTokenRequest;
+import kr.jeet.edu.manager.model.request.UpdateReportCardRequest;
 import kr.jeet.edu.manager.model.response.AnnouncementListResponse;
 import kr.jeet.edu.manager.model.response.BCListResponse;
 import kr.jeet.edu.manager.model.response.BaseResponse;
@@ -43,6 +44,7 @@ import kr.jeet.edu.manager.model.response.LevelTestTimeListResponse;
 import kr.jeet.edu.manager.model.response.LevelTestTimeResponse;
 import kr.jeet.edu.manager.model.response.LoginResponse;
 import kr.jeet.edu.manager.model.response.NoticeListResponse;
+import kr.jeet.edu.manager.model.response.ReportCardListResponse;
 import kr.jeet.edu.manager.model.response.ScheduleDetailResponse;
 import kr.jeet.edu.manager.model.response.ScheduleListResponse;
 import kr.jeet.edu.manager.model.response.ScheduleRegisterResponse;
@@ -69,10 +71,10 @@ public interface RetrofitApi {
     // https://daldalhanstory.tistory.com/275
     // https://eunoia3jy.tistory.com/125
 
-    //public final static String SERVER_BASE_URL = "http://192.168.2.51:7777/";   //kyt local
-    //public final static String SERVER_BASE_URL = "http://192.168.2.55:7777/";   //pjh local
-    public final static String SERVER_BASE_URL = "http://192.168.2.77:7777/";  //khj local
-    //public final static String SERVER_BASE_URL = "http://211.252.86.237:7777/";  //cloud
+//    public final static String SERVER_BASE_URL = "http://192.168.2.51:7777/";   //kyt local
+//    public final static String SERVER_BASE_URL = "http://192.168.2.55:7777/";   //pjh local
+    //public final static String SERVER_BASE_URL = "http://192.168.2.77:7777/";  //khj local
+    public final static String SERVER_BASE_URL = "http://211.252.86.237:7777/";  //cloud
     public final static String PREFIX = "mobile/api/";
     public final static String FILE_SUFFIX_URL = SERVER_BASE_URL + "attachFile/";
 
@@ -165,12 +167,18 @@ public interface RetrofitApi {
     // 학급 목록 가져오기
     @GET("class")
     Call<GetClassListResponse> getClassList(@Query("acaCode") String acaCode, @Query("deptCode") int deptCode, @Query("clstCode") int clstCode, @Query("clYm") String clYm);
+    // 학급 목록 가져오기2
+    @GET("class2")
+    Call<GetClassListResponse> getClassList2(@Query("acaCode") String acaCode, @Query("deptCode") int deptCode, @Query("clstCode") int clstCode, @Query("clYm") String clYm, @Query("sfCode") int sfCode);
     //원생 목록 가져오기
     @GET("student")
     Call<GetRecipientStudentResponse> getRecipientStudentList(@Query("acaCode") String acaCode, @Query("deptCode") int deptCode, @Query("clstCode") int clstCode, @Query("clsCode") int clsCode, @Query("clYm") String clYm);
     //원생 목록 가져오기2
     @GET("student2")
     Call<GetRecipientStudentResponse> getRecipientStudentList2(@Query("acaCode") String acaCode, @Query("deptCode") int deptCode, @Query("clstCode") int clstCode, @Query("scCode") int scCode, @Query("gubun") int gubun);
+    //원생 목록 가져오기3
+    @GET("student3")
+    Call<GetRecipientStudentResponse> getRecipientStudentList3(@Query("acaCode") String acaCode, @Query("deptCode") int deptCode, @Query("clstCode") int clstCode, @Query("clsCode") int clsCode, @Query("clYm") String clYm, @Query("sfCode") int sfCode);
     //  회원정보 조회
     @GET("member/{memberSeq}/sf/{sfCode}")
     Call<GetManagerInfoResponse> getManagerInfo(@Path("memberSeq") int memberSeq, @Path("sfCode") int sfCode);
@@ -341,4 +349,10 @@ public interface RetrofitApi {
     @GET("bus/route")
     Call<BusRouteResponse> getBusRoute(@Query("busAcaName") String busAcaName, @Query("busCode") int busCode);
 
+    //원생별 성적표리스트 조회
+    @GET("reportCard/{stCode}")
+    Call<ReportCardListResponse> getReportCardList(@Path("stCode") int stCode);
+    //성적표 등록
+    @POST("reportCard")
+    Call<BaseResponse> updateReportCard(@Body UpdateReportCardRequest request);
 }

@@ -136,7 +136,7 @@ public class MenuManageStudentActivity extends BaseActivity {
                 case CMD_GET_ACA_LIST:
                     break;
                 case CMD_GET_DEPT_LIST:
-                    if (_DeptList != null) {
+                    if (_DeptList != null && !_DeptList.isEmpty()) {
                         spinnerDept.setEnabled(true);
 //                        spinnerDept.setItems(_DeptList.stream().map(t -> t.deptName).collect(Collectors.toList()));
                         Utils.updateSpinnerList(spinnerDept, _DeptList.stream().map(t -> t.deptName).collect(Collectors.toList()));
@@ -144,7 +144,7 @@ public class MenuManageStudentActivity extends BaseActivity {
                     }
                     break;
                 case CMD_GET_CLST_LIST:
-                    if (_ClstList != null) {
+                    if (_ClstList != null && !_ClstList.isEmpty()) {
                         spinnerClst.setEnabled(true);
 //                        spinnerClst.setItems(_ClstList.stream().map(t -> t.clstName).collect(Collectors.toList()));
                         Utils.updateSpinnerList(spinnerClst, _ClstList.stream().map(t -> t.clstName).collect(Collectors.toList()));
@@ -303,7 +303,6 @@ public class MenuManageStudentActivity extends BaseActivity {
     }
     @Override
     void initView() {
-        findViewById(R.id.layout_root).setOnClickListener(this);
         //region button
         tvSearchBtn = findViewById(R.id.tv_search_btn);
         tvSearchBtn.setOnClickListener(this);
@@ -582,7 +581,7 @@ public class MenuManageStudentActivity extends BaseActivity {
                     LogMgr.e(TAG, "onCheckedParent in adapter " + b);
                     cbParentTotal.setChecked(false);
                 }else {
-                    if (_adapterRecipient._filteredlist.stream().allMatch(t -> t.isCheckParent == true)) {
+                    if (_adapterRecipient._filteredlist.stream().allMatch(t -> t.isCheckParent == true|| TextUtils.isEmpty(t.parentPhoneNumber) || "Y".equals(t.parentInstall))) {
                         LogMgr.e(TAG, "onCheckedParent in allmatch true");
                         cbParentTotal.setChecked(true);
                     } else {
@@ -598,7 +597,7 @@ public class MenuManageStudentActivity extends BaseActivity {
                 if(!b) {
                     cbStudentTotal.setChecked(false);
                 }else {
-                    if (_adapterRecipient._filteredlist.stream().allMatch(t -> t.isCheckStudent == true)) {
+                    if (_adapterRecipient._filteredlist.stream().allMatch(t -> t.isCheckStudent == true|| TextUtils.isEmpty(t.stPhoneNumber) || "Y".equals(t.stInstall))) {
                         cbStudentTotal.setChecked(true);
                     } else {
                         cbStudentTotal.setChecked(false);
@@ -613,14 +612,14 @@ public class MenuManageStudentActivity extends BaseActivity {
 
                 }else {
                     LogMgr.e(TAG, "itemcount > 0");
-                    if (_adapterRecipient._filteredlist.stream().allMatch(t -> t.isCheckParent)) {
+                    if (_adapterRecipient._filteredlist.stream().allMatch(t -> t.isCheckParent|| TextUtils.isEmpty(t.parentPhoneNumber) || "Y".equals(t.parentInstall))) {
                         LogMgr.e(TAG, "searchFilter in allmatch true");
                         cbParentTotal.setChecked(true);
                     } else {
                         LogMgr.e(TAG, "searchFilter in allmatch false");
                         cbParentTotal.setChecked(false);
                     }
-                    if (_adapterRecipient._filteredlist.stream().allMatch(t -> t.isCheckStudent)) {
+                    if (_adapterRecipient._filteredlist.stream().allMatch(t -> t.isCheckStudent|| TextUtils.isEmpty(t.stPhoneNumber) || "Y".equals(t.stInstall))) {
                         cbStudentTotal.setChecked(true);
                     } else {
                         cbStudentTotal.setChecked(false);
@@ -732,9 +731,7 @@ public class MenuManageStudentActivity extends BaseActivity {
     @Override
     public void onClick(View view) {
         switch(view.getId()) {
-            case R.id.layout_root:
-                Utils.hideKeyboard(mContext, etSearch);
-                break;
+
 //            case R.id.tv_content_date:
 //                LogMgr.e(TAG, "yearmonthpicker");
 //                Calendar cal = Calendar.getInstance();
@@ -742,8 +739,6 @@ public class MenuManageStudentActivity extends BaseActivity {
 //                Utils.yearMonthPicker(mContext, this, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH));
 //                break;
             case R.id.tv_search_btn:
-                Utils.hideKeyboard(mContext, etSearch);
-
                 _handler.sendEmptyMessage(CMD_SEARCH);
 
                 break;
@@ -760,10 +755,10 @@ public class MenuManageStudentActivity extends BaseActivity {
                 LogMgr.e(TAG, "total checkbox clicked");
                 cbParentTotal.setChecked(toDo);
                 for(RecipientStudentData data : _adapterRecipient._filteredlist){
-                    if(!TextUtils.isEmpty(data.stPhoneNumber)) {
+                    if(!TextUtils.isEmpty(data.stPhoneNumber) && ("N".equals(data.stInstall))) {
                         data.isCheckStudent = toDo;
                     }
-                    if(!TextUtils.isEmpty(data.parentPhoneNumber)) {
+                    if(!TextUtils.isEmpty(data.parentPhoneNumber) && ("N".equals(data.parentInstall))) {
                         data.isCheckParent = toDo;
                     }
                 }
@@ -773,7 +768,7 @@ public class MenuManageStudentActivity extends BaseActivity {
                 cbStudentTotal.setChecked(!cbStudentTotal.isChecked());
                 boolean todo = cbStudentTotal.isChecked();
                 cbTotal.setChecked(todo && cbParentTotal.isChecked());
-                _adapterRecipient._filteredlist.forEach(t -> t.isCheckStudent = todo && !TextUtils.isEmpty(t.stPhoneNumber));
+                _adapterRecipient._filteredlist.forEach(t -> t.isCheckStudent = todo && !TextUtils.isEmpty(t.stPhoneNumber) && ("N".equals(t.stInstall)));
                 _handler.sendEmptyMessage(CMD_NOTIFY_DATASET_CHANGED);
             }
             break;
@@ -782,7 +777,7 @@ public class MenuManageStudentActivity extends BaseActivity {
                 cbParentTotal.setChecked(!cbParentTotal.isChecked());
                 boolean todo = cbParentTotal.isChecked();
                 cbTotal.setChecked(todo && cbStudentTotal.isChecked());
-                _adapterRecipient._filteredlist.forEach(t -> t.isCheckParent = todo && !TextUtils.isEmpty(t.parentPhoneNumber));
+                _adapterRecipient._filteredlist.forEach(t -> t.isCheckParent = todo && !TextUtils.isEmpty(t.parentPhoneNumber) && ("N".equals(t.parentInstall)));
                 _handler.sendEmptyMessage(CMD_NOTIFY_DATASET_CHANGED);
             }
             break;
@@ -1016,14 +1011,15 @@ public class MenuManageStudentActivity extends BaseActivity {
                             if (response.body() != null) {
 
                                 List<DepartmentData> getData = response.body().data;
-                                if (getData != null) {
+                                _DeptList.clear();
+                                if (getData != null && !getData.isEmpty()) {
 //                                    if (getData.size() != _DeptList.size()) Utils.updateSpinnerList(spinnerDept);
-                                    _DeptList.clear();
+
                                     _DeptList.add(new DepartmentData(getString(R.string.item_total), 0));
                                     _DeptList.addAll(getData);
 
-                                    _handler.sendEmptyMessage(CMD_GET_DEPT_LIST);
                                 } else LogMgr.e(TAG + " DetailData is null");
+                                _handler.sendEmptyMessage(CMD_GET_DEPT_LIST);
                             }
                         } else {
                             Toast.makeText(mContext, R.string.server_fail, Toast.LENGTH_SHORT).show();
@@ -1063,13 +1059,15 @@ public class MenuManageStudentActivity extends BaseActivity {
                             if (response.body() != null) {
 
                                 List<ClstData> getData = response.body().data;
-                                if (getData != null) {
+                                _ClstList.clear();
+                                if (getData != null && !getData.isEmpty()) {
 //                                    if (getData.size() != _ClstList.size()) Utils.updateSpinnerList(spinnerClst);
-                                    _ClstList.clear();
+
                                     _ClstList.add(new ClstData(getString(R.string.item_total), 0));
                                     _ClstList.addAll(getData);
-                                    _handler.sendEmptyMessage(CMD_GET_CLST_LIST);
+
                                 } else LogMgr.e(TAG + " DetailData is null");
+                                _handler.sendEmptyMessage(CMD_GET_CLST_LIST);
                             }
                         } else {
                             Toast.makeText(mContext, R.string.server_fail, Toast.LENGTH_SHORT).show();

@@ -165,7 +165,7 @@
                 android:text="@string/msg_empty_schedule"
                 android:textSize="@dimen/font_size_xlarge"
                 android:visibility="gone"
-                android:textColor="@color/font_color_bc"
+                android:textColor="@color/font_color_999"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/line"

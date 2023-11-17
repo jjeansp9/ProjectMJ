@@ -22,6 +22,7 @@ public class PreferenceUtil {
     public static final String PREF_USER_GUBUN = "user_gubun"; // 사용자 구분
     public static final String PREF_USER_STCODE = "user_stcode";    //사용자 코드(학생용)
     public static final String PREF_USER_SFCODE = "user_sfcode";    //사용자 코드(강사용)
+    public static final String PREF_USER_NAME = "user_name";    //사용자 이름
     public static final String PREF_SMS_SENDER = "sms_sender";    //강사 SMS 발신번호
 
     public static final String PREF_ACA_CODE = "aca_code"; // 캠퍼스 코드
@@ -131,6 +132,17 @@ public class PreferenceUtil {
     public static int getUserSFCode(Context context) {
         SharedPreferences pref = context.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE);
         return pref.getInt(PREF_USER_SFCODE, 0);
+    }
+    //PREF_USER_NAME
+    public static void setUserName(Context context, String name) {
+        if (name != null) {
+            SharedPreferences pref = context.getSharedPreferences(PREF_USER_NAME, Context.MODE_PRIVATE);
+            pref.edit().putString(PREF_USER_NAME, name).apply();
+        }
+    }
+    public static String getUserName(Context context) {
+        SharedPreferences pref = context.getSharedPreferences(PREF_USER_NAME, Context.MODE_PRIVATE);
+        return pref.getString(PREF_USER_NAME, EMPTY);
     }
     //PUSH TOKEN
     public static void setPrefPushToken(Context context, String token) {
