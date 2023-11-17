@@ -300,6 +300,7 @@
                         android:textColor="@color/font_color_bc"
                         android:textSize="@dimen/font_size_large"
                         android:textStyle="bold"
+                        android:lineSpacingMultiplier="@dimen/empty_textview_multiplier"
                         android:padding="30dp"
                         android:visibility="gone"/>
 

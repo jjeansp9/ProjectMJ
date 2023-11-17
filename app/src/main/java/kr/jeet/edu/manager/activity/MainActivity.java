@@ -253,6 +253,7 @@ public class MainActivity extends BaseActivity {
                     startActivity(targetIntent);
                     overridePendingTransition(R.anim.vertical_enter, R.anim.none);
                 }else{
+                    Toast.makeText(mContext, "개발 중인 기능입니다.", Toast.LENGTH_SHORT).show();
                     LogMgr.d("targetIntent is null at " + getString(item.getTitleRes()));
                 }
             }
@@ -753,7 +754,8 @@ public class MainActivity extends BaseActivity {
         //설명회예약
         menuList.add(new MainMenuItemData(R.drawable.icon_menu_briefing, R.string.main_menu_briefing_reserve, MenuBriefingActivity.class));
         //성적표
-        menuList.add(new MainMenuItemData(R.drawable.icon_menu_report, R.string.title_report_card, MenuReportCardActivity.class));
+//        menuList.add(new MainMenuItemData(R.drawable.icon_menu_report, R.string.title_report_card, MenuReportCardActivity.class));
+        menuList.add(new MainMenuItemData(R.drawable.icon_menu_report, R.string.title_report_card, null));
         mListAdapter.notifyDataSetChanged();
     }
 

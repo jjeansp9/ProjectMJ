@@ -156,6 +156,7 @@
             android:textSize="@dimen/font_size_xlarge"
             android:visibility="gone"
             android:textColor="@color/font_color_999"
+            android:lineSpacingMultiplier="@dimen/empty_textview_multiplier"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

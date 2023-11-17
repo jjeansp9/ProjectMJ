@@ -73,4 +73,5 @@
     <dimen name="fab_margin">16dp</dimen>
 
     <dimen name="anim_move">20dp</dimen>
+    <dimen name="empty_textview_multiplier">1.2</dimen>
 </resources>

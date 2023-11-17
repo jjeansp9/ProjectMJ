@@ -50,8 +50,10 @@
             android:gravity="center"
             android:text="@string/empty_list_report_card"
             android:textSize="@dimen/font_size_xlarge"
+            android:lineSpacingMultiplier="@dimen/empty_textview_multiplier"
             android:visibility="gone"
             android:textColor="@color/font_color_999"
+
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

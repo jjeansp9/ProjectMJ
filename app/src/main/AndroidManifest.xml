@@ -48,6 +48,43 @@
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_channel_id"
             android:value="@string/default_notification_channel_id" />
+
+        <activity
+            android:name=".activity.ConfirmReportCardActivity"
+            android:configChanges="smallestScreenSize|screenSize|screenLayout"
+            android:exported="false"
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".activity.SelectReportCardActivity"
+            android:configChanges="smallestScreenSize|screenSize|screenLayout"
+            android:exported="false"
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".activity.SelectReportCardRecipientActivity"
+            android:configChanges="smallestScreenSize|screenSize|screenLayout"
+            android:exported="false"
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".activity.MenuReportCardActivity"
+            android:configChanges="smallestScreenSize|screenSize|screenLayout"
+            android:exported="false"
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
         <activity
             android:name=".activity.MenuManageStudentActivity"
             android:configChanges="smallestScreenSize|screenSize|screenLayout"

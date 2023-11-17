@@ -31,7 +31,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginTop="@dimen/layout_margin_xxsmall"
+                android:layout_marginTop="@dimen/layout_margin_xsmall"
                 android:paddingVertical="@dimen/layout_margin"
                 android:background="@drawable/bg_setting_layout">
 

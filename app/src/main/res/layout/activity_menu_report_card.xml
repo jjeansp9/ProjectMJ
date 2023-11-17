@@ -170,6 +170,7 @@
             android:textSize="@dimen/font_size_xlarge"
             android:visibility="gone"
             android:textColor="@color/font_color_999"
+            android:lineSpacingMultiplier="@dimen/empty_textview_multiplier"
             android:elevation="@dimen/layout_margin_xxxsmall"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
     <RelativeLayout

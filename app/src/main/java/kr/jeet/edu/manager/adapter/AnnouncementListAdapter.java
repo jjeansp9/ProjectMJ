@@ -160,7 +160,7 @@ public class AnnouncementListAdapter extends RecyclerView.Adapter<AnnouncementLi
             brfRoot = itemView.findViewById(R.id.brf_root);
             tvDate = itemView.findViewById(R.id.tv_brf_date);
             tvTitle = itemView.findViewById(R.id.tv_brf_title);
-            tvName = itemView.findViewById(R.id.tv_brf_location);
+            tvName = itemView.findViewById(R.id.tv_writer_name);
 //            tvState = itemView.findViewById(R.id.tv_brf_state);
             tvCampus = itemView.findViewById(R.id.tv_brf_campus);
             imgAnnouncement = itemView.findViewById(R.id.img_brf);

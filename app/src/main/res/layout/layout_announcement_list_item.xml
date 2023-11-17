@@ -68,7 +68,7 @@
         android:id="@+id/tv_brf_campus"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@id/tv_brf_location"
+        app:layout_constraintBottom_toTopOf="@id/tv_writer_name"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@id/guideline"
         android:layout_marginEnd="8dp"
@@ -79,12 +79,12 @@
         android:textSize="@dimen/font_size_small"/>
 
     <TextView
-        android:id="@+id/tv_brf_location"
+        android:id="@+id/tv_writer_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:ellipsize="end"
-        android:hint="설명회 장소"
+        android:hint="@string/name"
         android:maxLines="1"
         android:textColor="@color/font_color_default"
         android:textSize="@dimen/font_size_small"
@@ -142,25 +142,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1"
         app:layout_constraintTop_toTopOf="parent" />
-
-<!--    <androidx.appcompat.widget.AppCompatTextView-->
-<!--        android:id="@+id/tv_brf_subscription"-->
-<!--        android:layout_width="0dp"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginEnd="8dp"-->
-<!--        android:ellipsize="end"-->
-<!--        android:gravity="center"-->
-<!--        android:hint="신청기간"-->
-<!--        android:maxLines="1"-->
-<!--        android:textColor="@color/red"-->
-<!--        android:textSize="@dimen/font_size_small"-->
-<!--        android:textStyle="bold"-->
-<!--        app:autoSizeMaxTextSize="@dimen/font_size_small"-->
-<!--        app:autoSizeMinTextSize="8dp"-->
-<!--        app:autoSizeStepGranularity="1dp"-->
-<!--        app:autoSizeTextType="uniform"-->
-<!--        app:layout_constraintBottom_toBottomOf="@+id/tv_brf_location"-->
-<!--        app:layout_constraintEnd_toStartOf="@+id/guideline" />-->
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
