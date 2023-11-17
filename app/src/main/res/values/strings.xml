@@ -396,7 +396,7 @@
     <string name="informed_question_sel_day_2">화, 목, 토</string>
     <string name="informed_question_sel_day_3">실력점검</string>
     <string name="informed_question_sel_day_4">요일무관</string>
-    <string name="msg_empty_leveltes">예약된 레벨테스트가 없습니다.</string>
+    <string name="msg_empty_leveltes">테스트 예약내역이 없습니다.</string>
     <string name="title_search_school">학교 검색</string>
 
     <string name="hint_bus_name">호차</string>

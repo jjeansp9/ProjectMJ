@@ -252,7 +252,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="등록된 설명회 정보가 없습니다."
+            android:text="설명회 정보가 없습니다."
             android:textSize="@dimen/font_size_xlarge"
             android:visibility="gone"
             android:textColor="@color/font_color_999"
