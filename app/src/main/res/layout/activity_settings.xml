@@ -129,7 +129,6 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@id/layout_first"
                 android:layout_marginTop="@dimen/layout_margin_xxsmall"
-                android:paddingHorizontal="@dimen/layout_margin_small"
                 android:paddingVertical="@dimen/layout_margin_xxsmall"
                 android:background="@drawable/bg_setting_layout"
                 android:layout_marginHorizontal="@dimen/layout_margin"
@@ -143,11 +142,29 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="@id/line_notice_state"
+                    android:layout_marginHorizontal="@dimen/layout_margin_small"
                     android:text="@string/settings_notice_reception_state"
                     android:textColor="@color/black"
                     android:textStyle="bold"
                     android:textSize="@dimen/font_size_large"/>
 
+                <Switch
+                    android:id="@+id/sw_set_all"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="@id/tv_set_notice_state"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_set_notice_state"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginEnd="8dp"
+                    android:thumb="@drawable/selector_toggle_thumb"
+                    android:track="@drawable/selector_toggle_track"
+                    android:background="@color/white"
+                    android:button="@null"
+                    android:focusable="false"
+                    android:scaleX="0.7"
+                    android:scaleY="0.7"
+                    tools:ignore="UseSwitchCompatOrMaterialXml"
+                    />
 
                 <View
                     android:id="@+id/line_notice_state"
@@ -165,18 +182,28 @@
                     app:layout_constraintEnd_toStartOf="@id/sw_set_announcement_state"
                     app:layout_constraintTop_toTopOf="@id/sw_set_announcement_state"
                     app:layout_constraintBottom_toBottomOf="@id/sw_set_announcement_state"
+                    android:layout_marginStart="@dimen/layout_margin_small"
                     android:text="@string/main_menu_announcement"
                     android:textSize="@dimen/font_size"
                     android:maxLines="1"
                     android:ellipsize="end"
                     android:textColor="@color/font_color_default"/>
 
-                <com.google.android.material.switchmaterial.SwitchMaterial
+                <Switch
                     android:id="@+id/sw_set_announcement_state"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:layout_constraintTop_toBottomOf="@id/line_notice_state"
-                    app:layout_constraintEnd_toEndOf="parent"/>
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginTop="8dp"
+                    android:thumb="@drawable/selector_toggle_thumb"
+                    android:track="@drawable/selector_toggle_track"
+                    android:background="@color/white"
+                    android:button="@null"
+                    android:scaleX="0.7"
+                    android:scaleY="0.7"
+                    tools:ignore="UseSwitchCompatOrMaterialXml" />
 
                 <TextView
                     android:id="@+id/tv_set_briefing_state"
@@ -186,18 +213,28 @@
                     app:layout_constraintEnd_toStartOf="@id/sw_set_information_session_state"
                     app:layout_constraintTop_toTopOf="@id/sw_set_information_session_state"
                     app:layout_constraintBottom_toBottomOf="@id/sw_set_information_session_state"
+                    android:layout_marginStart="@dimen/layout_margin_small"
                     android:text="@string/main_menu_briefing_reserve"
                     android:textSize="@dimen/font_size"
                     android:maxLines="1"
                     android:ellipsize="end"
                     android:textColor="@color/font_color_default"/>
 
-                <com.google.android.material.switchmaterial.SwitchMaterial
+                <Switch
                     android:id="@+id/sw_set_information_session_state"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:layout_constraintTop_toBottomOf="@id/sw_set_announcement_state"
-                    app:layout_constraintEnd_toEndOf="parent"/>
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginTop="8dp"
+                    android:thumb="@drawable/selector_toggle_thumb"
+                    android:track="@drawable/selector_toggle_track"
+                    android:background="@color/white"
+                    android:button="@null"
+                    android:scaleX="0.7"
+                    android:scaleY="0.7"
+                    tools:ignore="UseSwitchCompatOrMaterialXml"/>
 
                 <TextView
                     android:id="@+id/tv_set_attendance_state"
@@ -207,18 +244,28 @@
                     app:layout_constraintEnd_toStartOf="@id/sw_set_attendance_state"
                     app:layout_constraintTop_toTopOf="@id/sw_set_attendance_state"
                     app:layout_constraintBottom_toBottomOf="@id/sw_set_attendance_state"
+                    android:layout_marginStart="@dimen/layout_margin_small"
                     android:text="@string/main_attendance"
                     android:textSize="@dimen/font_size"
                     android:maxLines="1"
                     android:ellipsize="end"
                     android:textColor="@color/font_color_default"/>
 
-                <com.google.android.material.switchmaterial.SwitchMaterial
+                <Switch
                     android:id="@+id/sw_set_attendance_state"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:layout_constraintTop_toBottomOf="@id/sw_set_information_session_state"
-                    app:layout_constraintEnd_toEndOf="parent"/>
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginTop="8dp"
+                    android:thumb="@drawable/selector_toggle_thumb"
+                    android:track="@drawable/selector_toggle_track"
+                    android:background="@color/white"
+                    android:button="@null"
+                    android:scaleX="0.7"
+                    android:scaleY="0.7"
+                    tools:ignore="UseSwitchCompatOrMaterialXml"/>
 
                 <TextView
                     android:id="@+id/tv_set_system_state"
@@ -228,18 +275,28 @@
                     app:layout_constraintEnd_toStartOf="@id/sw_set_system_state"
                     app:layout_constraintTop_toTopOf="@id/sw_set_system_state"
                     app:layout_constraintBottom_toBottomOf="@id/sw_set_system_state"
+                    android:layout_marginStart="@dimen/layout_margin_small"
                     android:text="@string/settings_notice_system"
                     android:textSize="@dimen/font_size"
                     android:maxLines="1"
                     android:ellipsize="end"
                     android:textColor="@color/font_color_default"/>
 
-                <com.google.android.material.switchmaterial.SwitchMaterial
+                <Switch
                     android:id="@+id/sw_set_system_state"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:layout_constraintTop_toBottomOf="@id/sw_set_attendance_state"
-                    app:layout_constraintEnd_toEndOf="parent"/>
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginTop="8dp"
+                    android:thumb="@drawable/selector_toggle_thumb"
+                    android:track="@drawable/selector_toggle_track"
+                    android:background="@color/white"
+                    android:button="@null"
+                    android:scaleX="0.7"
+                    android:scaleY="0.7"
+                    tools:ignore="UseSwitchCompatOrMaterialXml"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -136,25 +136,29 @@ public class AppendRecipientActivity extends BaseActivity implements MonthPicker
                     if (_DeptList != null && !_DeptList.isEmpty()) {
                         spinnerDept.setEnabled(true);
 //                        spinnerDept.setItems(_DeptList.stream().map(t -> t.deptName).collect(Collectors.toList()));
-                        Utils.updateSpinnerList(spinnerDept, _DeptList.stream().map(t -> t.deptName).collect(Collectors.toList()));
-
+                    }else{
+                        spinnerDept.setEnabled(false);
                     }
+                    Utils.updateSpinnerList(spinnerDept, _DeptList.stream().map(t -> t.deptName).collect(Collectors.toList()));
                     break;
                 case CMD_GET_CLST_LIST:
                     if (_ClstList != null && !_ClstList.isEmpty()) {
                         spinnerClst.setEnabled(true);
 //                        spinnerClst.setItems(_ClstList.stream().map(t -> t.clstName).collect(Collectors.toList()));
-
-                        Utils.updateSpinnerList(spinnerClst, _ClstList.stream().map(t -> t.clstName).collect(Collectors.toList()));
+                    }else{
+                        spinnerClst.setEnabled(false);
                     }
+                    Utils.updateSpinnerList(spinnerClst, _ClstList.stream().map(t -> t.clstName).collect(Collectors.toList()));
                     break;
                 case CMD_GET_CLASS_LIST:
                     if (_ClassList != null && !_ClassList.isEmpty()) {
                         spinnerClass.setEnabled(true);
 //                        spinnerClass.setItems(_ClassList.stream().map(t -> t.clsName).collect(Collectors.toList()));
+                    }else{
 
-                        Utils.updateSpinnerList(spinnerClass, _ClassList.stream().map(t -> t.clsName).collect(Collectors.toList()));
+                        spinnerClass.setEnabled(false);
                     }
+                    Utils.updateSpinnerList(spinnerClass, _ClassList.stream().map(t -> t.clsName).collect(Collectors.toList()));
                     break;
                 case CMD_SEARCH:
                     if(isFilterTriggerChanged) {

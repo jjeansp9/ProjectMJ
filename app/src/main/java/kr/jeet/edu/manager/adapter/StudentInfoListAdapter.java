@@ -140,12 +140,12 @@ public class StudentInfoListAdapter extends RecyclerView.Adapter<StudentInfoList
                 holder.checkBox.setVisibility(View.GONE);
                 holder.tvStatus.setVisibility(View.VISIBLE);
                 holder.spinnerStatus.setVisibility(View.GONE);
-                if(TextUtils.isEmpty(item.attendBigo)) {
+//                if(TextUtils.isEmpty(item.attendBigo)) {
                     holder.etNote.setVisibility(View.GONE);
-                }else{
-                    holder.etNote.setVisibility(View.VISIBLE);
-                    holder.etNote.setText(item.attendBigo);
-                }
+//                }else{
+//                    holder.etNote.setVisibility(View.VISIBLE);
+//                    holder.etNote.setText(item.attendBigo);
+//                }
                 holder.etNote.setEnabled(false);
                 Drawable drawable = _context.getDrawable(R.drawable.bg_edittext);
                 drawable.setTint(_context.getColor(android.R.color.transparent));

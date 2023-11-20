@@ -152,6 +152,7 @@ public class MenuLevelTestActivity extends BaseActivity {
                     _spinnerSchoolLevel.setEnabled(false);
                 }else{
                     _spinnerSchoolLevel.setEnabled(true);
+                    _spinnerSchoolLevel.selectItemByIndex(0);
                 }
                 requestBoardList(_selectedLTC.ltcCode);
             }

@@ -15,6 +15,7 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,7 +44,7 @@ public class SettingsActivity extends BaseActivity {
     private String TAG = SettingsActivity.class.getSimpleName();
 
     private TextView mTvUserGubun, mTvName, mTvPhoneNum, mTvAppVersion, mTvAppVersionBadge;
-    private SwitchMaterial mSwAnnouncement, mSwInformationSession, mSwAttendance, mSwSystem;
+    private Switch mSwAnnouncement, mSwInformationSession, mSwAttendance, mSwSystem, mSwAll;
     private AppCompatButton btnSetAccount;
     private RetrofitApi mRetrofitApi;
     private ConstraintLayout layoutFirst, layoutSecond, layoutThird;
@@ -132,15 +133,19 @@ public class SettingsActivity extends BaseActivity {
         layoutSecond = findViewById(R.id.layout_second);
         layoutThird = findViewById(R.id.layout_third);
 
-        mSwAnnouncement = (SwitchMaterial) findViewById(R.id.sw_set_announcement_state);
-        mSwInformationSession = (SwitchMaterial) findViewById(R.id.sw_set_information_session_state);
-        mSwAttendance = (SwitchMaterial) findViewById(R.id.sw_set_attendance_state);
-        mSwSystem = (SwitchMaterial) findViewById(R.id.sw_set_system_state);
+        mSwAnnouncement = (Switch) findViewById(R.id.sw_set_announcement_state);
+        mSwInformationSession = (Switch) findViewById(R.id.sw_set_information_session_state);
+        mSwAttendance = (Switch) findViewById(R.id.sw_set_attendance_state);
+        mSwSystem = (Switch) findViewById(R.id.sw_set_system_state);
+        mSwAll = (Switch) findViewById(R.id.sw_set_all);
 
         mSwAnnouncement.setOnClickListener(this);
         mSwInformationSession.setOnClickListener(this);
         mSwAttendance.setOnClickListener(this);
         mSwSystem.setOnClickListener(this);
+        mSwAll.setOnClickListener(this);
+
+        setSwitch();
 
         findViewById(R.id.layout_set_operation_policy).setOnClickListener(this);
         findViewById(R.id.layout_privacy_policy).setOnClickListener(this);
@@ -173,6 +178,19 @@ public class SettingsActivity extends BaseActivity {
         }, delayed);
     }
 
+    public void setSwitch() {
+
+        mSwAll.setOnCheckedChangeListener((view, isChecked) -> {
+            if(mSwAll.isChecked()) checkAll(true);
+            else checkAll(false);
+        });
+
+        mSwAnnouncement.setOnCheckedChangeListener((view, isChecked) -> checkConfirm());
+        mSwInformationSession.setOnCheckedChangeListener((view, isChecked) -> checkConfirm());
+        mSwAttendance.setOnCheckedChangeListener((view, isChecked) -> checkConfirm());
+        mSwSystem.setOnCheckedChangeListener((view, isChecked) -> checkConfirm());
+    }
+
     @Override
     public void onClick(View view) {
         super.onClick(view);
@@ -199,27 +217,15 @@ public class SettingsActivity extends BaseActivity {
                 break;
 
             case R.id.sw_set_announcement_state:
-                if (mSwAnnouncement.isChecked()) pushNotice = CHECKED_OK;
-                else pushNotice = CHECKED_CANCEL;
-                requestUpdatePush();
-                break;
-
-            case R.id.sw_set_information_session_state:
-                if (mSwInformationSession.isChecked()) pushInformationSession = CHECKED_OK;
-                else pushInformationSession = CHECKED_CANCEL;
-                requestUpdatePush();
-                break;
-
             case R.id.sw_set_attendance_state:
-                if (mSwAttendance.isChecked()) pushAttendance = CHECKED_OK;
-                else pushAttendance = CHECKED_CANCEL;
-                requestUpdatePush();
+            case R.id.sw_set_information_session_state:
+            case R.id.sw_set_system_state:
+                checkConfirm();
                 break;
 
-            case R.id.sw_set_system_state:
-                if (mSwSystem.isChecked()) pushSystem = CHECKED_OK;
-                else pushSystem = CHECKED_CANCEL;
-                requestUpdatePush();
+            case R.id.sw_set_all:
+                if(mSwAll.isChecked()) checkAll(true);
+                else checkAll(false);
                 break;
 
             case R.id.layout_set_operation_policy:
@@ -236,6 +242,37 @@ public class SettingsActivity extends BaseActivity {
                 break;
         }
 
+    }
+
+    private void checkConfirm(){
+        requestUpdatePush();
+        if (mSwAnnouncement.isChecked() &&
+                mSwInformationSession.isChecked() &&
+                mSwAttendance.isChecked() &&
+                mSwSystem.isChecked()) {
+            setSwAll(true);
+
+        } else {
+            setSwAll(false);
+        }
+    }
+
+    private void setSwAll (boolean isCheck) {
+        mSwAll.setOnCheckedChangeListener(null);
+        mSwAll.setChecked(isCheck);
+        mSwAll.setOnCheckedChangeListener((view, isChecked) -> {
+            if(mSwAll.isChecked()) checkAll(true);
+            else checkAll(false);
+        });
+    }
+
+    private void checkAll(boolean setCheck){
+        mSwAnnouncement.setChecked(setCheck);
+        mSwInformationSession.setChecked(setCheck);
+        mSwAttendance.setChecked(setCheck);
+        mSwSystem.setChecked(setCheck);
+
+        requestUpdatePush();
     }
 
     // 강사 정보 조회
@@ -279,13 +316,14 @@ public class SettingsActivity extends BaseActivity {
                         }
 
                     }catch (Exception e){ LogMgr.e(TAG + "requestMemberInfo() Exception : ", e.getMessage()); }
+                    checkConfirm();
                 }
 
                 @Override
                 public void onFailure(Call<GetManagerInfoResponse> call, Throwable t) {
                     try { LogMgr.e(TAG, "requestMemberInfo() onFailure >> " + t.getMessage()); }
                     catch (Exception e) { LogMgr.e(TAG + "requestMemberInfo() Exception : ", e.getMessage()); }
-
+                    checkConfirm();
                     Toast.makeText(mContext, R.string.server_error, Toast.LENGTH_SHORT).show();
                 }
             });
@@ -293,6 +331,16 @@ public class SettingsActivity extends BaseActivity {
     }
 
     private void requestUpdatePush(){
+
+        if (mSwAnnouncement.isChecked()) pushNotice = CHECKED_OK;
+        else pushNotice = CHECKED_CANCEL;
+        if (mSwInformationSession.isChecked()) pushInformationSession = CHECKED_OK;
+        else pushInformationSession = CHECKED_CANCEL;
+        if (mSwAttendance.isChecked()) pushAttendance = CHECKED_OK;
+        else pushAttendance = CHECKED_CANCEL;
+        if (mSwSystem.isChecked()) pushSystem = CHECKED_OK;
+        else pushSystem = CHECKED_CANCEL;
+
         updatePushStatus.seq = pushSeq;
         updatePushStatus.pushNotice = pushNotice;
         updatePushStatus.pushInformationSession = pushInformationSession;
