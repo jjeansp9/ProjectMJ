@@ -438,6 +438,10 @@ public class Constants {
     //성적표 리스트 타입
     public enum ReportCardListType {
         /**
+         * 없음. Detail에서 사용
+         */
+        VIEW,
+        /**
          * 체크박스 타입
          */
         CHECK,

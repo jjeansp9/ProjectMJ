@@ -211,11 +211,14 @@ public class ConfirmReportCardActivity extends BaseActivity {
         switch(item.getItemId()) {
             case R.id.action_send:
                 if(checkValid()) {
-                    String msg = getString(R.string.msg_confirm_send_reportcard);
+                    StringBuilder sb = new StringBuilder(getString(R.string.msg_confirm_send_reportcard));
                     if(_reportCardList.stream().anyMatch(t->t.etTitleGubun == Constants.ReportCardType.MIDDLE.getCode())) {
+                        sb.append("\n\n");
+                        sb.append("성적표에 포함된 [ 중등 ] 유형은 성적표 출력이 되지 않습니다.");
+
                     }
                     showMessageDialog(getString(R.string.dialog_title_alarm)
-                            , getString(R.string.msg_confirm_send_reportcard)
+                            , sb.toString()
                             , new View.OnClickListener() {  //OKClickListener
                                 @Override
                                 public void onClick(View view) {
@@ -257,7 +260,7 @@ public class ConfirmReportCardActivity extends BaseActivity {
                     DataManager.getInstance().getACAData(_currentStudent.acaCode).acaName,
                     cbSendSMS.isChecked()? "Y" : "N",
                     DataManager.getInstance().getACAData(_currentStudent.acaCode).acaTel,
-                    "01095150029", //_currentStudent.parentPhoneNumber,
+                    _currentStudent.parentPhoneNumber,  //"01095150029", //
                     _reportCardList
             );
             RetrofitClient.getApiInterface().updateReportCard(request).enqueue(new Callback<BaseResponse>() {

@@ -90,7 +90,7 @@ public class DetailStudentInfoActivity extends BaseActivity {
     SimpleDateFormat _dateTransferFormat = new SimpleDateFormat(Constants.DATE_FORMATTER_YYYY_MM_DD);
     SimpleDateFormat _apiDateFormat = new SimpleDateFormat(Constants.DATE_FORMATTER_YYYYMM);
 
-    private TextView mTvStuName, mTvStuBirth, mTvStuCampus, mTvStuPhoneNum, mTvParentPhoneNum, mTvDeptName, mTvStGrade, mTvClstName;
+    private TextView mTvStuName, mTvStuBirth, mTvStuCampus, mTvStuPhoneNum, mTvParentPhoneNum, mTvDeptName; //, mTvStGrade, mTvClstName;
     private ImageView mImgStuProfile;
     private TextView tvPushStatusAnnouncement, tvPushStatusSeminar, tvPushStatusAttendance, tvPushStatusSystemAlarm;
     private TextView tvParentPushStatusAnnouncement, tvParentPushStatusSeminar, tvParentPushStatusAttendance, tvParentPushStatusSystemAlarm;
@@ -206,8 +206,8 @@ public class DetailStudentInfoActivity extends BaseActivity {
         mTvStuBirth = findViewById(R.id.tv_stu_info_birth);
         mTvStuCampus = findViewById(R.id.tv_stu_info_campus);
         mTvDeptName = findViewById(R.id.tv_stu_info_dept_name);
-        mTvStGrade = findViewById(R.id.tv_stu_info_st_grade);
-        mTvClstName = findViewById(R.id.tv_stu_info_clst_name);
+//        mTvStGrade = findViewById(R.id.tv_stu_info_st_grade);
+//        mTvClstName = findViewById(R.id.tv_stu_info_clst_name);
         mTvStuPhoneNum = findViewById(R.id.tv_stu_info_stu_phone_num);
         mTvParentPhoneNum = findViewById(R.id.tv_stu_info_parent_phone_num);
 
@@ -684,13 +684,26 @@ public class DetailStudentInfoActivity extends BaseActivity {
                                     mImgStuProfile.setImageResource(R.drawable.img_student);
                                 }
 
-                                mTvDeptName.setText(getData.deptName); // 부서
-//                                mTvStGrade.setText(getData.stGrade); // 학년    동일내용이라 삭제
-                                mTvClstName.setText(getData.clstName); // 학년
+//                                mTvDeptName.setText(getData.deptName); // 부서
+//                                mTvStGrade.setText(getData.stGrade); // 학년
+//                                mTvClstName.setText(getData.clstName); // 학년 동일내용이라 삭제
+                                StringBuilder sb = new StringBuilder();
+                                if(TextUtils.isEmpty(getData.deptName)) {
+                                    if(TextUtils.isEmpty(getData.stGrade)){
 
-                                if (TextUtils.isEmpty(getData.deptName)) mTvDeptName.setVisibility(View.GONE);
-                                /*if (getData.stGrade.equals(""))*/ mTvStGrade.setVisibility(View.GONE);
-                                if (TextUtils.isEmpty(getData.clstName)) mTvClstName.setVisibility(View.GONE);
+                                    }else{
+                                        sb.append(getData.stGrade);
+                                    }
+                                }else {
+                                    if(TextUtils.isEmpty(getData.stGrade)){
+                                        sb.append(getData.deptName);
+                                    }else{
+                                        sb.append(getData.deptName + " / " + getData.stGrade);
+                                    }
+                                }
+                                mTvDeptName.setText(sb.toString()); // 부서
+//                                if (getData.stGrade.equals("")) mTvStGrade.setVisibility(View.GONE);
+//                                if (TextUtils.isEmpty(getData.clstName)) mTvClstName.setVisibility(View.GONE);
                                 String formattedPhoneNumber = "";
                                 if (TextUtils.isEmpty(getData.phoneNumber)){
                                     if(_selectedStudentData != null) {

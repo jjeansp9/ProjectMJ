@@ -110,16 +110,16 @@ public class SelectReportCardActivity extends BaseActivity {
         _handler.sendEmptyMessage(CMD_GET_REPORT_CARD);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if(_reportCardList != null && !_reportCardList.isEmpty()) {
-            _reportCardList.stream().forEach(t-> t.isSelected = false);
-            if(_listAdapter != null) {
-                _listAdapter.notifyDataSetChanged();
-            }
-        }
-    }
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        if(_reportCardList != null && !_reportCardList.isEmpty()) {
+//            _reportCardList.stream().forEach(t-> t.isSelected = false);
+//            if(_listAdapter != null) {
+//                _listAdapter.notifyDataSetChanged();
+//            }
+//        }
+//    }
 
     private void initIntentData() {
         Intent intent = getIntent();
@@ -167,7 +167,7 @@ public class SelectReportCardActivity extends BaseActivity {
     @Override
     void initAppbar() {
         CustomAppbarLayout customAppbar = findViewById(R.id.customAppbar);
-        customAppbar.setTitle(R.string.title_send_report_card);
+        customAppbar.setTitle(R.string.title_list_report_card);
         customAppbar.setLogoVisible(true);
         customAppbar.setLogoClickable(true);
         setSupportActionBar(customAppbar.getToolbar());

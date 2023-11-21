@@ -8,15 +8,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import kr.jeet.edu.manager.R;
+import kr.jeet.edu.manager.common.Constants;
 import kr.jeet.edu.manager.model.data.ReportCardSummaryData;
+import kr.jeet.edu.manager.utils.Utils;
 
 public class ReportCardListAdapter extends RecyclerView.Adapter<ReportCardListAdapter.ViewHolder> implements Filterable {
 
@@ -28,6 +34,9 @@ public class ReportCardListAdapter extends RecyclerView.Adapter<ReportCardListAd
     private List<ReportCardSummaryData> _list;
     private List<ReportCardSummaryData> _filteredList;
     private ItemClickListener _listener;
+
+    SimpleDateFormat millisecFormat = new SimpleDateFormat(Constants.DATE_FORMATTER_YYYY_MM_DD_HH_mm_ss_SSS);
+    SimpleDateFormat minuteFormat = new SimpleDateFormat(Constants.DATE_FORMATTER_YYYY_MM_DD_HH_mm);
 
     public ReportCardListAdapter(Context context, List<ReportCardSummaryData> list, ItemClickListener listener) {
         this._context = context;
@@ -45,6 +54,27 @@ public class ReportCardListAdapter extends RecyclerView.Adapter<ReportCardListAd
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         if(position == NO_POSITION) return;
+        ReportCardSummaryData item = _list.get(position);
+        holder.tvTitle.setText(Utils.getStr(item.content));
+        holder.tvWriter.setText(Utils.getStr(item.writerName));
+        holder.tvStudent.setText(Utils.getStr(item.stName));
+        if(item.reportList != null && !item.reportList.isEmpty()) {
+            holder.ivCount.setVisibility(View.VISIBLE);
+            holder.tvCount.setVisibility(View.VISIBLE);
+            holder.tvCount.setText(_context.getString(R.string.content_item_count, item.reportList.size()));
+        }else{
+            holder.ivCount.setVisibility(View.GONE);
+            holder.tvCount.setVisibility(View.GONE);
+        }
+        holder.tvCampus.setText(item.acaName);
+        String dateString = item.insertDate;
+        try {
+            Date regDate = millisecFormat.parse(item.insertDate);
+            dateString = minuteFormat.format(regDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        holder.tvDate.setText(dateString);
     }
 
     @Override
@@ -86,13 +116,19 @@ public class ReportCardListAdapter extends RecyclerView.Adapter<ReportCardListAd
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 
-        private TextView tvTitle, tvEtTitleGubun, tvEtGubun, tvDate;
-
+        private TextView tvTitle, tvWriter, tvStudent, tvCount, tvCampus, tvDate;
+        private ImageView ivArrow, ivCount;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             tvTitle = itemView.findViewById(R.id.tv_title);
-
+            tvWriter = itemView.findViewById(R.id.tv_writer_name);
+            tvStudent = itemView.findViewById(R.id.tv_student_name);
+            tvCount = itemView.findViewById(R.id.tv_count);
+            tvCampus = itemView.findViewById(R.id.tv_campus);
+            tvDate = itemView.findViewById(R.id.tv_date);
+            ivArrow = itemView.findViewById(R.id.img_icon_to);
+            ivCount = itemView.findViewById(R.id.img_icon_count);
             itemView.setOnClickListener(v -> {
                 int position = getBindingAdapterPosition();
                 if (_list.size() > 0) _listener.onItemClick(position, _list.get(position));

@@ -80,7 +80,8 @@
                         app:layout_constraintStart_toEndOf="@id/img_stu_info_profile"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="@id/img_stu_info_profile"
-                        app:layout_constraintBottom_toBottomOf="@id/img_stu_info_profile">
+                        app:layout_constraintBottom_toBottomOf="@id/img_stu_info_profile"
+                        android:paddingStart="@dimen/layout_margin_xsmall">
 
                         <androidx.appcompat.widget.LinearLayoutCompat
                             android:id="@+id/layout_stu_info_name_birth"
@@ -90,7 +91,7 @@
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             android:orientation="horizontal"
-                            android:layout_marginStart="@dimen/layout_margin_xsmall">
+                            >
 
                             <TextView
                                 android:id="@+id/tv_stu_info_name"
@@ -118,38 +119,37 @@
                             android:layout_height="wrap_content"
                             app:layout_constraintTop_toBottomOf="@id/layout_stu_info_name_birth"
                             app:layout_constraintStart_toStartOf="parent"
-                            android:layout_marginStart="@dimen/layout_margin_xsmall"
+                            android:layout_marginEnd="@dimen/layout_margin_xxxsmall"
                             android:layout_marginTop="2dp"
                             android:hint="부서"
                             android:textSize="@dimen/font_size_large"
                             android:textColor="@color/black"
                             android:textStyle="bold" />
 
-                        <TextView
-                            android:id="@+id/tv_stu_info_st_grade"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            app:layout_constraintStart_toEndOf="@id/tv_stu_info_dept_name"
-                            app:layout_constraintTop_toBottomOf="@id/layout_stu_info_name_birth"
-                            android:layout_marginTop="2dp"
-                            android:layout_marginStart="4dp"
-                            android:hint="학년"
-                            android:textSize="@dimen/font_size_large"
-                            android:textColor="@color/black"
-                            android:textStyle="bold" />
+<!--                        <TextView-->
+<!--                            android:id="@+id/tv_stu_info_st_grade"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            app:layout_constraintStart_toEndOf="@id/tv_stu_info_dept_name"-->
+<!--                            app:layout_constraintEnd_toStartOf="@id/tv_stu_info_clst_name"-->
+<!--                            app:layout_constraintTop_toBottomOf="@id/layout_stu_info_name_birth"-->
+<!--                            android:layout_marginTop="2dp"-->
+<!--                            android:hint="학년"-->
+<!--                            android:textSize="@dimen/font_size_large"-->
+<!--                            android:textColor="@color/black"-->
+<!--                            android:textStyle="bold" />-->
 
-                        <TextView
-                            android:id="@+id/tv_stu_info_clst_name"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            app:layout_constraintStart_toEndOf="@id/tv_stu_info_st_grade"
-                            app:layout_constraintTop_toBottomOf="@id/layout_stu_info_name_birth"
-                            android:layout_marginTop="2dp"
-                            android:layout_marginStart="4dp"
-                            android:hint="학급"
-                            android:textSize="@dimen/font_size_large"
-                            android:textColor="@color/black"
-                            android:textStyle="bold" />
+<!--                        <TextView-->
+<!--                            android:id="@+id/tv_stu_info_clst_name"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            app:layout_constraintStart_toEndOf="@id/tv_stu_info_st_grade"-->
+<!--                            app:layout_constraintTop_toBottomOf="@id/layout_stu_info_name_birth"-->
+<!--                            android:layout_marginTop="2dp"-->
+<!--                            android:layout_marginStart="4dp"-->
+<!--                            android:textSize="@dimen/font_size_large"-->
+<!--                            android:textColor="@color/black"-->
+<!--                            android:textStyle="bold" />-->
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 

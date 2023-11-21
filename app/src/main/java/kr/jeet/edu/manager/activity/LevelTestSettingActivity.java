@@ -41,6 +41,7 @@ import kr.jeet.edu.manager.model.response.LevelTestTimeListResponse;
 import kr.jeet.edu.manager.model.response.LevelTestTimeResponse;
 import kr.jeet.edu.manager.server.RetrofitClient;
 import kr.jeet.edu.manager.utils.LogMgr;
+import kr.jeet.edu.manager.utils.Utils;
 import kr.jeet.edu.manager.view.CustomAppbarLayout;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -56,6 +57,7 @@ public class LevelTestSettingActivity extends BaseActivity implements TimePicker
     PowerSpinnerView spinnerGrade;
     PowerSpinnerView spinnerDayOfWeek;
     TextView tvTime;
+    TextView tvEmptyList;
     RecyclerView recyclerViewTimes;
     //endregion
 
@@ -77,7 +79,7 @@ public class LevelTestSettingActivity extends BaseActivity implements TimePicker
 
     @Override
     void initView() {
-
+        tvEmptyList = findViewById(R.id.tv_empty_list);
         recyclerViewTimes = findViewById(R.id.recyclerview_times);
         _timeListAdapter = new LevelTestTimeListAdapter(mContext, _timeList, new LevelTestTimeListAdapter.onItemClickListener() {
             @Override
@@ -110,17 +112,13 @@ public class LevelTestSettingActivity extends BaseActivity implements TimePicker
         recyclerViewTimes.setAdapter(_timeListAdapter);
         //region spinner
         spinnerGrade = findViewById(R.id.spinner_grade);
-        {
-            WrapContentSpinnerAdapter adapter = new WrapContentSpinnerAdapter(mContext, Constants.SchoolGradeType.getNameList(), spinnerGrade);
-            spinnerGrade.setSpinnerAdapter(adapter);
-        }
-
+        setSpinnerAdapter(Constants.SchoolGradeType.getNameList(), spinnerGrade);
 //        spinnerGrade.setItems(Constants.SchoolGradeType.getNameList());
         spinnerGrade.setOnSpinnerItemSelectedListener(new OnSpinnerItemSelectedListener<String>() {
             @Override
             public void onItemSelected(int oldIndex, @Nullable String oldItem, int newIndex, String newItem) {
                 LogMgr.e(newItem + " selected");
-                if(oldItem != null && oldItem.equals(newItem)) return;
+                if(newItem.equals(oldItem)) return;
                 _currentData.grade = newItem;
             }
         });
@@ -133,17 +131,17 @@ public class LevelTestSettingActivity extends BaseActivity implements TimePicker
         spinnerGrade.setLifecycleOwner(this);
 
         spinnerDayOfWeek = findViewById(R.id.spinner_day_of_week);
-        {
-            WrapContentSpinnerAdapter adapter = new WrapContentSpinnerAdapter(mContext, Constants.WeekdayType.getNameList(), spinnerDayOfWeek);
-            spinnerDayOfWeek.setSpinnerAdapter(adapter);
-        }
-
+//        {
+//            WrapContentSpinnerAdapter adapter = new WrapContentSpinnerAdapter(mContext, Constants.WeekdayType.getNameList(), spinnerDayOfWeek);
+//            spinnerDayOfWeek.setSpinnerAdapter(adapter);
+//        }
+        setSpinnerAdapter(Constants.WeekdayType.getNameList(), spinnerDayOfWeek);
 //        spinnerDayOfWeek.setItems(Constants.WeekdayType.getNameList());
         spinnerDayOfWeek.setOnSpinnerItemSelectedListener(new OnSpinnerItemSelectedListener<String>() {
             @Override
             public void onItemSelected(int oldIndex, @Nullable String oldItem, int newIndex, String newItem) {
                 LogMgr.e(newItem + " selected");
-                if(oldItem != null && oldItem.equals(newItem)) return;
+                if(newItem.equals(oldItem)) return;
                 if(newItem.equals(Constants.WeekdayType.WEEKDAY.getNameKor())) {
                     _currentData.weekend = Constants.WeekdayType.WEEKDAY.getCode();
                 }else if(newItem.equals(Constants.WeekdayType.WEEKEND.getNameKor())) {
@@ -163,7 +161,10 @@ public class LevelTestSettingActivity extends BaseActivity implements TimePicker
         tvTime.setOnClickListener(this);
         findViewById(R.id.btn_add).setOnClickListener(this);
     }
-
+    private void setSpinnerAdapter(List<String> list, PowerSpinnerView view) {
+        WrapContentSpinnerAdapter adapter = new WrapContentSpinnerAdapter(mContext, list, view);
+        view.setSpinnerAdapter(adapter);
+    }
     @Override
     void initAppbar() {
         CustomAppbarLayout customAppbar = findViewById(R.id.customAppbar);
@@ -243,10 +244,10 @@ public class LevelTestSettingActivity extends BaseActivity implements TimePicker
                                     _timeListAdapter.notifyDataSetChanged();
 
                                 }else LogMgr.e(TAG, "ListData is null");
-                                //test//
-                                for(TimeListItem item : _timeList) {
-                                    LogMgr.w(TAG, "grade = " + ((LevelTestTimeData)item).grade + "/ time = " + ((LevelTestTimeData)item).time + "/ .isHeader() = " + item.isHeader());
-                                }
+//                                //test//
+//                                for(TimeListItem item : _timeList) {
+//                                    LogMgr.w(TAG, "grade = " + ((LevelTestTimeData)item).grade + "/ time = " + ((LevelTestTimeData)item).time + "/ .isHeader() = " + item.isHeader());
+//                                }
                             }
                         }else{
                             Toast.makeText(mContext, R.string.server_fail, Toast.LENGTH_SHORT).show();
@@ -254,7 +255,7 @@ public class LevelTestSettingActivity extends BaseActivity implements TimePicker
                     }catch (Exception e){
                         LogMgr.e(TAG + "requestBoardList() Exception : ", e.getMessage());
                     }finally {
-
+                        checkEmptyRecyclerView();
                     }
                 }
 
@@ -265,7 +266,7 @@ public class LevelTestSettingActivity extends BaseActivity implements TimePicker
                     }catch (Exception e){
                     }
 //                    hideProgressDialog();
-
+                    checkEmptyRecyclerView();
                     Toast.makeText(mContext, R.string.server_error, Toast.LENGTH_SHORT).show();
                 }
             });
@@ -302,7 +303,7 @@ public class LevelTestSettingActivity extends BaseActivity implements TimePicker
                     }catch (Exception e){
                         LogMgr.e(TAG + "requestBoardList() Exception : ", e.getMessage());
                     }finally {
-
+                        checkEmptyRecyclerView();
                     }
                 }
 
@@ -313,15 +314,32 @@ public class LevelTestSettingActivity extends BaseActivity implements TimePicker
                     }catch (Exception e){
                     }
 //                    hideProgressDialog();
-
+                    checkEmptyRecyclerView();
                     Toast.makeText(mContext, R.string.server_error, Toast.LENGTH_SHORT).show();
                 }
             });
         }
     }
+    private void checkEmptyRecyclerView() {
+        if(_timeListAdapter != null) {
+            if(_timeListAdapter.getItemCount() > 0) {
+                tvEmptyList.setVisibility(View.GONE);
+            }else{
+                tvEmptyList.setVisibility(View.VISIBLE);
+            }
+        }else{
+            tvEmptyList.setVisibility(View.VISIBLE);
+        }
+    }
     private void clearInputPanel() {
-        if(spinnerGrade != null) spinnerGrade.clearSelectedItem();
-        if(spinnerDayOfWeek != null)spinnerDayOfWeek.clearSelectedItem();
+        if(spinnerGrade != null) {
+            spinnerGrade.clearSelectedItem();
+            spinnerGrade.setItems(Constants.SchoolGradeType.getNameList());
+        }
+        if(spinnerDayOfWeek != null) {
+            spinnerDayOfWeek.clearSelectedItem();
+            spinnerDayOfWeek.setItems(Constants.WeekdayType.getNameList());
+        }
         tvTime.setText("");
         _currentData = new LevelTestTimeData();
     }
@@ -346,12 +364,15 @@ public class LevelTestSettingActivity extends BaseActivity implements TimePicker
                         }
                     }catch(Exception ex) {
 
+                    }finally{
+                        checkEmptyRecyclerView();
                     }
                 }
 
                 @Override
                 public void onFailure(Call<BaseResponse> call, Throwable t) {
                     Toast.makeText(mContext, R.string.board_item_deleted_fail, Toast.LENGTH_SHORT).show();
+                    checkEmptyRecyclerView();
                 }
             });
         }

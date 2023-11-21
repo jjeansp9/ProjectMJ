@@ -5,23 +5,36 @@ import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 
-public class ReportCardSummaryData implements Parcelable {
+import java.util.List;
 
-    public String progress;
-    public String title;
-    public int etCode;
+public class ReportCardSummaryData implements Parcelable {
+    public int seq; //seq
+    public String content;  //content
+    public String stName;   //원생명
+    public String writerName;   //작성자명
+    public String acaName;   //캠퍼스명
+    public String insertDate;
+    public List<ReportCardData> reportList;
 
     protected ReportCardSummaryData(Parcel in) {
-        progress = in.readString();
-        title = in.readString();
-        etCode = in.readInt();
+        seq = in.readInt();
+        content = in.readString();
+        stName = in.readString();
+        writerName = in.readString();
+        acaName = in.readString();
+        insertDate = in.readString();
+        reportList = in.createTypedArrayList(ReportCardData.CREATOR);
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(progress);
-        dest.writeString(title);
-        dest.writeInt(etCode);
+        dest.writeInt(seq);
+        dest.writeString(content);
+        dest.writeString(stName);
+        dest.writeString(writerName);
+        dest.writeString(acaName);
+        dest.writeString(insertDate);
+        dest.writeTypedList(reportList);
     }
 
     @Override

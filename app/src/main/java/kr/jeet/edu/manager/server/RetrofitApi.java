@@ -45,6 +45,8 @@ import kr.jeet.edu.manager.model.response.LevelTestTimeResponse;
 import kr.jeet.edu.manager.model.response.LoginResponse;
 import kr.jeet.edu.manager.model.response.NoticeListResponse;
 import kr.jeet.edu.manager.model.response.ReportCardListResponse;
+import kr.jeet.edu.manager.model.response.ReportCardSummaryListResponse;
+import kr.jeet.edu.manager.model.response.ReportCardSummaryResponse;
 import kr.jeet.edu.manager.model.response.ScheduleDetailResponse;
 import kr.jeet.edu.manager.model.response.ScheduleListResponse;
 import kr.jeet.edu.manager.model.response.ScheduleRegisterResponse;
@@ -349,9 +351,15 @@ public interface RetrofitApi {
     @GET("bus/route")
     Call<BusRouteResponse> getBusRoute(@Query("busAcaName") String busAcaName, @Query("busCode") int busCode);
 
+    //성적표 목록조회
+    @GET("reportCards")
+    Call<ReportCardSummaryListResponse> getReportCardSummaryList(@Query("memberSeq") int memberSeq, @Query("userGubun") int userGubun, @Query("searchKeyword") String searchKeyword, @Query("acaCode") String acaCode, @Query("reportSeq") int reportSeq);
     //원생별 성적표리스트 조회
-    @GET("reportCard/{stCode}")
+    @GET("reportCard/stCode/{stCode}")
     Call<ReportCardListResponse> getReportCardList(@Path("stCode") int stCode);
+    //성적표 상세조회
+    @GET("reportCard/{reportSeq}")
+    Call<ReportCardSummaryResponse> getReportCardDetailList(@Path("reportSeq") int reportSeq);
     //성적표 등록
     @POST("reportCard")
     Call<BaseResponse> updateReportCard(@Body UpdateReportCardRequest request);

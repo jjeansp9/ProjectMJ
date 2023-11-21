@@ -6,6 +6,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -15,12 +16,16 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.text.SpannableString;
+import android.text.TextUtils;
+import android.text.style.ForegroundColorSpan;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.skydoves.powerspinner.OnSpinnerItemSelectedListener;
 import com.skydoves.powerspinner.OnSpinnerOutsideTouchListener;
@@ -42,10 +47,15 @@ import kr.jeet.edu.manager.common.DataManager;
 import kr.jeet.edu.manager.common.IntentParams;
 import kr.jeet.edu.manager.model.data.ACAData;
 import kr.jeet.edu.manager.model.data.ReportCardSummaryData;
+import kr.jeet.edu.manager.model.response.ReportCardSummaryListResponse;
+import kr.jeet.edu.manager.server.RetrofitApi;
 import kr.jeet.edu.manager.server.RetrofitClient;
 import kr.jeet.edu.manager.utils.LogMgr;
 import kr.jeet.edu.manager.utils.PreferenceUtil;
 import kr.jeet.edu.manager.view.CustomAppbarLayout;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class MenuReportCardActivity extends BaseActivity {
@@ -133,43 +143,49 @@ public class MenuReportCardActivity extends BaseActivity {
         tvSearchBtn.setOnClickListener(this);
         //region spinner campus
         spinnerCampus = findViewById(R.id.spinner_campus);
-        if(_ACAList != null) _ACAList.clear();
-        _ACAList.addAll(DataManager.getInstance().getACAListMap().values());
+        if(_userGubun >= Constants.USER_TYPE_TEACHER){  //강사
+            spinnerCampus.setVisibility(View.GONE);
+        }else {
+            spinnerCampus.setVisibility(View.VISIBLE);
+            if (_ACAList != null) _ACAList.clear();
+            _ACAList.add(new ACAData("", getString(R.string.item_total), ""));
+            _ACAList.addAll(DataManager.getInstance().getACAListMap().values());
 
-        WrapContentSpinnerAdapter adapter = new WrapContentSpinnerAdapter(mContext, _ACAList.stream().map(t -> t.acaName).collect(Collectors.toList()), spinnerCampus);
-        spinnerCampus.setSpinnerAdapter(adapter);
+            WrapContentSpinnerAdapter adapter = new WrapContentSpinnerAdapter(mContext, _ACAList.stream().map(t -> t.acaName).collect(Collectors.toList()), spinnerCampus);
+            spinnerCampus.setSpinnerAdapter(adapter);
 
-        spinnerCampus.setOnSpinnerItemSelectedListener(new OnSpinnerItemSelectedListener<String>() {
-            @Override
-            public void onItemSelected(int oldIndex, @Nullable String oldItem, int newIndex, String newItem) {
-                LogMgr.e(newItem + " selected");
-                if(oldItem != null && oldItem.equals(newItem)) return;
+            spinnerCampus.setOnSpinnerItemSelectedListener(new OnSpinnerItemSelectedListener<String>() {
+                @Override
+                public void onItemSelected(int oldIndex, @Nullable String oldItem, int newIndex, String newItem) {
+                    LogMgr.e(newItem + " selected");
+                    if (oldItem != null && oldItem.equals(newItem)) return;
 
-                ACAData selectedData = null;
-                Optional optional = _ACAList.stream().filter(t -> t.acaName == newItem).findFirst();
-                if(optional.isPresent()) {
-                    selectedData = (ACAData) optional.get();
+                    ACAData selectedData = null;
+                    Optional optional = _ACAList.stream().filter(t -> t.acaName == newItem).findFirst();
+                    if (optional.isPresent()) {
+                        selectedData = (ACAData) optional.get();
+                    }
+                    _selectedACA = selectedData;
+                    LogMgr.w("selectedACA = " + _selectedACA.acaCode + " / " + _selectedACA.acaName);
+                    _handler.sendEmptyMessage(CMD_GET_REPORT_CARD);
                 }
-                _selectedACA = selectedData;
-                LogMgr.w("selectedACA = " + _selectedACA.acaCode + " / " + _selectedACA.acaName);
-                _handler.sendEmptyMessage(CMD_GET_REPORT_CARD);
-            }
-        });
-        spinnerCampus.setSpinnerOutsideTouchListener(new OnSpinnerOutsideTouchListener() {
-            @Override
-            public void onSpinnerOutsideTouch(@NonNull View view, @NonNull MotionEvent motionEvent) {
-                spinnerCampus.dismiss();
-            }
-        });
-        spinnerCampus.setSpinnerPopupHeight(ConstraintLayout.LayoutParams.WRAP_CONTENT);
-        spinnerCampus.setLifecycleOwner(this);
+            });
+            spinnerCampus.setSpinnerOutsideTouchListener(new OnSpinnerOutsideTouchListener() {
+                @Override
+                public void onSpinnerOutsideTouch(@NonNull View view, @NonNull MotionEvent motionEvent) {
+                    spinnerCampus.dismiss();
+                }
+            });
+            spinnerCampus.setSpinnerPopupHeight(ConstraintLayout.LayoutParams.WRAP_CONTENT);
+            spinnerCampus.setLifecycleOwner(this);
+        }
         //endregion
         //region recyclerview
         _recyclerViewReportCard = findViewById(R.id.recyclerview_report_card);
         _reportCardListAdapter = new ReportCardListAdapter(mContext, _reportCardList, new ReportCardListAdapter.ItemClickListener() {
             @Override
             public void onItemClick(int position, ReportCardSummaryData item) {
-
+                navigate2DetailActivity(item);
             }
 
             @Override
@@ -217,7 +233,15 @@ public class MenuReportCardActivity extends BaseActivity {
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_send, menu);
+        getMenuInflater().inflate(R.menu.menu_send_reportcard, menu);
+        int positionOfMenuItem = 0;
+        try {
+            MenuItem item = menu.getItem(positionOfMenuItem);
+            SpannableString span = new SpannableString(item.getTitle());
+            span.setSpan(new ForegroundColorSpan(ContextCompat.getColor(mContext, R.color.red)), 0, span.length(), 0);
+            item.setTitle(span);
+        }catch(Exception ex){}
+
         this._menu = menu;
         return (super.onCreateOptionsMenu(menu));
     }
@@ -239,68 +263,62 @@ public class MenuReportCardActivity extends BaseActivity {
         }
     }
 
-    private void requestReportCardList(){
+    private void requestReportCardList(int... lastSeq){
         if(RetrofitClient.getInstance() != null) {
-//            RetrofitClient.getApiInterface().getBusRoute(bcName, _currentData.busCode).enqueue(new Callback<BusRouteResponse>() {
-//                @Override
-//                public void onResponse(Call<BusRouteResponse> call, Response<BusRouteResponse> response) {
-//                    boolean isScrollY = false;
-//                    if(response.isSuccessful()) {
-//                        if(response.body() != null) {
-//                            if (mList!=null && mList.size() > 0) mList.clear();
-//
-//                            List<BusRouteData> getData = response.body().data;
-//                            if (getData != null){
-//                                //운행중?
-//                                if(_currentData.isDrive.equals("Y")) {
-//                                    Optional optional = getData.stream().filter(t->"Y".equals(t.isArrive)).reduce((first, second) -> second);
-//                                    if(optional.isPresent()) {
-//                                        BusRouteData lastArrived = (BusRouteData) optional.get();
-//                                        lastArrived.isAtThisStop = true;
-//                                        int position = getData.indexOf(lastArrived);
-//                                        if(_positionBus != position) {
-//                                            _positionBus = position;
-//                                            isScrollY = true;
-//                                        }
-//                                    }
-//                                }else{
-//
-//                                }
-//                                if (mList != null) mList.addAll(getData);
-//
-//                            }
-//                        }
-//
-//                    } else {
-//
-//                        if (response.code() == RetrofitApi.RESPONSE_CODE_BINDING_ERROR){
-//                            Toast.makeText(mContext, R.string.bus_route_binding_error, Toast.LENGTH_SHORT).show();
-//
-//                        }else if (response.code() == RetrofitApi.RESPONSE_CODE_NOT_FOUND){
-//                            Toast.makeText(mContext, R.string.bus_route_not_found, Toast.LENGTH_SHORT).show();
-//                        }else{
-//                            Toast.makeText(mContext, R.string.server_data_empty, Toast.LENGTH_SHORT).show();
-//                        }
-//                    }
-//
-//                    if (mAdapter != null) mAdapter.notifyDataSetChanged();
-//                    mRecyclerRoute.smoothScrollToPosition(_positionBus);
-//                    if (mList != null) mTvListEmpty.setVisibility(mList.isEmpty() ? View.VISIBLE : View.GONE);
-//                    setProgressWithAnimation();
-//                    _handler.sendEmptyMessageDelayed(CMD_REFRESH, REFRESH_SEC * 1000);
-//                }
-//
-//                @Override
-//                public void onFailure(Call<BusRouteResponse> call, Throwable t) {
-//                    LogMgr.e(TAG, "request() onFailure >> " + t.getMessage());
-//                    Toast.makeText(mContext, R.string.server_fail, Toast.LENGTH_SHORT).show();
-//                    if (mAdapter != null) mAdapter.notifyDataSetChanged();
-//                    mTvListEmpty.setVisibility(mList.isEmpty() ? View.VISIBLE : View.GONE);
-//                    setProgressWithAnimation();
-//                    _handler.sendEmptyMessageDelayed(CMD_REFRESH, REFRESH_SEC * 1000);
-//
-//                }
-//            });
+            int lastNoticeSeq = 0;
+            if(lastSeq != null && lastSeq.length > 0) {
+                LogMgr.e(TAG, "lastSeq[0] = " + lastSeq[0]);
+                lastNoticeSeq = lastSeq[0];
+            }
+            String acaCode = "";
+            if(_selectedACA != null) acaCode = _selectedACA.acaCode;
+            String keyword = "";
+            try{
+                if(!TextUtils.isEmpty(etSearch.getText())) {
+                    keyword = etSearch.getText().toString();
+                }
+            }catch(Exception ex){}
+            RetrofitClient.getApiInterface().getReportCardSummaryList(_seq, _userGubun, keyword, acaCode, lastNoticeSeq).enqueue(new Callback<ReportCardSummaryListResponse>() {
+                @Override
+                public void onResponse(Call<ReportCardSummaryListResponse> call, Response<ReportCardSummaryListResponse> response) {
+                    boolean isScrollY = false;
+                    if(response.isSuccessful()) {
+                        if(response.body() != null) {
+                            if (_reportCardList!=null && _reportCardList.size() > 0) _reportCardList.clear();
+
+                            List<ReportCardSummaryData> getData = response.body().data;
+                            if (getData != null){
+                                //운행중?
+                                if (_reportCardList != null) _reportCardList.addAll(getData);
+
+                            }
+                        }
+
+                    } else {
+
+                        if (response.code() == RetrofitApi.RESPONSE_CODE_BINDING_ERROR){
+                            Toast.makeText(mContext, R.string.reportcard_binding_error, Toast.LENGTH_SHORT).show();
+
+                        }else if (response.code() == RetrofitApi.RESPONSE_CODE_NOT_FOUND){
+                            Toast.makeText(mContext, R.string.reportcard_not_found, Toast.LENGTH_SHORT).show();
+                        }else{
+                            Toast.makeText(mContext, R.string.server_data_empty, Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    if (_reportCardListAdapter != null) _reportCardListAdapter.notifyDataSetChanged();
+                    checkEmptyRecyclerView();
+                }
+
+                @Override
+                public void onFailure(Call<ReportCardSummaryListResponse> call, Throwable t) {
+                    LogMgr.e(TAG, "request() onFailure >> " + t.getMessage());
+                    Toast.makeText(mContext, R.string.server_fail, Toast.LENGTH_SHORT).show();
+                    if (_reportCardListAdapter != null) _reportCardListAdapter.notifyDataSetChanged();
+                    checkEmptyRecyclerView();
+
+                }
+            });
         }
 
     }
@@ -312,7 +330,14 @@ public class MenuReportCardActivity extends BaseActivity {
         resultLauncher.launch(editIntent);
 //        startActivity(editIntent);
     }
+    private void navigate2DetailActivity(ReportCardSummaryData item) {
+        Intent intent = new Intent(MenuReportCardActivity.this, DetailReportCardActivity.class);
+        intent.putExtra(IntentParams.PARAM_BOARD_ITEM, item);
+        startActivity(intent);
+        overridePendingTransition(R.anim.horizontal_enter, R.anim.horizontal_out);
+    }
     private boolean checkEmptyRecyclerView() {
+        if(_swipeRefreshLayout != null) _swipeRefreshLayout.setRefreshing(false);
         if (_reportCardListAdapter.getItemCount() > 0) {
 //            _swipeRefreshLayout.setVisibility(View.VISIBLE);
             tvEmptyList.setVisibility(View.INVISIBLE);

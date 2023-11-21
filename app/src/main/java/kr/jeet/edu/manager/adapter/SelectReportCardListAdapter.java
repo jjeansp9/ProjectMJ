@@ -79,6 +79,9 @@ public class SelectReportCardListAdapter extends RecyclerView.Adapter<SelectRepo
         }
         holder.tvDate.setText(dateString);
         switch(_listType) {
+            case VIEW:
+                holder.layoutRoot.setBackgroundColor(_context.getColor(R.color.white));
+                break;
             case CHECK:
                 holder.cbSelect.setChecked(item.isSelected);
                 if("Y".equals(item.msgYn)) {
@@ -128,8 +131,13 @@ public class SelectReportCardListAdapter extends RecyclerView.Adapter<SelectRepo
                 if (_list.size() > 0) _listener.onItemClick(position, item);
             });
             switch(_listType){
+                case VIEW:
+                    layoutRoot.setClickable(true);
+                    cbSelect.setVisibility(View.GONE);
+                    spinnerType.setVisibility(View.GONE);
+                    break;
                 case CHECK:
-
+                    layoutRoot.setClickable(false);
 //                    tvGubun.setVisibility(View.VISIBLE);
 //                    tvGrade.setVisibility(View.VISIBLE);
                     cbSelect.setVisibility(View.VISIBLE);
@@ -144,6 +152,7 @@ public class SelectReportCardListAdapter extends RecyclerView.Adapter<SelectRepo
                     });
                     break;
                 case SELECT_FORM_TYPE:
+                    layoutRoot.setClickable(false);
 //                    tvGubun.setVisibility(View.GONE);
 //                    tvGrade.setVisibility(View.GONE);
                     cbSelect.setVisibility(View.GONE);

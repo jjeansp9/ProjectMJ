@@ -4,39 +4,121 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingHorizontal="@dimen/layout_margin"
     android:paddingVertical="8dp"
+    android:paddingHorizontal="20dp"
     android:foreground="?android:attr/selectableItemBackground"
-    android:id="@+id/rootview">
+    android:id="@+id/root_layout">
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline_h80"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.80" />
+<!--    <androidx.constraintlayout.widget.Guideline-->
+<!--        android:id="@+id/guideline"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:orientation="vertical"-->
+<!--        app:layout_constraintGuide_percent="0.70" />-->
+
     <TextView
         android:id="@+id/tv_title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/layout_sender"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="8dp"
         android:maxLines="1"
         android:ellipsize="end"
+        android:hint="@string/title_main_content"
         android:textColor="@color/font_color_default"
-        android:textSize="@dimen/font_size_large"
         android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@+id/guideline_h80"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        android:textSize="@dimen/font_size_large"/>
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/layout_sender"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@id/tv_campus"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+        <TextView
+            android:id="@+id/tv_writer_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:hint="@string/name"
+            android:maxLines="1"
+            android:textColor="@color/font_color_default"
+            android:textSize="@dimen/font_size_small"
+            />
+        <ImageView
+            android:id="@+id/img_icon_to"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="@dimen/layout_margin_xxxsmall"
+            android:background="@drawable/ic_vector_play"
+            android:backgroundTint="@color/font_color_default"
+            />
+        <TextView
+            android:id="@+id/tv_student_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:hint="@string/name"
+            android:maxLines="1"
+            android:textColor="@color/font_color_default"
+            android:textSize="@dimen/font_size_small"
+            />
+        <ImageView
+            android:id="@+id/img_icon_count"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_gravity="center"
+            android:background="@drawable/ic_vector_papers"
+            android:backgroundTint="@color/darkgray"
+            android:layout_marginStart="@dimen/layout_margin"
+            />
+        <TextView
+            android:id="@+id/tv_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/layout_margin_xxxsmall"
+            android:ellipsize="end"
+            android:hint="@string/name"
+            android:maxLines="1"
+            android:textColor="@color/font_color_999"
+            android:textSize="@dimen/font_size_small"
+            />
+    </androidx.appcompat.widget.LinearLayoutCompat>
 
-<!--    <View-->
-<!--        android:id="@+id/view_bus_state"-->
-<!--        android:layout_width="@dimen/bus_state_icon_size"-->
-<!--        android:layout_height="@dimen/bus_state_icon_size"-->
-<!--        app:layout_constraintTop_toTopOf="parent"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        android:background="@drawable/icon_bus_off"-->
-<!--        android:clickable="false"/>-->
+
+    <TextView
+        android:id="@+id/tv_campus"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/tv_date"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="8dp"
+        android:hint="캠퍼스"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:textColor="@color/font_color_999"
+        android:textSize="@dimen/font_size_small"/>
+
+
+    <TextView
+        android:id="@+id/tv_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginEnd="8dp"
+        android:textSize="@dimen/font_size_small"
+        android:textColor="@color/font_color_999"
+        android:maxLines="1"
+        android:ellipsize="end"
+        />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

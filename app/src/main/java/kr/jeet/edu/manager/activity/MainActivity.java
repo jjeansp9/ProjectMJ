@@ -156,11 +156,7 @@ public class MainActivity extends BaseActivity {
                     requestBoardInfoList();
                     break;
                 case CMD_GET_LAST_ANNOUNCEMENT_BOARD:
-                    if(_managerInfo != null) {
-                        requestAnnouncementBoardList(PreferenceUtil.getAppAcaCode(mContext), "");
-                    }else{
-                        mHandler.sendEmptyMessageDelayed(msg.what, 1000);
-                    }
+                    requestAnnouncementBoardList(PreferenceUtil.getAppAcaCode(mContext), "");
                     break;
 
 //                case CMD_PUSH_MESSAGE_RECEIVED:
@@ -754,8 +750,8 @@ public class MainActivity extends BaseActivity {
         //설명회예약
         menuList.add(new MainMenuItemData(R.drawable.icon_menu_briefing, R.string.main_menu_briefing_reserve, MenuBriefingActivity.class));
         //성적표
-//        menuList.add(new MainMenuItemData(R.drawable.icon_menu_report, R.string.title_report_card, MenuReportCardActivity.class));
-        menuList.add(new MainMenuItemData(R.drawable.icon_menu_report, R.string.title_report_card, null));
+        menuList.add(new MainMenuItemData(R.drawable.icon_menu_report, R.string.title_report_card, MenuReportCardActivity.class));
+
         mListAdapter.notifyDataSetChanged();
     }
 

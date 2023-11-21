@@ -6,6 +6,7 @@
     android:id="@+id/root"
     android:orientation="horizontal"
     android:layout_marginVertical="@dimen/layout_margin_xxsmall"
+    android:paddingHorizontal="2dp"
     android:stateListAnimator="@xml/animate_button_push"
     android:background="@drawable/bg_white_panel">
 

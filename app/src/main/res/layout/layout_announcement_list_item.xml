@@ -115,7 +115,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/tv_announcement_date"
         android:layout_marginStart="@dimen/layout_margin_xsmall"
-        android:layout_marginEnd="@dimen/layout_margin_xxxsmall"
         />
 
     <TextView
@@ -125,6 +124,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="@+id/tv_announcement_date"
         app:layout_constraintStart_toEndOf="@+id/img_rd_cnt"
+        android:layout_marginStart="@dimen/layout_margin_xxxsmall"
         android:textSize="@dimen/font_size_small"
         android:textColor="@color/font_color_999"
         android:maxLines="1"

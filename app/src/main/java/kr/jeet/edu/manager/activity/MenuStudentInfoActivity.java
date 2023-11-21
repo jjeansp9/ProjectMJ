@@ -90,6 +90,7 @@ public class MenuStudentInfoActivity extends BaseActivity implements DatePickerF
     private MaterialCheckBox _checkBoxAll;
     private PowerSpinnerView _spinnerAttendanceMultiple;
     private TextView _tvCount;
+    private TextView tvEmptyList;
 
     ArrayList<AttendanceData> _originAttendanceList;
     ArrayList<AttendanceData> _attendanceList = new ArrayList<>();
@@ -220,6 +221,7 @@ public class MenuStudentInfoActivity extends BaseActivity implements DatePickerF
         _tvCalendar = findViewById(R.id.tv_calendar);
         _tvCalendar.setOnClickListener(this);
         _tvCalendar.setText(_dateFormat.format(_selectedDate));
+        tvEmptyList = findViewById(R.id.tv_empty_list);
 
         _btnCalendarPrev = findViewById(R.id.btn_calendar_previous);
         _btnCalendarPrev.setOnClickListener(this);
@@ -714,6 +716,11 @@ public class MenuStudentInfoActivity extends BaseActivity implements DatePickerF
                     }finally{
 //                        hideProgressDialog();
                         _adapter.notifyDataSetChanged();
+                        if(_adapter.getItemCount() > 0) {
+                            tvEmptyList.setVisibility(View.GONE);
+                        }else{
+                            tvEmptyList.setVisibility(View.VISIBLE);
+                        }
                     }
                 }
 
@@ -729,6 +736,11 @@ public class MenuStudentInfoActivity extends BaseActivity implements DatePickerF
                     }finally{
 //                        hideProgressDialog();
                         _adapter.notifyDataSetChanged();
+                        if(_adapter.getItemCount() > 0) {
+                            tvEmptyList.setVisibility(View.GONE);
+                        }else{
+                            tvEmptyList.setVisibility(View.VISIBLE);
+                        }
                     }
 
                 }
