@@ -123,6 +123,7 @@ public class SelectReportCardRecipientActivity extends BaseActivity implements M
     int _sfCode = 0;
     String searchWord = "";
     Menu _menu;
+    boolean isAdded = false;
     //endregion
     private Handler _handler = new Handler(Looper.getMainLooper()) {
         @Override
@@ -203,9 +204,7 @@ public class SelectReportCardRecipientActivity extends BaseActivity implements M
             if(intent == null) return;
             if(intent.hasExtra(IntentParams.PARAM_BOARD_ADDED)) {
                 boolean added = intent.getBooleanExtra(IntentParams.PARAM_BOARD_ADDED, false);
-
-                if(added) {
-                }
+                isAdded = added;
             }
         }
     });
@@ -897,6 +896,15 @@ public class SelectReportCardRecipientActivity extends BaseActivity implements M
             });
         }
     }
+
+    @Override
+    public void onBackPressed() {
+        if(isAdded) {
+            setResult(RESULT_OK);
+        }
+        super.onBackPressed();
+    }
+
     private void searchFilter(String searchStr){
         if(_adapterRecipient != null) {
             LogMgr.e(TAG, "filter with " + searchStr);

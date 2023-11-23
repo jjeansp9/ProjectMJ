@@ -11,6 +11,7 @@ public class ReportCardSummaryData implements Parcelable {
     public int seq; //seq
     public String content;  //content
     public String stName;   //원생명
+    public int writerSeq;   //작성자Seq
     public String writerName;   //작성자명
     public String acaName;   //캠퍼스명
     public String insertDate;

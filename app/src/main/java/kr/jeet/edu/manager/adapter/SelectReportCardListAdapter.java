@@ -5,15 +5,19 @@ import static androidx.recyclerview.widget.RecyclerView.NO_POSITION;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.text.SpannableString;
+import android.text.TextUtils;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -30,6 +34,7 @@ import java.util.List;
 
 import kr.jeet.edu.manager.R;
 import kr.jeet.edu.manager.common.Constants;
+import kr.jeet.edu.manager.model.data.RecipientStudentData;
 import kr.jeet.edu.manager.model.data.ReportCardData;
 import kr.jeet.edu.manager.utils.LogMgr;
 
@@ -44,12 +49,14 @@ public class SelectReportCardListAdapter extends RecyclerView.Adapter<SelectRepo
     private Context _context;
     private List<ReportCardData> _list;
     private ItemClickListener _listener;
+    private Drawable disableDrawable;
 
     public SelectReportCardListAdapter(Context context, List<ReportCardData> list, Constants.ReportCardListType type,  ItemClickListener listener) {
         this._context = context;
         this._list = list;
         this._listType = type;
         this._listener = listener;
+        disableDrawable = _context.getDrawable(R.drawable.ic_vector_checkbox_disabled);
     }
 
     @NonNull
@@ -67,7 +74,9 @@ public class SelectReportCardListAdapter extends RecyclerView.Adapter<SelectRepo
         holder.tvGubun.setText(item.etTitleGubunName);
         Drawable gubunDrawable = _context.getResources().getDrawable(R.drawable.bg_layout_manager, null);
         Constants.ReportCardType type = Constants.ReportCardType.getByName(item.etTitleGubunName);
-        gubunDrawable.setTint(_context.getResources().getColor(type.getColorRes(), null));
+        if(type != null) {
+            gubunDrawable.setTint(_context.getResources().getColor(type.getColorRes(), null));
+        }
         holder.tvGubun.setBackground(gubunDrawable);
         holder.tvGrade.setText(item.etGubun);
         String dateString = item.regDate;
@@ -81,6 +90,8 @@ public class SelectReportCardListAdapter extends RecyclerView.Adapter<SelectRepo
         switch(_listType) {
             case VIEW:
                 holder.layoutRoot.setBackgroundColor(_context.getColor(R.color.white));
+                holder.cbSelect.setBackground(null);
+                holder.cbSelect.setEnabled(true);
                 break;
             case CHECK:
                 holder.cbSelect.setChecked(item.isSelected);
@@ -89,9 +100,18 @@ public class SelectReportCardListAdapter extends RecyclerView.Adapter<SelectRepo
                 }else{
                     holder.layoutRoot.setBackgroundColor(_context.getColor(R.color.white));
                 }
+                if(item.etTitleGubun == Constants.ReportCardType.MIDDLE.getCode()) {
+                    holder.cbSelect.setEnabled(false);
+                    holder.cbSelect.setBackground(disableDrawable);
+                }else{
+                    holder.cbSelect.setEnabled(true);
+                    holder.cbSelect.setBackground(null);
+                }
                 break;
             case SELECT_FORM_TYPE:
                 holder.layoutRoot.setBackgroundColor(_context.getColor(R.color.white));
+                holder.cbSelect.setBackground(null);
+                holder.cbSelect.setEnabled(true);
                 if(type != null) {
                     Constants.ReportCardType spinnerType = Constants.ReportCardType.getByCode(item.etTitleGubun);
                     int index = Arrays.binarySearch(Constants.ReportCardType.values(), spinnerType);
@@ -111,6 +131,7 @@ public class SelectReportCardListAdapter extends RecyclerView.Adapter<SelectRepo
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         private ConstraintLayout layoutRoot;
+        private LinearLayoutCompat layoutCheckbox;
         private TextView tvGubun, tvTitle, tvGrade, tvDate;
         private MaterialCheckBox cbSelect;
         private PowerSpinnerView spinnerType;
@@ -122,6 +143,7 @@ public class SelectReportCardListAdapter extends RecyclerView.Adapter<SelectRepo
             tvGrade = itemView.findViewById(R.id.tv_grade);
             tvTitle = itemView.findViewById(R.id.tv_report_card_title);
             tvDate = itemView.findViewById(R.id.tv_report_card_date);
+            layoutCheckbox = itemView.findViewById(R.id.layout_checkbox);
             cbSelect = itemView.findViewById(R.id.cb_select);
             spinnerType = itemView.findViewById(R.id.spinner_type);
 
@@ -132,15 +154,39 @@ public class SelectReportCardListAdapter extends RecyclerView.Adapter<SelectRepo
             });
             switch(_listType){
                 case VIEW:
-                    layoutRoot.setClickable(true);
-                    cbSelect.setVisibility(View.GONE);
+//                    layoutRoot.setClickable(true);
+                    int selectableItemBackgroundResource = android.R.attr.selectableItemBackground;
+                    TypedValue typedValue = new TypedValue();
+                    _context.getTheme().resolveAttribute(selectableItemBackgroundResource, typedValue, true);
+                    int selectableItemBackgroundDrawableId = typedValue.resourceId;
+                    layoutRoot.setForeground(_context.getDrawable(selectableItemBackgroundDrawableId));
+                    layoutCheckbox.setVisibility(View.GONE);
+                    layoutCheckbox.setOnClickListener(null);
                     spinnerType.setVisibility(View.GONE);
                     break;
                 case CHECK:
-                    layoutRoot.setClickable(false);
+//                    layoutRoot.setClickable(false);
+                    layoutRoot.setForeground(null);
 //                    tvGubun.setVisibility(View.VISIBLE);
 //                    tvGrade.setVisibility(View.VISIBLE);
-                    cbSelect.setVisibility(View.VISIBLE);
+                    layoutCheckbox.setVisibility(View.VISIBLE);
+                    layoutCheckbox.setOnClickListener(new View.OnClickListener(){
+                        @Override
+                        public void onClick(View view) {
+                            int position = getBindingAdapterPosition();
+                            if(_list != null && position != NO_POSITION && position < _list.size()) {
+                                ReportCardData item = _list.get(position);
+                                if (cbSelect.isEnabled()) {
+                                    cbSelect.setChecked(!cbSelect.isChecked());
+                                } else {
+                                    if((item.etTitleGubun == Constants.ReportCardType.MIDDLE.getCode())) {
+                                        cbSelect.setChecked(false);
+                                        Toast.makeText(_context, R.string.err_msg_middle_not_supported, Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            }
+                        }
+                    });
                     spinnerType.setVisibility(View.GONE);
                     cbSelect.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                         @Override
@@ -152,12 +198,14 @@ public class SelectReportCardListAdapter extends RecyclerView.Adapter<SelectRepo
                     });
                     break;
                 case SELECT_FORM_TYPE:
-                    layoutRoot.setClickable(false);
+//                    layoutRoot.setClickable(false);
+                    layoutRoot.setForeground(null);
 //                    tvGubun.setVisibility(View.GONE);
 //                    tvGrade.setVisibility(View.GONE);
-                    cbSelect.setVisibility(View.GONE);
+                    layoutCheckbox.setVisibility(View.GONE);
+                    layoutCheckbox.setOnClickListener(null);
                     spinnerType.setVisibility(View.VISIBLE);
-                    spinnerType.setIsFocusable(true);
+//                    spinnerType.setIsFocusable(true);
 //        _spinnerReportCardMultiple.setItems(Constants.ReportCardType.getNameList());
                     ColoredSpinnerAdapter adapter = new ColoredSpinnerAdapter(_context, Constants.ReportCardType.getColoredNameList(_context), spinnerType);
                     spinnerType.setSpinnerAdapter(adapter);

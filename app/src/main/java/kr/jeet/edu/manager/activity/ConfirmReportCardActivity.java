@@ -117,7 +117,7 @@ public class ConfirmReportCardActivity extends BaseActivity {
         cbSendSMS = findViewById(R.id.check_sms);
         //region set recyclerview
         _recyclerView = findViewById(R.id.recyclerview_report_card);
-        _listAdapter = new SelectReportCardListAdapter(mContext, _reportCardList, Constants.ReportCardListType.SELECT_FORM_TYPE, new SelectReportCardListAdapter.ItemClickListener() {
+        _listAdapter = new SelectReportCardListAdapter(mContext, _reportCardList, Constants.ReportCardListType.VIEW, new SelectReportCardListAdapter.ItemClickListener() {
             @Override
             public void onItemClick(int position, ReportCardData item) {
             }
@@ -156,7 +156,7 @@ public class ConfirmReportCardActivity extends BaseActivity {
                 _spinnerReportCardMultiple.dismiss();
             }
         });
-
+        _spinnerReportCardMultiple.setVisibility(View.GONE);
         //endregion
     }
     private void initData() {
@@ -168,6 +168,7 @@ public class ConfirmReportCardActivity extends BaseActivity {
             int count = 0;
             if(_reportCardList != null) count = _reportCardList.size();
             tvCount.setText(getString(R.string.content_item_counts, count));
+            _reportCardList.forEach(t->t.stCode = _currentStudent.stCode);
         }
     }
     @Override
@@ -214,8 +215,7 @@ public class ConfirmReportCardActivity extends BaseActivity {
                     StringBuilder sb = new StringBuilder(getString(R.string.msg_confirm_send_reportcard));
                     if(_reportCardList.stream().anyMatch(t->t.etTitleGubun == Constants.ReportCardType.MIDDLE.getCode())) {
                         sb.append("\n\n");
-                        sb.append("성적표에 포함된 [ 중등 ] 유형은 성적표 출력이 되지 않습니다.");
-
+                        sb.append("����ǥ�� ���Ե� [ �ߵ� ] ������ ����ǥ ����� ���� �ʽ��ϴ�.");
                     }
                     showMessageDialog(getString(R.string.dialog_title_alarm)
                             , sb.toString()

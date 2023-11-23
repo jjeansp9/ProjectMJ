@@ -10,6 +10,8 @@
     <color name="red">#e51b23</color>
     <color name="red_sub">#ff5959</color>
     <color name="red_alpha">#66e51b23</color>
+    <color name="pink">#ff9289</color>
+    <color name="pink_light">#ffe1e1</color>
     <color name="blue">#013fa6</color>
     <color name="blue_sub">#1572d9</color>
     <color name="green">#249437</color>

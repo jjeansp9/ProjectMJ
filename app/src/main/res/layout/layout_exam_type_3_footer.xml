@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:gravity="center">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/tv_correct_count_sub"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:background="@drawable/bg_border_red_sub"
+            android:paddingVertical="12dp"
+            android:textColor="@color/white"
+            android:textSize="@dimen/font_size"
+            android:text="@string/title_exam_math_correct_count"
+            />
+
+        <TextView
+            android:id="@+id/tv_correct_count"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:gravity="center"
+            android:background="@drawable/bg_border_default"
+            android:paddingVertical="12dp"
+            android:textColor="@color/font_color_default"
+            android:textSize="@dimen/font_size"
+            android:textStyle="bold"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/tv_total_score_sub"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:background="@drawable/bg_border_red_sub_start_bottom"
+            android:paddingVertical="12dp"
+            android:textColor="@color/white"
+            android:textSize="@dimen/font_size"
+            android:text="@string/title_exam_math_total_score"
+            />
+
+        <TextView
+            android:id="@+id/tv_total_score"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:gravity="center"
+            android:background="@drawable/bg_border_default_end_bottom"
+            android:paddingVertical="12dp"
+            android:textColor="@color/font_color_default"
+            android:textSize="@dimen/font_size"
+            android:textStyle="bold"
+            />
+
+    </LinearLayout>
+
+
+</LinearLayout>

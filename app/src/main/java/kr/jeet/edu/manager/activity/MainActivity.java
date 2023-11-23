@@ -156,7 +156,11 @@ public class MainActivity extends BaseActivity {
                     requestBoardInfoList();
                     break;
                 case CMD_GET_LAST_ANNOUNCEMENT_BOARD:
-                    requestAnnouncementBoardList(PreferenceUtil.getAppAcaCode(mContext), "");
+                    if(_userGubun >= Constants.USER_TYPE_TEACHER) {
+                        requestAnnouncementBoardList(PreferenceUtil.getAppAcaCode(mContext), "");
+                    }else {
+                        requestAnnouncementBoardList("", "");
+                    }
                     break;
 
 //                case CMD_PUSH_MESSAGE_RECEIVED:
@@ -259,31 +263,29 @@ public class MainActivity extends BaseActivity {
         layoutTeacherProfile = findViewById(R.id.btn_teacher_profile);
         layoutRequestConsulting = findViewById(R.id.btn_request_consulting);
         layoutAnnouncement = findViewById(R.id.btn_announcement_state);
-
+        layoutAnnouncement.setVisibility(View.VISIBLE);
         if(_userGubun == Constants.USER_TYPE_SUPER_ADMIN) {
             layoutTeacherProfile.setVisibility(View.GONE);
             layoutRequestConsulting.setVisibility(View.GONE);
-            layoutAnnouncement.setVisibility(View.GONE);
+
         }else{
             layoutTeacherProfile.setVisibility(View.VISIBLE);
             layoutRequestConsulting.setVisibility(View.VISIBLE);
-            layoutAnnouncement.setVisibility(View.VISIBLE);
             ivNewCounsel = findViewById(R.id.img_consulting_new);
-            tvEmptyList = findViewById(R.id.tv_main_empty_list);
-            _recyclerViewAnnouncement = findViewById(R.id.recycler_announcement);
-            _announcementListAdapter = new AnnouncementListAdapter(mContext, announcementList, new AnnouncementListAdapter.onItemClickListener() {
-                @Override
-                public void onItemClick(AnnouncementData item, int position) {
-                    navigate2DetailAnnouncementActivity(item);
-                }
-            });
-            _announcementListAdapter.setViewMode(AnnouncementListAdapter.ViewMode.SUMMARY);
-            _recyclerViewAnnouncement.setAdapter(_announcementListAdapter);
-            Drawable dividerDrawable = ContextCompat.getDrawable(mContext, R.drawable.bg_line);
-            LastIndexDeleteDecoration dividerItemDecoration = new LastIndexDeleteDecoration(dividerDrawable);
-            _recyclerViewAnnouncement.addItemDecoration(dividerItemDecoration);
         }
-
+        tvEmptyList = findViewById(R.id.tv_main_empty_list);
+        _recyclerViewAnnouncement = findViewById(R.id.recycler_announcement);
+        _announcementListAdapter = new AnnouncementListAdapter(mContext, announcementList, new AnnouncementListAdapter.onItemClickListener() {
+            @Override
+            public void onItemClick(AnnouncementData item, int position) {
+                navigate2DetailAnnouncementActivity(item);
+            }
+        });
+        _announcementListAdapter.setViewMode(AnnouncementListAdapter.ViewMode.SUMMARY);
+        _recyclerViewAnnouncement.setAdapter(_announcementListAdapter);
+        Drawable dividerDrawable = ContextCompat.getDrawable(mContext, R.drawable.bg_line);
+        LastIndexDeleteDecoration dividerItemDecoration = new LastIndexDeleteDecoration(dividerDrawable);
+        _recyclerViewAnnouncement.addItemDecoration(dividerItemDecoration);
 
 //        _recyclerViewAnnouncement.addItemDecoration(new DividerItemDecoration(mContext, DividerItemDecoration.VERTICAL));
         initMenus();
@@ -375,9 +377,9 @@ public class MainActivity extends BaseActivity {
                 setNewCounselContent(true);
             }
         }).start();
-        if(_userGubun != Constants.USER_TYPE_SUPER_ADMIN) {
-            mHandler.sendEmptyMessage(CMD_GET_LAST_ANNOUNCEMENT_BOARD);
-        }
+
+        mHandler.sendEmptyMessage(CMD_GET_LAST_ANNOUNCEMENT_BOARD);
+
     }
 
     @Override

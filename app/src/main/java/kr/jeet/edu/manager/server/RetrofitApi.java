@@ -45,6 +45,7 @@ import kr.jeet.edu.manager.model.response.LevelTestTimeResponse;
 import kr.jeet.edu.manager.model.response.LoginResponse;
 import kr.jeet.edu.manager.model.response.NoticeListResponse;
 import kr.jeet.edu.manager.model.response.ReportCardListResponse;
+import kr.jeet.edu.manager.model.response.ReportCardShowResponse;
 import kr.jeet.edu.manager.model.response.ReportCardSummaryListResponse;
 import kr.jeet.edu.manager.model.response.ReportCardSummaryResponse;
 import kr.jeet.edu.manager.model.response.ScheduleDetailResponse;
@@ -75,8 +76,8 @@ public interface RetrofitApi {
 
 //    public final static String SERVER_BASE_URL = "http://192.168.2.51:7777/";   //kyt local
 //    public final static String SERVER_BASE_URL = "http://192.168.2.55:7777/";   //pjh local
-    //public final static String SERVER_BASE_URL = "http://192.168.2.77:7777/";  //khj local
-    public final static String SERVER_BASE_URL = "http://211.252.86.237:7777/";  //cloud
+    public final static String SERVER_BASE_URL = "http://192.168.2.77:7777/";  //khj local
+    //public final static String SERVER_BASE_URL = "http://211.252.86.237:7777/";  //cloud
     public final static String PREFIX = "mobile/api/";
     public final static String FILE_SUFFIX_URL = SERVER_BASE_URL + "attachFile/";
 
@@ -360,7 +361,13 @@ public interface RetrofitApi {
     //성적표 상세조회
     @GET("reportCard/{reportSeq}")
     Call<ReportCardSummaryResponse> getReportCardDetailList(@Path("reportSeq") int reportSeq);
+    //성적표별 데이터 상세조회
+    @GET("reportCard/{reportSeq}/list/{reportListSeq}")
+    Call<ReportCardShowResponse> getReportCardShowList(@Path("reportSeq") int reportSeq, @Path("reportListSeq") int reportListSeq);
     //성적표 등록
     @POST("reportCard")
     Call<BaseResponse> updateReportCard(@Body UpdateReportCardRequest request);
+    //성적표 삭제
+    @DELETE("reportCard/{reportSeq}")
+    Call<BaseResponse> deleteReportCard(@Path("reportSeq") int reportSeq);
 }

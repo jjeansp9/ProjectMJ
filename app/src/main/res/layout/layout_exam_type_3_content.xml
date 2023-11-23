@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:gravity="center">
+
+    <TextView
+        android:id="@+id/tv_report_math_no"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:background="@drawable/bg_border_pink_light"
+        android:paddingVertical="12dp"
+        android:textColor="@color/font_color_default"
+        android:textSize="@dimen/font_size"
+        />
+
+    <TextView
+        android:id="@+id/tv_report_math_score"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:background="@drawable/bg_border_default"
+        android:paddingVertical="12dp"
+        android:textColor="@color/font_color_default"
+        android:textSize="@dimen/font_size"
+        android:textStyle="bold"
+        />
+
+</LinearLayout>

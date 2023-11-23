@@ -3,6 +3,7 @@ package kr.jeet.edu.manager.adapter;
 import static androidx.recyclerview.widget.RecyclerView.NO_POSITION;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,7 @@ import java.util.List;
 import kr.jeet.edu.manager.R;
 import kr.jeet.edu.manager.common.Constants;
 import kr.jeet.edu.manager.model.data.ReportCardSummaryData;
+import kr.jeet.edu.manager.utils.PreferenceUtil;
 import kr.jeet.edu.manager.utils.Utils;
 
 public class ReportCardListAdapter extends RecyclerView.Adapter<ReportCardListAdapter.ViewHolder> implements Filterable {
@@ -37,11 +39,12 @@ public class ReportCardListAdapter extends RecyclerView.Adapter<ReportCardListAd
 
     SimpleDateFormat millisecFormat = new SimpleDateFormat(Constants.DATE_FORMATTER_YYYY_MM_DD_HH_mm_ss_SSS);
     SimpleDateFormat minuteFormat = new SimpleDateFormat(Constants.DATE_FORMATTER_YYYY_MM_DD_HH_mm);
-
+    int _userGubun = 0;
     public ReportCardListAdapter(Context context, List<ReportCardSummaryData> list, ItemClickListener listener) {
         this._context = context;
         this._list = this._filteredList = list;
         this._listener = listener;
+        _userGubun = PreferenceUtil.getUserGubun(_context);
     }
 
     @NonNull
@@ -56,7 +59,19 @@ public class ReportCardListAdapter extends RecyclerView.Adapter<ReportCardListAd
         if(position == NO_POSITION) return;
         ReportCardSummaryData item = _list.get(position);
         holder.tvTitle.setText(Utils.getStr(item.content));
-        holder.tvWriter.setText(Utils.getStr(item.writerName));
+        if(_userGubun >= Constants.USER_TYPE_TEACHER) {
+            holder.tvWriter.setVisibility(View.GONE);
+            holder.ivArrow.setVisibility(View.GONE);
+        }else{
+            if(!TextUtils.isEmpty(item.writerName)) {
+                holder.tvWriter.setVisibility(View.VISIBLE);
+                holder.ivArrow.setVisibility(View.VISIBLE);
+                holder.tvWriter.setText(Utils.getStr(item.writerName));
+            }else{
+                holder.tvWriter.setVisibility(View.GONE);
+                holder.ivArrow.setVisibility(View.GONE);
+            }
+        }
         holder.tvStudent.setText(Utils.getStr(item.stName));
         if(item.reportList != null && !item.reportList.isEmpty()) {
             holder.ivCount.setVisibility(View.VISIBLE);

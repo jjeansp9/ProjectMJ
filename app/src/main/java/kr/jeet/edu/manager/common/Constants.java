@@ -508,4 +508,5 @@ public class Constants {
             return coloredNameList;
         }
     }
+    public static int REPORT_MATH_SPAN_COUNT = 5; // 악어수학 성적표 span count 설정
 }

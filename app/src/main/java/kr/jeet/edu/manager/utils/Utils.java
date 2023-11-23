@@ -5,6 +5,7 @@ import static kr.jeet.edu.manager.utils.LogMgr.TAG;
 import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.InsetDrawable;
@@ -466,4 +467,8 @@ public class Utils {
      * 한글(자음,모음 비허용), 영어, 공백만 허용, 이외의 문자를 입력했는지 체크
      * */
     public static boolean nameCheck(String str){ return Pattern.compile("^[a-zA-Z가-힣\\s]+$").matcher(str).find(); }
+    /**
+     * dp값 가져오기
+     * */
+    public static int fromPxToDp(float px) { return (int) (px * Resources.getSystem().getDisplayMetrics().density); }
 }

@@ -74,4 +74,7 @@
 
     <dimen name="anim_move">20dp</dimen>
     <dimen name="empty_textview_multiplier">1.2</dimen>
+    <dimen name="reportcard_index_column_width">60dp</dimen>
+
+    <dimen name="border_radius">12dp</dimen>
 </resources>

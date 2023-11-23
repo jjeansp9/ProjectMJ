@@ -100,12 +100,21 @@ public class MenuReportCardActivity extends BaseActivity {
                 Intent intent = result.getData();
                 if(intent.hasExtra(IntentParams.PARAM_BOARD_ADDED)) {
                     boolean added = intent.getBooleanExtra(IntentParams.PARAM_BOARD_ADDED, false);
-
                     if(added) {
 //                        LogMgr.e("acaCode = " + _selectedACA.acaCode);
                         requestReportCardList();
                     }
+
                 }
+//                else if(intent.hasExtra(IntentParams.PARAM_BOARD_DELETED)) {
+//                    boolean deleted = intent.getBooleanExtra(IntentParams.PARAM_BOARD_DELETED, false);
+//                    int position = intent.getIntExtra(IntentParams.PARAM_BOARD_POSITION, -1);
+//                    if(deleted && position >= 0) {
+//                        _reportCardList.remove(position);
+//                        _reportCardListAdapter.notifyItemRemoved(position);
+//                        checkEmptyRecyclerView();
+//                    }
+//                }
             }
         }
     });
@@ -185,7 +194,7 @@ public class MenuReportCardActivity extends BaseActivity {
         _reportCardListAdapter = new ReportCardListAdapter(mContext, _reportCardList, new ReportCardListAdapter.ItemClickListener() {
             @Override
             public void onItemClick(int position, ReportCardSummaryData item) {
-                navigate2DetailActivity(item);
+                navigate2DetailActivity(item, position);
             }
 
             @Override
@@ -195,6 +204,20 @@ public class MenuReportCardActivity extends BaseActivity {
         });
         _recyclerViewReportCard.setAdapter(_reportCardListAdapter);
         _recyclerViewReportCard.addItemDecoration(new DividerItemDecoration(mContext, DividerItemDecoration.VERTICAL));
+        _recyclerViewReportCard.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if(((!_recyclerViewReportCard.canScrollVertically(1)) && _recyclerViewReportCard.canScrollVertically(-1))
+                        && newState == RecyclerView.SCROLL_STATE_IDLE
+                        && (_reportCardListAdapter != null && !_reportCardList.isEmpty()))
+                {
+                    int lastNoticeSeq = _reportCardList.get(_reportCardList.size() - 1).seq;
+                    requestReportCardList(lastNoticeSeq);
+                }
+            }
+
+        });
         //endregion
         _swipeRefreshLayout = findViewById(R.id.refresh_layout);
         _swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -217,17 +240,22 @@ public class MenuReportCardActivity extends BaseActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
     void initData(){
-        Optional option = _ACAList.stream().filter(t -> t.acaCode.equals(_acaCode)).findFirst();
-        if (option.isPresent()) {
-            _selectedACA = (ACAData) option.get();
-        }
-        if (_selectedACA != null) {
-            int selectedIndex = _ACAList.indexOf(_selectedACA);
-            spinnerCampus.selectItemByIndex(selectedIndex);
+        if(_userGubun >= Constants.USER_TYPE_TEACHER) {
+            _selectedACA = DataManager.getInstance().getACAData(_acaCode);
+            _handler.sendEmptyMessage(CMD_GET_REPORT_CARD);
+        }else {
+            Optional option = _ACAList.stream().filter(t -> t.acaCode.equals(_acaCode)).findFirst();
+            if (option.isPresent()) {
+                _selectedACA = (ACAData) option.get();
+            }
+            if (_selectedACA != null) {
+                int selectedIndex = _ACAList.indexOf(_selectedACA);
+                spinnerCampus.selectItemByIndex(selectedIndex);
 
-        }else{
-            if(!_ACAList.isEmpty()) {
-                spinnerCampus.selectItemByIndex(0);
+            } else {
+                if (!_ACAList.isEmpty()) {
+                    spinnerCampus.selectItemByIndex(0);
+                }
             }
         }
     }
@@ -278,20 +306,21 @@ public class MenuReportCardActivity extends BaseActivity {
                     keyword = etSearch.getText().toString();
                 }
             }catch(Exception ex){}
+            final int finalLastNoticeSeq = lastNoticeSeq;
             RetrofitClient.getApiInterface().getReportCardSummaryList(_seq, _userGubun, keyword, acaCode, lastNoticeSeq).enqueue(new Callback<ReportCardSummaryListResponse>() {
                 @Override
                 public void onResponse(Call<ReportCardSummaryListResponse> call, Response<ReportCardSummaryListResponse> response) {
-                    boolean isScrollY = false;
                     if(response.isSuccessful()) {
                         if(response.body() != null) {
-                            if (_reportCardList!=null && _reportCardList.size() > 0) _reportCardList.clear();
 
                             List<ReportCardSummaryData> getData = response.body().data;
                             if (getData != null){
-                                //운행중?
-                                if (_reportCardList != null) _reportCardList.addAll(getData);
+                                if(finalLastNoticeSeq == 0) {
+                                    if (_reportCardList.size() > 0) _reportCardList.clear();
+                                }
+                                _reportCardList.addAll(getData);
 
-                            }
+                            }else LogMgr.e(TAG, "ListData is null");
                         }
 
                     } else {
@@ -330,12 +359,14 @@ public class MenuReportCardActivity extends BaseActivity {
         resultLauncher.launch(editIntent);
 //        startActivity(editIntent);
     }
-    private void navigate2DetailActivity(ReportCardSummaryData item) {
+    private void navigate2DetailActivity(ReportCardSummaryData item, int position) {
         Intent intent = new Intent(MenuReportCardActivity.this, DetailReportCardActivity.class);
         intent.putExtra(IntentParams.PARAM_BOARD_ITEM, item);
+        intent.putExtra(IntentParams.PARAM_BOARD_POSITION, position);
         startActivity(intent);
         overridePendingTransition(R.anim.horizontal_enter, R.anim.horizontal_out);
     }
+
     private boolean checkEmptyRecyclerView() {
         if(_swipeRefreshLayout != null) _swipeRefreshLayout.setRefreshing(false);
         if (_reportCardListAdapter.getItemCount() > 0) {

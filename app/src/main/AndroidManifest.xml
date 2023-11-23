@@ -49,6 +49,15 @@
             android:name="com.google.firebase.messaging.default_notification_channel_id"
             android:value="@string/default_notification_channel_id" />
         <activity
+            android:name=".activity.ShowReportCardActivity"
+            android:configChanges="smallestScreenSize|screenSize|screenLayout"
+            android:exported="false"
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".activity.DetailReportCardActivity"
             android:configChanges="smallestScreenSize|screenSize|screenLayout"
             android:exported="false"

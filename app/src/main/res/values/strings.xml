@@ -113,7 +113,7 @@
     <string name="loading">로딩중</string>
     <string name="requesting">요청중</string>
     <string name="confirmed">확인 완료</string>
-
+    <string name="hint_no_information">정보 없음</string>
     <string name="title_anonymous">홍길동</string>
     <string name="main_teacher">강사</string>
     <string name="main_superadmin_sub">마스터</string>
@@ -431,4 +431,21 @@
     <string name="msg_send_reportcard_success">성적표 전송을 완료하였습니다.</string>
     <string name="reportcard_binding_error">잘못된 성적표 정보입니다.</string>
     <string name="reportcard_not_found">성적표 정보를 찾을 수 없습니다.</string>
+    <string name="err_msg_middle_not_supported">[ 중등 ] 유형의 성적표는 전송할 수 없습니다.</string>
+    <string name="err_msg_middle_not_displayed">[ 중등 ] 유형의 성적표는 표시할 수 없습니다.</string>
+    <string name="msg_reportcard_confirm_delete">해당 성적표를 전송내역에서 삭제하시겠습니까?</string>
+    <string name="reportcard_item_deleted">성적표가 정상적으로 삭제되었습니다.</string>
+
+    <string name="title_reportcard_exam_process">응시과정</string>
+    <string name="title_reportcard_exam_date">응시일</string>
+    <string name="title_reportcard_exam_subject">제목</string>
+    <string name="title_reportcard_exam_school">학교 / 학년</string>
+    <string name="title_exam_sub_index">순번</string>
+    <string name="title_exam_sub_subject">단원명</string>
+    <string name="title_exam_sub_score">득점</string>
+    <string name="title_exam_sub_total_score">%s 총득점</string>
+    <string name="title_exam_sub_total_rate">정답률</string>
+    <string name="title_exam_math_correct_count">맞은개수</string>
+    <string name="title_exam_math_total_score">총 득점</string>
+
 </resources>

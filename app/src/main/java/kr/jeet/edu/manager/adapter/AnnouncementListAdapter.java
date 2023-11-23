@@ -23,6 +23,7 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import java.util.List;
 
 import kr.jeet.edu.manager.R;
+import kr.jeet.edu.manager.common.Constants;
 import kr.jeet.edu.manager.common.DataManager;
 import kr.jeet.edu.manager.model.data.ACAData;
 import kr.jeet.edu.manager.model.data.AnnouncementData;
@@ -30,6 +31,7 @@ import kr.jeet.edu.manager.model.data.FileData;
 import kr.jeet.edu.manager.server.RetrofitApi;
 import kr.jeet.edu.manager.utils.FileUtils;
 import kr.jeet.edu.manager.utils.LogMgr;
+import kr.jeet.edu.manager.utils.PreferenceUtil;
 import kr.jeet.edu.manager.utils.Utils;
 import kr.jeet.edu.manager.view.DrawableAlwaysCrossFadeFactory;
 
@@ -49,11 +51,13 @@ public class AnnouncementListAdapter extends RecyclerView.Adapter<AnnouncementLi
 //    private String selectedACACode = "";
     private ArrayMap<String, ACAData> ACAArrayMap;
     ViewMode _currentViewMode = ViewMode.NORMAL;
+    int _userGubun = 0;
     public AnnouncementListAdapter(Context mContext, List<AnnouncementData> mList, onItemClickListener listener) {
         this.mContext = mContext;
         this.mList = mList;
         this._listener = listener;
         ACAArrayMap = DataManager.getInstance().getACAListMap();
+        _userGubun = PreferenceUtil.getUserGubun(mContext);
     }
     public void setViewMode(ViewMode mode) {
         _currentViewMode = mode;
@@ -124,7 +128,18 @@ public class AnnouncementListAdapter extends RecyclerView.Adapter<AnnouncementLi
             }
         }else{
             holder.tvName.setVisibility(View.GONE);
-            holder.tvCampus.setVisibility(View.GONE);
+            if(_userGubun <= Constants.USER_TYPE_ADMIN) {
+                holder.tvCampus.setVisibility(View.VISIBLE);
+                if(!TextUtils.isEmpty(item.acaCode)) {
+                    if(TextUtils.isEmpty(item.acaGubunName)) {
+                        holder.tvCampus.setText(item.acaName);
+                    }else{
+                        holder.tvCampus.setText(item.acaName + " / " + item.acaGubunName);
+                    }
+                }
+            }else{
+                holder.tvCampus.setVisibility(View.GONE);
+            }
         }
         LogMgr.w("test", "insertDate=" + item.insertDate);
         holder.tvAnnouncementDate.setText(TextUtils.isEmpty(item.insertDate) ? "" : item.insertDate);

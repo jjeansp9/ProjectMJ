@@ -83,7 +83,6 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/layout_margin_xxxsmall"
             android:ellipsize="end"
-            android:hint="@string/name"
             android:maxLines="1"
             android:textColor="@color/font_color_999"
             android:textSize="@dimen/font_size_small"
