@@ -202,6 +202,7 @@ public class MenuNoticeActivity extends BaseActivity implements MonthPickerDialo
             LogMgr.w("result =" + result);
             if(result.getResultCode() != RESULT_CANCELED) {
                 Intent intent = result.getData();
+                if(intent == null) return;
                 if(intent.hasExtra(IntentParams.PARAM_BOARD_ADDED)) {
                     boolean added = intent.getBooleanExtra(IntentParams.PARAM_BOARD_ADDED, false);
 
@@ -435,7 +436,7 @@ public class MenuNoticeActivity extends BaseActivity implements MonthPickerDialo
                     return;
             }
 
-            intent.putExtra(IntentParams.PARAM_BOARD_SEQ, item.seq);
+            intent.putExtra(IntentParams.PARAM_BOARD_SEQ, item.connSeq);
             startActivity(intent);
             overridePendingTransition(R.anim.horizontal_enter, R.anim.horizontal_out);
         }else LogMgr.e("item is null ");

@@ -98,14 +98,15 @@ public class MenuReportCardActivity extends BaseActivity {
             LogMgr.w("result =" + result);
             if(result.getResultCode() != RESULT_CANCELED) {
                 Intent intent = result.getData();
-                if(intent.hasExtra(IntentParams.PARAM_BOARD_ADDED)) {
-                    boolean added = intent.getBooleanExtra(IntentParams.PARAM_BOARD_ADDED, false);
-                    if(added) {
+                if (intent != null) {
+                    if (intent.hasExtra(IntentParams.PARAM_BOARD_ADDED)) {
+                        boolean added = intent.getBooleanExtra(IntentParams.PARAM_BOARD_ADDED, false);
+                        if (added) {
 //                        LogMgr.e("acaCode = " + _selectedACA.acaCode);
-                        requestReportCardList();
-                    }
+                            requestReportCardList();
+                        }
 
-                }
+                    }
 //                else if(intent.hasExtra(IntentParams.PARAM_BOARD_DELETED)) {
 //                    boolean deleted = intent.getBooleanExtra(IntentParams.PARAM_BOARD_DELETED, false);
 //                    int position = intent.getIntExtra(IntentParams.PARAM_BOARD_POSITION, -1);
@@ -115,6 +116,7 @@ public class MenuReportCardActivity extends BaseActivity {
 //                        checkEmptyRecyclerView();
 //                    }
 //                }
+                }
             }
         }
     });

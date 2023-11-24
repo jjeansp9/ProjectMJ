@@ -553,7 +553,7 @@ public class AppendRecipientActivity extends BaseActivity implements MonthPicker
             }
         });
         _recyclerRecipient.setAdapter(_adapterRecipient);
-        _recyclerRecipient.addItemDecoration(new DividerItemDecoration(mContext, DividerItemDecoration.VERTICAL));
+//        _recyclerRecipient.addItemDecoration(new DividerItemDecoration(mContext, DividerItemDecoration.VERTICAL));
         //endregion
         //region checkbox
         layoutCheckBoxTotal = findViewById(R.id.layout_total_checkbox);

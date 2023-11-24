@@ -38,6 +38,7 @@ public class MenuLevelTestDetailActivity extends BaseActivity {
     private final static String TAG = "leveltestdetail";
     private LevelTestData mInfo;
     private int _currentDataPosition;
+    int _memberSeq = 0;
     int _userGubun = 1;
     Menu _menu;
     @Override
@@ -46,6 +47,7 @@ public class MenuLevelTestDetailActivity extends BaseActivity {
         setContentView(R.layout.activity_menu_level_test_detail);
         mContext = this;
         _userGubun = PreferenceUtil.getUserGubun(mContext);
+        _memberSeq = PreferenceUtil.getUserSeq(mContext);
         initIntentData();
         initAppbar();
         initView();
@@ -122,9 +124,9 @@ public class MenuLevelTestDetailActivity extends BaseActivity {
         ((TextView)findViewById(R.id.txt_school)).setText(str);
 
         String phoneNo = Utils.formatPhoneNumber(mInfo.phoneNumber);
-        if(_userGubun == Constants.USER_TYPE_TEACHER) {
-            phoneNo = Utils.blindPhoneNumber(phoneNo);
-        }
+//        if(_userGubun == Constants.USER_TYPE_TEACHER) {
+//            phoneNo = Utils.blindPhoneNumber(phoneNo);
+//        }
         ((TextView)findViewById(R.id.txt_st_phone_num)).setText(phoneNo);
 
         str = "";
@@ -132,9 +134,9 @@ public class MenuLevelTestDetailActivity extends BaseActivity {
             str = mInfo.parentName +" "+ getString(R.string.parents);
         }
         phoneNo = Utils.formatPhoneNumber(mInfo.parentPhoneNumber);
-        if(_userGubun == Constants.USER_TYPE_TEACHER) {
-            phoneNo = Utils.blindPhoneNumber(phoneNo);
-        }
+//        if(_userGubun == Constants.USER_TYPE_TEACHER) {
+//            phoneNo = Utils.blindPhoneNumber(phoneNo);
+//        }
         if(!TextUtils.isEmpty(mInfo.parentPhoneNumber)) {
             str += TextUtils.isEmpty(str) ? "" : "\n" + phoneNo;
         }
@@ -342,7 +344,7 @@ public class MenuLevelTestDetailActivity extends BaseActivity {
     }
     private void cancelLevelTestReservation() {
         if(RetrofitClient.getInstance() != null) {
-            RetrofitClient.getApiInterface().cancelLevelTestReservation(mInfo.seq, mInfo.stCode, PreferenceUtil.getUserSFCode(mContext), mInfo.subjectCode).enqueue(new Callback<BaseResponse>() {
+            RetrofitClient.getApiInterface().cancelLevelTestReservation(mInfo.seq, mInfo.stCode, PreferenceUtil.getUserSFCode(mContext), mInfo.subjectCode, _memberSeq).enqueue(new Callback<BaseResponse>() {
                 @Override
                 public void onResponse(Call<BaseResponse> call, Response<BaseResponse> response) {
                     try{

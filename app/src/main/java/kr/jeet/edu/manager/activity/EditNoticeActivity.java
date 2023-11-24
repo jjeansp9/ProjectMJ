@@ -280,6 +280,7 @@ public class EditNoticeActivity extends BaseActivity {
         public void onActivityResult(ActivityResult result) {
             if(result.getResultCode() != RESULT_CANCELED) {
                 Intent intent = result.getData();
+                if(intent == null) return;
                 if(intent.hasExtra(IntentParams.PARAM_EXIST_RECIPIENT_INFO)) {
                     if(intent.getBooleanExtra(IntentParams.PARAM_EXIST_RECIPIENT_INFO, false)) {
                         showProgressDialog();

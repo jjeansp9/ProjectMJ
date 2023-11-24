@@ -98,6 +98,7 @@ public class MenuBriefingDetailActivity extends BaseActivity {
         public void onActivityResult(ActivityResult result) {
             if(result.getResultCode() != RESULT_CANCELED) {
                 Intent intent = result.getData();
+                if(intent == null) return;
                 if(intent.hasExtra(IntentParams.PARAM_BOARD_EDITED)) {
                     isEdited = intent.getBooleanExtra(IntentParams.PARAM_BOARD_EDITED, false);
 
@@ -572,6 +573,11 @@ public class MenuBriefingDetailActivity extends BaseActivity {
         LogMgr.w("view file uri = " + url);
         String mimeType = FileUtils.getMimeTypeFromExtension(data.extension);
         Intent intent = new Intent(Intent.ACTION_VIEW);
+//                new ShareCompat.IntentBuilder(mContext)
+//                        .setStream(Uri.parse(url))
+//                        .setType(mimeType)
+//                                .startChooser();
+//                intent.addCategory(Intent.CATEGORY_OPENABLE);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         String type = data.path.replaceAll("/", "");

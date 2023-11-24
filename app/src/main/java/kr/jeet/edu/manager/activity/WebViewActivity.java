@@ -36,7 +36,8 @@ public class WebViewActivity extends BaseActivity {
     private void initIntentData(){
         try {
             Intent intent = getIntent();
-            if (intent != null && intent.hasExtra(IntentParams.PARAM_APPBAR_TITLE)){
+            if(intent == null) return;
+            if (intent.hasExtra(IntentParams.PARAM_APPBAR_TITLE)){
                 title = intent.getStringExtra(IntentParams.PARAM_APPBAR_TITLE);
             }
             if (intent.hasExtra(IntentParams.PARAM_WEB_VIEW_URL)){

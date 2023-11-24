@@ -277,7 +277,8 @@ public class MenuManageStudentActivity extends BaseActivity {
                     _swipeRefreshLayout.setEnabled(true);
                 }
                 if(_adapterRecipient != null) {
-                    _adapterRecipient.notifyDataSetChanged();
+//                    _adapterRecipient.notifyDataSetChanged();
+                    _adapterRecipient.notifyItemRangeChanged(0, _recipientStudentList.size());
                 }
                 invalidateOptionsMenu();    //onCreateOptionsMenu 호출됨
                 break;
@@ -298,7 +299,8 @@ public class MenuManageStudentActivity extends BaseActivity {
                     _swipeRefreshLayout.setEnabled(false);
                 }
                 if(_adapterRecipient != null) {
-                    _adapterRecipient.notifyDataSetChanged();
+//                    _adapterRecipient.notifyDataSetChanged();
+                    _adapterRecipient.notifyItemRangeChanged(0, _recipientStudentList.size());
                 }
                 invalidateOptionsMenu();    //onCreateOptionsMenu 호출됨
                 break;
@@ -639,7 +641,7 @@ public class MenuManageStudentActivity extends BaseActivity {
         });
         _adapterRecipient.setIgnoreInstalled(true); // 설치된 폰은 무시
         _recyclerRecipient.setAdapter(_adapterRecipient);
-        _recyclerRecipient.addItemDecoration(new DividerItemDecoration(mContext, DividerItemDecoration.VERTICAL));
+//        _recyclerRecipient.addItemDecoration(new DividerItemDecoration(mContext, DividerItemDecoration.VERTICAL));
         //endregion
         //region checkbox
         layoutCheckBoxTotal = findViewById(R.id.layout_total_checkbox);

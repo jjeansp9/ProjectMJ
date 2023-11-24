@@ -41,7 +41,7 @@
         app:layout_constraintBottom_toTopOf="@id/guideline_h50"
         />
     <View android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="@dimen/inner_line_width"
         app:layout_constraintTop_toTopOf="parent"
         android:background="@color/line_2"/>
     <TextView
@@ -60,7 +60,7 @@
         app:layout_constraintBottom_toTopOf="@id/guideline_h50"
         />
     <View android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="@dimen/inner_line_width"
         app:layout_constraintTop_toTopOf="@id/guideline_h50"
         app:layout_constraintBottom_toBottomOf="@id/guideline_h50"
         android:background="@color/line_2"/>
@@ -79,7 +79,7 @@
         app:layout_constraintTop_toTopOf="@id/guideline_h50"
         app:layout_constraintBottom_toBottomOf="parent"
         />
-    <View android:layout_width="1dp"
+    <View android:layout_width="@dimen/inner_line_width"
         android:layout_height="0dp"
         app:layout_constraintStart_toStartOf="@id/guide_eh60dp"
         app:layout_constraintEnd_toEndOf="@id/guide_eh60dp"

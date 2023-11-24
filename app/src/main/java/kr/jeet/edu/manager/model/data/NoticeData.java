@@ -11,6 +11,8 @@ import java.util.List;
 public class NoticeData implements Parcelable {
     @SerializedName("seq")
     public int seq;
+    @SerializedName("connSeq")
+    public int connSeq;
     @SerializedName("userGubun")
     public int userGubun;
     @SerializedName("writerSeq")

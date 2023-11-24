@@ -28,7 +28,8 @@
             android:gravity="center"
             android:textColor="@color/white"
             android:textSize="@dimen/font_size_xsmall"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            android:visibility="gone"/>
         <TextView
             android:id="@+id/tv_notice_title"
             android:layout_width="wrap_content"

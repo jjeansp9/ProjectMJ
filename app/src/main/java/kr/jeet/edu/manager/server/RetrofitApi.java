@@ -338,7 +338,7 @@ public interface RetrofitApi {
     Call<BaseResponse> deleteLevelTestTime(@Path("seq") int seq);
     // 레벨테스트 예약 취소
     @DELETE("levelTest")
-    Call<BaseResponse> cancelLevelTestReservation(@Query("seq") int seq, @Query("stCode") int stCode, @Query("sfCode") int sfCode, @Query("subjectCode") int subjectCode);
+    Call<BaseResponse> cancelLevelTestReservation(@Query("seq") int seq, @Query("stCode") int stCode, @Query("sfCode") int sfCode, @Query("subjectCode") int subjectCode, @Query("memberSeq") int memberSeq);
     //버스 캠퍼스 조회
     @GET("bus/campuses")
     Call<BCListResponse> getBusCampusList();

@@ -1,12 +1,18 @@
 package kr.jeet.edu.manager.activity;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ValueAnimator;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -50,6 +56,7 @@ public class ShowReportCardActivity extends BaseActivity {
     }
     private TextView tvProcess, tvDate, tvSubject, tvName, tvSchool;
     private TextView tvEmptyList;
+    private ConstraintLayout layoutInfo;
     private RecyclerView mRecycler;
     private AbstractReportCardShowAdapter mAdapter;
     public int _boardSeq = 0;
@@ -111,6 +118,7 @@ public class ShowReportCardActivity extends BaseActivity {
 
     @Override
     void initView() {
+        layoutInfo = findViewById(R.id.layout_exam_info);
         tvProcess = findViewById(R.id.tv_process);
         tvDate = findViewById(R.id.tv_date);
         tvSubject = findViewById(R.id.tv_subject);
@@ -130,6 +138,11 @@ public class ShowReportCardActivity extends BaseActivity {
             mAdapter = new ReportCardShowType3Adapter(mContext, mList);
         }
         mRecycler.setAdapter(mAdapter);
+        long delayed = getResources().getInteger(R.integer.screen_in_time);
+        new Handler().postDelayed(() -> {
+            animateLayout(layoutInfo);
+            Utils.animateLayoutMoveLeft(layoutInfo, mContext);
+        }, delayed);
     }
     private void requestReportCardShowList() {
         if (RetrofitClient.getInstance() != null) {
@@ -214,5 +227,29 @@ public class ShowReportCardActivity extends BaseActivity {
             }
         }
         Collections.sort(mList);
+    }
+    private void animateLayout(final View view) {
+        ValueAnimator animator = ValueAnimator.ofFloat(0f, 1f);
+        animator.setDuration(Constants.LAYOUT_ANIM_DURATION);
+        animator.setInterpolator(new AccelerateDecelerateInterpolator());
+
+        animator.addUpdateListener(animation -> {
+            float progress = (float) animation.getAnimatedValue();
+            view.setAlpha(progress); // 애니메이션 중간값을 알파값으로 설정하여 서서히 보이도록 함
+        });
+
+        animator.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                // 애니메이션 종료 후 다음 레이아웃으로 전환
+                if (view == layoutInfo) {
+                    animateLayout(mRecycler);
+                    Utils.animateLayoutMoveLeft(mRecycler, mContext);
+
+                }
+
+            }
+        });
+        animator.start();
     }
 }

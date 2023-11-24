@@ -55,13 +55,13 @@ public class NoticeListAdapter extends RecyclerView.Adapter<NoticeListAdapter.Vi
         boolean isReceivedMsg = true;
         String noticeType = TextUtils.isEmpty(item.searchType) ? "" : item.searchType;
         if (noticeType.equals(FCMManager.MSG_TYPE_SYSTEM)) {
-            holder.tvType.setText(mContext.getString(R.string.settings_notice_system));
+//            holder.tvType.setText(mContext.getString(R.string.settings_notice_system));
             holder.btnNext.setVisibility(View.VISIBLE);
             holder.tvTitle.setText(item.title);
             isReceivedMsg = false;
         }
         else if (noticeType.equals(FCMManager.MSG_TYPE_COUNSEL)) {
-            holder.tvType.setText(mContext.getString(R.string.menu_stu_info_consultation_request_header));
+//            holder.tvType.setText(mContext.getString(R.string.menu_stu_info_consultation_request_header));
             holder.btnNext.setVisibility(View.VISIBLE);
             StringBuilder sb = new StringBuilder();
             if(item.userGubun == Constants.USER_TYPE_STUDENT) {
@@ -81,12 +81,12 @@ public class NoticeListAdapter extends RecyclerView.Adapter<NoticeListAdapter.Vi
             holder.tvTitle.setText(sb.toString());
         }
         else if (noticeType.equals(FCMManager.MSG_TYPE_LEVEL_TEST)) {
-            holder.tvType.setText(mContext.getString(R.string.main_menu_test_reserve));
+//            holder.tvType.setText(mContext.getString(R.string.main_menu_test_reserve));
             holder.btnNext.setVisibility(View.VISIBLE);
             holder.tvTitle.setText(item.title);
         }
         else {
-            holder.tvType.setText(TextUtils.isEmpty(item.searchType) ? "정보없음" : item.searchType);
+//            holder.tvType.setText(TextUtils.isEmpty(item.searchType) ? "정보없음" : item.searchType);
             holder.btnNext.setVisibility(View.GONE);
         }
 
@@ -116,7 +116,8 @@ public class NoticeListAdapter extends RecyclerView.Adapter<NoticeListAdapter.Vi
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 
-        private TextView tvType, tvTitle, tvDate, tvReceiver;
+//        private TextView tvType,
+        private TextView tvTitle, tvDate, tvReceiver;
         private ImageView imgSenderAndReceiver;
         private ImageButton btnNext;
 
@@ -124,7 +125,7 @@ public class NoticeListAdapter extends RecyclerView.Adapter<NoticeListAdapter.Vi
             super(itemView);
 
             btnNext = itemView.findViewById(R.id.btn_notice_next);
-            tvType = itemView.findViewById(R.id.tv_notice_type);
+//            tvType = itemView.findViewById(R.id.tv_notice_type);
             tvTitle = itemView.findViewById(R.id.tv_notice_title);
             tvDate = itemView.findViewById(R.id.tv_notice_date);
             tvReceiver = itemView.findViewById(R.id.tv_notice_receiver);

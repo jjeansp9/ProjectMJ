@@ -7,25 +7,24 @@
     android:background="@drawable/bg_card_header_round"
     >
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline_h60"
+        android:id="@+id/guideline_h55"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.60"/>
+        app:layout_constraintGuide_percent="0.55"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_main_title"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/guideline_h60"
+        app:layout_constraintBottom_toTopOf="@id/guideline_h55"
         >
         <TextView
             android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="@dimen/layout_margin_xxxsmall"
-            android:ellipsize="middle"
+            android:ellipsize="end"
             android:maxLines="1"
             android:text=""
             android:textColor="@color/white"
@@ -37,17 +36,17 @@
             app:layout_constraintBottom_toBottomOf="parent"
             />
     </androidx.constraintlayout.widget.ConstraintLayout>
-    <View android:layout_width="match_parent"
-        android:layout_height="1dp"
-        app:layout_constraintTop_toTopOf="@id/guideline_h60"
-        app:layout_constraintBottom_toBottomOf="@id/guideline_h60"
-        android:background="@color/gray"/>
+<!--    <View android:layout_width="match_parent"-->
+<!--        android:layout_height="1dp"-->
+<!--        app:layout_constraintTop_toTopOf="@id/guideline_h60"-->
+<!--        app:layout_constraintBottom_toBottomOf="@id/guideline_h60"-->
+<!--        android:background="@color/gray"/>-->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_sub_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintTop_toTopOf="@id/guideline_h60"
+        app:layout_constraintTop_toTopOf="@id/guideline_h55"
         app:layout_constraintBottom_toBottomOf="parent"
         android:background="@color/pink_light">
         <androidx.constraintlayout.widget.Guideline
@@ -110,7 +109,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             />
-        <View android:layout_width="1dp"
+        <View android:layout_width="@dimen/inner_line_width"
             android:layout_height="0dp"
             app:layout_constraintStart_toStartOf="@id/guide_sh60dp"
             app:layout_constraintEnd_toEndOf="@id/guide_sh60dp"
@@ -118,21 +117,21 @@
             app:layout_constraintBottom_toBottomOf="parent"
             android:background="@color/line_2"
             />
-        <View android:layout_width="1dp"
+        <View android:layout_width="@dimen/outer_line_width"
             android:layout_height="0dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             android:background="@color/line_2"
             />
-        <View android:layout_width="1dp"
+        <View android:layout_width="@dimen/outer_line_width"
             android:layout_height="0dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             android:background="@color/line_2"
             />
-        <View android:layout_width="1dp"
+        <View android:layout_width="@dimen/inner_line_width"
             android:layout_height="0dp"
             app:layout_constraintStart_toStartOf="@id/guide_eh60dp"
             app:layout_constraintEnd_toEndOf="@id/guide_eh60dp"
@@ -143,7 +142,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <View android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="@dimen/inner_line_width"
         app:layout_constraintBottom_toBottomOf="parent"
         android:background="@color/line_2"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

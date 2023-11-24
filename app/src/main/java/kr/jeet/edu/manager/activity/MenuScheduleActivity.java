@@ -156,6 +156,7 @@ public class MenuScheduleActivity extends BaseActivity {
         LogMgr.w("result =" + result);
         if(result.getResultCode() != RESULT_CANCELED) {
             Intent intent = result.getData();
+            if(intent == null) return;
             if(intent.hasExtra(IntentParams.PARAM_BOARD_ADDED)) {
                 boolean added = intent.getBooleanExtra(IntentParams.PARAM_BOARD_ADDED, false);
                 if(added) {

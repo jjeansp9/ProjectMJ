@@ -96,9 +96,9 @@ public class RecipientListAdapter extends RecyclerView.Adapter<RecipientListAdap
             holder.layoutCheckBoxStudent.setClickable(true);
             holder.layoutCheckBoxParent.setClickable(true);
             if (_columnType != Constants.ShowCheckboxColumnType.TYPE_NONE) {
-                holder.cbBoth.setVisibility(View.VISIBLE);
+                holder.layoutCheckBoxBoth.setVisibility(View.VISIBLE);
             } else {
-                holder.cbBoth.setVisibility(View.INVISIBLE);
+                holder.layoutCheckBoxBoth.setVisibility(View.GONE);
             }
             if (_columnType.ordinal() >= Constants.ShowCheckboxColumnType.TYPE_PARENT_ONLY.ordinal()) {
                 holder.cbParent.setVisibility(View.VISIBLE);
@@ -213,7 +213,7 @@ public class RecipientListAdapter extends RecyclerView.Adapter<RecipientListAdap
             }else{
                 holder.viewStudentInstall.setBackground(null);
             }
-            holder.cbBoth.setVisibility(View.INVISIBLE);
+            holder.layoutCheckBoxBoth.setVisibility(View.GONE);
         }
     }
 

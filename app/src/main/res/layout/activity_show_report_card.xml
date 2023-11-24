@@ -24,7 +24,6 @@
                 android:id="@+id/root"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:animateLayoutChanges="true"
                 android:background="@color/bg_lightgray">
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/layout_exam_info"
@@ -40,7 +39,8 @@
                     android:layout_marginHorizontal="@dimen/layout_margin_small"
                     android:layout_marginTop="12dp"
                     android:paddingHorizontal="@dimen/layout_margin"
-                    android:paddingVertical="16dp">
+                    android:paddingVertical="16dp"
+                    android:alpha="0">
 
                     <androidx.constraintlayout.widget.Guideline
                         android:id="@+id/guideline_left"
@@ -200,7 +200,7 @@
                     android:overScrollMode="never"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     android:orientation="vertical"
-                    />
+                    android:alpha="0" />
 
                 <TextView
                     android:id="@+id/tv_empty_list"

@@ -445,7 +445,7 @@
     <string name="title_exam_sub_score">득점</string>
     <string name="title_exam_sub_total_score">%s 총득점</string>
     <string name="title_exam_sub_total_rate">정답률</string>
-    <string name="title_exam_math_correct_count">맞은개수</string>
+    <string name="title_exam_math_correct_count">맞은 개수</string>
     <string name="title_exam_math_total_score">총 득점</string>
 
 </resources>

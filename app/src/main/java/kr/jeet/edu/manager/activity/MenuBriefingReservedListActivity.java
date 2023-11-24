@@ -69,6 +69,7 @@ public class MenuBriefingReservedListActivity extends BaseActivity {
 
     private void initData(){
         Intent intent= getIntent();
+        if(intent == null) return;
         if (
                 intent.hasExtra(IntentParams.PARAM_BRIEFING_PT_SEQ) &&
                         intent.hasExtra(IntentParams.PARAM_BRIEFING_PARTICIPANTS_CNT) &&

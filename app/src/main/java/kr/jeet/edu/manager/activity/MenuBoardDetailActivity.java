@@ -91,16 +91,18 @@ public class MenuBoardDetailActivity extends BaseActivity {
         public void onActivityResult(ActivityResult result) {
             if(result.getResultCode() != RESULT_CANCELED) {
                 Intent intent = result.getData();
-                if(intent.hasExtra(IntentParams.PARAM_BOARD_EDITED)) {
-                    isEdited = intent.getBooleanExtra(IntentParams.PARAM_BOARD_EDITED, false);
-                    LogMgr.e("position = " + _currentDataPosition + "_currentData seq = " + _currentData.seq);
+                if(intent != null) {
+                    if (intent.hasExtra(IntentParams.PARAM_BOARD_EDITED)) {
+                        isEdited = intent.getBooleanExtra(IntentParams.PARAM_BOARD_EDITED, false);
+                        LogMgr.e("position = " + _currentDataPosition + "_currentData seq = " + _currentData.seq);
 //                    if(edited && _currentDataPosition > 0) {
 //                        intent.putExtra(IntentParams.PARAM_BOARD_POSITION, _currentDataPosition);
 //                        setResult(result.getResultCode(), intent);
 //                    }
-                    if(isEdited) {
-                        int boardSeq = _currentData.seq;
-                        requestBoardDetail(boardSeq);
+                        if (isEdited) {
+                            int boardSeq = _currentData.seq;
+                            requestBoardDetail(boardSeq);
+                        }
                     }
                 }
             }

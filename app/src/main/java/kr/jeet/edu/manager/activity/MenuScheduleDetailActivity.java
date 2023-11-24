@@ -80,6 +80,7 @@ public class MenuScheduleDetailActivity extends BaseActivity { //implements Tool
         public void onActivityResult(ActivityResult result) {
             if(result.getResultCode() != RESULT_CANCELED) {
                 Intent intent = result.getData();
+                if(intent == null) return;
                 if(intent.hasExtra(IntentParams.PARAM_BOARD_EDITED)) {
                     isEdited = intent.getBooleanExtra(IntentParams.PARAM_BOARD_EDITED, false);
                     LogMgr.e( "_currentData seq = " + _currentData.seq);
@@ -159,12 +160,6 @@ public class MenuScheduleDetailActivity extends BaseActivity { //implements Tool
                 tvRecipient.setText(getString(R.string.content_recipient_counts, _recipientList.size()));
             }
         });
-//        _recipientListAdapter = new RecipientChipListAdapter(mContext, _recipientList, new RecipientChipListAdapter.longClickListener() {
-//            @Override
-//            public void onLongClick(int position, RecipientData item, Chip chip, ConstraintLayout root) {
-//                navigate2DetailActivity(item);
-//            }
-//        });
         _recipientListAdapter.setEditMode(Constants.BoardEditMode.Show);
         FlexboxLayoutManager fblManager = new FlexboxLayoutManager(this);
         fblManager.setFlexWrap(FlexWrap.WRAP);
@@ -174,7 +169,6 @@ public class MenuScheduleDetailActivity extends BaseActivity { //implements Tool
         _recyclerViewRecipient.setAdapter(_recipientListAdapter);
         //endregion
     }
-
     void initData() {
         if(_currentData != null) {
 //            if(_currentData.writerSeq == _seq) {
@@ -211,7 +205,6 @@ public class MenuScheduleDetailActivity extends BaseActivity { //implements Tool
         }
 
     }
-
     private void initChipGroup() {
         if(_currentData != null) {
             _recipientList.clear();
@@ -221,23 +214,12 @@ public class MenuScheduleDetailActivity extends BaseActivity { //implements Tool
         }
         if(_recipientList.size() > 0) {
             _recyclerViewRecipient.setVisibility(View.VISIBLE);
-            //imgInfo.setVisibility(View.VISIBLE);
             Collections.sort(_recipientList);
             _recipientListAdapter.notifyDataSetChanged();
         }else{
             _recyclerViewRecipient.setVisibility(View.GONE);
-            //imgInfo.setVisibility(View.GONE);
         }
         tvRecipient.setText(getString(R.string.content_recipient_counts, _recipientList.size()));
-
-//        imgInfo.setOnClickListener(v -> {
-//
-//            builder = new ToolTip.Builder(mContext, imgInfo, findViewById(R.id.tooltip_root), "수신인을 길게 클릭하면 정보를 자세히 알 수 있어요", ToolTip.POSITION_LEFT_TO);
-//
-//            builder.setBackgroundColor(getColor(R.color.darkgray));
-//            builder.withArrow(false);
-//            toolTipsMgr.show(builder.build());
-//        });
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -353,13 +335,4 @@ public class MenuScheduleDetailActivity extends BaseActivity { //implements Tool
 
 //    @Override
 //    public void onTipDismissed(View view, int anchorViewId, boolean byUser) {}
-//
-//    private void navigate2DetailActivity(RecipientData data) {
-//        Intent intent = new Intent(mContext, DetailStudentInfoActivity.class);
-//        //원생정보 seq, stCode
-//        intent.putExtra(IntentParams.PARAM_STU_SEQ, data.seq);
-//        intent.putExtra(IntentParams.PARAM_STU_STCODE, data.stCode);
-//        startActivity(intent);
-//        overridePendingTransition(R.anim.horizontal_enter, R.anim.horizontal_out);
-//    }
 }

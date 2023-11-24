@@ -9,7 +9,8 @@
     android:paddingHorizontal="@dimen/layout_margin_small"
     android:paddingVertical="@dimen/layout_margin_xxxxsmall"
     android:foreground="?android:attr/selectableItemBackground"
-    android:id="@+id/recipient_item_root">
+    android:id="@+id/recipient_item_root"
+    android:animateLayoutChanges="true">
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_v80"
         android:layout_width="0dp"
@@ -24,10 +25,9 @@
         app:layout_constraintGuide_begin="@dimen/layout_sex_size" />
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/layout_checkbox_both"
-        android:layout_width="0dp"
+        android:layout_width="@dimen/layout_sex_size"
         android:layout_height="@dimen/checkbox_size_xlarge"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/guideline_title"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         android:orientation="horizontal">
@@ -47,7 +47,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@id/guideline_title"
+        app:layout_constraintStart_toEndOf="@id/layout_checkbox_both"
         app:layout_constraintEnd_toStartOf="@id/tv_birthday"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintHorizontal_bias="0"

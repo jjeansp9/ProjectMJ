@@ -524,7 +524,7 @@ public class SelectReportCardRecipientActivity extends BaseActivity implements M
         _adapterRecipient.setShowColumns(Constants.ShowCheckboxColumnType.TYPE_NONE);
         _adapterRecipient.setEditMode(false);
         _recyclerRecipient.setAdapter(_adapterRecipient);
-        _recyclerRecipient.addItemDecoration(new DividerItemDecoration(mContext, DividerItemDecoration.VERTICAL));
+//        _recyclerRecipient.addItemDecoration(new DividerItemDecoration(mContext, DividerItemDecoration.VERTICAL));
         //endregion
         //region checkbox
         layoutCheckBoxTotal = findViewById(R.id.layout_total_checkbox);
@@ -900,7 +900,10 @@ public class SelectReportCardRecipientActivity extends BaseActivity implements M
     @Override
     public void onBackPressed() {
         if(isAdded) {
-            setResult(RESULT_OK);
+            Intent intent = getIntent();
+            intent.putExtra(IntentParams.PARAM_BOARD_ADDED, isAdded);
+            setResult(RESULT_OK, intent);
+            finish();
         }
         super.onBackPressed();
     }

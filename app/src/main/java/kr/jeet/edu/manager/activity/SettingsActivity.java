@@ -145,8 +145,6 @@ public class SettingsActivity extends BaseActivity {
         mSwSystem.setOnClickListener(this);
         mSwAll.setOnClickListener(this);
 
-        setSwitch();
-
         findViewById(R.id.layout_set_operation_policy).setOnClickListener(this);
         findViewById(R.id.layout_privacy_policy).setOnClickListener(this);
         findViewById(R.id.tv_set_app_info).setOnClickListener(this);
@@ -317,6 +315,7 @@ public class SettingsActivity extends BaseActivity {
 
                     }catch (Exception e){ LogMgr.e(TAG + "requestMemberInfo() Exception : ", e.getMessage()); }
                     checkConfirm();
+                    setSwitch();
                 }
 
                 @Override
@@ -324,6 +323,7 @@ public class SettingsActivity extends BaseActivity {
                     try { LogMgr.e(TAG, "requestMemberInfo() onFailure >> " + t.getMessage()); }
                     catch (Exception e) { LogMgr.e(TAG + "requestMemberInfo() Exception : ", e.getMessage()); }
                     checkConfirm();
+                    setSwitch();
                     Toast.makeText(mContext, R.string.server_error, Toast.LENGTH_SHORT).show();
                 }
             });

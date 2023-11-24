@@ -35,7 +35,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         />
-    <View android:layout_width="1dp"
+    <View android:layout_width="@dimen/inner_line_width"
         android:layout_height="0dp"
         app:layout_constraintStart_toStartOf="@id/guide_sh60dp"
         app:layout_constraintEnd_toEndOf="@id/guide_sh60dp"
@@ -43,7 +43,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         android:background="@color/line_2"
         />
-    <View android:layout_width="1dp"
+    <View android:layout_width="@dimen/inner_line_width"
         android:layout_height="0dp"
         app:layout_constraintStart_toStartOf="@id/guide_eh60dp"
         app:layout_constraintEnd_toEndOf="@id/guide_eh60dp"
