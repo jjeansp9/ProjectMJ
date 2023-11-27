@@ -128,7 +128,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@id/layout_first"
-                android:layout_marginTop="@dimen/layout_margin_xxsmall"
+                android:layout_marginTop="@dimen/layout_margin_xsmall"
                 android:paddingVertical="@dimen/layout_margin_xxsmall"
                 android:background="@drawable/bg_setting_layout"
                 android:layout_marginHorizontal="@dimen/layout_margin"
@@ -307,7 +307,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@id/layout_second"
-                android:layout_marginTop="@dimen/layout_margin_xxsmall"
+                android:layout_marginTop="@dimen/layout_margin_xsmall"
                 android:background="@drawable/bg_setting_layout"
                 android:layout_marginHorizontal="@dimen/layout_margin"
                 android:alpha="0">

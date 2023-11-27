@@ -70,14 +70,19 @@ public class CustomAppbarLayout extends AppBarLayout {
     public MaterialToolbar getToolbar() {
         return _toolbar;
     }
+    private boolean clickEvent = false;
     public void setLogoClickable(boolean flag) {
         if(flag) {
             if(_ivLogo != null) {
                 _ivLogo.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if(_ivLogo != null && animSpin != null)
-                            _ivLogo.startAnimation(animSpin);
+                        if (!clickEvent) {
+                            if(_ivLogo != null && animSpin != null) {
+                                _ivLogo.startAnimation(animSpin);
+                                clickEvent = true;
+                            }
+                        }
                     }
                 });
             }

@@ -3,6 +3,7 @@ package kr.jeet.edu.manager.adapter;
 import static androidx.recyclerview.widget.RecyclerView.NO_POSITION;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,7 +54,19 @@ public class LevelTestListAdapter extends RecyclerView.Adapter<LevelTestListAdap
             holder.tvName.setText(item.name);
             LTCData currentData = DataManager.getInstance().getLTCData(item.bigo);
             if(currentData != null) {
-                holder.tvCampus.setText(currentData.ltcName);
+                StringBuilder sb = new StringBuilder();
+                if(TextUtils.isEmpty(currentData.ltcName)){
+                    if(!TextUtils.isEmpty(item.grade)){
+                        sb.append(item.grade);
+                    }
+                }else{
+                    sb.append(currentData.ltcName);
+                    if(!TextUtils.isEmpty(item.grade)){
+                        sb.append(" / ");
+                        sb.append(item.grade);
+                    }
+                }
+                holder.tvCampus.setText(sb.toString());
             }
             try {
                 Date insertDate = _dateSecondFormat.parse(item.insertDate);

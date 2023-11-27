@@ -1,6 +1,7 @@
 package kr.jeet.edu.manager.activity;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.animation.Animator;
@@ -38,6 +39,7 @@ import kr.jeet.edu.manager.model.data.ReportCardShowListItemData;
 import kr.jeet.edu.manager.model.data.ReportCardSummaryData;
 import kr.jeet.edu.manager.model.response.ReportCardListResponse;
 import kr.jeet.edu.manager.model.response.ReportCardShowResponse;
+import kr.jeet.edu.manager.server.RetrofitApi;
 import kr.jeet.edu.manager.server.RetrofitClient;
 import kr.jeet.edu.manager.utils.LogMgr;
 import kr.jeet.edu.manager.utils.PreferenceUtil;
@@ -127,6 +129,8 @@ public class ShowReportCardActivity extends BaseActivity {
         tvEmptyList = findViewById(R.id.tv_empty_list);
         mRecycler = (RecyclerView) findViewById(R.id.recycler_exam);
         if(_currentData.etTitleGubun == Constants.ReportCardType.E_ELEMENTARY.getCode() || _currentData.etTitleGubun == Constants.ReportCardType.E_MIDDLE.getCode()) {
+            LinearLayoutManager layoutMgr = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
+            mRecycler.setLayoutManager(layoutMgr);
             mAdapter = new ReportCardShowType0Adapter(mContext, mList);
         }else if(_currentData.etTitleGubun == Constants.ReportCardType.KJ_E_MATH.getCode()) {
             // 악어수학용 Adapter
@@ -134,10 +138,10 @@ public class ShowReportCardActivity extends BaseActivity {
             mRecycler.setLayoutManager(layoutMgr);
             int padding = Utils.fromPxToDp(1);
             mRecycler.setPadding(padding, padding, padding, padding);
-            mRecycler.setBackgroundResource(R.drawable.bg_setting_layout);
             mAdapter = new ReportCardShowType3Adapter(mContext, mList);
         }
         mRecycler.setAdapter(mAdapter);
+
         long delayed = getResources().getInteger(R.integer.screen_in_time);
         new Handler().postDelayed(() -> {
             animateLayout(layoutInfo);
@@ -161,10 +165,26 @@ public class ShowReportCardActivity extends BaseActivity {
 
                             }
                         } else {
-                            Toast.makeText(mContext, R.string.server_fail, Toast.LENGTH_SHORT).show();
+                            int code = response.code();
+                            if (code == RetrofitApi.RESPONSE_CODE_NOT_FOUND) {
+                                showMessageDialog(getString(R.string.dialog_title_error)
+                                        , getString(R.string.item_not_found)
+                                        , new View.OnClickListener() {  //OKClickListener
+                                            @Override
+                                            public void onClick(View view) {
+                                                finish();
+                                                overridePendingTransition(R.anim.horizontal_in, R.anim.horizontal_exit);
+                                                hideMessageDialog();
+                                            }
+                                        },
+                                        null,
+                                        false);
+                            } else {
+                                Toast.makeText(mContext, R.string.server_error, Toast.LENGTH_SHORT).show();
+                            }
                         }
                     } catch (Exception e) {
-                        LogMgr.e(TAG + "requestTestReserveList() Exception : ", e.getMessage());
+                        LogMgr.e(TAG + "requestReportShow() Exception : ", e.getMessage());
                     }
 
                     if (mAdapter != null) {

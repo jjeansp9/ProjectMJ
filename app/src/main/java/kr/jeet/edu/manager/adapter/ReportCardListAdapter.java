@@ -83,12 +83,12 @@ public class ReportCardListAdapter extends RecyclerView.Adapter<ReportCardListAd
         }
         holder.tvCampus.setText(item.acaName);
         String dateString = item.insertDate;
-        try {
-            Date regDate = millisecFormat.parse(item.insertDate);
-            dateString = minuteFormat.format(regDate);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            Date regDate = millisecFormat.parse(item.insertDate);
+//            dateString = minuteFormat.format(regDate);
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
         holder.tvDate.setText(dateString);
     }
 

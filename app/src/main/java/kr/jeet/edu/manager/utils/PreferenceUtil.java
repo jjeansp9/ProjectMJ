@@ -83,7 +83,7 @@ public class PreferenceUtil {
 
     public static int getUserSeq(Context context) {
         SharedPreferences pref = context.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE);
-        return pref.getInt(PREF_USER_SEQ, 0);
+        return pref.getInt(PREF_USER_SEQ, -1);
     }
 
     // member id

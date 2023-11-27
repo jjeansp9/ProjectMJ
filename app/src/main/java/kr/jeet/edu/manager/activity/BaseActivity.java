@@ -116,13 +116,18 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
 //        }
 //        return super.dispatchTouchEvent(event);
 //    }
-    protected void showMessageDialog(String title, String msg, View.OnClickListener okListener, View.OnClickListener cancelListener) {
+    protected void showMessageDialog(String title, String msg, View.OnClickListener okListener, View.OnClickListener cancelListener, boolean... cancelable) {
         if(popupDialog != null && popupDialog.isShowing()) {
             popupDialog.dismiss();
         }
         popupDialog = new PopupDialog(mContext);
         popupDialog.setTitle(title);
         popupDialog.setContent(msg);
+        boolean cancelableTouchOutside = true;
+        if(cancelable != null && cancelable.length > 0) {
+            cancelableTouchOutside = cancelable[0];
+        }
+        popupDialog.setCanceledOnTouchOutside(cancelableTouchOutside);
         popupDialog.setOnOkButtonClickListener(okListener);
         if(cancelListener != null) {
             popupDialog.setOnCancelButtonClickListener(cancelListener);

@@ -202,7 +202,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 app:layout_constraintTop_toBottomOf="@id/layout_account_first"
-                android:layout_marginTop="@dimen/layout_margin_xxsmall"
+                android:layout_marginTop="@dimen/layout_margin_xsmall"
                 android:background="@drawable/bg_setting_layout">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -353,7 +353,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 app:layout_constraintTop_toBottomOf="@id/layout_account_second"
-                android:layout_marginTop="@dimen/layout_margin_xxsmall"
+                android:layout_marginTop="@dimen/layout_margin_xsmall"
                 android:background="@drawable/bg_setting_layout">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
