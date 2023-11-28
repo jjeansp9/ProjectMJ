@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".activity.MenuBriefingReservedListActivity">
+    tools:context=".activity.menu.briefing.MenuBriefingReservedListActivity">
 
     <kr.jeet.edu.manager.view.CustomAppbarLayout
         android:id="@+id/customAppbar"

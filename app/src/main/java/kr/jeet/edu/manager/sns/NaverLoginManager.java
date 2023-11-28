@@ -16,8 +16,8 @@ import com.navercorp.nid.profile.data.NidProfile;
 import com.navercorp.nid.profile.data.NidProfileResponse;
 
 import kr.jeet.edu.manager.R;
-import kr.jeet.edu.manager.activity.JoinActivity;
-import kr.jeet.edu.manager.activity.LoginActivity;
+import kr.jeet.edu.manager.activity.login.JoinActivity;
+import kr.jeet.edu.manager.activity.login.LoginActivity;
 import kr.jeet.edu.manager.common.Constants;
 import kr.jeet.edu.manager.common.IntentParams;
 import kr.jeet.edu.manager.utils.LogMgr;

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.MenuNoticeActivity">
+    tools:context=".activity.menu.notice.MenuNoticeActivity">
 
     <kr.jeet.edu.manager.view.CustomAppbarLayout
         android:id="@+id/customAppbar"

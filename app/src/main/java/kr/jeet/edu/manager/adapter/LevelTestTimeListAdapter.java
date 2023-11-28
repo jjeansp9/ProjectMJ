@@ -23,7 +23,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import kr.jeet.edu.manager.R;
-import kr.jeet.edu.manager.activity.LevelTestSettingActivity;
+import kr.jeet.edu.manager.activity.menu.leveltest.LevelTestSettingActivity;
 import kr.jeet.edu.manager.common.Constants;
 import kr.jeet.edu.manager.model.data.LevelTestTimeData;
 import kr.jeet.edu.manager.model.data.LevelTestTimeHeaderData;

@@ -69,7 +69,6 @@ public class CounselDetailActivity extends BaseActivity {
             finish();
         }
     }
-    @Override
     void initAppbar() {
         CustomAppbarLayout customAppbar = findViewById(R.id.customAppbar);
         customAppbar.setTitle(R.string.title_request_consulting);
@@ -80,7 +79,6 @@ public class CounselDetailActivity extends BaseActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
-    @Override
     void initView() {
         tvDate = findViewById(R.id.tv_content_date);
         tvCampus = findViewById(R.id.tv_content_campus);

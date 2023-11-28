@@ -47,7 +47,6 @@ public class WebViewActivity extends BaseActivity {
 
         }
     }
-    @Override
     void initView() {
         findViewById(R.id.btn_confirm).setOnClickListener(this);
 
@@ -77,7 +76,6 @@ public class WebViewActivity extends BaseActivity {
         }
     }
 
-    @Override
     void initAppbar() {
         CustomAppbarLayout customAppbar = findViewById(R.id.customAppbar);
         customAppbar.setTitle(title);

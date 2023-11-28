@@ -2,7 +2,7 @@ package kr.jeet.edu.manager.model.data;
 
 import java.text.ParseException;
 
-import kr.jeet.edu.manager.activity.LevelTestSettingActivity;
+import kr.jeet.edu.manager.activity.menu.leveltest.LevelTestSettingActivity;
 import kr.jeet.edu.manager.common.Constants;
 
 public class LevelTestTimeHeaderData implements LevelTestSettingActivity.TimeListItem {

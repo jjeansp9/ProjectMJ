@@ -88,7 +88,6 @@ public class ProfileActivity extends BaseActivity {
             }
         }
     }
-    @Override
     void initView() {
         tvName = findViewById(R.id.tv_stu_info_name);
         tvCampus = findViewById(R.id.tv_stu_info_campus);
@@ -116,7 +115,6 @@ public class ProfileActivity extends BaseActivity {
 //        _recyclerViewClass.addItemDecoration(Utils.setDivider(mContext));
     }
 
-    @Override
     void initAppbar() {
         CustomAppbarLayout customAppbar = findViewById(R.id.customAppbar);
         customAppbar.setTitle(R.string.title_main_teacher_profile);

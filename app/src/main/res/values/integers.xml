@@ -3,4 +3,5 @@
     <integer name="screen_out_time">375</integer>
     <integer name="screen_in_time">375</integer>
     <integer name="btn_push_duration">100</integer>
+    <integer name="scroll_to_top_delay">1000</integer>
 </resources>

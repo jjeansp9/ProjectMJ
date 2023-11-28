@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.ConfirmReportCardActivity"
+    tools:context=".activity.menu.reportcard.ConfirmReportCardActivity"
     android:animateLayoutChanges="true" >
 
     <kr.jeet.edu.manager.view.CustomAppbarLayout

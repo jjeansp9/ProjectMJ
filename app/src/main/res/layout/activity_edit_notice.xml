@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".activity.EditNoticeActivity">
+    tools:context=".activity.menu.notice.EditNoticeActivity">
 
     <kr.jeet.edu.manager.view.CustomAppbarLayout
         android:id="@+id/customAppbar"

@@ -1,6 +1,5 @@
 package kr.jeet.edu.manager.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.view.WindowCompat;
 import androidx.core.view.WindowInsetsControllerCompat;
@@ -77,7 +76,6 @@ public class PhotoViewActivity extends BaseActivity {
 
     }
 
-    @Override
     void initView() {
         tvPage = findViewById(R.id.tv_photoview_page);
 
@@ -193,7 +191,6 @@ public class PhotoViewActivity extends BaseActivity {
             return 0;
         }
     }
-    @Override
     void initAppbar() {}
 
     @Override

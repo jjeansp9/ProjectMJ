@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import kr.jeet.edu.manager.R;
+import kr.jeet.edu.manager.activity.login.LoginActivity;
 import kr.jeet.edu.manager.common.Constants;
 import kr.jeet.edu.manager.common.DataManager;
 import kr.jeet.edu.manager.common.IntentParams;
@@ -171,11 +172,9 @@ public class IntroActivity extends BaseActivity {
             LogMgr.e(TAG, "intent is null");
         }
     }
-    @Override
     void initAppbar() {
         //do nothing
     }
-    @Override
     void initView() {
         //DOT Size
         DisplayMetrics displayMetrics = getResources().getDisplayMetrics();

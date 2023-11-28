@@ -2,7 +2,7 @@ package kr.jeet.edu.manager.model.data;
 
 import static kr.jeet.edu.manager.adapter.ReportCardShowType0Adapter.LAYOUT_HEADER;
 
-import kr.jeet.edu.manager.activity.ShowReportCardActivity;
+import kr.jeet.edu.manager.activity.menu.reportcard.ShowReportCardActivity;
 
 public class ReportCardExamHeaderData implements ShowReportCardActivity.ExamListTypeItem{
     private int esGubun;

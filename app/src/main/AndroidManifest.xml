@@ -49,7 +49,7 @@
             android:name="com.google.firebase.messaging.default_notification_channel_id"
             android:value="@string/default_notification_channel_id" />
         <activity
-            android:name=".activity.ShowReportCardActivity"
+            android:name=".activity.menu.reportcard.ShowReportCardActivity"
             android:configChanges="smallestScreenSize|screenSize|screenLayout"
             android:exported="false"
             android:screenOrientation="portrait">
@@ -58,7 +58,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".activity.DetailReportCardActivity"
+            android:name=".activity.menu.reportcard.DetailReportCardActivity"
             android:configChanges="smallestScreenSize|screenSize|screenLayout"
             android:exported="false"
             android:screenOrientation="portrait">
@@ -67,7 +67,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".activity.ConfirmReportCardActivity"
+            android:name=".activity.menu.reportcard.ConfirmReportCardActivity"
             android:configChanges="smallestScreenSize|screenSize|screenLayout"
             android:exported="false"
             android:screenOrientation="portrait">
@@ -76,7 +76,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".activity.SelectReportCardActivity"
+            android:name=".activity.menu.reportcard.SelectReportCardActivity"
             android:configChanges="smallestScreenSize|screenSize|screenLayout"
             android:exported="false"
             android:screenOrientation="portrait">
@@ -85,7 +85,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".activity.SelectReportCardRecipientActivity"
+            android:name=".activity.menu.reportcard.SelectReportCardRecipientActivity"
             android:configChanges="smallestScreenSize|screenSize|screenLayout"
             android:exported="false"
             android:screenOrientation="portrait">
@@ -94,7 +94,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".activity.MenuReportCardActivity"
+            android:name=".activity.menu.reportcard.MenuReportCardActivity"
             android:configChanges="smallestScreenSize|screenSize|screenLayout"
             android:exported="false"
             android:screenOrientation="portrait">
@@ -103,7 +103,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".activity.MenuManageStudentActivity"
+            android:name=".activity.menu.student.MenuManageStudentActivity"
             android:configChanges="smallestScreenSize|screenSize|screenLayout"
             android:exported="false"
             android:screenOrientation="portrait">
@@ -121,7 +121,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".activity.LevelTestSettingActivity"
+            android:name=".activity.menu.leveltest.LevelTestSettingActivity"
             android:configChanges="smallestScreenSize|screenSize|screenLayout"
             android:exported="false"
             android:screenOrientation="portrait">
@@ -131,7 +131,7 @@
         </activity>
 
         <activity
-            android:name=".activity.MenuLevelTestDetailActivity"
+            android:name=".activity.menu.leveltest.MenuLevelTestDetailActivity"
             android:configChanges="smallestScreenSize|screenSize|screenLayout"
             android:exported="false"
             android:screenOrientation="portrait">
@@ -140,7 +140,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".activity.MenuLevelTestActivity"
+            android:name=".activity.menu.leveltest.MenuLevelTestActivity"
             android:configChanges="smallestScreenSize|screenSize|screenLayout"
             android:exported="false"
             android:screenOrientation="portrait">
@@ -149,7 +149,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".activity.MenuBusActivity"
+            android:name=".activity.menu.bus.MenuBusActivity"
             android:configChanges="smallestScreenSize|screenSize|screenLayout"
             android:exported="false"
             android:screenOrientation="portrait">
@@ -158,7 +158,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".activity.BusRouteActivity"
+            android:name=".activity.menu.bus.BusRouteActivity"
             android:configChanges="smallestScreenSize|screenSize|screenLayout"
             android:exported="false"
             android:screenOrientation="portrait">
@@ -167,7 +167,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".activity.MenuScheduleDetailActivity"
+            android:name=".activity.menu.schedule.MenuScheduleDetailActivity"
             android:configChanges="smallestScreenSize|screenSize|screenLayout"
             android:exported="false"
             android:screenOrientation="portrait">
@@ -176,7 +176,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".activity.EditScheduleActivity"
+            android:name=".activity.menu.schedule.EditScheduleActivity"
             android:configChanges="smallestScreenSize|screenSize|screenLayout"
             android:exported="false"
             android:screenOrientation="portrait">
@@ -185,7 +185,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".activity.MenuScheduleActivity"
+            android:name=".activity.menu.schedule.MenuScheduleActivity"
             android:configChanges="smallestScreenSize|screenSize|screenLayout"
             android:exported="false"
             android:screenOrientation="portrait">
@@ -203,7 +203,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".activity.SystemNoticeDetailActivity"
+            android:name=".activity.menu.notice.SystemNoticeDetailActivity"
             android:configChanges="smallestScreenSize|screenSize|screenLayout"
             android:exported="false"
             android:screenOrientation="portrait">
@@ -212,7 +212,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".activity.EditNoticeActivity"
+            android:name=".activity.menu.notice.EditNoticeActivity"
             android:configChanges="smallestScreenSize|screenSize|screenLayout"
             android:exported="false"
             android:screenOrientation="portrait">
@@ -221,7 +221,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".activity.MenuNoticeActivity"
+            android:name=".activity.menu.notice.MenuNoticeActivity"
             android:configChanges="smallestScreenSize|screenSize|screenLayout"
             android:exported="false"
             android:screenOrientation="portrait">
@@ -230,7 +230,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".activity.MenuBriefingReservedListActivity"
+            android:name=".activity.menu.briefing.MenuBriefingReservedListActivity"
             android:configChanges="smallestScreenSize|screenSize|screenLayout"
             android:exported="false"
             android:screenOrientation="portrait">
@@ -239,7 +239,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".activity.MenuBriefingActivity"
+            android:name=".activity.menu.briefing.MenuBriefingActivity"
             android:configChanges="smallestScreenSize|screenSize|screenLayout"
             android:exported="false"
             android:screenOrientation="portrait">
@@ -248,7 +248,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".activity.MenuBriefingDetailActivity"
+            android:name=".activity.menu.briefing.MenuBriefingDetailActivity"
             android:configChanges="smallestScreenSize|screenSize|screenLayout"
             android:exported="false"
             android:screenOrientation="portrait">
@@ -257,7 +257,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".activity.EditBriefingActivity"
+            android:name=".activity.menu.briefing.EditBriefingActivity"
             android:configChanges="smallestScreenSize|screenSize|screenLayout"
             android:exported="false"
             android:screenOrientation="portrait">
@@ -275,7 +275,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".activity.DetailStudentInfoActivity"
+            android:name=".activity.menu.student.DetailStudentInfoActivity"
             android:configChanges="smallestScreenSize|screenSize|screenLayout"
             android:exported="false"
             android:screenOrientation="portrait">
@@ -284,7 +284,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".activity.MenuStudentInfoActivity"
+            android:name=".activity.menu.student.MenuStudentInfoActivity"
             android:configChanges="smallestScreenSize|screenSize|screenLayout"
             android:exported="false"
             android:screenOrientation="portrait">
@@ -293,7 +293,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".activity.SetPasswordActivity"
+            android:name=".activity.setting.SetPasswordActivity"
             android:configChanges="smallestScreenSize|screenSize|screenLayout"
             android:exported="false"
             android:screenOrientation="portrait">
@@ -302,7 +302,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".activity.SetAccountActivity"
+            android:name=".activity.setting.SetAccountActivity"
             android:configChanges="smallestScreenSize|screenSize|screenLayout"
             android:exported="false"
             android:screenOrientation="portrait">
@@ -311,7 +311,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".activity.SetPhoneNumActivity"
+            android:name=".activity.setting.SetPhoneNumActivity"
             android:configChanges="smallestScreenSize|screenSize|screenLayout"
             android:exported="false"
             android:screenOrientation="portrait">
@@ -320,7 +320,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".activity.EditAnnouncementActivity"
+            android:name=".activity.menu.announcement.EditAnnouncementActivity"
             android:configChanges="smallestScreenSize|screenSize|screenLayout"
             android:exported="false"
             android:screenOrientation="portrait"
@@ -330,28 +330,28 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".activity.MenuBoardDetailActivity"
+            android:name=".activity.menu.announcement.MenuAnnouncementDetailActivity"
             android:configChanges="smallestScreenSize|screenSize|screenLayout"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.MenuAnnouncementActivity"
+            android:name=".activity.menu.announcement.MenuAnnouncementActivity"
             android:configChanges="smallestScreenSize|screenSize|screenLayout"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.SettingsActivity"
+            android:name=".activity.setting.SettingsActivity"
             android:configChanges="smallestScreenSize|screenSize|screenLayout"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.JoinActivity"
+            android:name=".activity.login.JoinActivity"
             android:configChanges="smallestScreenSize|screenSize|screenLayout"
             android:exported="false"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
-            android:name=".activity.FindCredentialsActivity"
+            android:name=".activity.login.FindCredentialsActivity"
             android:configChanges="smallestScreenSize|screenSize|screenLayout"
             android:exported="false"
             android:screenOrientation="portrait">
@@ -360,7 +360,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".activity.AgreeTermsActivity"
+            android:name=".activity.login.AgreeTermsActivity"
             android:configChanges="smallestScreenSize|screenSize|screenLayout"
             android:exported="false"
             android:screenOrientation="portrait" />
@@ -374,7 +374,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".activity.LoginActivity"
+            android:name=".activity.login.LoginActivity"
             android:configChanges="smallestScreenSize|screenSize|screenLayout"
             android:exported="false"
             android:screenOrientation="portrait" />

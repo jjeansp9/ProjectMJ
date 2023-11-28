@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/bg_manager"
     android:padding="@dimen/layout_margin"
-    tools:context=".activity.LoginActivity">
+    tools:context=".activity.login.LoginActivity">
 
     <LinearLayout
         android:layout_width="match_parent"

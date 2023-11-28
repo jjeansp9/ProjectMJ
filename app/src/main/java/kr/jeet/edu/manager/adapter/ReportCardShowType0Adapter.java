@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 import kr.jeet.edu.manager.R;
-import kr.jeet.edu.manager.activity.ShowReportCardActivity;
+import kr.jeet.edu.manager.activity.menu.reportcard.ShowReportCardActivity;
 
 import kr.jeet.edu.manager.model.data.ReportCardExamData;
 import kr.jeet.edu.manager.model.data.ReportCardExamFooterData;

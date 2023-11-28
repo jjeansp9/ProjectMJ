@@ -3,11 +3,8 @@ package kr.jeet.edu.manager.sns;
 import static android.app.Activity.RESULT_OK;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.os.Handler;
 import android.os.Message;
-import android.widget.Toast;
 
 import androidx.activity.ComponentActivity;
 import androidx.activity.result.ActivityResult;
@@ -17,7 +14,6 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.bumptech.glide.Glide;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -26,8 +22,8 @@ import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
-import kr.jeet.edu.manager.activity.JoinActivity;
-import kr.jeet.edu.manager.activity.LoginActivity;
+import kr.jeet.edu.manager.activity.login.JoinActivity;
+import kr.jeet.edu.manager.activity.login.LoginActivity;
 import kr.jeet.edu.manager.common.Constants;
 import kr.jeet.edu.manager.common.IntentParams;
 import kr.jeet.edu.manager.utils.LogMgr;

@@ -4,7 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import kr.jeet.edu.manager.activity.LevelTestSettingActivity;
+import kr.jeet.edu.manager.activity.menu.leveltest.LevelTestSettingActivity;
 import kr.jeet.edu.manager.common.Constants;
 import kr.jeet.edu.manager.utils.LogMgr;
 

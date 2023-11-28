@@ -6,6 +6,18 @@ import static kr.jeet.edu.manager.fcm.FCMManager.MSG_TYPE_NOTICE;
 import static kr.jeet.edu.manager.fcm.FCMManager.MSG_TYPE_LEVEL_TEST;
 
 import kr.jeet.edu.manager.R;
+import kr.jeet.edu.manager.activity.menu.announcement.MenuAnnouncementActivity;
+import kr.jeet.edu.manager.activity.menu.announcement.MenuAnnouncementDetailActivity;
+import kr.jeet.edu.manager.activity.menu.briefing.MenuBriefingActivity;
+import kr.jeet.edu.manager.activity.menu.bus.MenuBusActivity;
+import kr.jeet.edu.manager.activity.menu.leveltest.MenuLevelTestActivity;
+import kr.jeet.edu.manager.activity.menu.leveltest.MenuLevelTestDetailActivity;
+import kr.jeet.edu.manager.activity.menu.notice.MenuNoticeActivity;
+import kr.jeet.edu.manager.activity.menu.reportcard.MenuReportCardActivity;
+import kr.jeet.edu.manager.activity.menu.schedule.MenuScheduleActivity;
+import kr.jeet.edu.manager.activity.menu.student.MenuManageStudentActivity;
+import kr.jeet.edu.manager.activity.menu.student.MenuStudentInfoActivity;
+import kr.jeet.edu.manager.activity.setting.SettingsActivity;
 import kr.jeet.edu.manager.adapter.AnnouncementListAdapter;
 import kr.jeet.edu.manager.adapter.MainMenuListAdapter;
 import kr.jeet.edu.manager.common.Constants;
@@ -14,7 +26,6 @@ import kr.jeet.edu.manager.common.IntentParams;
 import kr.jeet.edu.manager.db.JeetDatabase;
 import kr.jeet.edu.manager.db.PushMessage;
 import kr.jeet.edu.manager.dialog.PushPopupDialog;
-import kr.jeet.edu.manager.fcm.FCMManager;
 import kr.jeet.edu.manager.model.data.ACAData;
 import kr.jeet.edu.manager.model.data.AnnouncementData;
 import kr.jeet.edu.manager.model.data.BoardAttributeData;
@@ -58,7 +69,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.flexbox.FlexDirection;
@@ -67,12 +77,8 @@ import com.google.android.flexbox.FlexboxLayoutManager;
 import com.google.android.flexbox.JustifyContent;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 import java.util.stream.Collectors;
 
 public class MainActivity extends BaseActivity {
@@ -182,7 +188,6 @@ public class MainActivity extends BaseActivity {
         initData();
         mHandler.sendEmptyMessage(CMD_GET_ACALIST);
     }
-    @Override
     void initAppbar() {
         CustomAppbarLayout customAppbar = findViewById(R.id.customAppbar);
         customAppbar.setTitle("");
@@ -213,7 +218,6 @@ public class MainActivity extends BaseActivity {
         }, 2000);
     }
 
-    @Override
     void initView() {
 //        tvLastAnnouncementTitle = findViewById(R.id.tv_notify_content);
 //        tvProfileDate = findViewById(R.id.tv_date);
@@ -314,7 +318,7 @@ public class MainActivity extends BaseActivity {
             switch(_pushMessage.pushType) {
                 case MSG_TYPE_NOTICE:   //공지사항의 경우 공지사항 상세페이지로 이동
                 {
-                    Intent noticeIntent = new Intent(this, MenuBoardDetailActivity.class);
+                    Intent noticeIntent = new Intent(this, MenuAnnouncementDetailActivity.class);
                     noticeIntent.putExtras(intent);
                     startActivity(noticeIntent);
                 }
@@ -742,7 +746,7 @@ public class MainActivity extends BaseActivity {
         //공지사항
         menuList.add(new MainMenuItemData(R.drawable.icon_menu_attention, R.string.main_menu_announcement, MenuAnnouncementActivity.class));
         //캠퍼스일정
-        menuList.add(new MainMenuItemData(R.drawable.icon_menu_schedule, R.string.main_menu_campus_schedule,MenuScheduleActivity.class));
+        menuList.add(new MainMenuItemData(R.drawable.icon_menu_schedule, R.string.main_menu_campus_schedule, MenuScheduleActivity.class));
         //알림장
         menuList.add(new MainMenuItemData(R.drawable.icon_menu_notice, R.string.main_menu_notice, MenuNoticeActivity.class));
         //테스트예약 -> 컨셉변경으로 제거 -> 테스트시간 설정이 필요하여 생성
@@ -787,7 +791,7 @@ public class MainActivity extends BaseActivity {
         startActivity(targetIntent);
     }
     private void navigate2DetailAnnouncementActivity(AnnouncementData data) {
-        Intent targetIntent = new Intent(mContext, MenuBoardDetailActivity.class);
+        Intent targetIntent = new Intent(mContext, MenuAnnouncementDetailActivity.class);
         targetIntent.putExtra(IntentParams.PARAM_ANNOUNCEMENT_INFO, data);
         startActivity(targetIntent);
         overridePendingTransition(R.anim.horizontal_enter, R.anim.horizontal_out);

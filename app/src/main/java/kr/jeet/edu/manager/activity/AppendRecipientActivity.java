@@ -21,7 +21,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
@@ -221,7 +220,6 @@ public class AppendRecipientActivity extends BaseActivity implements MonthPicker
 
         }
     }
-    @Override
     void initView() {
         //region button
         tvSearchBtn = findViewById(R.id.tv_search_btn);
@@ -630,7 +628,6 @@ public class AppendRecipientActivity extends BaseActivity implements MonthPicker
         }
     }
 
-    @Override
     void initAppbar() {
         CustomAppbarLayout customAppbar = findViewById(R.id.customAppbar);
         customAppbar.setTitle(R.string.title_append_recipient);

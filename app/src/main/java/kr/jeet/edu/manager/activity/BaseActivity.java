@@ -21,9 +21,8 @@ import kr.jeet.edu.manager.R;
 import kr.jeet.edu.manager.common.Constants;
 import kr.jeet.edu.manager.dialog.PopupDialog;
 import kr.jeet.edu.manager.utils.LogMgr;
-import kr.jeet.edu.manager.utils.Utils;
 
-public abstract class BaseActivity extends AppCompatActivity implements View.OnClickListener {
+public class BaseActivity extends AppCompatActivity implements View.OnClickListener {
 
     public Context mContext;
     private AlertDialog mProgressDialog = null;
@@ -31,15 +30,20 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
     protected PopupDialog popupDialog = null;
     private boolean setBar = false;
     private int move = -1;
+    protected long scrollToTopDelay = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mContext = this;
+        initData();
         setStatusAndNavigatinBar(setBar);
     }
-    abstract void initView();
-    abstract void initAppbar();
+    private void initData() {
+        scrollToTopDelay = getResources().getInteger(R.integer.scroll_to_top_delay);
+    }
+//    abstract void initView();
+//    abstract void initAppbar();
 
     @Override
     public void onClick(View view) {

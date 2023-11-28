@@ -42,13 +42,9 @@ import java.util.Locale;
 import java.util.regex.Pattern;
 
 import kr.jeet.edu.manager.R;
-import kr.jeet.edu.manager.activity.AgreeTermsActivity;
-import kr.jeet.edu.manager.activity.MainActivity;
 import kr.jeet.edu.manager.common.Constants;
-import kr.jeet.edu.manager.common.IntentParams;
 import kr.jeet.edu.manager.model.request.UpdatePushTokenRequest;
 import kr.jeet.edu.manager.model.response.BaseResponse;
-import kr.jeet.edu.manager.model.response.LoginResponse;
 import kr.jeet.edu.manager.server.RetrofitApi;
 import kr.jeet.edu.manager.server.RetrofitClient;
 import retrofit2.Call;
