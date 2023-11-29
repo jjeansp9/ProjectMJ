@@ -78,7 +78,9 @@ public class WebViewActivity extends BaseActivity {
 
     void initAppbar() {
         CustomAppbarLayout customAppbar = findViewById(R.id.customAppbar);
-        customAppbar.setTitle(title);
+        //customAppbar.setTitle(title);
+        customAppbar.setLogoVisible(true);
+        customAppbar.setLogoClickable(false);
         setSupportActionBar(customAppbar.getToolbar());
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.selector_icon_back);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

@@ -79,4 +79,6 @@
     <dimen name="border_radius">12dp</dimen>
     <dimen name="outer_line_width">1dp</dimen>
     <dimen name="inner_line_width">1dp</dimen>
+
+    <dimen name="report_card_show_info">6dp</dimen>
 </resources>

@@ -401,8 +401,7 @@
         <activity
             android:name=".activity.PhotoViewActivity"
             android:configChanges="smallestScreenSize|screenSize|screenLayout"
-            android:exported="false"
-            android:screenOrientation="portrait">
+            android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />

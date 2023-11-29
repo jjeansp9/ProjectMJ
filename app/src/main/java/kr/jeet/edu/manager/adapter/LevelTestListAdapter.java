@@ -24,6 +24,7 @@ import kr.jeet.edu.manager.common.Constants;
 import kr.jeet.edu.manager.common.DataManager;
 import kr.jeet.edu.manager.model.data.LTCData;
 import kr.jeet.edu.manager.model.data.LevelTestData;
+import kr.jeet.edu.manager.utils.Utils;
 
 public class LevelTestListAdapter extends RecyclerView.Adapter<LevelTestListAdapter.ViewHolder> {
     public interface ItemClickListener{ public void onItemClick(int position, LevelTestData item); }
@@ -31,8 +32,6 @@ public class LevelTestListAdapter extends RecyclerView.Adapter<LevelTestListAdap
     private Context mContext;
     private ArrayList<LevelTestData> mList;
     private ItemClickListener _listener;
-    SimpleDateFormat _dateSecondFormat = new SimpleDateFormat(Constants.DATE_FORMATTER_YYYY_MM_DD_HH_mm_ss, Locale.KOREA);
-    SimpleDateFormat _dateMinuteFormat = new SimpleDateFormat(Constants.DATE_FORMATTER_YYYY_MM_DD_HH_mm, Locale.KOREA);
     public LevelTestListAdapter(Context mContext, ArrayList<LevelTestData> mList, ItemClickListener _listener) {
         this.mContext = mContext;
         this.mList = mList;
@@ -68,17 +67,9 @@ public class LevelTestListAdapter extends RecyclerView.Adapter<LevelTestListAdap
                 }
                 holder.tvCampus.setText(sb.toString());
             }
-            try {
-                Date insertDate = _dateSecondFormat.parse(item.insertDate);
-
-                holder.tvRegisterDate.setText(_dateMinuteFormat.format(insertDate));
-            } catch (ParseException e) {
-                e.printStackTrace();
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
-
-//            holder.tvReserveDate.setText(item.reservationDate);
+            holder.tvSubject.setText(Utils.getStr(item.subjectName));
+            String date = Utils.formatDate(item.insertDate, Constants.DATE_FORMATTER_YYYY_MM_DD_HH_mm_ss, Constants.DATE_FORMATTER_YYYY_MM_DD);
+            holder.tvRegisterDate.setText(date);
         }
     }
 
@@ -90,7 +81,7 @@ public class LevelTestListAdapter extends RecyclerView.Adapter<LevelTestListAdap
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 
-        private TextView tvName, tvCampus, tvRegisterDate;
+        private TextView tvName, tvCampus, tvRegisterDate, tvSubject;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -98,6 +89,7 @@ public class LevelTestListAdapter extends RecyclerView.Adapter<LevelTestListAdap
             tvName = itemView.findViewById(R.id.tv_test_reserve_name);
             tvCampus = itemView.findViewById(R.id.tv_test_reserve_campus);
             tvRegisterDate = itemView.findViewById(R.id.tv_test_register_date);
+            tvSubject = itemView.findViewById(R.id.tv_test_register_subject);
 //            tvReserveDate = itemView.findViewById(R.id.tv_test_reserve_date);
 
             itemView.setOnClickListener(v -> {

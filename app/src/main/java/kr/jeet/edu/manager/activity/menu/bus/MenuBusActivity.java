@@ -309,6 +309,9 @@ public class MenuBusActivity extends BaseActivity {
 //                        _listAdapter.setWholeCampusMode(TextUtils.isEmpty(_selectedACA.acaCode));
                         _busesListAdapter.notifyDataSetChanged();
                     }
+                    if(_busesList.size() > 0 && _recyclerViewRoute != null) {
+                        _handler.postDelayed(() -> _recyclerViewRoute.smoothScrollToPosition(0), scrollToTopDelay);
+                    }
                     tvEmptyList.setVisibility(_busesList.isEmpty() ? View.VISIBLE : View.GONE);
                     _swipeRefreshLayout.setRefreshing(false);
                 }

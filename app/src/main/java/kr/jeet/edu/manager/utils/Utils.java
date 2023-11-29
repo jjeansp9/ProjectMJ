@@ -1,22 +1,15 @@
 package kr.jeet.edu.manager.utils;
 
-import static kr.jeet.edu.manager.utils.LogMgr.TAG;
-
 import android.animation.ObjectAnimator;
 import android.content.Context;
-import android.content.Intent;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.InsetDrawable;
 import android.text.TextUtils;
-import android.util.DisplayMetrics;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.Toast;
 
@@ -30,7 +23,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.skydoves.powerspinner.PowerSpinnerView;
 
-import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.MessageFormat;
 import java.text.ParseException;
@@ -402,6 +394,25 @@ public class Utils {
         }
     }
     /**
+     * 날짜 포맷
+     * */
+    public static String formatDate(String inputDate, String inputFoarmatStr, String outputFormatStr) {
+        SimpleDateFormat inputDateFormat = new SimpleDateFormat(inputFoarmatStr, Locale.KOREA);
+        SimpleDateFormat outputFormat = new SimpleDateFormat(outputFormatStr, Locale.KOREA);
+
+        try {
+            Date date = inputDateFormat.parse(inputDate);
+            String formattedDate = "";
+            if (date != null) formattedDate = outputFormat.format(date);
+
+            return formattedDate;
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return "";
+        }
+    }
+    /**
      * 숫자 천단위마다 콤마(,) 추가하는 메소드
      * */
     public static String decimalFormat(int s){ return new DecimalFormat("###,###").format(s); }
@@ -464,7 +475,9 @@ public class Utils {
      * */
     public static boolean nameCheck(String str){ return Pattern.compile("^[a-zA-Z가-힣\\s]+$").matcher(str).find(); }
     /**
-     * dp값 가져오기
+     * dp값 or px값 가져오기
      * */
-    public static int fromPxToDp(float px) { return (int) (px * Resources.getSystem().getDisplayMetrics().density); }
+    public static int fromPxToDp(float px) { return (int) (px / Resources.getSystem().getDisplayMetrics().density); }
+    public static int fromDpToPx(float dp) { return (int) (dp * Resources.getSystem().getDisplayMetrics().density); }
+
 }

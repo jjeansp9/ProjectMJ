@@ -74,6 +74,7 @@ public class CustomAppbarLayout extends AppBarLayout {
     public void setLogoClickable(boolean flag) {
         if(flag) {
             if(_ivLogo != null) {
+                _ivLogo.setBackgroundResource(R.drawable.bt_go_home);
                 _ivLogo.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View v) {

@@ -127,6 +127,7 @@ public class MenuManageStudentActivity extends BaseActivity {
     //endregion
     Constants.BoardEditMode _boardMode = Constants.BoardEditMode.Show;
     SendSMSDialog _smsDialog;
+    String _originalInstallSMSContent = "";
     String _installSMSContent = "";
     private Handler _handler = new Handler(Looper.getMainLooper()) {
         @Override
@@ -989,7 +990,7 @@ public class MenuManageStudentActivity extends BaseActivity {
         }
         _smsDialog = new SendSMSDialog(mContext);
         _smsDialog.setTitle(getString(R.string.msg_send_install_sms));
-        _smsDialog.setEditText(_installSMSContent);
+        _smsDialog.setEditText(_originalInstallSMSContent);
         _smsDialog.setRecipientCount((int)(_recipientStudentList.stream().filter(t->t.isCheckStudent || t.isCheckParent).count()));
         _smsDialog.setOnOkButtonClickListener(okListener);
         _smsDialog.setOnCancelButtonClickListener(cancelListener);
@@ -1106,7 +1107,7 @@ public class MenuManageStudentActivity extends BaseActivity {
 
                             if (response.body() != null) {
 
-                                _installSMSContent = response.body().data;
+                                _originalInstallSMSContent = _installSMSContent = response.body().data;
                             }
                         }
                     } catch (Exception e) {
@@ -1279,11 +1280,14 @@ public class MenuManageStudentActivity extends BaseActivity {
                             }else {
                                 if (response.isSuccessful()) {
                                     Toast.makeText(mContext, R.string.msg_success_to_send_install_SMS, Toast.LENGTH_SHORT).show();
-                                    initLayout(Constants.BoardEditMode.Show);
+
                                 } else {
                                     Toast.makeText(mContext, R.string.server_fail, Toast.LENGTH_SHORT).show();
                                 }
                             }
+                            Message msg = _handler.obtainMessage(CMD_INIT_LAYOUT);
+                            msg.arg1 = Constants.BoardEditMode.Show.ordinal();
+                            _handler.sendMessage(msg);
                         }
                     }catch (Exception e){
                         LogMgr.e(TAG + "requestBoardList() Exception : ", e.getMessage());

@@ -338,6 +338,9 @@ public class MenuReportCardActivity extends BaseActivity {
 
                     if (_reportCardListAdapter != null) _reportCardListAdapter.notifyDataSetChanged();
                     checkEmptyRecyclerView();
+                    if(finalLastNoticeSeq == 0 && _reportCardList.size() > 0 && _recyclerViewReportCard != null) {
+                        _handler.postDelayed(() -> _recyclerViewReportCard.smoothScrollToPosition(0), scrollToTopDelay);
+                    }
                 }
 
                 @Override

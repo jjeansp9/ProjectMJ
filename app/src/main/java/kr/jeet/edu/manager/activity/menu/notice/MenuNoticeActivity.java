@@ -580,7 +580,9 @@ public class MenuNoticeActivity extends BaseActivity implements MonthPickerDialo
                                         //for (AnnouncementData data : getData) mList.add(data);
                                         _noticeList.addAll(getData);
                                         updateRecyclerView();
-
+                                        if(finalLastNoticeSeq == 0 && _noticeList.size() > 0 && _recyclerView != null) {
+                                            _handler.postDelayed(() -> _recyclerView.smoothScrollToPosition(0), scrollToTopDelay);
+                                        }
                                     } else LogMgr.e(TAG, "ListData is null");
                                 }
                             } else {

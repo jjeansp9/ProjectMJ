@@ -45,6 +45,7 @@ import kr.jeet.edu.manager.server.RetrofitClient;
 import kr.jeet.edu.manager.utils.FileUtils;
 import kr.jeet.edu.manager.utils.LogMgr;
 import kr.jeet.edu.manager.utils.PreferenceUtil;
+import kr.jeet.edu.manager.utils.Utils;
 import kr.jeet.edu.manager.view.CustomAppbarLayout;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -226,8 +227,11 @@ public class SystemNoticeDetailActivity extends BaseActivity {
         str = TextUtils.isEmpty(_currentData.content) ? "" : _currentData.content;
         mTvContent.setText(str);
         mTvWriterName.setText(_currentData.writerName);
-        mTvDate.setText(_currentData.insertDate);
-
+        mTvDate.setText(Utils.formatDate(
+                _currentData.insertDate,
+                Constants.DATE_FORMATTER_YYYY_MM_DD_HH_mm_ss,
+                Constants.DATE_FORMATTER_YYYY_MM_DD_HH_mm
+        ));
     }
 
     private void setImageRecycler(){

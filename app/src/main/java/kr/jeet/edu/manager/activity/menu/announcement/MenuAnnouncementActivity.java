@@ -314,7 +314,6 @@ public class MenuAnnouncementActivity extends BaseActivity {
         mSwipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-
                 requestBoardList(); // spinner에서 선택한 캠퍼스 코드로 갱신
 //                mSwipeRefresh.setRefreshing(false);
             }
@@ -341,7 +340,6 @@ public class MenuAnnouncementActivity extends BaseActivity {
 
         });
     }
-
     // 공시사항 글 목록 조회
     private void requestBoardList(int... lastSeq){
         int lastNoticeSeq = 0;
@@ -374,6 +372,9 @@ public class MenuAnnouncementActivity extends BaseActivity {
 
                                     mAdapter.notifyDataSetChanged();
                                     checkEmptyRecyclerView();
+                                    if(finalLastNoticeSeq == 0 && mList.size() > 0 && mRecyclerView != null) {
+                                        _handler.postDelayed(() -> mRecyclerView.smoothScrollToPosition(0), scrollToTopDelay);
+                                    }
 
                                 }else LogMgr.e(TAG, "ListData is null");
                             }

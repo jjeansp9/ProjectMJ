@@ -23,6 +23,7 @@ import kr.jeet.edu.manager.common.Constants;
 import kr.jeet.edu.manager.fcm.FCMManager;
 import kr.jeet.edu.manager.model.data.NoticeData;
 import kr.jeet.edu.manager.utils.PreferenceUtil;
+import kr.jeet.edu.manager.utils.Utils;
 
 public class NoticeListAdapter extends RecyclerView.Adapter<NoticeListAdapter.ViewHolder> {
 
@@ -97,7 +98,7 @@ public class NoticeListAdapter extends RecyclerView.Adapter<NoticeListAdapter.Vi
         String date = "";
 //        if(!TextUtils.isEmpty(item.counselDate)) date = item.counselDate;
 //        else
-            if(!TextUtils.isEmpty(item.insertDate)) date = item.insertDate;
+            if(!TextUtils.isEmpty(item.insertDate)) date = Utils.formatDate(item.insertDate, Constants.DATE_FORMATTER_YYYY_MM_DD_HH_mm_ss, Constants.DATE_FORMATTER_YYYY_MM_DD_HH_mm);;
         holder.tvDate.setText(date);
         //holder.tvReceiver.setText(TextUtils.isEmpty(item.noticeReceiver) ? "" : item.noticeReceiver);
         if(isReceivedMsg) {

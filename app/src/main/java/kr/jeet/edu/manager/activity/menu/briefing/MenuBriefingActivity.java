@@ -487,6 +487,9 @@ public class MenuBriefingActivity extends BaseActivity implements MonthPickerDia
 //                        _listAdapter.setWholeCampusMode(TextUtils.isEmpty(_selectedACA.acaCode));
                         _listAdapter.notifyDataSetChanged();
                     }
+                    if(_list.size() > 0 && _recyclerView != null) {
+                        _handler.postDelayed(() -> _recyclerView.smoothScrollToPosition(0), scrollToTopDelay);
+                    }
                     tvEmptyList.setVisibility(_list.isEmpty() ? View.VISIBLE : View.GONE);
                     _swipeRefreshLayout.setRefreshing(false);
                 }

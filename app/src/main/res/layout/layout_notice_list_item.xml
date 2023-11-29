@@ -10,11 +10,13 @@
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/layout_notice_state"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintEnd_toStartOf="@+id/btn_notice_next"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginEnd="@dimen/layout_margin_xxsmall">
         <TextView
             android:id="@+id/tv_notice_type"
             android:layout_width="wrap_content"
@@ -35,7 +37,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:hint=""
+            android:maxLines="1"
+            android:ellipsize="end"
             android:textColor="@color/font_color_default"
             android:textSize="@dimen/font_size"/>
     </androidx.appcompat.widget.LinearLayoutCompat>

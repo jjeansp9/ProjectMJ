@@ -9,6 +9,7 @@ import android.widget.TimePicker;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 
 import java.util.Calendar;
@@ -37,8 +38,10 @@ public class TimePickerFragment extends DialogFragment implements TimePickerDial
         final Calendar calendar = Calendar.getInstance();
 
         int hour = (this.hour == -1) ? calendar.get(Calendar.HOUR_OF_DAY) : this.hour;
-        int minute = (this.minute == -1) ? calendar.get(Calendar.MINUTE) : this.minute;
+        //int minute = (this.minute == -1) ? calendar.get(Calendar.MINUTE) : this.minute;
+        int minute = (calendar.get(Calendar.MINUTE) / 10) * 10;
 
+        //return new TimePickerDialog(requireContext(), android.R.style.Theme_Holo_Light_Dialog, this, hour, minute, false);
         return new TimePickerDialog(requireContext(), this, hour, minute, false);
     }
 

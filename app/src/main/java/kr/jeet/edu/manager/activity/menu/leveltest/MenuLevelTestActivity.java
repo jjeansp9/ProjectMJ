@@ -2,6 +2,7 @@ package kr.jeet.edu.manager.activity.menu.leveltest;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -384,6 +385,9 @@ public class MenuLevelTestActivity extends BaseActivity {
 //                                        LogMgr.e(TAG, item.seq + " / " + item.memberSeq);
 //                                    }
                                     refreshRecyclerView();
+                                    if(finalLastNoticeSeq == 0 && _list.size() > 0 && _recyclerView != null) {
+                                        new Handler().postDelayed(() -> _recyclerView.smoothScrollToPosition(0), scrollToTopDelay);
+                                    }
 
                                 }else LogMgr.e(TAG, "ListData is null");
                             }

@@ -720,6 +720,9 @@ public class MenuStudentInfoActivity extends BaseActivity implements DatePickerF
                         }else{
                             tvEmptyList.setVisibility(View.VISIBLE);
                         }
+                        if(_attendanceList.size() > 0 && _recyclerView != null) {
+                            _handler.postDelayed(() -> _recyclerView.smoothScrollToPosition(0), scrollToTopDelay);
+                        }
                     }
                 }
 

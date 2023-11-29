@@ -78,6 +78,9 @@ public class SendSMSDialog extends Dialog {
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 if(!TextUtils.isEmpty(charSequence)) {
                     okBtn.setEnabled(true);
+                    if(_updateContentlistener != null && charSequence != null) {
+                        _updateContentlistener.onUpdatedContents(charSequence.toString());
+                    }
                 }else {
                     okBtn.setEnabled(false);
                 }
