@@ -239,6 +239,7 @@ public class AppendRecipientActivity extends BaseActivity implements MonthPicker
             @Override
             public void onDeleteClick() {
                 LogMgr.e(TAG, "onDeleteClick");
+                isFilterTriggerChanged = true;
                 _selectedSchoolData = null;
                 tvSchool.setText("");
             }
@@ -499,7 +500,7 @@ public class AppendRecipientActivity extends BaseActivity implements MonthPicker
                     LogMgr.e(TAG, "onCheckedParent in adapter " + b);
                     cbParentTotal.setChecked(false);
                 }else {
-                    if (_adapterRecipient._filteredlist.stream().allMatch(t -> t.isCheckParent == true|| TextUtils.isEmpty(t.parentPhoneNumber))) {
+                    if (_adapterRecipient._filteredlist.stream().allMatch(t -> t.isCheckParent == true|| !Utils.checkPhoneNumber(t.parentPhoneNumber))) {
                         LogMgr.e(TAG, "onCheckedParent in allmatch true");
                         cbParentTotal.setChecked(true);
                     } else {
@@ -515,7 +516,7 @@ public class AppendRecipientActivity extends BaseActivity implements MonthPicker
                 if(!b) {
                     cbStudentTotal.setChecked(false);
                 }else {
-                    if (_adapterRecipient._filteredlist.stream().allMatch(t -> t.isCheckStudent == true || TextUtils.isEmpty(t.stPhoneNumber))) {
+                    if (_adapterRecipient._filteredlist.stream().allMatch(t -> t.isCheckStudent == true || !Utils.checkPhoneNumber(t.stPhoneNumber))) {
                         cbStudentTotal.setChecked(true);
                     } else {
                         cbStudentTotal.setChecked(false);
@@ -530,14 +531,14 @@ public class AppendRecipientActivity extends BaseActivity implements MonthPicker
 
                 }else {
                     LogMgr.e(TAG, "itemcount > 0");
-                    if (_adapterRecipient._filteredlist.stream().allMatch(t -> t.isCheckParent || TextUtils.isEmpty(t.parentPhoneNumber))) {
+                    if (_adapterRecipient._filteredlist.stream().allMatch(t -> t.isCheckParent || !Utils.checkPhoneNumber(t.parentPhoneNumber))) {
                         LogMgr.e(TAG, "searchFilter in allmatch true");
                         cbParentTotal.setChecked(true);
                     } else {
                         LogMgr.e(TAG, "searchFilter in allmatch false");
                         cbParentTotal.setChecked(false);
                     }
-                    if (_adapterRecipient._filteredlist.stream().allMatch(t -> t.isCheckStudent || TextUtils.isEmpty(t.stPhoneNumber))) {
+                    if (_adapterRecipient._filteredlist.stream().allMatch(t -> t.isCheckStudent || !Utils.checkPhoneNumber(t.stPhoneNumber))) {
                         cbStudentTotal.setChecked(true);
                     } else {
                         cbStudentTotal.setChecked(false);
@@ -613,6 +614,7 @@ public class AppendRecipientActivity extends BaseActivity implements MonthPicker
                     @Override
                     public void onItemClick(SchoolData item) {
                         _selectedSchoolData = item;
+                        isFilterTriggerChanged = true;
                         tvSchool.setText(item.scName);
                         if(_schoolListBottomSheetDialog != null) {
                             _schoolListBottomSheetDialog.dismiss();
@@ -665,10 +667,10 @@ public class AppendRecipientActivity extends BaseActivity implements MonthPicker
                 LogMgr.e(TAG, "total checkbox clicked");
                 cbParentTotal.setChecked(toDo);
                 for(RecipientStudentData data : _adapterRecipient._filteredlist){
-                    if(!TextUtils.isEmpty(data.stPhoneNumber)) {
+                    if(Utils.checkPhoneNumber(data.stPhoneNumber)) {
                         data.isCheckStudent = toDo;
                     }
-                    if(!TextUtils.isEmpty(data.parentPhoneNumber)) {
+                    if(Utils.checkPhoneNumber(data.parentPhoneNumber)) {
                         data.isCheckParent = toDo;
                     }
                 }
@@ -678,7 +680,7 @@ public class AppendRecipientActivity extends BaseActivity implements MonthPicker
                 cbStudentTotal.setChecked(!cbStudentTotal.isChecked());
                 boolean todo = cbStudentTotal.isChecked();
                 cbTotal.setChecked(todo && cbParentTotal.isChecked());
-                _adapterRecipient._filteredlist.forEach(t -> t.isCheckStudent = todo && !TextUtils.isEmpty(t.stPhoneNumber));
+                _adapterRecipient._filteredlist.forEach(t -> t.isCheckStudent = todo && Utils.checkPhoneNumber(t.stPhoneNumber));
                 _handler.sendEmptyMessage(CMD_NOTIFY_DATASET_CHANGED);
             }
                 break;
@@ -687,7 +689,7 @@ public class AppendRecipientActivity extends BaseActivity implements MonthPicker
                 cbParentTotal.setChecked(!cbParentTotal.isChecked());
                 boolean todo = cbParentTotal.isChecked();
                 cbTotal.setChecked(todo && cbStudentTotal.isChecked());
-                _adapterRecipient._filteredlist.forEach(t -> t.isCheckParent = todo && !TextUtils.isEmpty(t.parentPhoneNumber));
+                _adapterRecipient._filteredlist.forEach(t -> t.isCheckParent = todo && Utils.checkPhoneNumber(t.parentPhoneNumber));
                 _handler.sendEmptyMessage(CMD_NOTIFY_DATASET_CHANGED);
             }
                 break;

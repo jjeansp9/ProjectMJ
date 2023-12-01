@@ -95,17 +95,24 @@ public class SelectReportCardListAdapter extends RecyclerView.Adapter<SelectRepo
                 break;
             case CHECK:
                 holder.cbSelect.setChecked(item.isSelected);
-                if("Y".equals(item.msgYn)) {
-                    holder.layoutRoot.setBackgroundColor(_context.getColor(R.color.bg_gray));
-                }else{
+//                if("Y".equals(item.msgYn)) {
+//                    holder.layoutRoot.setBackgroundColor(_context.getColor(R.color.bg_gray));
+//                }else{
                     holder.layoutRoot.setBackgroundColor(_context.getColor(R.color.white));
-                }
+//                }
                 if(item.etTitleGubun == Constants.ReportCardType.MIDDLE.getCode()) {
                     holder.cbSelect.setEnabled(false);
                     holder.cbSelect.setBackground(disableDrawable);
                 }else{
                     holder.cbSelect.setEnabled(true);
                     holder.cbSelect.setBackground(null);
+                }
+                if("Y".equals(item.msgYn)) {
+                    holder.tvMsgYN.setTextColor(_context.getColor(R.color.blue_sub));
+                    holder.tvMsgYN.setText(_context.getString(R.string.msg_sent));
+                }else{
+                    holder.tvMsgYN.setTextColor(_context.getColor(R.color.red_sub));
+                    holder.tvMsgYN.setText(_context.getString(R.string.msg_not_sent));
                 }
                 break;
             case SELECT_FORM_TYPE:
@@ -132,7 +139,7 @@ public class SelectReportCardListAdapter extends RecyclerView.Adapter<SelectRepo
     public class ViewHolder extends RecyclerView.ViewHolder{
         private ConstraintLayout layoutRoot;
         private LinearLayoutCompat layoutCheckbox;
-        private TextView tvGubun, tvTitle, tvGrade, tvDate;
+        private TextView tvGubun, tvTitle, tvGrade, tvDate, tvMsgYN;
         private MaterialCheckBox cbSelect;
         private PowerSpinnerView spinnerType;
 
@@ -143,6 +150,7 @@ public class SelectReportCardListAdapter extends RecyclerView.Adapter<SelectRepo
             tvGrade = itemView.findViewById(R.id.tv_grade);
             tvTitle = itemView.findViewById(R.id.tv_report_card_title);
             tvDate = itemView.findViewById(R.id.tv_report_card_date);
+            tvMsgYN = itemView.findViewById(R.id.tv_msg_yn);
             layoutCheckbox = itemView.findViewById(R.id.layout_checkbox);
             cbSelect = itemView.findViewById(R.id.cb_select);
             spinnerType = itemView.findViewById(R.id.spinner_type);
@@ -163,6 +171,7 @@ public class SelectReportCardListAdapter extends RecyclerView.Adapter<SelectRepo
                     layoutCheckbox.setVisibility(View.GONE);
                     layoutCheckbox.setOnClickListener(null);
                     spinnerType.setVisibility(View.GONE);
+                    tvMsgYN.setVisibility(View.GONE);
                     break;
                 case CHECK:
 //                    layoutRoot.setClickable(false);
@@ -188,6 +197,7 @@ public class SelectReportCardListAdapter extends RecyclerView.Adapter<SelectRepo
                         }
                     });
                     spinnerType.setVisibility(View.GONE);
+                    tvMsgYN.setVisibility(View.VISIBLE);
                     cbSelect.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                         @Override
                         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -205,6 +215,7 @@ public class SelectReportCardListAdapter extends RecyclerView.Adapter<SelectRepo
                     layoutCheckbox.setVisibility(View.GONE);
                     layoutCheckbox.setOnClickListener(null);
                     spinnerType.setVisibility(View.VISIBLE);
+                    tvMsgYN.setVisibility(View.GONE);
 //                    spinnerType.setIsFocusable(true);
 //        _spinnerReportCardMultiple.setItems(Constants.ReportCardType.getNameList());
                     ColoredSpinnerAdapter adapter = new ColoredSpinnerAdapter(_context, Constants.ReportCardType.getColoredNameList(_context), spinnerType);

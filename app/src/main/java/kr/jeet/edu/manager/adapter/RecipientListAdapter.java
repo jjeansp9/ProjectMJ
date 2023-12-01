@@ -29,6 +29,7 @@ import kr.jeet.edu.manager.R;
 import kr.jeet.edu.manager.common.Constants;
 import kr.jeet.edu.manager.model.data.RecipientStudentData;
 import kr.jeet.edu.manager.utils.LogMgr;
+import kr.jeet.edu.manager.utils.Utils;
 
 public class RecipientListAdapter extends RecyclerView.Adapter<RecipientListAdapter.ViewHolder> implements Filterable {
 
@@ -102,7 +103,7 @@ public class RecipientListAdapter extends RecyclerView.Adapter<RecipientListAdap
             }
             if (_columnType.ordinal() >= Constants.ShowCheckboxColumnType.TYPE_PARENT_ONLY.ordinal()) {
                 holder.cbParent.setVisibility(View.VISIBLE);
-                if (TextUtils.isEmpty(recipientData.parentPhoneNumber)) {
+                if (!Utils.checkPhoneNumber(recipientData.parentPhoneNumber)) {
                     holder.cbParent.setEnabled(false);
                     holder.cbParent.setBackground(disableDrawable);
                     holder.viewParentInstall.setBackground(null);
@@ -121,7 +122,7 @@ public class RecipientListAdapter extends RecyclerView.Adapter<RecipientListAdap
             if (_columnType == Constants.ShowCheckboxColumnType.TYPE_STUDENT_ONLY ||
                     _columnType == Constants.ShowCheckboxColumnType.TYPE_BOTH) {
                 holder.cbStudent.setVisibility(View.VISIBLE);
-                if (TextUtils.isEmpty(recipientData.stPhoneNumber)) {
+                if (!Utils.checkPhoneNumber(recipientData.stPhoneNumber)) {
                     holder.cbStudent.setEnabled(false);
                     holder.cbStudent.setBackground(disableDrawable);
                     holder.viewStudentInstall.setBackground(null);
@@ -171,8 +172,8 @@ public class RecipientListAdapter extends RecyclerView.Adapter<RecipientListAdap
                 }
                 if (holder.cbBoth.isEnabled()) {
                     holder.cbBoth.setChecked(
-                            (recipientData.isCheckParent || TextUtils.isEmpty(recipientData.parentPhoneNumber) || (_isIgnoreInstalled && recipientData.parentInstall.equals("Y")))
-                                    && (recipientData.isCheckStudent || TextUtils.isEmpty(recipientData.stPhoneNumber) || (_isIgnoreInstalled && recipientData.stInstall.equals("Y")))
+                            (recipientData.isCheckParent || !Utils.checkPhoneNumber(recipientData.parentPhoneNumber) || (_isIgnoreInstalled && recipientData.parentInstall.equals("Y")))
+                                    && (recipientData.isCheckStudent || !Utils.checkPhoneNumber(recipientData.stPhoneNumber) || (_isIgnoreInstalled && recipientData.stInstall.equals("Y")))
                     );
                 }
             }else{
@@ -186,7 +187,7 @@ public class RecipientListAdapter extends RecyclerView.Adapter<RecipientListAdap
             holder.cbParent.setVisibility(View.INVISIBLE);
             if(_columnType == Constants.ShowCheckboxColumnType.TYPE_BOTH ||
                 _columnType == Constants.ShowCheckboxColumnType.TYPE_PARENT_ONLY) {
-                if (TextUtils.isEmpty(recipientData.parentPhoneNumber)) {
+                if (!Utils.checkPhoneNumber(recipientData.parentPhoneNumber)) {
                     holder.viewParentInstall.setBackground(null);
                 } else {
                     if (recipientData.parentInstall.equals("Y")) {
@@ -201,7 +202,7 @@ public class RecipientListAdapter extends RecyclerView.Adapter<RecipientListAdap
             holder.cbStudent.setVisibility(View.INVISIBLE);
             if(_columnType == Constants.ShowCheckboxColumnType.TYPE_BOTH ||
                     _columnType == Constants.ShowCheckboxColumnType.TYPE_STUDENT_ONLY) {
-                if (TextUtils.isEmpty(recipientData.stPhoneNumber)) {
+                if (!Utils.checkPhoneNumber(recipientData.stPhoneNumber)) {
                     holder.viewStudentInstall.setBackground(null);
                 } else {
                     if (recipientData.stInstall.equals("Y")) {
@@ -313,7 +314,7 @@ public class RecipientListAdapter extends RecyclerView.Adapter<RecipientListAdap
                         recipient.isCheckStudent = b;
 //                        notifyItemChanged(position);
                         if(cbBoth.isEnabled()) {
-                            if (b && (recipient.isCheckParent || TextUtils.isEmpty(recipient.parentPhoneNumber) || (_isIgnoreInstalled && recipient.parentInstall.equals("Y")))) {
+                            if (b && (recipient.isCheckParent || !Utils.checkPhoneNumber(recipient.parentPhoneNumber) || (_isIgnoreInstalled && recipient.parentInstall.equals("Y")))) {
                                 cbBoth.setChecked(true);
                             } else {
                                 cbBoth.setChecked(false);
@@ -335,7 +336,7 @@ public class RecipientListAdapter extends RecyclerView.Adapter<RecipientListAdap
                         recipient.isCheckParent = b;
 //                        notifyItemChanged(position);
                         if(cbBoth.isEnabled()) {
-                            if (b && (recipient.isCheckStudent || TextUtils.isEmpty(recipient.stPhoneNumber) || (_isIgnoreInstalled && recipient.stInstall.equals("Y")))) {
+                            if (b && (recipient.isCheckStudent || !Utils.checkPhoneNumber(recipient.stPhoneNumber) || (_isIgnoreInstalled && recipient.stInstall.equals("Y")))) {
                                 cbBoth.setChecked(true);
                             } else {
                                 cbBoth.setChecked(false);
@@ -377,7 +378,7 @@ public class RecipientListAdapter extends RecyclerView.Adapter<RecipientListAdap
                             cbStudent.setChecked(!cbStudent.isChecked());
                             _itemClickListener.onCheckedStudent(getBindingAdapterPosition(), cbStudent.isChecked());
                         } else {
-                            if(TextUtils.isEmpty(recipient.stPhoneNumber)) {
+                            if(!Utils.checkPhoneNumber(recipient.stPhoneNumber)) {
                                 Toast.makeText(_context, R.string.error_msg_empty_phonenumber, Toast.LENGTH_SHORT).show();
                             }else if("Y".equals(recipient.stInstall)) {
                                 Toast.makeText(_context, R.string.error_msg_already_install, Toast.LENGTH_SHORT).show();
@@ -398,7 +399,7 @@ public class RecipientListAdapter extends RecyclerView.Adapter<RecipientListAdap
                             cbParent.setChecked(!cbParent.isChecked());
                             _itemClickListener.onCheckedParent(position, cbParent.isChecked());
                         } else {
-                            if(TextUtils.isEmpty(recipient.parentPhoneNumber)) {
+                            if(!Utils.checkPhoneNumber(recipient.parentPhoneNumber)) {
                                 Toast.makeText(_context, R.string.error_msg_empty_phonenumber, Toast.LENGTH_SHORT).show();
                             }else if("Y".equals(recipient.parentInstall)) {
                                 Toast.makeText(_context, R.string.error_msg_already_install, Toast.LENGTH_SHORT).show();

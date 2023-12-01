@@ -28,9 +28,12 @@ import com.skydoves.powerspinner.OnSpinnerItemSelectedListener;
 import com.skydoves.powerspinner.OnSpinnerOutsideTouchListener;
 import com.skydoves.powerspinner.PowerSpinnerView;
 
+import java.text.Collator;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -244,6 +247,7 @@ public class SelectReportCardRecipientActivity extends BaseActivity implements M
             @Override
             public void onDeleteClick() {
                 LogMgr.e(TAG, "onDeleteClick");
+                isFilterTriggerChanged = true;
                 _selectedSchoolData = null;
                 tvSchool.setText("");
             }
@@ -493,7 +497,11 @@ public class SelectReportCardRecipientActivity extends BaseActivity implements M
         _adapterRecipient = new RecipientListAdapter(mContext, _recipientStudentList, new RecipientListAdapter.onItemClickListener() {
             @Override
             public void onItemClick(RecipientStudentData item) {
-                //do nothing
+                //학부모 전화번호가 잘못 되어 있는 경우
+                if(!Utils.checkPhoneNumber(item.parentPhoneNumber)) {
+                    Toast.makeText(mContext, R.string.error_msg_wrong_parent_phonenumber, Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 Intent intent = new Intent(SelectReportCardRecipientActivity.this, SelectReportCardActivity.class);
                 item.acaCode = _selectedACA.acaCode;
                 intent.putExtra(IntentParams.PARAM_STUDENT_INFO, item);
@@ -555,8 +563,34 @@ public class SelectReportCardRecipientActivity extends BaseActivity implements M
 //        });
         //endregion
 //        toggleFilterLayout();
-        spinnerStudentType.setVisibility(View.GONE);
-        tvSchool.setVisibility(View.GONE);
+//        spinnerStudentType.setVisibility(View.GONE);
+//        tvSchool.setVisibility(View.GONE);
+        spinnerClass.setVisibility(View.GONE);
+        tvCalendar.setVisibility(View.GONE);
+        _schoolList = new ArrayList<>();
+        _schoolList.addAll(DataManager.getInstance().getSchoolListMap().values());
+        Collections.sort(_schoolList, new Comparator<SchoolData>() {
+            @Override
+            public int compare(SchoolData schoolData, SchoolData t1) {
+                return Collator.getInstance().compare(schoolData.scName, t1.scName);
+            }
+        });
+        _schoolListAdapter = new SchoolListAdapter(mContext, _schoolList, new SchoolListAdapter.ItemClickListener() {
+            @Override
+            public void onItemClick(SchoolData item) {
+                isFilterTriggerChanged = true;
+                _selectedSchoolData = item;
+                tvSchool.setText(item.scName);
+                if(_schoolListBottomSheetDialog != null) {
+                    _schoolListBottomSheetDialog.dismiss();
+                }
+            }
+
+            @Override
+            public void onFilteringCompleted() {
+
+            }
+        });
         checkEmptyRecyclerView();
 
     }
@@ -838,7 +872,12 @@ public class SelectReportCardRecipientActivity extends BaseActivity implements M
         if (RetrofitClient.getInstance() != null) {
             _retrofitApi = RetrofitClient.getApiInterface();
             Call<GetRecipientStudentResponse> call = null;
-            call = _retrofitApi.getRecipientStudentList3(acaCode, deptCode, clstCode, clsCode, date, _sfCode);
+            int scCode = 0;
+            if(_selectedSchoolData != null) scCode = _selectedSchoolData.scCode;
+            int gubun = -1;
+            if(_selectedStudentType != null) gubun = _selectedStudentType.getCode();
+            call = _retrofitApi.getRecipientStudentList2(acaCode, deptCode, clstCode, scCode, gubun);
+//            call = _retrofitApi.getRecipientStudentList3(acaCode, deptCode, clstCode, clsCode, date, _sfCode);
 
             call.enqueue(new Callback<GetRecipientStudentResponse>() {
                 @Override

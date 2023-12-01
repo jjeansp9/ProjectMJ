@@ -716,7 +716,7 @@ public class DetailStudentInfoActivity extends BaseActivity {
                                     mTvStuPhoneNum.setText(formattedPhoneNumber);
                                 }
                                 formattedPhoneNumber = "";
-                                if (TextUtils.isEmpty(getData.parentPhoneNumber)){
+                                if (!Utils.checkPhoneNumber(getData.parentPhoneNumber)){
                                     if(_selectedStudentData != null) {
                                         formattedPhoneNumber = Utils.formatPhoneNumber(_selectedStudentData.parentPhoneNumber);
                                     }

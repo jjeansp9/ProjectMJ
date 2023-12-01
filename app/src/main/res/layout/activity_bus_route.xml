@@ -39,7 +39,8 @@
             android:background="@drawable/bg_white_panel"
             android:layout_marginHorizontal="@dimen/layout_margin_xsmall"
             android:layout_marginVertical="12dp"
-            android:paddingHorizontal="@dimen/layout_margin"
+            android:paddingStart="@dimen/layout_margin_xxsmall"
+            android:paddingEnd="@dimen/layout_margin_small"
             android:paddingVertical="16dp">
 
             <androidx.constraintlayout.widget.Guideline
@@ -47,7 +48,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.25"/>
+                app:layout_constraintGuide_percent="0.3"/>
 
             <TextView
                 android:id="@+id/tv_bc_name_sub"
@@ -56,10 +57,12 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/guideline_left"
                 app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginEnd="@dimen/layout_margin_small"
+                android:gravity="end"
                 android:text="캠퍼스"
                 android:textStyle="bold"
                 android:textColor="@color/font_color_bc"
-                android:textSize="@dimen/font_size_large"
+                android:textSize="@dimen/font_size"
                 android:visibility="gone"/>
 
             <TextView
@@ -71,7 +74,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginStart="4dp"
                 android:layout_marginEnd="4dp"
-                android:textSize="@dimen/font_size_large"
+                android:textSize="@dimen/font_size"
                 android:textColor="@color/font_color_default"
                 android:visibility="gone"/>
             <TextView
@@ -82,10 +85,12 @@
                 app:layout_constraintEnd_toStartOf="@id/guideline_left"
                 app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginTop="8dp"
+                android:layout_marginEnd="@dimen/layout_margin_small"
+                android:gravity="end"
                 android:text="@string/main_menu_bus_info"
                 android:textStyle="bold"
                 android:textColor="@color/font_color_bc"
-                android:textSize="@dimen/font_size_large"/>
+                android:textSize="@dimen/font_size"/>
 
             <TextView
                 android:id="@+id/tv_bus_name"
@@ -96,7 +101,7 @@
                 app:layout_constraintEnd_toStartOf="@id/btn_call"
                 android:layout_marginStart="4dp"
                 android:layout_marginEnd="4dp"
-                android:textSize="@dimen/font_size_large"
+                android:textSize="@dimen/font_size"
                 android:textColor="@color/font_color_default" />
             <TextView
                 android:id="@+id/tv_bus_info_sub"
@@ -106,10 +111,12 @@
                 app:layout_constraintEnd_toStartOf="@id/guideline_left"
                 app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginTop="8dp"
+                android:layout_marginEnd="@dimen/layout_margin_small"
+                android:gravity="end"
                 android:text="연락처"
                 android:textStyle="bold"
                 android:textColor="@color/font_color_bc"
-                android:textSize="@dimen/font_size_large"/>
+                android:textSize="@dimen/font_size"/>
 
             <TextView
                 android:id="@+id/tv_bus_phonenumber"
@@ -121,7 +128,7 @@
                 android:layout_marginStart="4dp"
                 android:layout_marginEnd="4dp"
                 android:hint="@string/menu_stu_info_empty"
-                android:textSize="@dimen/font_size_large"
+                android:textSize="@dimen/font_size"
                 android:textColor="@color/font_color_default" />
             <ImageButton
                 android:id="@+id/btn_call"

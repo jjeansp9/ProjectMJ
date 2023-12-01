@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingVertical="8dp"
-    android:paddingHorizontal="@dimen/layout_margin_small"
+    android:paddingStart="@dimen/layout_margin_small"
     android:background="@color/white"
     android:id="@+id/root">
 
@@ -54,8 +54,7 @@
         app:layout_constraintTop_toBottomOf="@id/tv_grade"
         app:layout_constraintBottom_toTopOf="@+id/tv_report_card_date"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/guideline"
-        app:layout_constraintVertical_bias="1"
+        app:layout_constraintEnd_toStartOf="@id/tv_msg_yn"
         android:layout_marginEnd="8dp"
         android:maxLines="1"
         android:ellipsize="end"
@@ -63,7 +62,17 @@
         android:textColor="@color/font_color_default"
         android:textStyle="bold"
         android:textSize="@dimen/font_size_large"/>
-
+    <TextView
+        android:id="@+id/tv_msg_yn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/tv_grade"
+        app:layout_constraintBottom_toTopOf="@+id/tv_report_card_date"
+        app:layout_constraintStart_toEndOf="@id/tv_report_card_title"
+        app:layout_constraintEnd_toStartOf="@id/guideline"
+        android:hint=""
+        android:textSize="@dimen/font_size_small"
+        />
     <TextView
         android:id="@+id/tv_report_card_date"
         android:layout_width="wrap_content"

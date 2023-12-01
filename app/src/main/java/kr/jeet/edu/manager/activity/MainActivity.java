@@ -746,7 +746,7 @@ public class MainActivity extends BaseActivity {
         //공지사항
         menuList.add(new MainMenuItemData(R.drawable.icon_menu_attention, R.string.main_menu_announcement, MenuAnnouncementActivity.class));
         //캠퍼스일정
-        menuList.add(new MainMenuItemData(R.drawable.icon_menu_schedule, R.string.main_menu_campus_schedule, MenuScheduleActivity.class));
+        menuList.add(new MainMenuItemData(R.drawable.icon_menu_schedule, R.string.main_menu_campus_schedule,MenuScheduleActivity.class));
         //알림장
         menuList.add(new MainMenuItemData(R.drawable.icon_menu_notice, R.string.main_menu_notice, MenuNoticeActivity.class));
         //테스트예약 -> 컨셉변경으로 제거 -> 테스트시간 설정이 필요하여 생성

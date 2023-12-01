@@ -244,7 +244,7 @@ public class MenuManageStudentActivity extends BaseActivity {
 //        initData();
         initView();
         initAppbar();
-        requestAppInstallMsg();
+        requestAppInstallMsg(); //메세지 내용
         Message msg = _handler.obtainMessage(CMD_INIT_LAYOUT);
         msg.arg1 = Constants.BoardEditMode.Show.ordinal();
         _handler.sendMessage(msg);
@@ -588,7 +588,7 @@ public class MenuManageStudentActivity extends BaseActivity {
                     LogMgr.e(TAG, "onCheckedParent in adapter " + b);
                     cbParentTotal.setChecked(false);
                 }else {
-                    if (_adapterRecipient._filteredlist.stream().allMatch(t -> t.isCheckParent == true|| TextUtils.isEmpty(t.parentPhoneNumber) || "Y".equals(t.parentInstall))) {
+                    if (_adapterRecipient._filteredlist.stream().allMatch(t -> t.isCheckParent == true|| !Utils.checkPhoneNumber(t.parentPhoneNumber) || "Y".equals(t.parentInstall))) {
                         LogMgr.e(TAG, "onCheckedParent in allmatch true");
                         cbParentTotal.setChecked(true);
                     } else {
@@ -604,7 +604,7 @@ public class MenuManageStudentActivity extends BaseActivity {
                 if(!b) {
                     cbStudentTotal.setChecked(false);
                 }else {
-                    if (_adapterRecipient._filteredlist.stream().allMatch(t -> t.isCheckStudent == true|| TextUtils.isEmpty(t.stPhoneNumber) || "Y".equals(t.stInstall))) {
+                    if (_adapterRecipient._filteredlist.stream().allMatch(t -> t.isCheckStudent == true|| !Utils.checkPhoneNumber(t.stPhoneNumber) || "Y".equals(t.stInstall))) {
                         cbStudentTotal.setChecked(true);
                     } else {
                         cbStudentTotal.setChecked(false);
@@ -619,14 +619,14 @@ public class MenuManageStudentActivity extends BaseActivity {
 
                 }else {
                     LogMgr.e(TAG, "itemcount > 0");
-                    if (_adapterRecipient._filteredlist.stream().allMatch(t -> t.isCheckParent|| TextUtils.isEmpty(t.parentPhoneNumber) || "Y".equals(t.parentInstall))) {
+                    if (_adapterRecipient._filteredlist.stream().allMatch(t -> t.isCheckParent|| !Utils.checkPhoneNumber(t.parentPhoneNumber) || "Y".equals(t.parentInstall))) {
                         LogMgr.e(TAG, "searchFilter in allmatch true");
                         cbParentTotal.setChecked(true);
                     } else {
                         LogMgr.e(TAG, "searchFilter in allmatch false");
                         cbParentTotal.setChecked(false);
                     }
-                    if (_adapterRecipient._filteredlist.stream().allMatch(t -> t.isCheckStudent|| TextUtils.isEmpty(t.stPhoneNumber) || "Y".equals(t.stInstall))) {
+                    if (_adapterRecipient._filteredlist.stream().allMatch(t -> t.isCheckStudent|| !Utils.checkPhoneNumber(t.stPhoneNumber) || "Y".equals(t.stInstall))) {
                         cbStudentTotal.setChecked(true);
                     } else {
                         cbStudentTotal.setChecked(false);
@@ -707,9 +707,9 @@ public class MenuManageStudentActivity extends BaseActivity {
                 _schoolListAdapter = new SchoolListAdapter(mContext, _schoolList, new SchoolListAdapter.ItemClickListener() {
                     @Override
                     public void onItemClick(SchoolData item) {
+                        isFilterTriggerChanged = true;
                         _selectedSchoolData = item;
                         tvSchool.setText(item.scName);
-                        isFilterTriggerChanged = true;
                         if(_schoolListBottomSheetDialog != null) {
                             _schoolListBottomSheetDialog.dismiss();
                         }
@@ -761,10 +761,10 @@ public class MenuManageStudentActivity extends BaseActivity {
                 LogMgr.e(TAG, "total checkbox clicked");
                 cbParentTotal.setChecked(toDo);
                 for(RecipientStudentData data : _adapterRecipient._filteredlist){
-                    if(!TextUtils.isEmpty(data.stPhoneNumber) && ("N".equals(data.stInstall))) {
+                    if(Utils.checkPhoneNumber(data.stPhoneNumber) && ("N".equals(data.stInstall))) {
                         data.isCheckStudent = toDo;
                     }
-                    if(!TextUtils.isEmpty(data.parentPhoneNumber) && ("N".equals(data.parentInstall))) {
+                    if(Utils.checkPhoneNumber(data.parentPhoneNumber) && ("N".equals(data.parentInstall))) {
                         data.isCheckParent = toDo;
                     }
                 }
@@ -774,7 +774,7 @@ public class MenuManageStudentActivity extends BaseActivity {
                 cbStudentTotal.setChecked(!cbStudentTotal.isChecked());
                 boolean todo = cbStudentTotal.isChecked();
                 cbTotal.setChecked(todo && cbParentTotal.isChecked());
-                _adapterRecipient._filteredlist.forEach(t -> t.isCheckStudent = todo && !TextUtils.isEmpty(t.stPhoneNumber) && ("N".equals(t.stInstall)));
+                _adapterRecipient._filteredlist.forEach(t -> t.isCheckStudent = todo && Utils.checkPhoneNumber(t.stPhoneNumber) && ("N".equals(t.stInstall)));
                 _handler.sendEmptyMessage(CMD_NOTIFY_DATASET_CHANGED);
             }
             break;
@@ -783,7 +783,7 @@ public class MenuManageStudentActivity extends BaseActivity {
                 cbParentTotal.setChecked(!cbParentTotal.isChecked());
                 boolean todo = cbParentTotal.isChecked();
                 cbTotal.setChecked(todo && cbStudentTotal.isChecked());
-                _adapterRecipient._filteredlist.forEach(t -> t.isCheckParent = todo && !TextUtils.isEmpty(t.parentPhoneNumber) && ("N".equals(t.parentInstall)));
+                _adapterRecipient._filteredlist.forEach(t -> t.isCheckParent = todo && Utils.checkPhoneNumber(t.parentPhoneNumber) && ("N".equals(t.parentInstall)));
                 _handler.sendEmptyMessage(CMD_NOTIFY_DATASET_CHANGED);
             }
             break;
