@@ -374,7 +374,7 @@ public class EditBriefingActivity extends BaseActivity implements DatePickerFrag
         _seq = PreferenceUtil.getUserSeq(this);
         _sfCode = PreferenceUtil.getUserSFCode(this);
 //        _acaCode = PreferenceUtil.getAcaCode(this);
-        BoardAttributeData boardData = DataManager.getInstance().getBoardInfo(DataManager.getInstance().BOARD_PT);
+        BoardAttributeData boardData = DataManager.getInstance().getBoardInfo(DataManager.BOARD_PT);
         if(boardData != null) {
             MaxFileAttachCount = boardData.atchPosblFileNum;
         }

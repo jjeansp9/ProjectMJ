@@ -44,6 +44,7 @@ import kr.jeet.edu.manager.model.response.LevelTestTimeListResponse;
 import kr.jeet.edu.manager.model.response.LevelTestTimeResponse;
 import kr.jeet.edu.manager.model.response.LoginResponse;
 import kr.jeet.edu.manager.model.response.NoticeListResponse;
+import kr.jeet.edu.manager.model.response.QnaListResponse;
 import kr.jeet.edu.manager.model.response.ReportCardListResponse;
 import kr.jeet.edu.manager.model.response.ReportCardShowResponse;
 import kr.jeet.edu.manager.model.response.ReportCardSummaryListResponse;
@@ -370,4 +371,14 @@ public interface RetrofitApi {
     //성적표 삭제
     @DELETE("reportCard/{reportSeq}")
     Call<BaseResponse> deleteReportCard(@Path("reportSeq") int reportSeq);
+
+    //QnA 목록 조회
+    @GET("qnas")
+    Call<QnaListResponse> getQnaList(
+            @Query("qnaSeq") int qnaSeq,
+            @Query("memberSeq") int memberSeq,
+            @Query("userGubun") int userGubun,
+            @Query("acaCode") String acaCode,
+            @Query("acaGubunCode") String acaGubunCode
+    );
 }

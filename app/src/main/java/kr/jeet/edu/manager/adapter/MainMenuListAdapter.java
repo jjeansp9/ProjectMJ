@@ -1,6 +1,7 @@
 package kr.jeet.edu.manager.adapter;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,7 +55,11 @@ public class MainMenuListAdapter extends RecyclerView.Adapter<MainMenuListAdapte
             Glide.with(mContext)
                     .load(item.getImgRes())
                     .into(holder.imgMenu);
-            holder.tvMenu.setText(item.getTitleRes());
+            if(TextUtils.isEmpty(item.getTitle())) {
+                holder.tvMenu.setText(item.getTitleRes());
+            }else{
+                holder.tvMenu.setText(item.getTitle());
+            }
 //        }
     }
 

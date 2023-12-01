@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".activity.menu.qna.MenuQNAActivity">
+
+    <kr.jeet.edu.manager.view.CustomAppbarLayout
+        android:id="@+id/customAppbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_qna_filter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:background="@color/bg_gray"
+            android:animateLayoutChanges="true">
+
+            <com.skydoves.powerspinner.PowerSpinnerView
+                android:id="@+id/spinner_campus"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/spinner_grade"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginStart="@dimen/layout_margin_small"
+                android:layout_marginEnd="@dimen/layout_margin_xxxsmall"
+                android:layout_marginVertical="@dimen/layout_margin_xsmall"
+                android:paddingHorizontal="@dimen/layout_margin_small"
+                android:paddingVertical="@dimen/layout_margin_xsmall"
+                android:hint="@string/title_main_campus"
+                android:textColor="@color/black"
+                android:textSize="@dimen/font_size"
+                android:maxLines="1"
+                android:ellipsize="end"
+                app:spinner_arrow_gravity="end"
+                app:spinner_arrow_tint="@color/darkgray"
+                app:spinner_selected_item_background="@color/color_spinner_selected_item"
+                app:spinner_divider_color="@color/line"
+                app:spinner_divider_show="true"
+                app:spinner_divider_size="@dimen/spinner_divider_height"
+                app:spinner_item_height="@dimen/spinner_item_height"
+                app:spinner_popup_background="@drawable/selector_spinner_item"
+                app:spinner_popup_animation="dropdown"
+                app:spinner_popup_elevation="2dp"
+                android:background="@drawable/selector_spinner_normal"/>
+            <com.skydoves.powerspinner.PowerSpinnerView
+                android:id="@+id/spinner_grade"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toEndOf="@id/spinner_campus"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginStart="@dimen/layout_margin_xxxsmall"
+                android:layout_marginEnd="@dimen/layout_margin_small"
+                android:layout_marginVertical="@dimen/layout_margin_xsmall"
+                android:paddingHorizontal="@dimen/layout_margin_small"
+                android:paddingVertical="@dimen/layout_margin_xsmall"
+                android:hint="@string/hint_main_school_grade"
+                android:textColor="@color/black"
+                android:textSize="@dimen/font_size"
+                android:maxLines="1"
+                android:ellipsize="end"
+                app:spinner_arrow_gravity="end"
+                app:spinner_arrow_tint="@color/darkgray"
+                app:spinner_selected_item_background="@color/color_spinner_selected_item"
+                app:spinner_divider_color="@color/line"
+                app:spinner_divider_show="true"
+                app:spinner_divider_size="@dimen/spinner_divider_height"
+                app:spinner_item_height="@dimen/spinner_item_height"
+                app:spinner_popup_background="@drawable/selector_spinner_item"
+                app:spinner_popup_animation="dropdown"
+                app:spinner_popup_elevation="2dp"
+                android:background="@drawable/selector_spinner_normal"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:background="@color/line"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/refresh_layout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layout_qna_filter"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_qna"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:listitem="@layout/layout_qna_list_item"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                android:orientation="vertical"/>
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+        <TextView
+            android:id="@+id/tv_qna_empty_list"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:gravity="center"
+            android:text="@string/empty_menu_list_qna"
+            android:textSize="@dimen/font_size_xlarge"
+            android:textColor="@color/font_color_999"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layout_qna_filter"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -372,7 +372,7 @@ public class EditAnnouncementActivity extends BaseActivity {
         _seq = PreferenceUtil.getUserSeq(this);
         _sfCode = PreferenceUtil.getUserSFCode(this);
 //        _acaCode = PreferenceUtil.getAcaCode(this);
-        BoardAttributeData boardData = DataManager.getInstance().getBoardInfo(DataManager.getInstance().BOARD_NOTICE);
+        BoardAttributeData boardData = DataManager.getInstance().getBoardInfo(DataManager.BOARD_NOTICE);
         if(boardData != null) {
             MaxFileAttachCount = boardData.atchPosblFileNum;
         }

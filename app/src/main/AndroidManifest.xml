@@ -49,6 +49,33 @@
             android:name="com.google.firebase.messaging.default_notification_channel_id"
             android:value="@string/default_notification_channel_id" />
         <activity
+            android:name=".activity.menu.qna.MenuQNAActivity"
+            android:configChanges="smallestScreenSize|screenSize|screenLayout"
+            android:exported="false"
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".activity.menu.qna.DetailQNAActivity"
+            android:configChanges="smallestScreenSize|screenSize|screenLayout"
+            android:exported="false"
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".activity.menu.qna.EditQNAActivity"
+            android:configChanges="smallestScreenSize|screenSize|screenLayout"
+            android:exported="false"
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".activity.menu.reportcard.ShowReportCardActivity"
             android:configChanges="smallestScreenSize|screenSize|screenLayout"
             android:exported="false"

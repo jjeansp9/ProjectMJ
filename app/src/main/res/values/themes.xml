@@ -59,4 +59,10 @@
     </style>
 
     <style name="BottomSheetDialogTheme" parent="BaseBottomSheetDialog" />
+
+    <style name="QnaTagTextAppearance" parent="TextAppearance.AppCompat.Medium">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/font_size_xsmall</item>
+    </style>
 </resources>

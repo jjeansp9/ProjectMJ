@@ -509,4 +509,11 @@ public class Constants {
         }
     }
     public static int REPORT_MATH_SPAN_COUNT = 5; // 악어수학 성적표 span count 설정
+
+    // 태그 : 공지, 비공개, 신청, 접수, 완료, 본인
+//    public static String QNA_STATE_NOTICE = "Y";       // 공지
+//    public static String QNA_STATE_OPEN = "Y";         // 비공개
+    public static String QNA_STATE_SUBSCRIPTION = "1"; // 신청
+    public static String QNA_STATE_RECEPTION = "2";    // 접수
+    public static String QNA_STATE_COMPLETE = "3";     // 완료
 }

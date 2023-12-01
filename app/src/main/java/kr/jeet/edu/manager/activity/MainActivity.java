@@ -13,6 +13,7 @@ import kr.jeet.edu.manager.activity.menu.bus.MenuBusActivity;
 import kr.jeet.edu.manager.activity.menu.leveltest.MenuLevelTestActivity;
 import kr.jeet.edu.manager.activity.menu.leveltest.MenuLevelTestDetailActivity;
 import kr.jeet.edu.manager.activity.menu.notice.MenuNoticeActivity;
+import kr.jeet.edu.manager.activity.menu.qna.MenuQNAActivity;
 import kr.jeet.edu.manager.activity.menu.reportcard.MenuReportCardActivity;
 import kr.jeet.edu.manager.activity.menu.schedule.MenuScheduleActivity;
 import kr.jeet.edu.manager.activity.menu.student.MenuManageStudentActivity;
@@ -660,6 +661,7 @@ public class MainActivity extends BaseActivity {
                                 DataManager.getInstance().setBoardInfo(data);
                             }
                         }
+                        updateMenus();
                     } else {
 
                         try {
@@ -738,29 +740,41 @@ public class MainActivity extends BaseActivity {
         //원생정보
         //매니저는 원생관리
         if(_userGubun == Constants.USER_TYPE_ADMIN || _userGubun == Constants.USER_TYPE_SUPER_ADMIN) {
-            menuList.add(new MainMenuItemData(R.drawable.icon_menu_student, R.string.main_menu_student_manage, MenuManageStudentActivity.class));
+            menuList.add(new MainMenuItemData(DataManager.BOARD_STUDENT_INFO, R.drawable.icon_menu_student, R.string.main_menu_student_manage, MenuManageStudentActivity.class));
         }else {
-            menuList.add(new MainMenuItemData(R.drawable.icon_menu_student, R.string.main_menu_student_info, MenuStudentInfoActivity.class));
+            menuList.add(new MainMenuItemData(DataManager.BOARD_STUDENT_INFO, R.drawable.icon_menu_student, R.string.main_menu_student_info, MenuStudentInfoActivity.class));
         }
 
         //공지사항
-        menuList.add(new MainMenuItemData(R.drawable.icon_menu_attention, R.string.main_menu_announcement, MenuAnnouncementActivity.class));
+        menuList.add(new MainMenuItemData(DataManager.BOARD_NOTICE, R.drawable.icon_menu_attention, R.string.main_menu_announcement, MenuAnnouncementActivity.class));
         //캠퍼스일정
-        menuList.add(new MainMenuItemData(R.drawable.icon_menu_schedule, R.string.main_menu_campus_schedule,MenuScheduleActivity.class));
+        menuList.add(new MainMenuItemData(DataManager.BOARD_SCHEDULE, R.drawable.icon_menu_schedule, R.string.main_menu_campus_schedule,MenuScheduleActivity.class));
         //알림장
-        menuList.add(new MainMenuItemData(R.drawable.icon_menu_notice, R.string.main_menu_notice, MenuNoticeActivity.class));
+        menuList.add(new MainMenuItemData(DataManager.BOARD_SYSTEM_NOTICE, R.drawable.icon_menu_notice, R.string.main_menu_notice, MenuNoticeActivity.class));
         //테스트예약 -> 컨셉변경으로 제거 -> 테스트시간 설정이 필요하여 생성
-        menuList.add(new MainMenuItemData(R.drawable.icon_menu_test_reserve, R.string.main_menu_test_reserve, MenuLevelTestActivity.class));
+        menuList.add(new MainMenuItemData(DataManager.BOARD_LEVELTEST, R.drawable.icon_menu_test_reserve, R.string.main_menu_test_reserve, MenuLevelTestActivity.class));
         //차량정보
-        menuList.add(new MainMenuItemData(R.drawable.icon_menu_bus, R.string.main_menu_bus_info, MenuBusActivity.class));
+        menuList.add(new MainMenuItemData(DataManager.BOARD_BUS, R.drawable.icon_menu_bus, R.string.main_menu_bus_info, MenuBusActivity.class));
         //설명회예약
-        menuList.add(new MainMenuItemData(R.drawable.icon_menu_briefing, R.string.main_menu_briefing_reserve, MenuBriefingActivity.class));
+        menuList.add(new MainMenuItemData(DataManager.BOARD_PT, R.drawable.icon_menu_briefing, R.string.main_menu_briefing_reserve, MenuBriefingActivity.class));
         //성적표
-        menuList.add(new MainMenuItemData(R.drawable.icon_menu_report, R.string.title_report_card, MenuReportCardActivity.class));
-
+        menuList.add(new MainMenuItemData(DataManager.BOARD_REPORT, R.drawable.icon_menu_report, R.string.title_report_card, MenuReportCardActivity.class));
+        //QnA
+        menuList.add(new MainMenuItemData(DataManager.BOARD_QNA, R.drawable.icon_menu_question, R.string.main_menu_qna, MenuQNAActivity.class));
         mListAdapter.notifyDataSetChanged();
     }
-
+    private void updateMenus() {
+        if(menuList == null) return;
+        menuList.stream().forEach(menu -> {
+            BoardAttributeData boardData = DataManager.getInstance().getBoardInfo(menu.getType());
+           if(boardData != null) {
+               if(!boardData.boardNm.equals(mContext.getString(menu.getTitleRes()))) {
+                   menu.setTitle(boardData.boardNm);
+               }
+           }
+        });
+        mListAdapter.notifyDataSetChanged();
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
