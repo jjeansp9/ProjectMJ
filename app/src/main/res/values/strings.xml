@@ -457,5 +457,5 @@
 
     <string name="title_qna_notice">공지사항</string>
     <string name="title_qna_private">비공개</string>
-    <string name="empty_menu_list_qna">질문 및 공지 내역이 없습니다.</string>
+    <string name="empty_menu_list_qna">Q&amp;A가 없습니다.</string>
 </resources>

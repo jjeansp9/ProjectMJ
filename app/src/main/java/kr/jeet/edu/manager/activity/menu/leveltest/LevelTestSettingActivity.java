@@ -40,6 +40,7 @@ import kr.jeet.edu.manager.model.response.LevelTestTimeResponse;
 import kr.jeet.edu.manager.server.RetrofitClient;
 import kr.jeet.edu.manager.utils.LogMgr;
 import kr.jeet.edu.manager.view.CustomAppbarLayout;
+import kr.jeet.edu.manager.view.CustomTimePicker;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -391,10 +392,13 @@ public class LevelTestSettingActivity extends BaseActivity implements TimePicker
 //
 //        return maxHeight;
 //    }
-    void showTimePicker() {
-        TimePickerFragment timePickerDialog = new TimePickerFragment(this);
-        timePickerDialog.setTime(12, 0);
-        timePickerDialog.show(getSupportFragmentManager(), "time");
+
+    private void showTimePicker() {
+        TimePickerFragment dialog = new TimePickerFragment(mContext, this);
+        dialog.setOnOkButtonClickListener(v -> dialog.dismiss());
+        dialog.setOnCancelButtonClickListener(v -> dialog.dismiss());
+        dialog.setTime(12, 0);
+        dialog.show();
     }
     @Override
     public void onTimeSet(int hourOfDay, int minute) {

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
+    android:layout_gravity="center">
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="시간 설정"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:textSize="@dimen/font_size_xxxxlarge"
+        android:paddingHorizontal="@dimen/layout_margin"
+        android:paddingVertical="@dimen/layout_margin_small"
+        android:gravity="start"
+        android:background="@color/blue_sub"/>
+
+    <kr.jeet.edu.manager.view.CustomTimePicker
+        android:id="@+id/time_picker"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_title"
+        android:gravity="center"
+        android:timePickerMode="spinner"
+        app:interval="10"/>
+
+    <View
+        android:id="@+id/line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/time_picker"
+        android:background="@color/gray"/>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/line"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:id="@+id/cancelBtn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/white">
+            <TextView
+                android:id="@+id/tv_cancel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:padding="16dp"
+                android:stateListAnimator="@xml/animate_button_push"
+                android:text="@string/cancel"
+                android:textColor="@color/font_color_default"
+                android:textSize="@dimen/font_size_large"/>
+        </RelativeLayout>
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/gray"/>
+
+        <RelativeLayout
+            android:id="@+id/okBtn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/white">
+            <TextView
+                android:id="@+id/tv_ok"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:padding="16dp"
+                android:stateListAnimator="@xml/animate_button_push"
+                android:text="@string/ok"
+                android:textColor="@color/font_color_default"
+                android:textSize="@dimen/font_size_large"/>
+        </RelativeLayout>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

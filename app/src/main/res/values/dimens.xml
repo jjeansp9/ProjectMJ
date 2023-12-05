@@ -23,6 +23,7 @@
     <dimen name="font_size_xlarge">20dp</dimen>
     <dimen name="font_size_xxlarge">22dp</dimen>
     <dimen name="font_size_xxxlarge">24dp</dimen>
+    <dimen name="font_size_xxxxlarge">28dp</dimen>
 
     <dimen name="divider_height">1dp</dimen>
     <dimen name="spinner_divider_height">0.4dp</dimen>

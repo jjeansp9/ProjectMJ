@@ -5,6 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:paddingHorizontal="@dimen/layout_margin"
     android:paddingVertical="8dp"
+    android:foreground="?android:attr/selectableItemBackground"
     android:id="@+id/qna_root">
 
     <LinearLayout

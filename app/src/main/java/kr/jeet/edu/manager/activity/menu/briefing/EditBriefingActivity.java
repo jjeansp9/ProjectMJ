@@ -430,8 +430,18 @@ public class EditBriefingActivity extends BaseActivity implements DatePickerFrag
             SimpleDateFormat outputDateFormat = new SimpleDateFormat(Constants.DATE_FORMATTER_YYYY_MM_DD);
             SimpleDateFormat outputTimeFormat = new SimpleDateFormat(Constants.TIME_FORMATTER_HH_MM);
             try {
-                String outputDate = outputDateFormat.format(_selectedDate);
-                String outputTime = outputTimeFormat.format(_selectedDate);
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(_selectedDate);
+
+                // 분을 10분 단위로 조정
+                int minutes = calendar.get(Calendar.MINUTE);
+                int adjustedMinutes = (minutes / 10) * 10;
+                calendar.set(Calendar.MINUTE, adjustedMinutes);
+
+                // 조정된 시간으로 문자열을 포맷팅
+                String outputDate = outputDateFormat.format(calendar.getTime());
+                String outputTime = outputTimeFormat.format(calendar.getTime());
+
                 tvDate.setText(outputDate);
                 tvTime.setText(outputTime);
             }catch(Exception ex){}
@@ -852,12 +862,15 @@ public class EditBriefingActivity extends BaseActivity implements DatePickerFrag
         datePickerDialog.setDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
         datePickerDialog.show(getSupportFragmentManager(), "date");
     }
-    void showTimePicker() {
-        TimePickerFragment timePickerDialog = new TimePickerFragment(this);
+
+    private void showTimePicker() {
+        TimePickerFragment dialog = new TimePickerFragment(mContext, this);
+        dialog.setOnOkButtonClickListener(v -> {dialog.dismiss();});
+        dialog.setOnCancelButtonClickListener(v -> {dialog.dismiss();});
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(_selectedDate);
-        timePickerDialog.setTime(calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE));
-        timePickerDialog.show(getSupportFragmentManager(), "time");
+        dialog.setTime(calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE));
+        dialog.show();
     }
 
     @Override

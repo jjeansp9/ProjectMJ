@@ -1,26 +1,33 @@
 package kr.jeet.edu.manager.dialog;
 
-import static androidx.core.content.ContentProviderCompat.requireContext;
-
 import android.app.Dialog;
+import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.view.View;
+import android.widget.RelativeLayout;
 import android.app.TimePickerDialog;
-import android.os.Bundle;
 import android.widget.TimePicker;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.fragment.app.DialogFragment;
 
-import java.util.Calendar;
+import java.util.Objects;
 
-public class TimePickerFragment extends DialogFragment implements TimePickerDialog.OnTimeSetListener {
+import kr.jeet.edu.manager.R;
+import kr.jeet.edu.manager.view.CustomTimePicker;
+
+public class TimePickerFragment extends Dialog implements TimePickerDialog.OnTimeSetListener {
+
+    private Context context;
+    private CustomTimePicker timePicker;
+    private RelativeLayout cancelBtn, okBtn;
     private OnTimeSetListener listener;
-    private int hour = -1;
-    private int minute = -1;
 
-    public TimePickerFragment(OnTimeSetListener listener) {
+    public TimePickerFragment(@NonNull Context context, OnTimeSetListener listener) {
+        super(context);
+        this.context = context;
         this.listener = listener;
+        initView();
     }
 
     public interface OnTimeSetListener {
@@ -28,21 +35,35 @@ public class TimePickerFragment extends DialogFragment implements TimePickerDial
     }
 
     public void setTime(int hour, int minute) {
-        this.hour = hour;
-        this.minute = minute;
+        timePicker.setHour(hour);
+        timePicker.setMinute(minute);
     }
 
-    @NonNull
-    @Override
-    public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        final Calendar calendar = Calendar.getInstance();
+    private void initView() {
+        this.setCanceledOnTouchOutside(false);
+        this.setCancelable(false);
 
-        int hour = (this.hour == -1) ? calendar.get(Calendar.HOUR_OF_DAY) : this.hour;
-        //int minute = (this.minute == -1) ? calendar.get(Calendar.MINUTE) : this.minute;
-        int minute = (calendar.get(Calendar.MINUTE) / 10) * 10;
+        Objects.requireNonNull(getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        setContentView(R.layout.custom_time_picker);
 
-        //return new TimePickerDialog(requireContext(), android.R.style.Theme_Holo_Light_Dialog, this, hour, minute, false);
-        return new TimePickerDialog(requireContext(), this, hour, minute, false);
+        timePicker = (CustomTimePicker) findViewById(R.id.time_picker);
+        cancelBtn = (RelativeLayout) findViewById(R.id.cancelBtn);
+        okBtn = (RelativeLayout) findViewById(R.id.okBtn);
+    }
+
+    public void setOnOkButtonClickListener(View.OnClickListener listener) {
+        okBtn.setOnClickListener(v -> {
+            int hour = timePicker.getHour();
+            int minute = timePicker.getMinute();
+
+            onTimeSet(timePicker, hour, minute);
+            listener.onClick(v);
+        });
+    }
+
+    public void setOnCancelButtonClickListener(View.OnClickListener listener) {
+        cancelBtn.setVisibility(View.VISIBLE);
+        cancelBtn.setOnClickListener(listener);
     }
 
     @Override
@@ -50,5 +71,10 @@ public class TimePickerFragment extends DialogFragment implements TimePickerDial
         if (listener != null) {
             listener.onTimeSet(hourOfDay, minute);
         }
+    }
+
+    @Override
+    public void dismiss() {
+        super.dismiss();
     }
 }

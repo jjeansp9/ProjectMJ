@@ -5,4 +5,7 @@
         <attr name="android:textColor" />
         <attr name="android:hint" />
     </declare-styleable>
+    <declare-styleable name="IntervalTimePicker">
+        <attr name="interval" format="integer|reference" />
+    </declare-styleable>
 </resources>
