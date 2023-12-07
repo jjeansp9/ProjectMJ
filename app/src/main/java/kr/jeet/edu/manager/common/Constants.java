@@ -78,7 +78,7 @@ public class Constants {
 //    public static final String FILE_FLAGS = "flags";
     public static final String FILE_SIZE = "_size";
 
-    public enum BoardEditMode{New, Edit, Show};
+    public enum BoardEditMode{New, Edit, Show, Reply};
     public static final int PHONE_NUM_LENGTH_1 = 11; // 휴대폰번호 length
     public static final int PHONE_NUM_LENGTH_2 = 10; // 휴대폰번호2 length
     public static final int RES_REGISTRATION_NUM_LENGTH = 13; // 주민번호 length

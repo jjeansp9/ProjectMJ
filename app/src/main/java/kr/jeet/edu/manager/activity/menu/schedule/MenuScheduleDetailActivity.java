@@ -7,6 +7,7 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.widget.LinearLayoutCompat;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
@@ -61,7 +62,7 @@ public class MenuScheduleDetailActivity extends BaseActivity { //implements Tool
     private TextView tvRecipient;
     private ImageView imgInfo;
     RecyclerView _recyclerViewRecipient;
-    private LinearLayoutCompat layoutControlRecipient;
+    private ConstraintLayout layoutControlRecipient;
     RecipientChipListAdapter _recipientListAdapter;
 
     List<RecipientData> _recipientList = new ArrayList<>();

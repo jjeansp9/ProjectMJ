@@ -178,6 +178,10 @@
                 android:padding="@dimen/editbox_padding"
                 android:gravity="top"
                 />
+            <View
+                android:layout_width="1dp"
+                android:layout_height="@dimen/layout_margin_xxxxlarge"
+                android:visibility="invisible" />
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
@@ -213,7 +217,7 @@
                     android:layout_height="24dp"
                     android:background="@drawable/selector_bt_agree"
                     android:button="@null"
-                    android:checked="true"
+                    android:checked="false"
                     android:clickable="false"
                     />
                 <TextView

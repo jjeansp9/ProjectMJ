@@ -5,6 +5,7 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.widget.LinearLayoutCompat;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -80,7 +81,7 @@ public class MenuBriefingDetailActivity extends BaseActivity {
     //Recipient
     private TextView tvRecipient;
     RecyclerView _recyclerViewRecipient;
-    private LinearLayoutCompat layoutControlRecipient;
+    private ConstraintLayout layoutControlRecipient;
     RecipientChipListAdapter _recipientListAdapter;
 
     List<RecipientData> _recipientList = new ArrayList<>();
@@ -446,7 +447,7 @@ public class MenuBriefingDetailActivity extends BaseActivity {
 
     private void requestBriefingDetail(int ptSeq){
         if (RetrofitClient.getInstance() != null){
-            showProgressDialog();
+//            showProgressDialog();
             mRetrofitApi = RetrofitClient.getApiInterface();
             mRetrofitApi.getBriefingDetail(ptSeq).enqueue(new Callback<BriefingDetailResponse>() {
                 @Override
@@ -469,7 +470,7 @@ public class MenuBriefingDetailActivity extends BaseActivity {
                         LogMgr.e(TAG + "requestBrfDetail() Exception : ", e.getMessage());
                     }
 
-                    hideProgressDialog();
+//                    hideProgressDialog();
                 }
 
                 @Override
@@ -478,7 +479,7 @@ public class MenuBriefingDetailActivity extends BaseActivity {
                         LogMgr.e(TAG, "requestBrfDetail() onFailure >> " + t.getMessage());
                     }catch (Exception e){
                     }
-                    hideProgressDialog();
+//                    hideProgressDialog();
                     Toast.makeText(mContext, R.string.server_error, Toast.LENGTH_SHORT).show();
                 }
             });
@@ -520,7 +521,7 @@ public class MenuBriefingDetailActivity extends BaseActivity {
                         LogMgr.e(TAG, "requestBrfReservedListData() onFailure >> " + t.getMessage());
                     } catch (Exception e) {
                     }
-                    hideProgressDialog();
+//                    hideProgressDialog();
                     Toast.makeText(mContext, R.string.server_error, Toast.LENGTH_SHORT).show();
                     //mSwipeRefresh.setRefreshing(false);
                 }

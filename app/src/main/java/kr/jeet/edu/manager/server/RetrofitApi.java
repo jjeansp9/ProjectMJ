@@ -5,10 +5,14 @@ import java.util.List;
 import kr.jeet.edu.manager.model.data.LevelTestTimeData;
 import kr.jeet.edu.manager.model.data.ScheduleData;
 import kr.jeet.edu.manager.model.request.AttendanceRequest;
+import kr.jeet.edu.manager.model.request.QnaAddRequest;
+import kr.jeet.edu.manager.model.request.QnaReplyRequest;
+import kr.jeet.edu.manager.model.request.QnaUpdateRequest;
 import kr.jeet.edu.manager.model.request.RecipientRequest;
 import kr.jeet.edu.manager.model.request.SignupRequest;
 import kr.jeet.edu.manager.model.request.SignupSNSRequest;
 import kr.jeet.edu.manager.model.request.SmsRequest;
+import kr.jeet.edu.manager.model.request.UpdateAnswererRequest;
 import kr.jeet.edu.manager.model.request.UpdateProfileRequest;
 import kr.jeet.edu.manager.model.request.UpdatePushStatusRequest;
 import kr.jeet.edu.manager.model.request.UpdatePushTokenRequest;
@@ -29,6 +33,7 @@ import kr.jeet.edu.manager.model.response.CounselDetailResponse;
 import kr.jeet.edu.manager.model.response.FindIDResponse;
 import kr.jeet.edu.manager.model.response.FindPWResponse;
 import kr.jeet.edu.manager.model.response.GetACAListResponse;
+import kr.jeet.edu.manager.model.response.GetAnswererListResponse;
 import kr.jeet.edu.manager.model.response.GetAttendanceInfoResponse;
 import kr.jeet.edu.manager.model.response.GetClassListResponse;
 import kr.jeet.edu.manager.model.response.GetClstListResponse;
@@ -44,6 +49,7 @@ import kr.jeet.edu.manager.model.response.LevelTestTimeListResponse;
 import kr.jeet.edu.manager.model.response.LevelTestTimeResponse;
 import kr.jeet.edu.manager.model.response.LoginResponse;
 import kr.jeet.edu.manager.model.response.NoticeListResponse;
+import kr.jeet.edu.manager.model.response.QnaDetailResponse;
 import kr.jeet.edu.manager.model.response.QnaListResponse;
 import kr.jeet.edu.manager.model.response.ReportCardListResponse;
 import kr.jeet.edu.manager.model.response.ReportCardShowResponse;
@@ -76,8 +82,8 @@ public interface RetrofitApi {
     // https://eunoia3jy.tistory.com/125
 
 //    public final static String SERVER_BASE_URL = "http://192.168.2.51:7777/";   //kyt local
-    public final static String SERVER_BASE_URL = "http://192.168.2.55:7777/";   //pjh local
-    //public final static String SERVER_BASE_URL = "http://192.168.2.77:7777/";  //khj local
+    //public final static String SERVER_BASE_URL = "http://192.168.2.55:7777/";   //pjh local
+    public final static String SERVER_BASE_URL = "http://192.168.2.77:7777/";  //khj local
     //public final static String SERVER_BASE_URL = "http://211.252.86.237:7777/";  //cloud
     public final static String PREFIX = "mobile/api/";
     public final static String FILE_SUFFIX_URL = SERVER_BASE_URL + "attachFile/";
@@ -381,4 +387,31 @@ public interface RetrofitApi {
             @Query("acaCode") String acaCode,
             @Query("acaGubunCode") String acaGubunCode
     );
+    //QnA 상세조회
+    @GET("qna/detail")
+    Call<QnaDetailResponse> getQnaDetail(@Query("qnaSeq") int qnaSeq, @Query("userGubun") int userGubun, @Query("sfCode") int sfCode);
+    //QnA 등록 (매니저앱)
+    @POST("qna/manager")
+    Call<StringResponse> addQnaViaManager(@Body QnaAddRequest request);
+    // 답변관리자 목록 조회
+    @GET("qna/replyAdmin")
+    Call<GetAnswererListResponse> getAnswererList();
+    //답변관리자 등록
+    @POST("qna/grant")
+    Call<BaseResponse> updateAnswererList(@Body UpdateAnswererRequest request);
+    //지정된 답변관리자 목록 조회
+    @GET("qna/replyAdmin/{qnaSeq}")
+    Call<GetAnswererListResponse> getSpecifiedAnswererList(@Path("qnaSeq") int qnaSeq);
+    //QnA 수정
+    @PATCH("qna")
+    Call<BaseResponse> updateQna(@Body QnaUpdateRequest request);
+    //답변관리자 답글등록
+    @PATCH("qna/reply")
+    Call<BaseResponse> updateReply(@Body QnaReplyRequest request);
+    // QnA 공지/공개여부 수정(슈퍼관리자/관리자)
+    @PATCH("qna/admin")
+    Call<BaseResponse> updateQnaProperty(@Query("qnaSeq") int qnaSeq, @Query("userGubun") int userGubun, @Query("isOpen") String isOpen, @Query("isMain") String isMain);
+    //QnA 삭제
+    @DELETE("qna/{qnaSeq}")
+    Call<BaseResponse> deleteQna(@Path("qnaSeq") int qnaSeq);
 }

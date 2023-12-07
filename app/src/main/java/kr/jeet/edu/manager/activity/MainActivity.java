@@ -4,6 +4,9 @@ import static kr.jeet.edu.manager.fcm.FCMManager.MSG_TYPE_ATTEND;
 import static kr.jeet.edu.manager.fcm.FCMManager.MSG_TYPE_COUNSEL;
 import static kr.jeet.edu.manager.fcm.FCMManager.MSG_TYPE_NOTICE;
 import static kr.jeet.edu.manager.fcm.FCMManager.MSG_TYPE_LEVEL_TEST;
+import static kr.jeet.edu.manager.fcm.FCMManager.MSG_TYPE_QNA;
+import static kr.jeet.edu.manager.fcm.FCMManager.MSG_TYPE_QNA_COMPLETE;
+import static kr.jeet.edu.manager.fcm.FCMManager.MSG_TYPE_QNA_ING;
 
 import kr.jeet.edu.manager.R;
 import kr.jeet.edu.manager.activity.menu.announcement.MenuAnnouncementActivity;
@@ -13,6 +16,7 @@ import kr.jeet.edu.manager.activity.menu.bus.MenuBusActivity;
 import kr.jeet.edu.manager.activity.menu.leveltest.MenuLevelTestActivity;
 import kr.jeet.edu.manager.activity.menu.leveltest.MenuLevelTestDetailActivity;
 import kr.jeet.edu.manager.activity.menu.notice.MenuNoticeActivity;
+import kr.jeet.edu.manager.activity.menu.qna.DetailQNAActivity;
 import kr.jeet.edu.manager.activity.menu.qna.MenuQNAActivity;
 import kr.jeet.edu.manager.activity.menu.reportcard.MenuReportCardActivity;
 import kr.jeet.edu.manager.activity.menu.schedule.MenuScheduleActivity;
@@ -95,7 +99,7 @@ public class MainActivity extends BaseActivity {
     AnnouncementListAdapter _announcementListAdapter;
     ConstraintLayout layoutTeacherProfile, layoutRequestConsulting, layoutAnnouncement;
     int _userGubun = 1;
-    int _seq = 0;
+    int memberSeq = 0;
     int _sfCode = 0;
     private RetrofitApi mRetrofitApi;
     boolean doubleBackToExitPressedOnce = false;
@@ -181,9 +185,9 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
         mContext = this;
         _userGubun = PreferenceUtil.getUserGubun(this);
-        _seq = PreferenceUtil.getUserSeq(this);
+        memberSeq = PreferenceUtil.getUserSeq(this);
         _sfCode = PreferenceUtil.getUserSFCode(this);
-        LogMgr.e(_userGubun + "/" + _seq + "/" + _sfCode);
+        LogMgr.e(_userGubun + "/" + memberSeq + "/" + _sfCode);
 
         initView();
         initData();
@@ -353,6 +357,14 @@ public class MainActivity extends BaseActivity {
                 {
                     int seq = _pushMessage.connSeq;
                     navigate2CounselDetailActivity(seq);
+                }
+                    break;
+                case MSG_TYPE_QNA:
+                case MSG_TYPE_QNA_ING:
+                case MSG_TYPE_QNA_COMPLETE:
+                {
+                    int seq = _pushMessage.connSeq;
+                    navigate2QnaDetailActivity(seq);
                 }
                     break;
                 default:
@@ -553,7 +565,7 @@ public class MainActivity extends BaseActivity {
         if(RetrofitClient.getInstance() != null) {
 //            showProgressDialog();
             mRetrofitApi = RetrofitClient.getApiInterface();
-            mRetrofitApi.getManagerInfo(_seq, _sfCode).enqueue(new Callback<GetManagerInfoResponse>() {
+            mRetrofitApi.getManagerInfo(memberSeq, _sfCode).enqueue(new Callback<GetManagerInfoResponse>() {
                 @Override
                 public void onResponse(Call<GetManagerInfoResponse> call, Response<GetManagerInfoResponse> response) {
 //                    hideProgressDialog();
@@ -819,6 +831,11 @@ public class MainActivity extends BaseActivity {
     }
     private void navigate2CounselDetailActivity(int seq) {
         Intent targetIntent = new Intent(mContext, CounselDetailActivity.class);
+        targetIntent.putExtra(IntentParams.PARAM_BOARD_SEQ, seq);
+        startActivity(targetIntent);
+    }
+    private void navigate2QnaDetailActivity(int seq) {
+        Intent targetIntent = new Intent(mContext, DetailQNAActivity.class);
         targetIntent.putExtra(IntentParams.PARAM_BOARD_SEQ, seq);
         startActivity(targetIntent);
     }

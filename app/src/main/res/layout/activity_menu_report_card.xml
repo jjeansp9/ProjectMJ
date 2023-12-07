@@ -173,38 +173,38 @@
             android:lineSpacingMultiplier="@dimen/empty_textview_multiplier"
             android:elevation="@dimen/layout_margin_xxxsmall"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
-    <RelativeLayout
-        android:id="@+id/layout_report_card"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_anchor="@id/layout_root"
-        app:layout_anchorGravity="bottom"
-        app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"
-        android:background="@drawable/btn_brf_reserver_list"
-        android:foreground="?attr/selectableItemBackground"
-        android:stateListAnimator="@xml/animate_button_push"
-        android:paddingVertical="10dp"
-        android:layout_marginVertical="12dp"
-        android:layout_marginHorizontal="20dp"
-        android:visibility="gone">
-        <TextView
-            android:id="@+id/title_report_card_list"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:text="@string/title_whole_bus_timetable"
-            android:layout_marginStart="12dp"
-            android:layout_centerVertical="true"
-            android:textColor="@color/white"
-            android:textSize="@dimen/font_size" />
+<!--    <RelativeLayout-->
+<!--        android:id="@+id/layout_report_card"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:layout_anchor="@id/layout_root"-->
+<!--        app:layout_anchorGravity="bottom"-->
+<!--        app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"-->
+<!--        android:background="@drawable/btn_brf_reserver_list"-->
+<!--        android:foreground="?attr/selectableItemBackground"-->
+<!--        android:stateListAnimator="@xml/animate_button_push"-->
+<!--        android:paddingVertical="10dp"-->
+<!--        android:layout_marginVertical="12dp"-->
+<!--        android:layout_marginHorizontal="20dp"-->
+<!--        android:visibility="gone">-->
+<!--        <TextView-->
+<!--            android:id="@+id/title_report_card_list"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_alignParentStart="true"-->
+<!--            android:text="@string/title_whole_bus_timetable"-->
+<!--            android:layout_marginStart="12dp"-->
+<!--            android:layout_centerVertical="true"-->
+<!--            android:textColor="@color/white"-->
+<!--            android:textSize="@dimen/font_size" />-->
 
-        <ImageView
-            android:layout_width="@dimen/calendar_arrow_size"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="8dp"
-            android:src="@drawable/ic_vector_arrow_right"
-            />
-    </RelativeLayout>
+<!--        <ImageView-->
+<!--            android:layout_width="@dimen/calendar_arrow_size"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_alignParentEnd="true"-->
+<!--            android:layout_centerVertical="true"-->
+<!--            android:layout_marginEnd="8dp"-->
+<!--            android:src="@drawable/ic_vector_arrow_right"-->
+<!--            />-->
+<!--    </RelativeLayout>-->
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

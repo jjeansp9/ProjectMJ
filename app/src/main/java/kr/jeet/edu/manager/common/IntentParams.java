@@ -60,4 +60,7 @@ public class IntentParams {
     public final static String PARAM_RECIPIENT_FILTERTYPE = "recipientFilterType";  //띄워야 할 수신인 FilterType
     //성적표
     public final static String PARAM_REPORT_CARD_LIST = "reportcardlist";  // 선택한 성적표 정보
+    //QNA
+    public final static String PARAM_IS_REPLY = "isreply";  //답변 작성모드 여부
+    public final static String PARAM_IS_REQUIRE_UPDATE = "isrequirupdate";  //QNA 에서 공지설정/해제 등으로 목록에서 갱신이 필요한 경우
 }

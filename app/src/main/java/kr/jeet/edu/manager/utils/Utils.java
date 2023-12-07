@@ -203,7 +203,7 @@ public class Utils {
      * */
     public static boolean checkPhoneNumber(String str) {
         if(TextUtils.isEmpty(str)) return false;
-        return Pattern.matches("^01(?:0|1|[6-9])(?:\\d{3}|\\d{4})\\d{4}$", str);
+        return Pattern.matches("^01(?:0|1|[6-9])[-]?(?:\\d{3}|\\d{4})[-]?\\d{4}$", str);
     }
     /**
      * 전화번호에 - 붙은 Format 으로 변환
@@ -473,11 +473,16 @@ public class Utils {
     /**
      * 한글(자음,모음 비허용), 영어, 공백만 허용, 이외의 문자를 입력했는지 체크
      * */
-    public static boolean nameCheck(String str){ return Pattern.compile("^[a-zA-Z가-힣\\s]+$").matcher(str).find(); }
+    public static boolean nameCheck(String str){ return Pattern.compile("^[a-zA-Z가-힣\\s]{2,}$").matcher(str).find(); }
     /**
      * dp값 or px값 가져오기
      * */
     public static int fromPxToDp(float px) { return (int) (px / Resources.getSystem().getDisplayMetrics().density); }
     public static int fromDpToPx(float dp) { return (int) (dp * Resources.getSystem().getDisplayMetrics().density); }
 
+    public static boolean isEmptyContainSpace(CharSequence str) {
+        if(str == null) return true;
+        String trimStr = str.toString().trim();
+        return TextUtils.isEmpty(trimStr);
+    }
 }

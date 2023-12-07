@@ -195,6 +195,7 @@ public class MenuManageStudentActivity extends BaseActivity {
                     if(_adapterRecipient != null) {
                         _adapterRecipient.notifyDataSetChanged();
                     }
+                    updateCount();
                     break;
                 case CMD_INIT_LAYOUT:
                     int arg = msg.arg1;
@@ -266,6 +267,7 @@ public class MenuManageStudentActivity extends BaseActivity {
         LogMgr.d(TAG, "initLayout " + mode.name());
         switch(mode) {
             case Show:  //조회모드
+                tvSelectCount.setVisibility(View.GONE);
                 _adapterRecipient.setEditMode(false);
                 cbParentTotal.setChecked(false);
                 cbStudentTotal.setChecked(false);
@@ -284,6 +286,7 @@ public class MenuManageStudentActivity extends BaseActivity {
                 invalidateOptionsMenu();    //onCreateOptionsMenu 호출됨
                 break;
             case Edit:
+                tvSelectCount.setVisibility(View.VISIBLE);
                 _adapterRecipient.setEditMode(true);
                 _recipientStudentList.stream().forEach(t->{
                     t.isCheckStudent = false;
@@ -338,6 +341,7 @@ public class MenuManageStudentActivity extends BaseActivity {
         tvCalendar.setOnClickListener(this);
         etSearch = findViewById(R.id.et_search);
         tvEmptyLayout = findViewById(R.id.tv_empty_list);
+        tvSelectCount = findViewById(R.id.tv_select_count);
 //        Calendar cal = Calendar.getInstance();
 //        _selectedDate = cal.getTime();
 //        try {
@@ -596,6 +600,7 @@ public class MenuManageStudentActivity extends BaseActivity {
                         cbParentTotal.setChecked(false);
                     }
                 }
+                updateCount();
                 cbTotal.setChecked(cbStudentTotal.isChecked() && cbParentTotal.isChecked());
             }
 
@@ -610,6 +615,7 @@ public class MenuManageStudentActivity extends BaseActivity {
                         cbStudentTotal.setChecked(false);
                     }
                 }
+                updateCount();
                 cbTotal.setChecked(cbStudentTotal.isChecked() && cbParentTotal.isChecked());
             }
 
@@ -685,7 +691,16 @@ public class MenuManageStudentActivity extends BaseActivity {
         super.onPostCreate(savedInstanceState);
         _handler.sendEmptyMessage(CMD_SEARCH);
     }
-
+    private void updateCount() {
+        if(_boardMode != Constants.BoardEditMode.Edit) return;
+        if(_recipientStudentList == null || _recipientStudentList.isEmpty()) {
+            tvSelectCount.setText("");
+        }else {
+            tvSelectCount.setVisibility(View.VISIBLE);
+            int count = (int) (_recipientStudentList.stream().filter(t -> t.isCheckParent).count() + _recipientStudentList.stream().filter(t -> t.isCheckStudent).count());
+            tvSelectCount.setText(getString(R.string.selected_count, count));
+        }
+    }
     private void toggleFilterLayout() {
         switch(_filterType) {
             case TYPE_CLASS:
@@ -1204,7 +1219,7 @@ public class MenuManageStudentActivity extends BaseActivity {
                                     if(!TextUtils.isEmpty(searchStr)) {
                                         searchFilter(searchStr);
                                     }else{
-                                        _adapterRecipient.notifyDataSetChanged();
+                                        _handler.sendEmptyMessage(CMD_NOTIFY_DATASET_CHANGED);
                                         checkEmptyRecyclerView();
                                     }
                                 } else LogMgr.e(TAG + " DetailData is null");

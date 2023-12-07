@@ -74,7 +74,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:padding="@dimen/layout_margin_xxsmall"
+                    android:paddingVertical="@dimen/layout_margin_xxsmall"
                     android:gravity="center_vertical"
                     >
                     <TextView
@@ -84,7 +84,7 @@
                         android:layout_weight="1"
                         android:hint="수신인 0명"
                         android:text=""
-                        android:textColor="@color/font_color_default"
+                        android:textColor="@color/font_color_999"
                         android:maxLines="1"
                         android:ellipsize="end"
                         android:textSize="@dimen/font_size_small"

@@ -2,9 +2,9 @@ package kr.jeet.edu.manager.model.data;
 
 public class MainMenuItemData {
     private int imgRes;
-    private int titleRes;
+    private int titleRes;   //기본적으로 Resource 의 String을 보여줌
     private String type;
-    private String title;
+    private String title;   //서버에서 받은 board Attribute 내 해당 Type의 이름을 update 함
 //    private boolean isMemberOnly = true;
     private Class<?> targetClass;
 

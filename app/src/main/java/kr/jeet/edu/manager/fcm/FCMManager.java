@@ -37,13 +37,18 @@ public class FCMManager {
     public static final String MSG_TYPE_NOTICE = "NOTICE";  //공지사항
     public static final String MSG_TYPE_VIDEO = "VIDEO";    //동영상
     public static final String MSG_TYPE_ATTEND = "ATTEND";  //출결
-    public static final String MSG_TYPE_ACA_SCHEDULE = "ACA_CHEDULE";    //캠퍼스일정
+    public static final String MSG_TYPE_ACA_SCHEDULE = "SCHEDULE";    //캠퍼스일정
     public static final String MSG_TYPE_PT = "PT";  //설명회
     public static final String MSG_TYPE_PT_REZ_CNL = "PT_REZ_CNL";  //설명회 예약 취소
     public static final String MSG_TYPE_SYSTEM = "SYSTEM";  //시스템
     public static final String MSG_TYPE_LEVEL_TEST = "LEVEL_TEST";    //테스트예약
+    public static final String MSG_TYPE_LEVEL_TEST_CNL = "LEVEL_CNL";    //테스트예약 취소
     public static final String MSG_TYPE_COUNSEL = "COUNSEL";    //상담요청
     public static final String MSG_TYPE_REPORTCARD = "REPORT";  //성적표
+    public static final String MSG_TYPE_QNA = "QNA";    // qna 접수
+    public static final String MSG_TYPE_QNA_ING = "QNA_ING";    // qna 접수
+    public static final String MSG_TYPE_QNA_COMPLETE = "QNA_COMPLETE";    // qna 접수 완료
+
 
     public static final int NOTIFICATION_ID_NOTICE = 1000001;
     public static final int NOTIFICATION_ID_VIDEO = 1000002;
@@ -107,6 +112,16 @@ public class FCMManager {
         } else if(message.pushType.equals(MSG_TYPE_REPORTCARD)) {
             isReject = false;
         }
+        else if (message.pushType.equals(MSG_TYPE_QNA)) {
+            isReject = false;
+        }
+        else if (message.pushType.equals(MSG_TYPE_QNA_ING)) {
+            isReject = false;
+        }
+        else if (message.pushType.equals(MSG_TYPE_QNA_COMPLETE)) {
+            isReject = false;
+        }
+
         LogMgr.d(TAG, "isReject = " + isReject);
         if(!isReject) {
             createNotification(message);
@@ -210,6 +225,16 @@ public class FCMManager {
             case MSG_TYPE_COUNSEL:
                 tickerText = _context.getString(R.string.push_noti_received_counsel);
                 break;
+            case MSG_TYPE_QNA:
+                tickerText = _context.getString(R.string.push_noti_received_qna);
+                break;
+            case MSG_TYPE_QNA_ING:
+                tickerText = _context.getString(R.string.push_noti_received_qna);
+                break;
+            case MSG_TYPE_QNA_COMPLETE:
+                tickerText = _context.getString(R.string.push_noti_received_qna);
+                break;
+
             default :
                 tickerText = "JEET알림";
                 break;

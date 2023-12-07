@@ -19,6 +19,7 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.widget.LinearLayoutCompat;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -77,7 +78,7 @@ public class MenuAnnouncementDetailActivity extends BaseActivity {
     int _currentDataPosition = 0;
     private TextView tvRecipient;
     RecyclerView _recyclerViewRecipient;
-    private LinearLayoutCompat layoutControlRecipient;
+    private ConstraintLayout layoutControlRecipient;
     RecipientChipListAdapter _recipientListAdapter;
 
     List<RecipientData> _recipientList = new ArrayList<>();

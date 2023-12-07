@@ -932,22 +932,22 @@ public class EditBriefingActivity extends BaseActivity implements DatePickerFrag
             Toast.makeText(mContext, R.string.msg_empty_school_grade, Toast.LENGTH_SHORT).show();
             return false;
         }
-        if(TextUtils.isEmpty(etTitle.getText())) {   //제목
+        if(Utils.isEmptyContainSpace(etTitle.getText())) {   //제목
             showKeyboard(etTitle);
             Toast.makeText(mContext, R.string.error_message_empty_subject, Toast.LENGTH_SHORT).show();
             return false;
         }
-        if(TextUtils.isEmpty(etContent.getText())) {   //내용
+        if(Utils.isEmptyContainSpace(etContent.getText())) {   //내용
             showKeyboard(etContent);
             Toast.makeText(mContext, R.string.error_message_empty_content, Toast.LENGTH_SHORT).show();
             return false;
         }
-        if(TextUtils.isEmpty(etLocation.getText())) {   //장소
+        if(Utils.isEmptyContainSpace(etLocation.getText())) {   //장소
             showKeyboard(etLocation);
             Toast.makeText(mContext, R.string.error_message_empty_location, Toast.LENGTH_SHORT).show();
             return false;
         }
-        if(TextUtils.isEmpty(etMemberCount.getText())) {   //정원
+        if(Utils.isEmptyContainSpace(etMemberCount.getText())) {   //정원
             showKeyboard(etMemberCount);
             Toast.makeText(mContext, R.string.error_message_empty_member_count, Toast.LENGTH_SHORT).show();
             return false;

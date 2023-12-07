@@ -4,8 +4,10 @@ import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.text.Editable;
 import android.text.InputType;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +23,7 @@ import androidx.annotation.Nullable;
 
 import kr.jeet.edu.manager.R;
 import kr.jeet.edu.manager.common.Constants;
+import kr.jeet.edu.manager.utils.Utils;
 
 public class PopupDialog extends Dialog {
 
@@ -33,7 +36,25 @@ public class PopupDialog extends Dialog {
     private CheckBox checkBox;
     private TextView tvCheckBoxTitle;
     private ViewGroup titleLayout;
+    private TextWatcher etTextWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        }
 
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            if(charSequence != null && !Utils.isEmptyContainSpace(charSequence.toString())) {
+                if(okBtn != null) okBtn.setEnabled(true);
+            }else {
+                if(okBtn != null) okBtn.setEnabled(false);
+            }
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable) {
+
+        }
+    };
     public PopupDialog(@NonNull Context context) {
         super(context);
         this.context = context;
@@ -111,8 +132,14 @@ public class PopupDialog extends Dialog {
     }
 
     public void setEdit(boolean isVisible){
-        if (isVisible) editText.setVisibility(View.VISIBLE);
-        else editText.setVisibility(View.GONE);
+        if (isVisible) {
+            editText.setVisibility(View.VISIBLE);
+            editText.addTextChangedListener(etTextWatcher);
+        }
+        else {
+            editText.setVisibility(View.GONE);
+            editText.removeTextChangedListener(etTextWatcher);
+        }
     }
     public void setEditText(String content) {
         editText.setText(content);
@@ -175,5 +202,11 @@ public class PopupDialog extends Dialog {
     public String getInputText(){
         mInputText = editText.getText().toString().trim();
         return mInputText;
+    }
+    @Override
+    public void dismiss() {
+        if(editText != null && editText.getVisibility() == View.VISIBLE) editText.removeTextChangedListener(etTextWatcher);
+        super.dismiss();
+
     }
 }

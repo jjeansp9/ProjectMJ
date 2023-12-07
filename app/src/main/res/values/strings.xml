@@ -233,6 +233,10 @@
     <string name="menu_item_complete">완료</string>
     <string name="menu_item_save">저장</string>
     <string name="menu_item_install_sms">설치문자</string>
+    <string name="menu_item_public">공개 설정</string>
+    <string name="menu_item_private">비공개 설정</string>
+    <string name="menu_item_set_main">공지 올리기</string>
+    <string name="menu_item_unset_main">공지 내리기</string>
 
     <string name="msg_allow_notify">알림 전달</string>
     <string name="msg_allow_push">PUSH 전송</string>
@@ -248,6 +252,7 @@
     <string name="error_message_unselected_campus">캠퍼스를 선택해 주세요.</string>
     <string name="error_message_empty_subject">제목을 작성해 주세요.</string>
     <string name="error_message_empty_content">내용을 작성해 주세요.</string>
+    <string name="error_message_empty_answer">답변을 작성해 주세요.</string>
     <string name="error_message_empty_location">장소를 입력해 주세요.</string>
     <string name="error_message_empty_member_count">정원을 입력해 주세요.</string>
     <string name="error_message_over_reserved_cnt">정원은 예약된 인원 이상으로 설정해야 합니다.\n(예약인원 : %d 명)</string>
@@ -276,6 +281,7 @@
     <string name="error_msg_already_install">이미 설치되어 있습니다.</string>
     <string name="msg_empty_announcement_full">공지사항이 없습니다.</string>
     <string name="description_announcement_recipient">공지사항 알림을 보낼 수신인을 추가해 주세요.</string>
+    <string name="qna_answerer_confirm_select">선택한 %d 명을 Q&amp;A 답변 담당자로 지정하시겠습니까?</string>
 
     <!-- 원생정보 -->
     <string name="format_count_per_all">%d / %d</string>
@@ -314,6 +320,9 @@
     <string name="push_noti_received_leveltest">테스트예약 알림 도착</string>
     <string name="push_noti_received_system">시스템 알림 도착</string>
     <string name="push_noti_received_schedule">캠퍼스일정 알림 도착</string>
+    <string name="push_noti_received_report_card">성적표 알림 도착</string>
+    <string name="push_noti_received_tuition">미납 알림 도착</string>
+    <string name="push_noti_received_qna">Q&amp;A 알림 도착</string>
 
 
     <string name="push_type_announcement">공지사항 알림</string>
@@ -337,7 +346,7 @@
     <string name="title_btn_search">검색</string>
     <string name="title_btn_append">추가하기</string>
     <string name="recipient_unit">명</string>
-    <string name="selected_count">선택 %d 명</string>
+    <string name="selected_count">%d 명 선택</string>
     <string name="content_recipient_counts">총 %d 명</string>
     <string name="content_item_counts">총 %d 건</string>
     <string name="content_item_count">%d 건</string>
@@ -457,5 +466,20 @@
 
     <string name="title_qna_notice">공지사항</string>
     <string name="title_qna_private">비공개</string>
+    <string name="title_select_manager">담당자 지정</string>
+    <string name="title_contact_list">담당자 목록</string>
+    <string name="title_do_answer">답변하기</string>
+    <string name="msg_confirm_answer">답변을 등록하시겠습니까?</string>
+    <string name="error_msg_no_selected_manager">담당자를 선택해 주세요.</string>
     <string name="empty_menu_list_qna">Q&amp;A가 없습니다.</string>
+    <string name="qna_insert_success">Q&amp;A가 작성되었습니다.</string>
+    <string name="qna_update_success">Q&amp;A가 수정되었습니다.</string>
+    <string name="qna_delete_success">Q&amp;A가 삭제되었습니다.</string>
+    <string name="qna_specify_answerer_success">담당자를 지정하였습니다.</string>
+    <string name="qna_answer_success">답변을 작성하였습니다.</string>
+    <string name="qna_public_success">공개로 설정되었습니다.</string>
+    <string name="qna_private_success">비공개로 설정되었습니다.</string>
+    <string name="qna_set_main_success">공지로 설정되었습니다.</string>
+    <string name="qna_unset_main_success">공지가 해제되었습니다.</string>
+
 </resources>

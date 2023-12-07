@@ -84,10 +84,11 @@
     <drawable name="color_enable">#e51b23</drawable>
     <drawable name="color_disable">#cccccc</drawable>
 
-    <color name="color_notice">#006B26</color> <!-- 공지 -->
-    <color name="color_subscription">#e51b23</color> <!-- 신청 -->
+    <color name="color_notice">#e51b23</color> <!-- 공지 -->
+    <color name="color_subscription">#2E75B6</color> <!-- 신청 -->
     <color name="color_receiption">#FFA800</color> <!-- 접수 -->
-    <color name="color_complete">#2E75B6</color> <!-- 완료 -->
+    <color name="color_complete">#006B26</color> <!-- 완료 -->
     <color name="color_me">#60a730</color> <!-- 본인 -->
     <color name="color_private">#666666</color> <!-- 비공개 -->
+    <color name="color_qna_main_background">#e8f0fe</color>
 </resources>

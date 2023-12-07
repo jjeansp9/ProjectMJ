@@ -1,6 +1,7 @@
 package kr.jeet.edu.manager.activity.menu.notice;
 
 import androidx.appcompat.widget.LinearLayoutCompat;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -59,7 +60,7 @@ public class SystemNoticeDetailActivity extends BaseActivity {
     private TextView tvRecipient;
 //    private ChipGroup recipientChipGroup;
     RecyclerView _recyclerViewRecipient;
-    private LinearLayoutCompat layoutControlRecipient;
+    private ConstraintLayout layoutControlRecipient;
     private BoardDetailImageListAdapter mImageAdapter;
     private BoardDetailFileListAdapter mFileAdapter;
     RecipientChipListAdapter _recipientListAdapter;

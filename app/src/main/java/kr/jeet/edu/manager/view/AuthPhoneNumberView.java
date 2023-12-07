@@ -154,7 +154,7 @@ public class AuthPhoneNumberView extends LinearLayout implements View.OnClickLis
         mAuthTimerTxt.setVisibility(View.VISIBLE);
     }
     public Boolean checkValid() {
-        if(mAuthPhoneNo.isEmpty()) {
+        if(Utils.isEmptyContainSpace(mAuthPhoneNo)) {
             Toast.makeText(_context, R.string.empty_phonenumber, Toast.LENGTH_SHORT).show();
             return false;
         }
@@ -181,7 +181,7 @@ public class AuthPhoneNumberView extends LinearLayout implements View.OnClickLis
 
             case R.id.btn_check_phone:
                 LogMgr.d("btn check phone clicked");
-                if(mEditPhoneNo.getText().toString().isEmpty()) {
+                if(Utils.isEmptyContainSpace(mEditPhoneNo.getText().toString())) {
                     Toast.makeText(_context, R.string.empty_phonenumber, Toast.LENGTH_SHORT).show();
                     return ;
                 }

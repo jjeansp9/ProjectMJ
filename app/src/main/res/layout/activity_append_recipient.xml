@@ -286,18 +286,23 @@
                     android:layout_marginHorizontal="@dimen/layout_margin_xxxsmall"
                     />
             </LinearLayout>
-<!--            <TextView-->
-<!--                android:id="@+id/tv_selected_count"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginStart="@dimen/layout_margin_xxsmall"-->
-<!--                app:layout_constraintTop_toBottomOf="@id/et_search"-->
-<!--                app:layout_constraintBottom_toBottomOf="parent"-->
-<!--                app:layout_constraintStart_toEndOf="@id/layout_total_checkbox"-->
-<!--                android:textSize="@dimen/font_size_xsmall"-->
-<!--                android:textColor="@color/font_color_999"-->
-<!--                android:layout_marginHorizontal="@dimen/layout_margin_xxxsmall"-->
-<!--                />-->
+            <TextView
+                android:id="@+id/tv_select_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toEndOf="@id/layout_total_checkbox"
+                app:layout_constraintEnd_toStartOf="@id/layout_student_checkbox"
+                app:layout_constraintTop_toBottomOf="@id/et_search"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:paddingTop="@dimen/layout_margin_xxsmall"
+                android:hint="0 명 선택"
+                android:textColor="@color/font_color_999"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:textSize="@dimen/font_size_small"
+                android:visibility="gone"
+                />
+
             <LinearLayout
                 android:id="@+id/layout_student_checkbox"
                 android:layout_width="wrap_content"
@@ -384,6 +389,7 @@
                 tools:listitem="@layout/layout_recipient_list_item"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 android:orientation="vertical"
+                android:scrollbars="vertical"
                 />
 
 

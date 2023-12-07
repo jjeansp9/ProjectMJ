@@ -34,12 +34,17 @@ import java.util.stream.Collectors;
 
 import kr.jeet.edu.manager.R;
 import kr.jeet.edu.manager.activity.BaseActivity;
+import kr.jeet.edu.manager.activity.menu.announcement.EditAnnouncementActivity;
+import kr.jeet.edu.manager.activity.menu.briefing.MenuBriefingDetailActivity;
 import kr.jeet.edu.manager.adapter.QnaListAdapter;
+import kr.jeet.edu.manager.adapter.WrapContentSpinnerAdapter;
 import kr.jeet.edu.manager.common.Constants;
 import kr.jeet.edu.manager.common.DataManager;
 import kr.jeet.edu.manager.common.IntentParams;
+import kr.jeet.edu.manager.db.PushMessage;
 import kr.jeet.edu.manager.model.data.ACAData;
 import kr.jeet.edu.manager.model.data.QnaData;
+import kr.jeet.edu.manager.model.data.QnaDetailData;
 import kr.jeet.edu.manager.model.data.StudentGradeData;
 import kr.jeet.edu.manager.model.response.QnaListResponse;
 import kr.jeet.edu.manager.model.response.StudentGradeListResponse;
@@ -85,22 +90,91 @@ public class MenuQNAActivity extends BaseActivity {
 
     ActivityResultLauncher<Intent> resultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
         LogMgr.w("result =" + result);
+        if(result == null) return;
         if(result.getResultCode() != RESULT_CANCELED) {
             Intent intent = result.getData();
             if(intent == null) return;
+            if(intent.hasExtra(IntentParams.PARAM_IS_REQUIRE_UPDATE)) {
+                boolean isRequireUpdate = intent.getBooleanExtra(IntentParams.PARAM_IS_REQUIRE_UPDATE, false);
+                if(isRequireUpdate) {
+                    requestQnaList();
+                    return;
+                }
+            }
             if(intent.hasExtra(IntentParams.PARAM_BOARD_ADDED)) {
                 boolean added = intent.getBooleanExtra(IntentParams.PARAM_BOARD_ADDED, false);
 
                 if(added) {
                     if(_selectedLocalACA != null) LogMgr.e("acaCode = " + _selectedLocalACA.acaCode);
                     requestQnaList();
+//                    Utils.createNotification(mContext, "[지트에듀케이션]", getString(R.string.qna_insert_success));
+//                    intent.putExtra(IntentParams.PARAM_BOARD_ADDED, true);
+                    Toast.makeText(mContext, R.string.qna_insert_success, Toast.LENGTH_SHORT).show();
                 }
 
             } else if(intent.hasExtra(IntentParams.PARAM_BOARD_DELETED)) {
-
+                boolean deleted = intent.getBooleanExtra(IntentParams.PARAM_BOARD_DELETED, false);
+                int position = intent.getIntExtra(IntentParams.PARAM_BOARD_POSITION, -1);
+                if(deleted && position >= 0) {
+                    mList.remove(position);
+                    mAdapter.notifyItemRemoved(position);
+                    checkEmptyRecyclerView();
+//                    Toast.makeText(mContext, R.string.qna_delete_success, Toast.LENGTH_SHORT).show();
+                }
 
             } else if(intent.hasExtra(IntentParams.PARAM_BOARD_EDITED)) {
+                boolean edited = intent.getBooleanExtra(IntentParams.PARAM_BOARD_EDITED, false);
+                if (edited) {
+                    if(intent.hasExtra(IntentParams.PARAM_BOARD_ITEM)) {
+                        QnaData changedItem = new QnaData();
 
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                            changedItem = intent.getParcelableExtra(IntentParams.PARAM_BOARD_ITEM, QnaData.class);
+                        } else {
+                            changedItem = intent.getParcelableExtra(IntentParams.PARAM_BOARD_ITEM);
+                        }
+                        if(intent.hasExtra(IntentParams.PARAM_BOARD_POSITION)){
+                            int pos = intent.getIntExtra(IntentParams.PARAM_BOARD_POSITION, -1);
+                            if(pos >= 0) {
+                                mList.set(pos, changedItem);
+                                mAdapter.notifyItemChanged(pos);
+                            }
+                        }
+//                        Toast.makeText(mContext, R.string.qna_update_success, Toast.LENGTH_SHORT).show();
+
+                    }
+                }
+            }
+        }else{
+            Intent intent = result.getData();
+            if(intent == null) {
+                LogMgr.e(TAG, "intent is null");
+                return;
+            }
+            if(intent.hasExtra(IntentParams.PARAM_IS_REQUIRE_UPDATE)) {
+                boolean isRequireUpdate = intent.getBooleanExtra(IntentParams.PARAM_IS_REQUIRE_UPDATE, false);
+                if(isRequireUpdate) {
+                    requestQnaList();
+                    return;
+                }
+            }
+            if(intent.hasExtra(IntentParams.PARAM_BOARD_ITEM)) {
+                QnaData changedItem = new QnaData();
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    changedItem = intent.getParcelableExtra(IntentParams.PARAM_BOARD_ITEM, QnaData.class);
+                } else {
+                    changedItem = intent.getParcelableExtra(IntentParams.PARAM_BOARD_ITEM);
+                }
+                if(intent.hasExtra(IntentParams.PARAM_BOARD_POSITION)){
+                    int pos = intent.getIntExtra(IntentParams.PARAM_BOARD_POSITION, -1);
+                    if(pos >= 0) {
+                        mList.set(pos, changedItem);
+                        mAdapter.notifyItemChanged(pos);
+                    }
+                }
+
+            }else{
+                LogMgr.e(TAG, "PARAM_BOARD_ITEM is empty");
             }
         }
     });
@@ -188,10 +262,21 @@ public class MenuQNAActivity extends BaseActivity {
                 }
             }
         });
+        mSwipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                requestQnaList();
+            }
+        });
     }
 
     private void startQnaDetailActivity(QnaData clickItem, int position){
         if (clickItem != null){
+            Intent detailIntent = new Intent(mContext, DetailQNAActivity.class);
+            detailIntent.putExtra(IntentParams.PARAM_BOARD_SEQ, clickItem.seq);
+            detailIntent.putExtra(IntentParams.PARAM_BOARD_POSITION, position);
+            resultLauncher.launch(detailIntent);
+            overridePendingTransition(R.anim.horizontal_enter, R.anim.horizontal_out);
 
 
         }else LogMgr.e("clickItem is null ");
@@ -202,7 +287,11 @@ public class MenuQNAActivity extends BaseActivity {
         _ACAList.add(new ACAData("", "전체", ""));
         _ACAList.addAll(DataManager.getInstance().getLocalACAListMap().values());
         if(_ACAList != null) _ACANameList = _ACAList.stream().map(t -> t.acaName).collect(Collectors.toList());
-        mSpinnerCampus.setItems(_ACANameList);
+        {
+            WrapContentSpinnerAdapter adapter = new WrapContentSpinnerAdapter(mContext, _ACAList.stream().map(t -> t.acaName).collect(Collectors.toList()), mSpinnerCampus);
+            mSpinnerCampus.setSpinnerAdapter(adapter);
+        }
+        Utils.updateSpinnerList(mSpinnerCampus, _ACANameList);
         mSpinnerCampus.setOnSpinnerItemSelectedListener((oldIndex, oldItem, newIndex, newItem) -> {
             LogMgr.e(newItem + " selected");
             if(oldItem != null && oldItem.equals(newItem)) return;
@@ -239,6 +328,10 @@ public class MenuQNAActivity extends BaseActivity {
 
         mSpinnerGrade = findViewById(R.id.spinner_grade);
         mSpinnerGrade.setIsFocusable(true);
+        {
+            WrapContentSpinnerAdapter adapter = new WrapContentSpinnerAdapter(mContext, _GradeList.stream().map(t -> t.gubunName).collect(Collectors.toList()), mSpinnerGrade);
+            mSpinnerGrade.setSpinnerAdapter(adapter);
+        }
         mSpinnerGrade.setOnSpinnerItemSelectedListener((oldIndex, oldItem, newIndex, newItem) -> {
             LogMgr.e(newItem + " selected");
             if(oldItem != null && oldItem.equals(newItem)) return;
@@ -259,7 +352,7 @@ public class MenuQNAActivity extends BaseActivity {
     }
 
     private void setSelectAcaCode() {
-        if(!TextUtils.isEmpty(_appAcaCode)){
+        if(!TextUtils.isEmpty(_appAcaCode) && _userGubun >= Constants.USER_TYPE_TEACHER){
             ACAData selectedACA = null;
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 Optional option =  _ACAList.stream().filter(t -> t.acaCode.equals(_appAcaCode)).findFirst();
@@ -329,7 +422,7 @@ public class MenuQNAActivity extends BaseActivity {
                         LogMgr.e(TAG + "requestQnaList() Exception: ", e.getMessage());
                     }
                     LogMgr.e(TAG, "mListSize: " + mList.size());
-                    mTvListEmpty.setVisibility(mList.isEmpty() ? View.VISIBLE : View.GONE);
+                    checkEmptyRecyclerView();
                     //if (mAdapter != null) mAdapter.notifyDataSetChanged();
                     mSwipeRefresh.setRefreshing(false);
                     mAdapter.notifyDataSetChanged();
@@ -340,7 +433,7 @@ public class MenuQNAActivity extends BaseActivity {
 
                 @Override
                 public void onFailure(Call<QnaListResponse> call, Throwable t) {
-                    mTvListEmpty.setVisibility(mList.isEmpty() ? View.VISIBLE : View.GONE);
+                    checkEmptyRecyclerView();
                     if (mAdapter != null) mAdapter.notifyDataSetChanged();
                     try {
                         LogMgr.e(TAG, "requestQnaList() onFailure >> " + t.getMessage());
@@ -392,13 +485,24 @@ public class MenuQNAActivity extends BaseActivity {
             });
         }
     }
+    private boolean checkEmptyRecyclerView() {
+        if (mAdapter.getItemCount() > 0) {
+            mSwipeRefresh.setVisibility(View.VISIBLE);
+            mTvListEmpty.setVisibility(View.INVISIBLE);
+            return false;
+        } else {
+            mSwipeRefresh.setVisibility(View.INVISIBLE);
+            mTvListEmpty.setVisibility(View.VISIBLE);
+            return true;
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-//        if (_userType.equals(Constants.MEMBER)) {
+        if (_userGubun <= Constants.USER_TYPE_ADMIN) {
             getMenuInflater().inflate(R.menu.menu_board, menu);
             this._menu = menu;
-//        }
+        }
 
         return (super.onCreateOptionsMenu(menu));
     }
@@ -408,10 +512,21 @@ public class MenuQNAActivity extends BaseActivity {
 //        if (_userType.equals(Constants.MEMBER)) {
             switch(item.getItemId()) {
                 case R.id.action_add:
+                    navigate2EditQnaActivity();
                     return true;
             }
 //        }
 
         return super.onOptionsItemSelected(item);
+    }
+    public void navigate2EditQnaActivity() {
+        Intent editIntent = new Intent(mContext, EditQNAActivity.class);
+        if(_selectedLocalACA != null) {
+            editIntent.putExtra(IntentParams.PARAM_STU_ACACODE, _selectedLocalACA.acaCode);
+        }
+        if(_selectedGrade != null) {
+            editIntent.putExtra(IntentParams.PARAM_STU_GRADECODE, _selectedGrade.gubunCode);
+        }
+        resultLauncher.launch(editIntent);
     }
 }

@@ -212,7 +212,7 @@ public class ConfirmReportCardActivity extends BaseActivity {
                     StringBuilder sb = new StringBuilder(getString(R.string.msg_confirm_send_reportcard));
                     if(_reportCardList.stream().anyMatch(t->t.etTitleGubun == Constants.ReportCardType.MIDDLE.getCode())) {
                         sb.append("\n\n");
-                        sb.append("����ǥ�� ���Ե� [ �ߵ� ] ������ ����ǥ ����� ���� �ʽ��ϴ�.");
+                        sb.append("성적표에 포함된 [ 중등 ] 유형은 성적표 출력이 되지 않습니다.");
                     }
                     showMessageDialog(getString(R.string.dialog_title_alarm)
                             , sb.toString()

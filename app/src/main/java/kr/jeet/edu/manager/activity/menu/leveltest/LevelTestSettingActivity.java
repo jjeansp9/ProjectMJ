@@ -338,6 +338,8 @@ public class LevelTestSettingActivity extends BaseActivity implements TimePicker
         }
         tvTime.setText("");
         _currentData = new LevelTestTimeData();
+        recyclerViewTimes.postDelayed(() -> _timeListAdapter.notifyDataSetChanged(), 500);
+
     }
     private void initTimeData() {
         _timeList.clear();

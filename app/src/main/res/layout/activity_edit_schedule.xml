@@ -375,18 +375,29 @@
                 android:textColor="@color/font_color_default"
                 android:paddingHorizontal="@dimen/editbox_padding"
                 android:paddingVertical="@dimen/layout_margin_xsmall"/>
-
-
-            <androidx.appcompat.widget.LinearLayoutCompat
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/layout_recipient_control"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginVertical="12dp"
+                app:layout_constraintVertical_bias="0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/recycler_board_file"
                 android:orientation="horizontal"
-                android:gravity="center_vertical">
+                android:gravity="center_vertical"
+                android:visibility="visible"
+                android:background="@drawable/bg_lightgray_panel"
+                android:paddingHorizontal="@dimen/layout_margin_xxsmall"
+                android:paddingVertical="@dimen/layout_margin_xxsmall"
+                >
                 <TextView
                     android:id="@+id/tv_title_recipient"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:paddingVertical="@dimen/layout_margin_xxsmall"
                     android:text="@string/title_main_recipient"
                     android:textSize="@dimen/font_size_small"
                     android:textColor="@color/font_color_default"
@@ -394,15 +405,19 @@
                     android:gravity="start"
                     android:maxLines="1"
                     android:ellipsize="end"
-                    android:layout_weight="1"/>
+                    app:layout_constraintWidth_percent="0.5"/>
                 <TextView
                     android:id="@+id/tv_recipient_count"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:paddingVertical="@dimen/layout_margin_small"
-                    android:hint="알림 수신인"
+                    app:layout_constraintStart_toEndOf="@id/tv_title_recipient"
+                    app:layout_constraintEnd_toStartOf="@id/btn_append_recipient"
+                    app:layout_constraintTop_toTopOf="@id/tv_title_recipient"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_title_recipient"
+                    app:layout_constraintHorizontal_bias="1"
+                    android:hint="0 명"
                     android:text=""
-                    android:textColor="@color/font_color_default"
+                    android:textColor="@color/font_color_999"
                     android:maxLines="1"
                     android:ellipsize="end"
                     android:textSize="@dimen/font_size_small"
@@ -413,47 +428,52 @@
                 <android.widget.Button
                     android:id="@+id/btn_append_recipient"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/layout_margin_small"
+                    android:layout_height="0dp"
+                    app:layout_constraintStart_toEndOf="@id/tv_recipient_count"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_title_recipient"
+                    app:layout_constraintHorizontal_bias="1"
+                    android:layout_marginStart="@dimen/layout_margin_xxsmall"
                     android:text="@string/title_btn_append"
                     android:textColor="@color/white"
                     android:textSize="@dimen/font_size_small"
                     android:background="@drawable/selector_bt_demand"
                     android:stateListAnimator="@xml/animate_button_push"
                     />
-            </androidx.appcompat.widget.LinearLayoutCompat>
-            <!--            <com.google.android.material.chip.ChipGroup-->
-            <!--                android:id="@+id/chipgroup"-->
-            <!--                android:layout_width="match_parent"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:layout_marginTop="@dimen/layout_margin_xxsmall"-->
-            <!--                android:paddingHorizontal="@dimen/layout_margin_xxsmall"-->
-            <!--                android:background="@drawable/bg_edittext"-->
-            <!--                app:chipSpacing="@dimen/layout_margin_xxxsmall"-->
-            <!--                />-->
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_chip"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/layout_margin_xxsmall"
-                android:background="@drawable/bg_edittext"
-                android:orientation="vertical"
-                android:padding="@dimen/layout_margin_xxxsmall"
-                tools:listitem="@layout/layout_chip_item"
-                android:nestedScrollingEnabled="true"
-                />
-            <TextView
-                android:id="@+id/tv_chipgroup_empty"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/bg_edittext"
-                android:paddingVertical="@dimen/layout_margin_xsmall"
-                android:layout_marginTop="@dimen/layout_margin_xxsmall"
-                android:text="@string/description_schedule_recipient"
-                android:textSize="@dimen/font_size"
-                android:textColor="@color/font_color_999"
-                android:minLines="5"
-                android:gravity="center" />
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_chip"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_title_recipient"
+                    android:paddingVertical="@dimen/layout_margin_xxxsmall"
+                    android:orientation="vertical"
+                    tools:listitem="@layout/layout_chip_item"
+                    android:background="@drawable/bg_white_panel"
+                    android:layout_marginTop="8dp"
+                    android:overScrollMode="never"/>
+                <TextView
+                    android:id="@+id/tv_chipgroup_empty"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_title_recipient"
+                    android:background="@drawable/bg_white_panel"
+                    android:paddingVertical="@dimen/layout_margin_xsmall"
+                    android:layout_marginTop="@dimen/layout_margin_xxsmall"
+                    android:text="@string/description_schedule_recipient"
+                    android:textSize="@dimen/font_size"
+                    android:textColor="@color/font_color_999"
+                    android:minLines="3"
+                    android:gravity="center" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+            <View
+                android:layout_width="1dp"
+                android:layout_height="@dimen/layout_margin_xxxxlarge"
+                android:visibility="invisible" />
         </androidx.appcompat.widget.LinearLayoutCompat>
     </androidx.core.widget.NestedScrollView>
     <androidx.appcompat.widget.LinearLayoutCompat

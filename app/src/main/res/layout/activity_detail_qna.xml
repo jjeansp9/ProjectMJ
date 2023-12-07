@@ -72,7 +72,7 @@
                 android:id="@+id/tv_writer_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/layout_margin_xxsmall"
+                android:layout_marginTop="@dimen/layout_margin_xxxsmall"
                 android:ellipsize="end"
                 android:hint="이름"
                 android:maxLines="1"
@@ -98,8 +98,8 @@
                 android:layout_height="16dp"
                 android:background="@drawable/ic_vector_show"
                 android:backgroundTint="@color/darkgray"
-                app:layout_constraintTop_toTopOf="@+id/tv_rd_cnt"
-                app:layout_constraintBottom_toTopOf="@id/board_detail_line"
+                app:layout_constraintTop_toTopOf="@+id/tv_board_detail_write_date"
+                app:layout_constraintBottom_toBottomOf="@id/tv_board_detail_write_date"
                 app:layout_constraintStart_toEndOf="@+id/tv_board_detail_write_date"
                 android:layout_marginStart="@dimen/layout_margin_xsmall"
                 />
@@ -108,7 +108,7 @@
                 android:id="@+id/tv_rd_cnt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintBottom_toTopOf="@id/board_detail_line"
+                app:layout_constraintBottom_toBottomOf="@id/tv_board_detail_write_date"
                 app:layout_constraintTop_toTopOf="@+id/tv_board_detail_write_date"
                 app:layout_constraintStart_toEndOf="@+id/img_rd_cnt"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -148,12 +148,30 @@
                 android:background="@drawable/bg_setting_layout"
                 android:orientation="vertical"
                 android:padding="@dimen/layout_margin_xsmall">
-                <TextView android:layout_width="wrap_content"
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="@dimen/font_size_large"
-                    android:textColor="@color/red_sub"
-                    android:textStyle="bold"
-                    android:text="A." />
+                    android:orientation="horizontal">
+                    <TextView android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/font_size_large"
+                        android:textColor="@color/red_sub"
+                        android:textStyle="bold"
+                        android:text="A." />
+                    <TextView
+                        android:id="@+id/tv_answerer_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:hint=""
+                        android:maxLines="1"
+                        android:gravity="end"
+                        android:layout_weight="1"
+                        android:textColor="@color/font_color_999"
+                        android:textSize="@dimen/font_size_small"
+                        />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
                 <TextView
                     android:id="@+id/tv_answer"
                     android:layout_width="wrap_content"
@@ -163,24 +181,32 @@
                     android:textSize="@dimen/font_size"
                     android:textColor="@color/font_color_default"/>
             </androidx.appcompat.widget.LinearLayoutCompat>
-
-            <androidx.appcompat.widget.LinearLayoutCompat
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/layout_manager_control"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="12dp"
                 app:layout_constraintVertical_bias="0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/layout_answer"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginTop="@dimen/layout_margin_xxlarge"
+                android:layout_marginBottom="@dimen/layout_margin_xxxxlarge"
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
-                android:visibility="gone">
+                android:visibility="visible"
+                android:background="@drawable/bg_lightgray_panel"
+                android:paddingHorizontal="@dimen/layout_margin_xxsmall"
+                android:paddingVertical="@dimen/layout_margin_xxsmall"
+                >
                 <TextView
-                    android:id="@+id/tv_title_recipient"
+                    android:id="@+id/tv_title_manager"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/title_main_recipient"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:paddingVertical="@dimen/layout_margin_xxsmall"
+                    android:text="@string/title_contact_list"
                     android:textSize="@dimen/font_size_small"
                     android:textColor="@color/font_color_default"
                     android:textStyle="bold"
@@ -189,12 +215,15 @@
                     android:ellipsize="end"
                     android:layout_weight="1"/>
                 <TextView
-                    android:id="@+id/tv_recipient_count"
+                    android:id="@+id/tv_manager_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:hint="알림 수신인"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/tv_title_manager"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_title_manager"
+                    android:hint="0 명"
                     android:text=""
-                    android:textColor="@color/font_color_default"
+                    android:textColor="@color/font_color_999"
                     android:maxLines="1"
                     android:ellipsize="end"
                     android:textSize="@dimen/font_size_small"
@@ -202,52 +231,21 @@
                     android:layout_gravity="center_vertical|right"
                     android:gravity="right|center_vertical"
                     />
-                <android.widget.Button
-                    android:id="@+id/btn_append_recipient"
-                    android:layout_width="wrap_content"
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_chip"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/layout_margin_small"
-                    android:text="@string/title_btn_append"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/font_size_small"
-                    android:background="@drawable/selector_bt_demand"
-                    android:stateListAnimator="@xml/animate_button_push"
-                    android:visibility="gone"
-                    />
-            </androidx.appcompat.widget.LinearLayoutCompat>
-            <!--            <com.google.android.material.chip.ChipGroup-->
-            <!--                android:id="@+id/chipgroup"-->
-            <!--                android:layout_width="match_parent"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                app:layout_constraintStart_toStartOf="parent"-->
-            <!--                app:layout_constraintEnd_toEndOf="parent"-->
-            <!--                app:layout_constraintTop_toBottomOf="@id/layout_recipient_control"-->
-            <!--                app:layout_constraintBottom_toBottomOf="parent"-->
-            <!--                app:layout_constraintVertical_bias="0"-->
-            <!--                android:layout_marginTop="@dimen/layout_margin_xxsmall"-->
-            <!--                android:paddingHorizontal="@dimen/layout_margin_xxsmall"-->
-            <!--                android:background="@drawable/bg_edittext"-->
-            <!--                app:chipSpacing="@dimen/layout_margin_xxxsmall"-->
-            <!--                android:visibility="gone"-->
-            <!--                />-->
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_chip"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/layout_margin_xxsmall"
-                android:paddingHorizontal="@dimen/layout_margin_xxsmall"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/layout_manager_control"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintVertical_bias="0"
-                android:background="@drawable/bg_edittext"
-                android:orientation="vertical"
-                android:padding="@dimen/layout_margin_xxxsmall"
-                tools:listitem="@layout/layout_chip_item"
-                android:nestedScrollingEnabled="true"
-                android:visibility="gone"
-                />
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_title_manager"
+                    android:paddingVertical="@dimen/layout_margin_xxxsmall"
+                    android:orientation="vertical"
+                    tools:listitem="@layout/layout_chip_item"
+                    android:background="@drawable/bg_white_panel"
+                    android:layout_marginTop="8dp"
+                    android:overScrollMode="never"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
     <RelativeLayout
@@ -258,11 +256,13 @@
         app:layout_anchorGravity="bottom"
         app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"
         android:background="@drawable/btn_brf_reserver_list"
+        android:backgroundTint="@color/red"
         android:foreground="?attr/selectableItemBackground"
         android:stateListAnimator="@xml/animate_button_push"
         android:paddingVertical="10dp"
         android:layout_marginVertical="12dp"
-        android:layout_marginHorizontal="20dp">
+        android:layout_marginHorizontal="20dp"
+        android:visibility="gone">
         <TextView
             android:id="@+id/title_bottom_item"
             android:layout_width="wrap_content"

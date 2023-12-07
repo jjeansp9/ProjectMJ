@@ -1,21 +1,12 @@
 package kr.jeet.edu.manager.activity.menu.qna;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.widget.NestedScrollView;
-import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.ClipData;
-import android.content.ContentResolver;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -28,24 +19,16 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.flexbox.FlexDirection;
-import com.google.android.flexbox.FlexWrap;
-import com.google.android.flexbox.FlexboxLayoutManager;
-import com.google.android.flexbox.JustifyContent;
-import com.google.gson.Gson;
 import com.skydoves.powerspinner.OnSpinnerItemSelectedListener;
 import com.skydoves.powerspinner.OnSpinnerOutsideTouchListener;
 import com.skydoves.powerspinner.PowerSpinnerView;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -57,36 +40,29 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import kr.jeet.edu.manager.R;
-import kr.jeet.edu.manager.activity.AppendRecipientActivity;
 import kr.jeet.edu.manager.activity.BaseActivity;
-import kr.jeet.edu.manager.adapter.AttachFileListAdapter;
-import kr.jeet.edu.manager.adapter.AttachImageListAdapter;
 import kr.jeet.edu.manager.adapter.RecipientChipListAdapter;
 import kr.jeet.edu.manager.common.Constants;
 import kr.jeet.edu.manager.common.DataManager;
 import kr.jeet.edu.manager.common.IntentParams;
 import kr.jeet.edu.manager.model.data.ACAData;
-import kr.jeet.edu.manager.model.data.AnnouncementData;
-import kr.jeet.edu.manager.model.data.AttachFileData;
-import kr.jeet.edu.manager.model.data.BoardAttributeData;
-import kr.jeet.edu.manager.model.data.FileData;
+import kr.jeet.edu.manager.model.data.QnaDetailData;
 import kr.jeet.edu.manager.model.data.RecipientData;
 import kr.jeet.edu.manager.model.data.StudentGradeData;
-import kr.jeet.edu.manager.model.request.AnnouncementRequest;
+import kr.jeet.edu.manager.model.request.BaseRequest;
+import kr.jeet.edu.manager.model.request.QnaAddRequest;
+import kr.jeet.edu.manager.model.request.QnaReplyRequest;
+import kr.jeet.edu.manager.model.request.QnaUpdateRequest;
 import kr.jeet.edu.manager.model.request.RecipientRequest;
 import kr.jeet.edu.manager.model.response.BaseResponse;
-import kr.jeet.edu.manager.model.response.BoardRegisterResponse;
+import kr.jeet.edu.manager.model.response.StringResponse;
 import kr.jeet.edu.manager.model.response.StudentGradeListResponse;
 import kr.jeet.edu.manager.server.RetrofitApi;
 import kr.jeet.edu.manager.server.RetrofitClient;
-import kr.jeet.edu.manager.utils.FileUtils;
 import kr.jeet.edu.manager.utils.LogMgr;
 import kr.jeet.edu.manager.utils.PreferenceUtil;
 import kr.jeet.edu.manager.utils.Utils;
 import kr.jeet.edu.manager.view.CustomAppbarLayout;
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -116,8 +92,8 @@ public class EditQNAActivity extends BaseActivity {
     StudentGradeData selectedGrade = null;
 
     int _attachedCount = 0;
-    AnnouncementData _currentData = new AnnouncementData();
-
+    QnaDetailData _currentData = new QnaDetailData();
+    BaseRequest _currentRequest = null;
     List<RecipientData> _recipientList = new ArrayList<>();
     Set<RecipientData> _recipientSet = new HashSet<>();
 
@@ -125,9 +101,11 @@ public class EditQNAActivity extends BaseActivity {
     String _acaCode = "";
     String _gubunCode = "";
     int _userGubun = 1;
-    int _seq = 0;
+    int _memberSeq = 0;
+    String _memberName = "";
     int _sfCode = 0;
     Constants.BoardEditMode boardEditMode = Constants.BoardEditMode.New;
+    boolean originalIsMain = false;
 
     private Handler _handler = new Handler(Looper.getMainLooper()) {
         @Override
@@ -221,7 +199,8 @@ public class EditQNAActivity extends BaseActivity {
         setContentView(R.layout.activity_edit_qna);
         mContext = this;
         _userGubun = PreferenceUtil.getUserGubun(this);
-        _seq = PreferenceUtil.getUserSeq(this);
+        _memberSeq = PreferenceUtil.getUserSeq(this);
+        _memberName = PreferenceUtil.getUserName(this);
         _sfCode = PreferenceUtil.getUserSFCode(this);
 //        _acaCode = PreferenceUtil.getAcaCode(this);
 
@@ -409,22 +388,28 @@ public class EditQNAActivity extends BaseActivity {
     void initIntentData() {
         Intent intent = getIntent();
         if(intent != null) {
-            if (intent.hasExtra(IntentParams.PARAM_ANNOUNCEMENT_INFO)) {
-                boardEditMode = Constants.BoardEditMode.Edit;
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                    _currentData = intent.getParcelableExtra(IntentParams.PARAM_ANNOUNCEMENT_INFO, AnnouncementData.class);
-                } else {
-                    _currentData = intent.getParcelableExtra(IntentParams.PARAM_ANNOUNCEMENT_INFO);
-                }
-            } else {
-                boardEditMode = Constants.BoardEditMode.New;
-            }
             if(intent.hasExtra(IntentParams.PARAM_STU_ACACODE)) {
                 _acaCode = intent.getStringExtra(IntentParams.PARAM_STU_ACACODE);
             }
             if(intent.hasExtra(IntentParams.PARAM_STU_GRADECODE)) {
                 _gubunCode = intent.getStringExtra(IntentParams.PARAM_STU_GRADECODE);
             }
+            if (intent.hasExtra(IntentParams.PARAM_BOARD_ITEM)) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    _currentData = intent.getParcelableExtra(IntentParams.PARAM_BOARD_ITEM, QnaDetailData.class);
+                } else {
+                    _currentData = intent.getParcelableExtra(IntentParams.PARAM_BOARD_ITEM);
+                }
+                _acaCode = _currentData.acaCode;
+                _gubunCode = _currentData.acaGubunCode;
+                boardEditMode = Constants.BoardEditMode.Edit;
+                if(intent.hasExtra(IntentParams.PARAM_IS_REPLY)) {
+                    boardEditMode = Constants.BoardEditMode.Reply;
+                }
+            } else {
+                boardEditMode = Constants.BoardEditMode.New;
+            }
+
         }
         //LogMgr.w("currentData :" + _currentData.toString());
 
@@ -444,7 +429,8 @@ public class EditQNAActivity extends BaseActivity {
                 }
 
             }
-        }else {
+            spinnerCampus.setEnabled(true);
+        }else if(boardEditMode == Constants.BoardEditMode.Edit){
             layoutBottom.setVisibility(View.VISIBLE);
             if (!TextUtils.isEmpty(_currentData.acaCode)) {
 
@@ -458,33 +444,57 @@ public class EditQNAActivity extends BaseActivity {
                     spinnerCampus.selectItemByIndex(selectedIndex);
                 }
 
-            } else {
-                //전체선택
-//            spinner.selectItemByIndex(0);
             }
-        }
-        if(boardEditMode == Constants.BoardEditMode.New) {
-            spinnerCampus.setEnabled(true);
-//            spinnerGrade.setEnabled(true);
-//            btnAppendRecipient.setVisibility(View.VISIBLE);
-        }else if(boardEditMode == Constants.BoardEditMode.Edit){
             if(!TextUtils.isEmpty(_currentData.title)){
                 etSubject.setText(_currentData.title);
             }
             if(!TextUtils.isEmpty(_currentData.content)){
                 etContent.setText(_currentData.content);
             }
+            if(!TextUtils.isEmpty(_currentData.reply)){
+                etAnswer.setText(_currentData.reply);
+            }
             spinnerCampus.setEnabled(false);
             spinnerGrade.setEnabled(false);
+            etSubject.setEnabled(true);
+            etContent.setEnabled(true);
+            cbIsNotice.setChecked("Y".equals(_currentData.isMain));
+            originalIsMain = cbIsNotice.isChecked();
+            cbIsPrivate.setChecked(!"Y".equals(_currentData.isOpen));
+        }else if(boardEditMode == Constants.BoardEditMode.Reply){
+            layoutBottom.setVisibility(View.GONE);
+            if (!TextUtils.isEmpty(_currentData.acaCode)) {
 
-//            btnAppendRecipient.setVisibility(View.GONE);
-            if(_currentData.receiverList != null) {
-                _recipientSet = new HashSet<>(_currentData.receiverList);
-            }else{
-                _recipientSet = new HashSet<>();
+                Optional option = _ACAList.stream().filter(t -> t.acaCode.equals(_currentData.acaCode)).findFirst();
+                if (option.isPresent()) {
+                    selectedACA = (ACAData) option.get();
+                }
+
+                if (selectedACA != null) {
+                    int selectedIndex = _ACAList.indexOf(selectedACA);
+                    spinnerCampus.selectItemByIndex(selectedIndex);
+                }
+
             }
-//            initChipGroup();
+            if(!TextUtils.isEmpty(_currentData.title)){
+                etSubject.setText(_currentData.title);
+                etSubject.setEnabled(false);
+            }
+            if(!TextUtils.isEmpty(_currentData.content)){
+                etContent.setText(_currentData.content);
+                etContent.setEnabled(false);
+            }
+            spinnerCampus.setEnabled(false);
+            spinnerGrade.setEnabled(false);
+            _handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    showKeyboard(etAnswer);
+                }
+            }, 500);
+
         }
+
     }
 
     @Override
@@ -505,7 +515,25 @@ public class EditQNAActivity extends BaseActivity {
         switch(item.getItemId()) {
             case R.id.action_complete:
                 if(checkForUpdate()){
-                    requestUpdateAnnouncement();
+                    if(boardEditMode == Constants.BoardEditMode.Reply) {
+                        showMessageDialog(getString(R.string.dialog_title_alarm)
+                                , getString(R.string.msg_confirm_answer)
+                                , new View.OnClickListener() {  //OKClickListener
+                                    @Override
+                                    public void onClick(View view) {
+                                        requestUpdateQna();
+                                        hideMessageDialog();
+                                    }
+                                },
+                                new View.OnClickListener() {    //cancelClickListener
+                                    @Override
+                                    public void onClick(View view) {
+                                        hideMessageDialog();
+                                    }
+                                });
+                    }else{
+                        requestUpdateQna();
+                    }
                 }
                 return true;
         }
@@ -535,36 +563,68 @@ public class EditQNAActivity extends BaseActivity {
             Toast.makeText(mContext, R.string.msg_empty_school_grade, Toast.LENGTH_SHORT).show();
             return false;
         }
-        if(TextUtils.isEmpty(etSubject.getText())) {   //제목
+        if(Utils.isEmptyContainSpace(etSubject.getText())) {   //제목
             showKeyboard(etSubject);
             Toast.makeText(mContext, R.string.error_message_empty_subject, Toast.LENGTH_SHORT).show();
             return false;
         }
-        if(TextUtils.isEmpty(etContent.getText())) {   //내용
+        if(Utils.isEmptyContainSpace(etContent.getText())) {   //내용
             showKeyboard(etContent);
             Toast.makeText(mContext, R.string.error_message_empty_content, Toast.LENGTH_SHORT).show();
             return false;
         }
+        if(Utils.isEmptyContainSpace(etAnswer.getText())) {   //내용
+            showKeyboard(etAnswer);
+            Toast.makeText(mContext, R.string.error_message_empty_answer, Toast.LENGTH_SHORT).show();
+            return false;
+        }
         return true;
     }
-    private RequestBody buildRequestData() {
+    private BaseRequest buildRequestData() {
         _currentData.title = etSubject.getText().toString();
         _currentData.content = etContent.getText().toString();
         _currentData.acaCode = selectedACA.acaCode;
-        AnnouncementRequest request = null;
+        BaseRequest request = null;
         if(boardEditMode == Constants.BoardEditMode.New) {
-            String smsSender = DataManager.getInstance().getLocalACAData(selectedACA.acaCode).acaTel.replaceAll("[^0-9]", "");
-//            request = AnnouncementRequest.initNewDataFromAnnouncementData(_currentData, selectedACA.acaCode, selectedACA.acaName, String.valueOf(selectedGrade.gubunCode), selectedGrade.gubunName, _seq, /*cbIsSendNotify.isChecked(),*/ cbIsSendSMS.isChecked(), smsSender);
+            request = new QnaAddRequest(
+                    _memberSeq,
+                    _memberName,
+                    _userGubun,
+                    selectedACA.acaCode,
+                    selectedACA.acaName,
+                    selectedGrade.gubunCode,
+                    selectedGrade.gubunName,
+                    etSubject.getText().toString(),
+                    etContent.getText().toString(),
+                    cbIsPrivate.isChecked()? "N" : "Y",
+                    cbIsNotice.isChecked()? "Y" : "N",
+                    etAnswer.getText().toString(),
+                    _memberSeq,
+                    _memberName,
+                    _sfCode
+            );
+
         }else if(boardEditMode == Constants.BoardEditMode.Edit){
-//            request = AnnouncementRequest.initUpdateDataFromAnnouncementData(_currentData, _deleteFileSeqList);
+            request = new QnaUpdateRequest(
+                    _currentData.seq,
+                    _userGubun,
+                    etSubject.getText().toString(),
+                    etContent.getText().toString(),
+                    cbIsPrivate.isChecked()? "N" : "Y",
+                    cbIsNotice.isChecked()? "Y" : "N",
+                    etAnswer.getText().toString()
+            );
+        }else if(boardEditMode == Constants.BoardEditMode.Reply) {
+            request = new QnaReplyRequest(
+                    _currentData.seq,
+                    etAnswer.getText().toString(),
+                    _memberSeq,
+                    _memberName,
+                    _sfCode
+                    );
         }
-        String json = "";
-        if(request != null) {
-            json = new Gson().toJson(request);
-        }
-        LogMgr.e("item = " + json);
-        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), json);
-        return requestBody;
+
+        return request;
     }
 
     private void requestGradeList(String acaCode){
@@ -606,145 +666,80 @@ public class EditQNAActivity extends BaseActivity {
             });
         }
     }
-    private void requestUpdateAnnouncement() {
+    private void requestUpdateQna() {
 
         showProgressDialog();
-        RequestBody reqBody = buildRequestData();
+        _currentRequest = buildRequestData();
         if(boardEditMode == Constants.BoardEditMode.New) {
 
-//            RetrofitClient.getApiInterface().insertAnnouncement(reqBody, reqMultipartBodyList).enqueue(new Callback<BoardRegisterResponse>(){
-//
-//                @Override
-//                public void onResponse(Call<BoardRegisterResponse> call, Response<BoardRegisterResponse> response) {
-////                        hideProgressDialog();
-//                    if(response.isSuccessful()) {
-//                        int ptSeq = 0;
-//                        if(response.body() != null) {
-//                            ptSeq =  response.body().data;
-//                        }
-//                        if(ptSeq > 0) {
-//                            int totalPage = (_recipientList.size() / Constants.MAX_RECIPIENT_COUNT);
-//                            int currentPage = 0;
-//                            requestUpdateRecipient(ptSeq, currentPage, totalPage, true);
-//                        }else{
-//                            showMessageDialog(getString(R.string.dialog_title_error), getString(R.string.msg_fail_to_register_recipient), new View.OnClickListener(){
-//                                        @Override
-//                                        public void onClick(View view) {
-//                                            hideMessageDialog();
-//                                            Intent intent = getIntent();
-//                                            intent.putExtra(IntentParams.PARAM_BOARD_ADDED, true);
-//                                            setResult(RESULT_OK, intent);
-//                                            finish();
-//                                        }
-//                                    }
-//                                    , null);
-//                        }
-//                    }else{
-//                        hideProgressDialog();
-//                        Toast.makeText(mContext, R.string.server_error, Toast.LENGTH_SHORT).show();
-//                    }
-//                }
-//
-//                @Override
-//                public void onFailure(Call<BoardRegisterResponse> call, Throwable t) {
-//                    hideProgressDialog();
-//                    Toast.makeText(mContext, R.string.server_error, Toast.LENGTH_SHORT).show();
-//                }
-//            });
-        }else if(boardEditMode == Constants.BoardEditMode.Edit) {
-//            mRetrofitApi.updateAnnouncement(reqBody, reqMultipartBodyList).enqueue(new Callback<BaseResponse>(){
-//                @Override
-//                public void onResponse(Call<BaseResponse> call, Response<BaseResponse> response) {
-//                    hideProgressDialog();
-//                    if(response.isSuccessful()) {
-//                        Intent intent = getIntent();
-//                        intent.putExtra(IntentParams.PARAM_BOARD_EDITED, true);
-//                        setResult(RESULT_OK, intent);
-//                        finish();
-//                    }else{
-//                        Toast.makeText(mContext, R.string.server_error, Toast.LENGTH_SHORT).show();
-//                    }
-//                }
-//
-//                @Override
-//                public void onFailure(Call<BaseResponse> call, Throwable t) {
-//                    hideProgressDialog();
-//                    Toast.makeText(mContext, R.string.server_error, Toast.LENGTH_SHORT).show();
-//                }
-//            });
-        }
-    }
-    private void requestUpdateRecipient(int seq, int currentPage, int totalPage, boolean prevResult) {
-        LogMgr.w(TAG, "requestUpdateRecipient  " + seq + " /" + currentPage + " / " +  prevResult);
-        RecipientRequest request = new RecipientRequest();
-        request.seq = seq;
-        request.sfCode = _sfCode;
-        if(totalPage > 0) {
-            if(currentPage < totalPage) {
-                request.receiverList = _recipientList.subList(currentPage * Constants.MAX_RECIPIENT_COUNT, (currentPage + 1) * Constants.MAX_RECIPIENT_COUNT);
-            }else{
-                request.receiverList = _recipientList.subList(currentPage * Constants.MAX_RECIPIENT_COUNT, _recipientList.size());
-            }
-        }else {
-            request.receiverList = _recipientList;
-        }
-        //smsSender
-        request.smsSender = selectedACA.acaTel;
+            RetrofitClient.getApiInterface().addQnaViaManager((QnaAddRequest) _currentRequest).enqueue(new Callback<StringResponse>(){
 
-        if (RetrofitClient.getInstance() != null){
-            int finalCurrentPage = currentPage;
-            RetrofitClient.getLongTimeApiInterface().updateAnnounceRecipient(request).enqueue(new Callback<BaseResponse>() {
+                @Override
+                public void onResponse(Call<StringResponse> call, Response<StringResponse> response) {
+                    hideProgressDialog();
+                    if(response.isSuccessful()) {
+                        Intent intent = getIntent();
+                        intent.putExtra(IntentParams.PARAM_BOARD_ADDED, true);
+                        setResult(RESULT_OK, intent);
+                        finish();
+                    }else{
+                        Toast.makeText(mContext, R.string.server_error, Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<StringResponse> call, Throwable t) {
+                    hideProgressDialog();
+                    Toast.makeText(mContext, R.string.server_error, Toast.LENGTH_SHORT).show();
+                }
+            });
+        }else if(boardEditMode == Constants.BoardEditMode.Edit) {
+            mRetrofitApi.updateQna((QnaUpdateRequest) _currentRequest).enqueue(new Callback<BaseResponse>(){
                 @Override
                 public void onResponse(Call<BaseResponse> call, Response<BaseResponse> response) {
-                    try {
-                        if(finalCurrentPage < totalPage) {
-                            requestUpdateRecipient(seq, finalCurrentPage + 1, totalPage, prevResult && response.isSuccessful());
-                        }else {
-                            hideProgressDialog();
-                            if(!prevResult) {
-                                showMessageDialog(getString(R.string.dialog_title_error), getString(R.string.msg_fail_to_register_recipient), new View.OnClickListener(){
-
-                                    @Override
-                                    public void onClick(View view) {
-                                        hideMessageDialog();
-                                    }
-                                }, null);
-                            }else {
-                                if (response.isSuccessful()) {
-                                    Intent intent = getIntent();
-                                    intent.putExtra(IntentParams.PARAM_BOARD_ADDED, true);
-                                    setResult(RESULT_OK, intent);
-                                    finish();
-                                } else {
-                                    Toast.makeText(mContext, R.string.server_fail, Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        }
-                    }catch (Exception e){
-                        LogMgr.e(TAG + "requestBoardList() Exception : ", e.getMessage());
-                    }finally{
-
+                    hideProgressDialog();
+                    if(response.isSuccessful()) {
+                        Intent intent = getIntent();
+                        intent.putExtra(IntentParams.PARAM_BOARD_EDITED, true);
+                        intent.putExtra(IntentParams.PARAM_IS_REQUIRE_UPDATE, originalIsMain != (cbIsNotice.isChecked()));
+                        setResult(RESULT_OK, intent);
+                        finish();
+//                        Toast.makeText(mContext, R.string.qna_update_success, Toast.LENGTH_SHORT).show();
+                    }else{
+                        Toast.makeText(mContext, R.string.server_error, Toast.LENGTH_SHORT).show();
                     }
                 }
 
                 @Override
                 public void onFailure(Call<BaseResponse> call, Throwable t) {
-                    try {
-                        Toast.makeText(mContext, R.string.server_error, Toast.LENGTH_SHORT).show();
-                        LogMgr.e(TAG, "requestBoardList() onFailure >> " + t.getMessage());
-                    }catch (Exception e){
-                    }finally{
-                        hideProgressDialog();
-                    }
+                    hideProgressDialog();
+                    Toast.makeText(mContext, R.string.server_error, Toast.LENGTH_SHORT).show();
+                }
+            });
+        }else if(boardEditMode == Constants.BoardEditMode.Reply) {
+            RetrofitClient.getApiInterface().updateReply((QnaReplyRequest) _currentRequest).enqueue(new Callback<BaseResponse>(){
 
+                @Override
+                public void onResponse(Call<BaseResponse> call, Response<BaseResponse> response) {
+                    hideProgressDialog();
+                    if(response.isSuccessful()) {
+                        Intent intent = getIntent();
+                        intent.putExtra(IntentParams.PARAM_BOARD_EDITED, true);
+                        setResult(RESULT_OK, intent);
+                        finish();
+//                        Toast.makeText(mContext, R.string.qna_answer_success, Toast.LENGTH_SHORT).show();
+                    }else{
+                        Toast.makeText(mContext, R.string.server_error, Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<BaseResponse> call, Throwable t) {
+                    hideProgressDialog();
+                    Toast.makeText(mContext, R.string.server_error, Toast.LENGTH_SHORT).show();
                 }
             });
         }
     }
-//    public void navigate2AppendRecipientActivity() {
-//        Intent appendIntent = new Intent(mContext, AppendRecipientActivity.class);
-//        appendIntent.putExtra(IntentParams.PARAM_STU_ACACODE, PreferenceUtil.getAcaCode(mContext));
-//        appendIntent.putExtra(IntentParams.PARAM_RECIPIENT_FILTERTYPE, Constants.RecipientFilterType.TYPE_SCHOOL);
-//        recipientResultLauncher.launch(appendIntent);
-//    }
+
 }

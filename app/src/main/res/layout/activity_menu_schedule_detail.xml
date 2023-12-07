@@ -98,7 +98,7 @@
                 android:hint="상세내용 정보없음"
                 android:textColor="@color/font_color_default"
                 android:lineSpacingMultiplier="1.2"/>
-            <androidx.appcompat.widget.LinearLayoutCompat
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/layout_recipient_control"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -109,11 +109,18 @@
                 app:layout_constraintTop_toBottomOf="@id/recycler_board_file"
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
-                android:visibility="gone">
+                android:visibility="visible"
+                android:background="@drawable/bg_lightgray_panel"
+                android:paddingHorizontal="@dimen/layout_margin_xxsmall"
+                android:paddingVertical="@dimen/layout_margin_xxsmall"
+                >
                 <TextView
                     android:id="@+id/tv_title_recipient"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:paddingVertical="@dimen/layout_margin_xxsmall"
                     android:text="@string/title_main_recipient"
                     android:textSize="@dimen/font_size_small"
                     android:textColor="@color/font_color_default"
@@ -126,9 +133,12 @@
                     android:id="@+id/tv_recipient_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:hint="알림 수신인"
+                    app:layout_constraintEnd_toStartOf="@id/btn_append_recipient"
+                    app:layout_constraintTop_toTopOf="@id/tv_title_recipient"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_title_recipient"
+                    android:hint="0 명"
                     android:text=""
-                    android:textColor="@color/font_color_default"
+                    android:textColor="@color/font_color_999"
                     android:maxLines="1"
                     android:ellipsize="end"
                     android:textSize="@dimen/font_size_small"
@@ -140,7 +150,9 @@
                     android:id="@+id/btn_append_recipient"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/layout_margin_small"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_title_recipient"
                     android:text="@string/title_btn_append"
                     android:textColor="@color/white"
                     android:textSize="@dimen/font_size_small"
@@ -148,21 +160,21 @@
                     android:stateListAnimator="@xml/animate_button_push"
                     android:visibility="gone"
                     />
-            </androidx.appcompat.widget.LinearLayoutCompat>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_chip"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_title_recipient"
+                    android:paddingVertical="@dimen/layout_margin_xxxsmall"
+                    android:orientation="vertical"
+                    tools:listitem="@layout/layout_chip_item"
+                    android:background="@drawable/bg_white_panel"
+                    android:layout_marginTop="8dp"
+                    android:overScrollMode="never"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_chip"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/layout_margin_xxsmall"
-                android:paddingHorizontal="@dimen/layout_margin_xxsmall"
-                android:background="@drawable/bg_edittext"
-                android:orientation="vertical"
-                android:padding="@dimen/layout_margin_xxxsmall"
-                tools:listitem="@layout/layout_chip_item"
-                android:nestedScrollingEnabled="true"
-                android:visibility="gone"
-                />
             <RelativeLayout
                 android:id="@+id/tooltip_root"
                 android:layout_width="match_parent"

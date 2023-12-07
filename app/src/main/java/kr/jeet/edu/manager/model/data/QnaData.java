@@ -21,6 +21,7 @@ public class QnaData implements Parcelable {
     public int rdcnt;           // 조회수
     public String insertDate;   // 작성일
 
+    public QnaData(){}
     protected QnaData(Parcel in) {
         seq = in.readInt();
         writerSeq = in.readInt();

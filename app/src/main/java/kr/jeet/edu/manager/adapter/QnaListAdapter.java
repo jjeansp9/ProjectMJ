@@ -63,25 +63,36 @@ public class QnaListAdapter extends RecyclerView.Adapter<QnaListAdapter.ViewHold
 
         if (!TextUtils.isEmpty(item.isMain)) {
             if (item.isMain.equals("Y")) { // 공지 글
+                holder.qnaRoot.setBackgroundColor(mContext.getColor(R.color.color_qna_main_background));
                 addTag(holder.layoutStatus, R.color.color_notice, "공지");
 
+                if (item.userGubun <= Constants.USER_TYPE_TEACHER) { // 강사, 관리자의 경우
+                    if (!item.isOpen.equals("Y")) {
+                        addTag(holder.layoutStatus, R.color.color_private, "비공개");
+                    }
+                    if (item.writerSeq == PreferenceUtil.getUserSeq(mContext)) {
+                        addTag(holder.layoutStatus, R.color.color_me, "본인");
+                    }
+                }
+
             } else { // 사용자 질문 글
-                if (!TextUtils.isEmpty(item.state)) {
-                    if (item.state.equals(Constants.QNA_STATE_SUBSCRIPTION)) {
-                        addTag(holder.layoutStatus, R.color.color_subscription, "신청");
+                holder.qnaRoot.setBackgroundColor(mContext.getColor(R.color.white));
+                if (item.userGubun >= Constants.USER_TYPE_STUDENT) { // 부모, 원생의 경우
+                    if (!TextUtils.isEmpty(item.state)) {
+                        if (item.state.equals(Constants.QNA_STATE_SUBSCRIPTION)) {
+                            addTag(holder.layoutStatus, R.color.color_subscription, "신청");
 
-                    } else if(item.state.equals(Constants.QNA_STATE_RECEPTION)) {
-                        addTag(holder.layoutStatus, R.color.color_receiption, "접수");
+                        } else if(item.state.equals(Constants.QNA_STATE_RECEPTION)) {
+                            addTag(holder.layoutStatus, R.color.color_receiption, "접수");
 
-                    } else if(item.state.equals(Constants.QNA_STATE_COMPLETE)) {
-                        addTag(holder.layoutStatus, R.color.color_complete, "완료");
+                        } else if(item.state.equals(Constants.QNA_STATE_COMPLETE)) {
+                            addTag(holder.layoutStatus, R.color.color_complete, "완료");
+                        }
                     }
                 }
 
                 if (!TextUtils.isEmpty(item.isOpen)) {
-                    if (item.isOpen.equals("Y")) {
-                        //addTag(holder.layoutStatus, R.color.color_private, "공개");
-                    }else {
+                    if (!item.isOpen.equals("Y")) {
                         addTag(holder.layoutStatus, R.color.color_private, "비공개");
                     }
                 }
@@ -90,6 +101,8 @@ public class QnaListAdapter extends RecyclerView.Adapter<QnaListAdapter.ViewHold
                     addTag(holder.layoutStatus, R.color.color_me, "본인");
                 }
             }
+        }else{
+            holder.qnaRoot.setBackgroundColor(mContext.getColor(R.color.white));
         }
 
         holder.tvTitle.setText(Utils.getStr(item.title));
@@ -100,11 +113,17 @@ public class QnaListAdapter extends RecyclerView.Adapter<QnaListAdapter.ViewHold
             else str += item.acaGubunName;
         }
         holder.tvCampus.setText(str);
-        holder.tvWriter.setVisibility(View.GONE); // 부모앱의 경우 작성자 가리기
+        if(item.userGubun >= Constants.USER_TYPE_STUDENT) {
+            holder.tvWriter.setVisibility(View.VISIBLE);
+            holder.tvWriter.setText(item.writerNm);
+        }else{
+            holder.tvWriter.setVisibility(View.GONE);
+        }
         holder.tvDate.setText(Utils.getStr(item.insertDate));
 
         try { holder.tvRdCnt.setText(Utils.decimalFormat(item.rdcnt)); }
         catch (Exception e) {}
+
     }
 
     private void addTag(LinearLayout layout, int bgColor, String state) {
@@ -112,23 +131,27 @@ public class QnaListAdapter extends RecyclerView.Adapter<QnaListAdapter.ViewHold
                 LinearLayout.LayoutParams.WRAP_CONTENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT
         );
-        int marginEndInPixels = Utils.fromDpToPx(4);
+        int marginEnd = Utils.fromDpToPx(4);
+        int paddingTop = Utils.fromDpToPx(1);
+        int paddingBottom = Utils.fromDpToPx(2);
+        int paddingHorizontal = Utils.fromDpToPx(8);
 
         TextView tvStatus = new TextView(mContext);
         tvStatus.setText(state);
-        tvStatus.setHint("가나다라");
+        //tvStatus.setHint("비공개");
         tvStatus.setBackground(ContextCompat.getDrawable(mContext, R.drawable.bg_badge_default));
         ViewCompat.setBackgroundTintList(tvStatus, ColorStateList.valueOf(ContextCompat.getColor(mContext, bgColor)));
         tvStatus.setTextAppearance(R.style.QnaTagTextAppearance);
         tvStatus.setGravity(Gravity.CENTER);
 
-        tvStatus.setPadding(6,2,6,2);
+        tvStatus.setPadding(paddingHorizontal, paddingTop, paddingHorizontal, paddingBottom);
 
-        layoutParams.rightMargin = marginEndInPixels;
+        layoutParams.rightMargin = marginEnd;
         tvStatus.setLayoutParams(layoutParams);
 
         layout.addView(tvStatus);
     }
+
 
     @Override
     public int getItemCount() {
@@ -161,46 +184,3 @@ public class QnaListAdapter extends RecyclerView.Adapter<QnaListAdapter.ViewHold
         }
     }
 }
-
-//let userGubun = UserGubun.getType(info.userGubun ?? -1)
-//        switch userGubun {
-//        case .parents, .student:
-//        txtProcess.isHidden = false
-//        switch info.state {
-//        case "1":
-//        txtProcess.text = "신청"
-//        txtProcess.backgroundColor = UIColor(hexCode: "#FFA800")
-//        case "2":
-//        txtProcess.text = "접수"
-//        txtProcess.backgroundColor = UIColor(hexCode: "#FF0000")
-//        case "3":
-//        txtProcess.text = "완료"
-//        txtProcess.backgroundColor = UIColor(hexCode: "#2E75B6")
-//default: txtProcess.isHidden = true
-//        }
-//
-//        txtWriter.isHidden = false
-//        if let name = info.writerNm, !name.isEmpty {
-//        txtWriter.text = name
-//        txtWriter.textColor = UIColor(named: "textColor_3")
-//        }else {
-//        txtWriter.text = "(정보없음)"
-//        txtWriter.textColor = UIColor.placeholderText
-//        }
-//        case .manager, .master, .teacher:
-//        txtProcess.isHidden = !info.isMain
-//        txtProcess.text = "공지"
-//        txtProcess.backgroundColor = UIColor(hexCode: "#006B26")
-//        txtWriter.isHidden = true
-//default:
-//        txtProcess.isHidden = true
-//        txtWriter.isHidden = true
-//        }
-//        txtIsOpen.isHidden = info.isOpen
-//
-//        if UserGubun.getUserGubun == .parents || UserGubun.getUserGubun == .student {
-//        txtWriter.isHidden = true
-//        txtIsMyOwn.isHidden = info.writerSeq != UserDefaults.standard.integer(forKey: UDManager.USER_SEQ)
-//        }else {
-//        txtIsMyOwn.isHidden = true
-//        }

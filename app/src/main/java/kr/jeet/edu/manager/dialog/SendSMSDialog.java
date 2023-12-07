@@ -21,6 +21,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import kr.jeet.edu.manager.R;
+import kr.jeet.edu.manager.utils.Utils;
 
 public class SendSMSDialog extends Dialog {
     private Context context;
@@ -28,11 +29,32 @@ public class SendSMSDialog extends Dialog {
     private EditText editTextContent;
     private Button cancelBtn, okBtn;
     //checkbox
-
     private ViewGroup titleLayout;
     public interface UpdateContentInterface {
         void onUpdatedContents(String content);
     }
+    TextWatcher etWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        }
+
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            if(charSequence != null && !Utils.isEmptyContainSpace(charSequence.toString())) {
+                if(okBtn != null) okBtn.setEnabled(true);
+                if(_updateContentlistener != null) {
+                    _updateContentlistener.onUpdatedContents(charSequence.toString());
+                }
+            }else {
+                if(okBtn != null) okBtn.setEnabled(false);
+            }
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable) {
+
+        }
+    };
     UpdateContentInterface _updateContentlistener;
     public SendSMSDialog(@NonNull Context context) {
         super(context);
@@ -69,28 +91,7 @@ public class SendSMSDialog extends Dialog {
         cancelBtn = (Button) findViewById(R.id.cancelBtn);
         okBtn = (Button) findViewById(R.id.okBtn);
         editTextContent = (EditText) findViewById(R.id.edit);
-        editTextContent.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if(!TextUtils.isEmpty(charSequence)) {
-                    okBtn.setEnabled(true);
-                    if(_updateContentlistener != null && charSequence != null) {
-                        _updateContentlistener.onUpdatedContents(charSequence.toString());
-                    }
-                }else {
-                    okBtn.setEnabled(false);
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-            }
-        });
+        editTextContent.addTextChangedListener(etWatcher);
 
 
         titleLayout.setVisibility(View.GONE);
@@ -134,6 +135,8 @@ public class SendSMSDialog extends Dialog {
     @Override
     public void dismiss() {
         _updateContentlistener.onUpdatedContents(editTextContent.getText().toString());
+        if(editTextContent != null) editTextContent.removeTextChangedListener(etWatcher);
         super.dismiss();
+
     }
 }

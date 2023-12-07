@@ -191,6 +191,8 @@ public class AppendRecipientActivity extends BaseActivity implements MonthPicker
                     if(_adapterRecipient != null) {
                         _adapterRecipient.notifyDataSetChanged();
                     }
+                    checkEmptyRecyclerView();
+                    updateCount();
                     break;
             }
         }
@@ -249,6 +251,8 @@ public class AppendRecipientActivity extends BaseActivity implements MonthPicker
         tvCalendar.setOnClickListener(this);
         etSearch = findViewById(R.id.et_search);
         tvEmptyLayout = findViewById(R.id.tv_empty_list);
+        tvSelectCount = findViewById(R.id.tv_select_count);
+        tvSelectCount.setVisibility(View.VISIBLE);
         Calendar cal = Calendar.getInstance();
         _selectedDate = cal.getTime();
         try {
@@ -508,6 +512,7 @@ public class AppendRecipientActivity extends BaseActivity implements MonthPicker
                         cbParentTotal.setChecked(false);
                     }
                 }
+                updateCount();
                 cbTotal.setChecked(cbStudentTotal.isChecked() && cbParentTotal.isChecked());
             }
 
@@ -522,6 +527,7 @@ public class AppendRecipientActivity extends BaseActivity implements MonthPicker
                         cbStudentTotal.setChecked(false);
                     }
                 }
+                updateCount();
                 cbTotal.setChecked(cbStudentTotal.isChecked() && cbParentTotal.isChecked());
             }
 
@@ -591,6 +597,15 @@ public class AppendRecipientActivity extends BaseActivity implements MonthPicker
         toggleFilterLayout();
         checkEmptyRecyclerView();
 
+    }
+    private void updateCount() {
+        if(_recipientStudentList == null || _recipientStudentList.isEmpty()) {
+            tvSelectCount.setText("");
+        }else {
+            tvSelectCount.setVisibility(View.VISIBLE);
+            int count = (int) (_recipientStudentList.stream().filter(t -> t.isCheckParent).count() + _recipientStudentList.stream().filter(t -> t.isCheckStudent).count());
+            tvSelectCount.setText(getString(R.string.selected_count, count));
+        }
     }
     private void toggleFilterLayout() {
         switch(_filterType) {
@@ -993,8 +1008,8 @@ public class AppendRecipientActivity extends BaseActivity implements MonthPicker
                                     if(!TextUtils.isEmpty(searchStr)) {
                                         searchFilter(searchStr);
                                     }else{
-                                        _adapterRecipient.notifyDataSetChanged();
-                                        checkEmptyRecyclerView();
+                                        _handler.sendEmptyMessage(CMD_NOTIFY_DATASET_CHANGED);
+
                                     }
                                 } else LogMgr.e(TAG + " DetailData is null");
                             }

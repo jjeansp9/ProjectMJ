@@ -754,12 +754,12 @@ public class EditAnnouncementActivity extends BaseActivity {
             Toast.makeText(mContext, R.string.msg_empty_school_grade, Toast.LENGTH_SHORT).show();
             return false;
         }
-        if(TextUtils.isEmpty(etSubject.getText())) {   //제목
+        if(Utils.isEmptyContainSpace(etSubject.getText())) {   //제목
             showKeyboard(etSubject);
             Toast.makeText(mContext, R.string.error_message_empty_subject, Toast.LENGTH_SHORT).show();
             return false;
         }
-        if(TextUtils.isEmpty(etContent.getText())) {   //내용
+        if(Utils.isEmptyContainSpace(etContent.getText())) {   //내용
             showKeyboard(etContent);
             Toast.makeText(mContext, R.string.error_message_empty_content, Toast.LENGTH_SHORT).show();
             return false;

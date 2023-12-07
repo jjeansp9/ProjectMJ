@@ -21,6 +21,7 @@ import kr.jeet.edu.manager.server.RetrofitApi;
 import kr.jeet.edu.manager.server.RetrofitClient;
 import kr.jeet.edu.manager.utils.LogMgr;
 import kr.jeet.edu.manager.utils.PreferenceUtil;
+import kr.jeet.edu.manager.utils.Utils;
 import kr.jeet.edu.manager.view.CustomAppbarLayout;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -61,13 +62,21 @@ public class SetPasswordActivity extends BaseActivity {
         mEtPwConfirm = findViewById(R.id.et_set_pw_confirm);
         mCheckPwTxt = findViewById(R.id.check_txt_pw);
         new Handler().postDelayed(() -> showKeyboard(mEtPw), Constants.SHOW_KEBOARD_DELAY);
-        mEtPw.addTextChangedListener(new TextWatcher() {
+
+        setTextWatcher(mEtPw);
+        setTextWatcher(mEtPwConfirm);
+    }
+
+    private void setTextWatcher(EditText et){
+        et.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
             @Override
             public void afterTextChanged(Editable editable) {
+                Utils.removeSpace(et);
                 if(checkPassword(editable.toString())) {
                     mCheckPwTxt.setVisibility(View.INVISIBLE);
                 }
@@ -116,7 +125,7 @@ public class SetPasswordActivity extends BaseActivity {
 
     private boolean checkPassword(String pwd) {
         // 정규식 (숫자, 영문 포함 최소 8글자)
-        Pattern pattern = Pattern.compile("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$");
+        Pattern pattern = Pattern.compile("^(?=.*[a-zA-Z])(?=.*\\d)[A-Za-z\\d$~`!@#$%^&*()_+=-?]{8,}$");
         Matcher matcher = pattern.matcher(pwd);
 
         if(!matcher.find()) {

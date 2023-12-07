@@ -5,8 +5,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:paddingHorizontal="@dimen/layout_margin"
     android:paddingVertical="8dp"
-    android:foreground="?android:attr/selectableItemBackground"
-    android:id="@+id/qna_root">
+    android:id="@+id/qna_root"
+    android:foreground="?android:attr/selectableItemBackground">
 
     <LinearLayout
         android:id="@+id/layout_status"
@@ -38,7 +38,7 @@
         app:layout_constraintTop_toBottomOf="@id/tv_qna_title"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="2dp"
         android:hint="(정보없음)"
         android:maxLines="1"
         android:ellipsize="end"
@@ -76,9 +76,9 @@
         app:layout_constraintTop_toTopOf="@id/tv_qna_date"
         app:layout_constraintBottom_toBottomOf="@id/tv_qna_date"
         app:layout_constraintStart_toEndOf="@id/tv_qna_date"
-        android:src="@drawable/ic_vector_show"
+        android:background="@drawable/ic_vector_show"
         android:backgroundTint="@color/darkgray"
-        android:layout_marginStart="8dp"/>
+        android:layout_marginStart="@dimen/layout_margin_xsmall"/>
 
     <TextView
         android:id="@+id/tv_qna_rd_cnt"
@@ -88,7 +88,7 @@
         app:layout_constraintBottom_toBottomOf="@id/img_qna_rd_cnt"
         app:layout_constraintStart_toEndOf="@id/img_qna_rd_cnt"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginStart="3dp"
+        android:layout_marginStart="@dimen/layout_margin_xxxsmall"
         android:textSize="@dimen/font_size_small"
         android:textColor="@color/font_color_999"
         android:maxLines="1"
