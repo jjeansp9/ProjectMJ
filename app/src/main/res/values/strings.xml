@@ -146,7 +146,11 @@
     <string name="hint_select_clst">학년 선택</string>
     <string name="hint_select_class">학급 선택</string>
     <string name="hint_select_student_type">재원상태 선택</string>
+    <string name="hint_input_subject">제목을 입력하세요.</string>
     <string name="hint_input_content">내용을 입력하세요.</string>
+    <string name="hint_input_answer">답변을 입력하세요.</string>
+    <string name="hint_location">장소</string>
+    <string name="hint_member_count">정원</string>
     <string name="hint_input_schedule_memo">상세내용을 입력하세요.(선택)</string>
     <string name="hint_input_schedule_target">대상을 입력하세요.(선택)</string>
     <string name="hint_select_bus">차량 선택</string>

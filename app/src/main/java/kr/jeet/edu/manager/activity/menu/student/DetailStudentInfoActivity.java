@@ -202,7 +202,7 @@ public class DetailStudentInfoActivity extends BaseActivity {
 
     void initView() {
         mTvStuName = findViewById(R.id.tv_stu_info_name);
-        mTvStuBirth = findViewById(R.id.tv_stu_info_birth);
+        mTvStuBirth = findViewById(R.id.tv_stu_info_stu_birthday);
         mTvStuCampus = findViewById(R.id.tv_stu_info_campus);
         mTvDeptName = findViewById(R.id.tv_stu_info_dept_name);
 //        mTvStGrade = findViewById(R.id.tv_stu_info_st_grade);
@@ -650,13 +650,7 @@ public class DetailStudentInfoActivity extends BaseActivity {
                                 }else {
                                     mTvStuName.setText(getData.name); // 원생 오리지널 이름
                                 }
-                                SimpleDateFormat inputDateFormat = new SimpleDateFormat(Constants.DATE_FORMATTER_YYYY_MM_DD);
-                                SimpleDateFormat outputDateFormat = new SimpleDateFormat(Constants.DATE_FORMATTER_YYMMDD);
-                                try {
-                                    Date date = inputDateFormat.parse(getData.birth);
-                                    String output = outputDateFormat.format(date);
-                                    mTvStuBirth.setText(output);
-                                }catch(Exception ex){}
+                                mTvStuBirth.setText(Utils.formatDate(getData.birth, Constants.DATE_FORMATTER_YYYY_MM_DD, Constants.DATE_FORMATTER_YYYY_MM_DD_KOR));
                                 if (!TextUtils.isEmpty(getData.acaName)) { // 캠퍼스명
 //                                    PreferenceUtil.setAcaName(mContext, getData.acaName);
                                     mTvStuCampus.setText(getData.acaName);

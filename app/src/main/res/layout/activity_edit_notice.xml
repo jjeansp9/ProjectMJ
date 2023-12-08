@@ -120,6 +120,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/bg_edittext"
+                android:hint="@string/hint_input_subject"
                 android:textSize="@dimen/font_size"
                 android:maxLines="1"
                 android:maxLength="1000"

@@ -27,14 +27,15 @@
         tools:ignore="DuplicateIds"/>
     <TextView
         android:id="@+id/tv_title_total_score"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginVertical="@dimen/layout_margin_xsmall"
         android:ellipsize="end"
-        android:maxLines="1"
+        android:maxLines="2"
         android:text="@string/title_exam_sub_total_score"
         android:textColor="@color/font_color_default"
         android:textSize="@dimen/font_size_large"
+        android:gravity="center"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="@id/guide_eh60dp"
         app:layout_constraintTop_toTopOf="parent"
@@ -66,7 +67,7 @@
         android:background="@color/line_2"/>
     <TextView
         android:id="@+id/tv_title_total_rate"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginVertical="@dimen/layout_margin_xsmall"
         android:ellipsize="end"
@@ -74,6 +75,7 @@
         android:text="@string/title_exam_sub_total_rate"
         android:textColor="@color/font_color_default"
         android:textSize="@dimen/font_size_large"
+        android:gravity="center"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="@id/guide_eh60dp"
         app:layout_constraintTop_toTopOf="@id/guideline_h50"

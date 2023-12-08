@@ -32,6 +32,7 @@ import kr.jeet.edu.manager.receiver.DownloadReceiver;
 import kr.jeet.edu.manager.server.RetrofitApi;
 import kr.jeet.edu.manager.utils.FileUtils;
 import kr.jeet.edu.manager.utils.LogMgr;
+import kr.jeet.edu.manager.utils.Utils;
 import kr.jeet.edu.manager.view.CustomViewPager;
 
 public class PhotoViewActivity extends BaseActivity {
@@ -108,9 +109,17 @@ public class PhotoViewActivity extends BaseActivity {
             @Override
             public void onPageScrollStateChanged(int state) {}
         });
-//        ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) layoutHeader.getLayoutParams();
-//        params.topMargin = statusBarHeight(mContext); // 상단의 상태 바 size만큼 margin 값 주기
-//        layoutHeader.setLayoutParams(params);
+        if (Utils.isLandscapeMode(mContext)) { // 가로모드일때
+            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) layoutHeader.getLayoutParams();
+            params.leftMargin = Utils.fromDpToPx(30); // 양쪽 마진 설정. 네비게이션바 겹쳐져서 다운로드 아이콘 클릭 잘 안됨
+            params.rightMargin = Utils.fromDpToPx(30);
+            layoutHeader.setLayoutParams(params);
+
+        }else { // 세로모드일때
+            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) layoutHeader.getLayoutParams();
+            params.topMargin = statusBarHeight(mContext); // 상단의 상태 바 size만큼 margin 값 주기
+            layoutHeader.setLayoutParams(params);
+        }
 
         setStatusBarTransparent();
         if(position == 0) { //0일 때는 onPageSelected가 호출되지 않음.
@@ -173,6 +182,13 @@ public class PhotoViewActivity extends BaseActivity {
             WindowInsetsControllerCompat controller = new WindowInsetsControllerCompat(window, window.getDecorView());
             controller.setAppearanceLightStatusBars(false);
             controller.setAppearanceLightNavigationBars(false);
+        }
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
+            layoutParams.layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES;
+            getWindow().setAttributes(layoutParams);
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
         }
 
         //window.setNavigationBarColor(Color.BLACK);

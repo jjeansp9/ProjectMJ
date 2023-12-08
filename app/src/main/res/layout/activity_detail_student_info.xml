@@ -82,42 +82,23 @@
                         app:layout_constraintTop_toTopOf="@id/img_stu_info_profile"
                         app:layout_constraintBottom_toBottomOf="@id/img_stu_info_profile"
                         android:paddingStart="@dimen/layout_margin_xsmall">
-
-                        <androidx.appcompat.widget.LinearLayoutCompat
-                            android:id="@+id/layout_stu_info_name_birth"
+                        <TextView
+                            android:id="@+id/tv_stu_info_name"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             app:layout_constraintTop_toTopOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
-                            android:orientation="horizontal"
-                            >
-
-                            <TextView
-                                android:id="@+id/tv_stu_info_name"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:hint="@string/name"
-                                android:textColor="@color/font_color_default"
-                                android:textStyle="bold"
-                                android:textSize="@dimen/font_size_xlarge" />
-
-                            <TextView
-                                android:id="@+id/tv_stu_info_birth"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:textColor="@color/font_color_666"
-                                android:textSize="@dimen/font_size_large"
-                                android:layout_gravity="center"
-                                android:layout_marginStart="8dp" />
-                        </androidx.appcompat.widget.LinearLayoutCompat>
-
+                            android:hint="@string/name"
+                            android:textColor="@color/font_color_default"
+                            android:textStyle="bold"
+                            android:textSize="@dimen/font_size_xlarge" />
 
                         <TextView
                             android:id="@+id/tv_stu_info_dept_name"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            app:layout_constraintTop_toBottomOf="@id/layout_stu_info_name_birth"
+                            app:layout_constraintTop_toBottomOf="@id/tv_stu_info_name"
                             app:layout_constraintStart_toStartOf="parent"
                             android:layout_marginEnd="@dimen/layout_margin_xxxsmall"
                             android:layout_marginTop="2dp"
@@ -125,32 +106,6 @@
                             android:textSize="@dimen/font_size_large"
                             android:textColor="@color/black"
                             android:textStyle="bold" />
-
-<!--                        <TextView-->
-<!--                            android:id="@+id/tv_stu_info_st_grade"-->
-<!--                            android:layout_width="wrap_content"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            app:layout_constraintStart_toEndOf="@id/tv_stu_info_dept_name"-->
-<!--                            app:layout_constraintEnd_toStartOf="@id/tv_stu_info_clst_name"-->
-<!--                            app:layout_constraintTop_toBottomOf="@id/layout_stu_info_name_birth"-->
-<!--                            android:layout_marginTop="2dp"-->
-<!--                            android:hint="학년"-->
-<!--                            android:textSize="@dimen/font_size_large"-->
-<!--                            android:textColor="@color/black"-->
-<!--                            android:textStyle="bold" />-->
-
-<!--                        <TextView-->
-<!--                            android:id="@+id/tv_stu_info_clst_name"-->
-<!--                            android:layout_width="wrap_content"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            app:layout_constraintStart_toEndOf="@id/tv_stu_info_st_grade"-->
-<!--                            app:layout_constraintTop_toBottomOf="@id/layout_stu_info_name_birth"-->
-<!--                            android:layout_marginTop="2dp"-->
-<!--                            android:layout_marginStart="4dp"-->
-<!--                            android:textSize="@dimen/font_size_large"-->
-<!--                            android:textColor="@color/black"-->
-<!--                            android:textStyle="bold" />-->
-
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
@@ -181,10 +136,34 @@
                         android:textSize="@dimen/font_size"/>
 
                     <TextView
-                        android:id="@+id/tv_stu_info_stu_phone_num_item"
+                        android:id="@+id/tv_stu_info_birthday_item"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:layout_constraintTop_toBottomOf="@id/tv_stu_info_campus_item"
+                        app:layout_constraintEnd_toEndOf="@id/img_stu_info_profile"
+                        android:layout_marginTop="@dimen/layout_margin_xxxxsmall"
+                        android:textColor="@color/font_color_999"
+                        android:text="@string/birthday_short"
+                        android:textScaleX="0.92"
+                        android:textSize="@dimen/font_size"/>
+
+                    <TextView
+                        android:id="@+id/tv_stu_info_stu_birthday"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@id/tv_stu_info_campus_item"
+                        app:layout_constraintStart_toEndOf="@id/tv_stu_info_birthday_item"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:layout_marginTop="@dimen/layout_margin_xxxxsmall"
+                        android:layout_marginStart="@dimen/layout_margin_xxsmall"
+                        android:hint="@string/menu_stu_info_empty"
+                        android:textColor="@color/font_color_default"
+                        android:textSize="@dimen/font_size"/>
+                    <TextView
+                        android:id="@+id/tv_stu_info_stu_phone_num_item"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@id/tv_stu_info_birthday_item"
                         app:layout_constraintEnd_toEndOf="@id/img_stu_info_profile"
                         android:layout_marginTop="@dimen/layout_margin_xxxxsmall"
                         android:textColor="@color/font_color_999"
@@ -196,7 +175,7 @@
                         android:id="@+id/tv_stu_info_stu_phone_num"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        app:layout_constraintTop_toBottomOf="@id/tv_stu_info_campus_item"
+                        app:layout_constraintTop_toBottomOf="@id/tv_stu_info_birthday_item"
                         app:layout_constraintStart_toEndOf="@id/tv_stu_info_stu_phone_num_item"
                         app:layout_constraintEnd_toEndOf="parent"
                         android:layout_marginTop="@dimen/layout_margin_xxxxsmall"

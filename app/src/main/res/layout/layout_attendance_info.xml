@@ -74,6 +74,8 @@
         android:textColor="@color/font_color_999"
         android:textSize="@dimen/font_size_small"
         android:hint="990707"
+        android:layout_gravity="center_vertical"
+        style="@style/AutoSizeTextAppearance"
         android:maxLines="1" />
     <ImageButton
         android:id="@+id/btn_edit_bigo"

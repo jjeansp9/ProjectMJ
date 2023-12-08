@@ -2,6 +2,7 @@ package kr.jeet.edu.manager.utils;
 
 import android.animation.ObjectAnimator;
 import android.content.Context;
+import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
@@ -484,5 +485,12 @@ public class Utils {
         if(str == null) return true;
         String trimStr = str.toString().trim();
         return TextUtils.isEmpty(trimStr);
+    }
+    /**
+     * 가로모드 체크
+     * */
+    public static boolean isLandscapeMode(Context context) {
+        int orientation = context.getResources().getConfiguration().orientation;
+        return orientation == Configuration.ORIENTATION_LANDSCAPE;
     }
 }

@@ -45,6 +45,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/bg_edittext"
+                android:hint="@string/hint_input_subject"
                 android:textSize="@dimen/font_size"
                 android:maxLines="1"
                 android:maxLength="1000"
@@ -80,12 +81,13 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
+
                     <androidx.constraintlayout.widget.Guideline
                         android:id="@+id/guideline_date_title_end"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:orientation="vertical"
-                        app:layout_constraintGuide_percent="0.18" />
+                        app:layout_constraintGuide_begin="66dp" />
                     <androidx.constraintlayout.widget.Guideline
                         android:id="@+id/guideline_date_content_start"
                         android:layout_width="0dp"

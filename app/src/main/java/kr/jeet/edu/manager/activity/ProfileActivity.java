@@ -143,13 +143,7 @@ public class ProfileActivity extends BaseActivity {
                 }
             }
             tvDept.setText(sb.toString());
-            try {
-                Date birthDayDate = YMDFormat.parse(_currentManagerData.birth);
-                String birthDayStr = birthdayFormat.format(birthDayDate);
-                tvBirthday.setText(birthDayStr);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
+            tvBirthday.setText(Utils.formatDate(_currentManagerData.birth,Constants.DATE_FORMATTER_YYYY_MM_DD, Constants.DATE_FORMATTER_YYYY_MM_DD_KOR ));
             tvPhoneNo.setText(Utils.formatPhoneNumber(_currentManagerData.phoneNumber));
             if(_currentManagerData.gender.equals("M")) {
                 ivProfile.setBackground(getDrawable(R.drawable.img_profile_teacher_man));

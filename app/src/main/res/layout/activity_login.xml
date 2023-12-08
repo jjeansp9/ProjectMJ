@@ -111,26 +111,30 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/layout_margin">
-
-            <CheckBox
-                android:id="@+id/checkbox_login"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:background="@drawable/selector_bt_login_check"
-                android:button="@null" />
-
-            <TextView
-                android:id="@+id/checkbox_text"
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/layout_auto_login"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="4dp"
-                android:layout_toRightOf="@id/checkbox_login"
                 android:stateListAnimator="@xml/animate_button_push"
-                android:text="@string/auto_login"
-                android:textColor="@color/font_color_default"
-                android:textSize="@dimen/font_size" />
-
+                android:orientation="horizontal">
+                <CheckBox
+                    android:id="@+id/checkbox_login"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:background="@drawable/selector_bt_login_check"
+                    android:clickable="false"
+                    android:button="@null" />
+                <TextView
+                    android:id="@+id/checkbox_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="4dp"
+                    android:layout_toRightOf="@id/checkbox_login"
+                    android:text="@string/auto_login"
+                    android:textColor="@color/font_color_default"
+                    android:textSize="@dimen/font_size" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
             <TextView
                 android:id="@+id/tv_find"
                 android:layout_width="wrap_content"
