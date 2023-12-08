@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:focusable="false"
+    android:paddingStart="@dimen/layout_margin_small"
+    android:background="@color/white"
+    android:id="@+id/root"
+    >
+
+<!--    <androidx.constraintlayout.widget.Guideline-->
+<!--        android:id="@+id/guideline"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:orientation="vertical"-->
+<!--        app:layout_constraintGuide_percent="0.9" />-->
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/layout_checkbox"
+        android:layout_marginVertical="@dimen/layout_margin_xxsmall"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:hint="Title"
+        android:textColor="@color/font_color_default"
+        android:textSize="@dimen/font_size"/>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/layout_checkbox"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintWidth_percent="0.15"
+        app:layout_constraintStart_toEndOf="@id/tv_name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1"
+        app:layout_constraintTop_toTopOf="parent"
+        android:orientation="horizontal">
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:id="@+id/cb_select"
+            android:layout_width="24dp"
+            android:layout_height="@dimen/checkbox_size"
+            android:layout_gravity="center_vertical"
+            android:clickable="false"
+            android:theme="@style/OriginCheckBox"
+            />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -79,12 +79,12 @@
         android:maxLines="1" />
     <ImageButton
         android:id="@+id/btn_edit_bigo"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/edit_attendance_note"
-        app:layout_constraintStart_toEndOf="@id/tv_birthday"
         app:layout_constraintEnd_toStartOf="@id/guideline_ve100"
+        app:layout_constraintHorizontal_bias="1"
         android:background="@android:color/transparent"
         android:paddingStart="@dimen/layout_margin_xxsmall"
         android:paddingEnd="@dimen/layout_margin_xsmall"

@@ -102,7 +102,7 @@
                             app:layout_constraintStart_toStartOf="parent"
                             android:layout_marginEnd="@dimen/layout_margin_xxxsmall"
                             android:layout_marginTop="2dp"
-                            android:hint="부서"
+                            android:hint=""
                             android:textSize="@dimen/font_size_large"
                             android:textColor="@color/black"
                             android:textStyle="bold" />

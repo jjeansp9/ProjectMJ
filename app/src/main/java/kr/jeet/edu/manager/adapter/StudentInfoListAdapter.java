@@ -127,7 +127,7 @@ public class StudentInfoListAdapter extends RecyclerView.Adapter<StudentInfoList
                 int index = Constants.AttendanceStatus.getNameList().indexOf(status.getName());
                 holder.spinnerStatus.selectItemByIndex(index);
                 holder.checkBox.setChecked(item.isChecked);
-
+                holder.tvBirthday.setVisibility(View.GONE);
             }else{
                 holder.rootView.setClickable(true);
 //                int selectableItemBackgroundResource = android.R.attr.selectableItemBackground;
@@ -172,17 +172,18 @@ public class StudentInfoListAdapter extends RecyclerView.Adapter<StudentInfoList
                         holder.tvStatus.setBackground(stateDrawable);
                     }
                 }
-
+                //set tv birthday
+                holder.tvBirthday.setVisibility(View.VISIBLE);
+                try {
+                    Date birthday = _inputDateFormat.parse(item.stBirth);
+                    holder.tvBirthday.setText(_outputDateFormat.format(birthday));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
             }
             //set tv name
             holder.tvName.setText(item.stName);
-            //set tv birthday
-            try {
-                Date birthday = _inputDateFormat.parse(item.stBirth);
-                holder.tvBirthday.setText(_outputDateFormat.format(birthday));
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
+
 
         }
     }

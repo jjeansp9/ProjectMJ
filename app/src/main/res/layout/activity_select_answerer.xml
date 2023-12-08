@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.menu.leveltest.MenuLevelTestActivity">
+
+    <kr.jeet.edu.manager.view.CustomAppbarLayout
+        android:id="@+id/customAppbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:animateLayoutChanges="true">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_search_filter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:paddingHorizontal="@dimen/layout_margin_small"
+            android:paddingTop="@dimen/layout_margin_xsmall"
+            android:paddingBottom="@dimen/layout_margin_xxxsmall"
+            android:background="@color/bg_gray">
+            <EditText
+                android:id="@+id/et_search"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/tv_manager_count"
+                android:drawableStart="@drawable/ic_vector_search"
+                android:drawableTint="@color/darkgray"
+                android:background="@drawable/bg_edittext"
+                android:textSize="@dimen/font_size"
+                android:textColor="@color/font_color_default"
+                android:inputType="text"
+                android:padding="@dimen/editbox_padding"
+                android:maxLines="1"
+                android:maxLength="100"
+                />
+            <TextView
+                android:id="@+id/tv_manager_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/et_search"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:hint="0 명 선택"
+                android:textColor="@color/font_color_999"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:textSize="@dimen/font_size_small"
+                />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerview_answerer"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/layout_search_filter"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:orientation="vertical"
+            tools:listitem="@layout/layout_answerer_list_item"
+            android:scrollbars="vertical"
+            />
+
+
+        <TextView
+            android:id="@+id/tv_empty_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text=""
+            android:textSize="@dimen/font_size_xlarge"
+            android:visibility="gone"
+            android:textColor="@color/font_color_999"
+            android:lineSpacingMultiplier="@dimen/empty_textview_multiplier"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layout_search_filter" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
