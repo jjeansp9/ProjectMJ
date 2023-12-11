@@ -3,7 +3,9 @@ package kr.jeet.edu.manager.sns;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Message;
+import android.text.TextUtils;
 
 import com.kakao.sdk.auth.model.OAuthToken;
 import com.kakao.sdk.common.KakaoSdk;
@@ -100,8 +102,6 @@ public class KaKaoLoginManager extends SNSLoginManager {
             }else {
                 //로그인 실패
                 LogMgr.e(TAG, "invoke: login fail" );
-                mContext.startActivity(new Intent(mContext, LoginActivity.class));
-                ((Activity)mContext).finish();
             }
 
             return null;
@@ -124,36 +124,23 @@ public class KaKaoLoginManager extends SNSLoginManager {
                     LogMgr.e(TAG, "gender = " + gender);
                     LogMgr.e(TAG, "name = " + name);
 
-                    if(gender.equals("MALE")) {
-                        gender = "M";
-                    }
-                    else {
-                        gender = "F";
-                    }
+                    if(gender.equals("MALE")) gender = "M";
+                    else if (gender.equals("FEMALE")) gender = "F";
+                    else if (TextUtils.isEmpty(gender)) gender = "";
 
                     PreferenceUtil.setSNSUserId(mContext, userId);
                     PreferenceUtil.setLoginType(mContext, Constants.LOGIN_TYPE_SNS_KAKAO);
 
-                    if(mIsJoinStatus == true) //회원가입 모드
-                    {
-                        Intent intent = new Intent(mContext, JoinActivity.class);
-                        intent.putExtra(IntentParams.PARAM_LOGIN_TYPE, Constants.LOGIN_TYPE_SNS_KAKAO);
-                        intent.putExtra(IntentParams.PARAM_LOGIN_USER_NAME, name);
-                        intent.putExtra(IntentParams.PARAM_LOGIN_USER_GENDER, gender);
-                        intent.putExtra(IntentParams.PARAM_LOGIN_USER_SNSID, userId);
-                        mContext.startActivity(intent);
-                        ((Activity)mContext).finish();
-                    }
-                    else
-                    {
-                        //server login api send
-                        LogMgr.e("login complete -> ");
-                        if(mHandler != null) {
-                            Message msg = Message.obtain();
-                            msg.what = Constants.HANDLER_SNS_LOGIN_COMPLETE;
-                            msg.obj = userId;
-                            mHandler.sendMessage(msg);
-                        }
+                    if(mHandler != null) {
+                        Bundle data = new Bundle();
+                        data.putString(IntentParams.PARAM_LOGIN_USER_NAME, name);
+                        data.putString(IntentParams.PARAM_LOGIN_USER_GENDER, gender);
+
+                        Message msg = Message.obtain();
+                        msg.what = Constants.HANDLER_SNS_LOGIN_COMPLETE;
+                        msg.obj = userId;
+                        msg.setData(data);
+                        mHandler.sendMessage(msg);
                     }
 
                 } else {

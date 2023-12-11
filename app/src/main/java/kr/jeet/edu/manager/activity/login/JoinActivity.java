@@ -33,6 +33,7 @@ import kr.jeet.edu.manager.model.response.BaseResponse;
 import kr.jeet.edu.manager.server.RetrofitApi;
 import kr.jeet.edu.manager.server.RetrofitClient;
 import kr.jeet.edu.manager.utils.LogMgr;
+import kr.jeet.edu.manager.utils.PreferenceUtil;
 import kr.jeet.edu.manager.utils.Utils;
 import kr.jeet.edu.manager.view.AuthPhoneNumberView;
 import kr.jeet.edu.manager.view.CustomAppbarLayout;
@@ -66,20 +67,36 @@ public class JoinActivity extends BaseActivity {
         setContentView(R.layout.activity_join);
         setStatusAndNavigatinBar(true);
         mContext = this;
+        initData();
+        initView();
+
+    }
+    private void initData() {
+
+        mUserSnsId = PreferenceUtil.getSNSUserId(mContext);
+
         Intent intent = getIntent();
         if(intent != null) {
             mLoginType = intent.getIntExtra(IntentParams.PARAM_LOGIN_TYPE, Constants.LOGIN_TYPE_NORMAL);
-            if(mLoginType == Constants.LOGIN_TYPE_SNS_NAVER || mLoginType == Constants.LOGIN_TYPE_SNS_KAKAO || mLoginType == Constants.LOGIN_TYPE_SNS_GOOGLE || mLoginType == Constants.LOGIN_TYPE_SNS_APPLE) {
+            if(mLoginType == Constants.LOGIN_TYPE_SNS_NAVER ||
+                    mLoginType == Constants.LOGIN_TYPE_SNS_KAKAO ||
+                    mLoginType == Constants.LOGIN_TYPE_SNS_GOOGLE ||
+                    mLoginType == Constants.LOGIN_TYPE_SNS_APPLE
+            ) {
                 if (intent.hasExtra(IntentParams.PARAM_LOGIN_USER_NAME)) mUserName = intent.getStringExtra(IntentParams.PARAM_LOGIN_USER_NAME);
                 else mUserName = "";
                 if (intent.hasExtra(IntentParams.PARAM_LOGIN_USER_GENDER)) mUserGender = intent.getStringExtra(IntentParams.PARAM_LOGIN_USER_GENDER);
                 else mUserGender = "";
-                if (intent.hasExtra(IntentParams.PARAM_LOGIN_USER_SNSID)) mUserSnsId = intent.getStringExtra(IntentParams.PARAM_LOGIN_USER_SNSID);
-                else mUserSnsId = "";
+            }else{
+                LogMgr.e("no intent extra");
             }
         }
-        initView();
-
+        LogMgr.e(TAG,
+                "LoginType: " + mLoginType +
+                        "\nname: " + mUserName +
+                        "\ngender: " + mUserGender +
+                        "\nsnsId: " + mUserSnsId
+        );
     }
     void initAppbar() {
         CustomAppbarLayout customAppbar = findViewById(R.id.customAppbar);

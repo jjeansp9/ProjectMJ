@@ -27,10 +27,6 @@ public class SNSLoginManager {
 
     }
 
-    public void setJoinProcess() {
-        mIsJoinStatus = true;
-    }
-
     public void setHandler(Handler handler) {
         mHandler = handler;
     }
