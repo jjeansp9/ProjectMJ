@@ -5,19 +5,18 @@ import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 
-public class BusInfoData implements Parcelable {
+public class BusInfoData extends BusDriveHistoryData {
     public String bcName;
-    public String busName;
-    public int busCode;
     public String busPhoneNumber;
-    public String isDrive;
+    public String busFile1;
+    public String busFile2;
 
     protected BusInfoData(Parcel in) {
+        super(in);
         bcName = in.readString();
-        busName = in.readString();
-        busCode = in.readInt();
         busPhoneNumber = in.readString();
-        isDrive = in.readString();
+        busFile1 = in.readString();
+        busFile2 = in.readString();
     }
 
     public static final Creator<BusInfoData> CREATOR = new Creator<BusInfoData>() {
@@ -39,10 +38,10 @@ public class BusInfoData implements Parcelable {
 
     @Override
     public void writeToParcel(@NonNull Parcel parcel, int i) {
+        super.writeToParcel(parcel, i);
         parcel.writeString(bcName);
-        parcel.writeString(busName);
-        parcel.writeInt(busCode);
         parcel.writeString(busPhoneNumber);
-        parcel.writeString(isDrive);
+        parcel.writeString(busFile1);
+        parcel.writeString(busFile2);
     }
 }

@@ -82,6 +82,7 @@ public class StudentInfoListAdapter extends RecyclerView.Adapter<StudentInfoList
             }else{
                 holder.rootView.setBackgroundColor(_context.getColor(R.color.white));
             }
+            holder.tvIndex.setText(String.valueOf(position + 1));
             holder.onItemClickListener.updatePosition(position);
             if(_isEditMode) {
                 // Get the selectableItemBackground attribute's resource ID
@@ -209,7 +210,7 @@ public class StudentInfoListAdapter extends RecyclerView.Adapter<StudentInfoList
         private ConstraintLayout rootView;
         private View viewGender;
         private MaterialCheckBox checkBox;
-        private TextView tvName, tvBirthday, tvStatus;
+        private TextView tvIndex, tvName, tvBirthday, tvStatus;
         private PowerSpinnerView spinnerStatus;
         private EditText etNote;
         private ImageButton btnEditBigo;
@@ -229,6 +230,7 @@ public class StudentInfoListAdapter extends RecyclerView.Adapter<StudentInfoList
             spinnerSelectListener = spinnerListener;
             onEditNoteClickListener = onNoteClickListener;
             rootView.setOnClickListener(onItemClickListener);
+            tvIndex = itemView.findViewById(R.id.tv_index);
             viewGender = itemView.findViewById(R.id.view_gender);
             checkBox = itemView.findViewById(R.id.checkbox);
             checkBox.setOnCheckedChangeListener(checkedChangeListener);

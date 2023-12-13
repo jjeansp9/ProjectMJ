@@ -21,6 +21,7 @@ import com.bumptech.glide.Glide;
 import java.util.ArrayList;
 
 import kr.jeet.edu.manager.R;
+import kr.jeet.edu.manager.common.Constants;
 import kr.jeet.edu.manager.model.data.BusRouteData;
 import kr.jeet.edu.manager.utils.LogMgr;
 import kr.jeet.edu.manager.utils.Utils;
@@ -54,6 +55,12 @@ public class BusRouteListAdapter extends RecyclerView.Adapter<BusRouteListAdapte
         else
             holder.tvBpName.setText("");
         if("Y".equals(item.isArrive)) {
+            if(!TextUtils.isEmpty(item.startDate)) {
+                holder.tvArriveDate.setVisibility(View.VISIBLE);
+                holder.tvArriveDate.setText(Utils.formatDate(item.startDate, Constants.DATE_FORMATTER_YYYY_MM_DD_HH_mm_ss, Constants.TIME_FORMATTER_HH_MM));
+            }else{
+                holder.tvArriveDate.setVisibility(View.GONE);
+            }
             if (position == 0) {
                 holder.viewRoadTop.setVisibility(View.INVISIBLE);
                 holder.viewRoadBottom.setVisibility(View.VISIBLE);
@@ -80,6 +87,7 @@ public class BusRouteListAdapter extends RecyclerView.Adapter<BusRouteListAdapte
                 }
             }
         }else{
+            holder.tvArriveDate.setVisibility(View.GONE);
             if (position == 0) {
                 holder.viewRoadTop.setVisibility(View.INVISIBLE);
                 holder.viewRoadBottom.setVisibility(View.VISIBLE);
@@ -109,7 +117,7 @@ public class BusRouteListAdapter extends RecyclerView.Adapter<BusRouteListAdapte
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 
-        private TextView tvBpName;
+        private TextView tvBpName, tvArriveDate;
         private ImageView imgIconBus;
         private View viewRoadTop, viewRoadBottom;
 
@@ -117,6 +125,7 @@ public class BusRouteListAdapter extends RecyclerView.Adapter<BusRouteListAdapte
             super(itemView);
 
             tvBpName = itemView.findViewById(R.id.tv_bp_name);
+            tvArriveDate = itemView.findViewById(R.id.tv_arrive_date);
             imgIconBus = itemView.findViewById(R.id.img_icon_bus);
             viewRoadTop = itemView.findViewById(R.id.road_top);
             viewRoadBottom = itemView.findViewById(R.id.road_bottom);

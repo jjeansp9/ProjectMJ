@@ -90,7 +90,7 @@ public class MenuStudentInfoActivity extends BaseActivity implements DatePickerF
     private ConstraintLayout _layoutControlAll;
     private MaterialCheckBox _checkBoxAll;
     private PowerSpinnerView _spinnerAttendanceMultiple;
-    private TextView _tvCount;
+    private TextView _tvCount, _tvTotalCount;
     private TextView tvEmptyList;
 
     ArrayList<AttendanceData> _originAttendanceList;
@@ -267,7 +267,7 @@ public class MenuStudentInfoActivity extends BaseActivity implements DatePickerF
                     }
                 }
                 int count = (int)_attendanceList.stream().filter(t->t.isChecked).count();
-                _tvCount.setText(getString(R.string.format_count_per_all, count, _attendanceList.size()));
+                _tvCount.setText(getString(R.string.selected_count, count));
             }
 
             @Override
@@ -331,6 +331,7 @@ public class MenuStudentInfoActivity extends BaseActivity implements DatePickerF
         _checkBoxAll = findViewById(R.id.checkbox_all);
         _checkBoxAll.setOnClickListener(this);
         _tvCount = findViewById(R.id.tv_count);
+        _tvTotalCount = findViewById(R.id.tv_total_count);
         _spinnerAttendanceMultiple = findViewById(R.id.spinner_attendance_status_all);
         _spinnerAttendanceMultiple.setIsFocusable(true);
         _spinnerAttendanceMultiple.setItems(Constants.AttendanceStatus.getNameList());
@@ -381,6 +382,10 @@ public class MenuStudentInfoActivity extends BaseActivity implements DatePickerF
         switch(mode) {
             case Show:  //조회모드
                 _adapter.setEditMode(false);
+                _tvTotalCount.setVisibility(View.VISIBLE);
+                if(_attendanceList != null) {
+                    _tvTotalCount.setText(getString(R.string.content_recipient_counts, _attendanceList.size()));
+                }
                 if(_layoutControlAll != null) _layoutControlAll.setVisibility(View.GONE);
                 if(_viewDivider != null) _viewDivider.setVisibility(View.INVISIBLE);
                 if(_tvClass != null) _tvClass.setVisibility(View.INVISIBLE);
@@ -407,8 +412,9 @@ public class MenuStudentInfoActivity extends BaseActivity implements DatePickerF
                 break;
             case Edit:
                 _adapter.setEditMode(true);
+                _tvTotalCount.setVisibility(View.GONE);
                 if(_layoutControlAll != null) _layoutControlAll.setVisibility(View.VISIBLE);
-                _tvCount.setText(getString(R.string.format_count_per_all, 0, _attendanceList.size()));
+//                _tvCount.setText(getString(R.string.format_count_per_all, 0, _attendanceList.size()));
                 if(_viewDivider != null) _viewDivider.setVisibility(View.VISIBLE);
                 if(_tvClass != null) _tvClass.setVisibility(View.VISIBLE);
                 if(_tvDepartment != null) _tvDepartment.setVisibility(View.INVISIBLE);
@@ -720,6 +726,7 @@ public class MenuStudentInfoActivity extends BaseActivity implements DatePickerF
                         }else{
                             tvEmptyList.setVisibility(View.VISIBLE);
                         }
+                        _tvTotalCount.setText(getString(R.string.content_recipient_counts, _attendanceList.size()));
                         if(_attendanceList.size() > 0 && _recyclerView != null) {
                             _handler.postDelayed(() -> _recyclerView.smoothScrollToPosition(0), scrollToTopDelay);
                         }

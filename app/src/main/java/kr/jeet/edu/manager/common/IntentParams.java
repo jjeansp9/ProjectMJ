@@ -51,6 +51,9 @@ public class IntentParams {
     public final static String PARAM_ANNOUNCEMENT_DETAIL_IMG = "announcementDetailImg";  // 공지사항 상세화면 이미지 item
     public final static String PARAM_ANNOUNCEMENT_DETAIL_IMG_POSITION = "announcementDetailImgPosition";  // 공지사항 상세화면 이미지 item position
 
+    public final static String PARAM_WEB_DETAIL_IMG = "webDetailImg";  // web 이미지 item (차량)
+    public final static String PARAM_WEB_DETAIL_IMG_POSITION = "webDetailImgPosition";  // web 이미지 item position (차량)
+
     public final static String PARAM_NOTICE_INFO = "noticeinfo"; // 알림장 목록에서 클릭한 data
 //    public final static String PARAM_ADDED_RECIPIENT_COUNT = "added_recipient_count"; // 선택된 수신인 수
     public final static String PARAM_SCHEDULE_INFO = "scheduleInfo";  // 선택한 설명회 정보
@@ -58,6 +61,7 @@ public class IntentParams {
     public final static String PARAM_MANAGER_INFO = "managerInfo"; // Main에서 강사프로필 클릭 시 전달
     public final static String PARAM_LEVELTEST_INFO = "levelTestInfo";  // 선택한 레벨테스트 정보
     public final static String PARAM_RECIPIENT_FILTERTYPE = "recipientFilterType";  //띄워야 할 수신인 FilterType
+    public final static String PARAM_IGNORE_RECIPIENT_TYPE = "ignoreRecipientType";  //Main에서 가져온 수신인 Type을 사용할지 여부
     //성적표
     public final static String PARAM_REPORT_CARD_LIST = "reportcardlist";  // 선택한 성적표 정보
     //QNA

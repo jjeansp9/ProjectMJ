@@ -25,7 +25,7 @@ import retrofit2.Response;
 public class CounselDetailActivity extends BaseActivity {
     private static final String TAG = "detail_counsel";
     //region views
-    TextView tvDate, tvCampus, tvClass, tvName, tvMemo, tvPhone;
+    TextView tvDate, tvTime, tvCampus, tvClass, tvName, tvBag, tvMemo, tvPhone;
     //endregion views
 
     //region variables
@@ -81,9 +81,11 @@ public class CounselDetailActivity extends BaseActivity {
 
     void initView() {
         tvDate = findViewById(R.id.tv_content_date);
+        tvTime = findViewById(R.id.tv_content_time);
         tvCampus = findViewById(R.id.tv_content_campus);
         tvClass = findViewById(R.id.tv_content_class);
         tvName = findViewById(R.id.tv_content_name);
+        tvBag = findViewById(R.id.tv_content_bag);
         tvMemo = findViewById(R.id.tv_content_memo);
         tvPhone = findViewById(R.id.tv_content_phone_num);
         initData();
@@ -91,6 +93,7 @@ public class CounselDetailActivity extends BaseActivity {
     private void initData() {
         if (_currentData != null) {
             tvDate.setText(Utils.getStr(_currentData.counselDate));
+            tvTime.setText(Utils.getStr(_currentData.callWishDate));
             tvCampus.setText(Utils.getStr(_currentData.acaName));
             tvClass.setText(Utils.getStr(_currentData.clsName));
             StringBuilder sb = new StringBuilder();
@@ -109,6 +112,7 @@ public class CounselDetailActivity extends BaseActivity {
                 }
             }
             tvName.setText(sb.toString());
+            tvBag.setText(Utils.getStr(_currentData.bagName));
             tvMemo.setText(Utils.getStr(_currentData.memo));
             tvPhone.setText(Utils.formatPhoneNumber(_currentData.phoneNumber));
 

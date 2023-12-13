@@ -1179,6 +1179,7 @@ public class EditBriefingActivity extends BaseActivity implements DatePickerFrag
         Intent appendIntent = new Intent(mContext, AppendRecipientActivity.class);
         appendIntent.putExtra(IntentParams.PARAM_STU_ACACODE, PreferenceUtil.getAcaCode(mContext));
         appendIntent.putExtra(IntentParams.PARAM_RECIPIENT_FILTERTYPE, Constants.RecipientFilterType.TYPE_SCHOOL);
+        appendIntent.putExtra(IntentParams.PARAM_IGNORE_RECIPIENT_TYPE, false); //Main에서 가져온 RecipientType 사용
         recipientResultLauncher.launch(appendIntent);
     }
     private void requestBriefingRecipientData(int ptSeq){

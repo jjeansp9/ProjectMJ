@@ -4,6 +4,7 @@ import java.util.List;
 
 import kr.jeet.edu.manager.model.data.LevelTestTimeData;
 import kr.jeet.edu.manager.model.data.ScheduleData;
+import kr.jeet.edu.manager.model.data.SettingItemData;
 import kr.jeet.edu.manager.model.request.AttendanceRequest;
 import kr.jeet.edu.manager.model.request.QnaAddRequest;
 import kr.jeet.edu.manager.model.request.QnaReplyRequest;
@@ -27,6 +28,7 @@ import kr.jeet.edu.manager.model.response.BriefingRecipientListResponse;
 import kr.jeet.edu.manager.model.response.BoardRegisterResponse;
 import kr.jeet.edu.manager.model.response.BriefingReservedListResponse;
 import kr.jeet.edu.manager.model.response.BriefingResponse;
+import kr.jeet.edu.manager.model.response.BusDriveHistoryResponse;
 import kr.jeet.edu.manager.model.response.BusInfoResponse;
 import kr.jeet.edu.manager.model.response.BusRouteResponse;
 import kr.jeet.edu.manager.model.response.CounselDetailResponse;
@@ -59,6 +61,7 @@ import kr.jeet.edu.manager.model.response.ScheduleDetailResponse;
 import kr.jeet.edu.manager.model.response.ScheduleListResponse;
 import kr.jeet.edu.manager.model.response.ScheduleRegisterResponse;
 import kr.jeet.edu.manager.model.response.SchoolListResponse;
+import kr.jeet.edu.manager.model.response.SettingItemListResponse;
 import kr.jeet.edu.manager.model.response.StringResponse;
 import kr.jeet.edu.manager.model.response.StudentGradeListResponse;
 import kr.jeet.edu.manager.model.response.SystemNoticeDetailResponse;
@@ -82,9 +85,9 @@ public interface RetrofitApi {
     // https://eunoia3jy.tistory.com/125
 
 //    public final static String SERVER_BASE_URL = "http://192.168.2.51:7777/";   //kyt local
-    //public final static String SERVER_BASE_URL = "http://192.168.2.55:7777/";   //pjh local
+    public final static String SERVER_BASE_URL = "http://192.168.2.55:7777/";   //pjh local
     //public final static String SERVER_BASE_URL = "http://192.168.2.77:7777/";  //khj local
-    public final static String SERVER_BASE_URL = "http://211.252.86.237:7777/";  //cloud
+    //public final static String SERVER_BASE_URL = "http://211.252.86.237:7777/";  //cloud
     public final static String PREFIX = "mobile/api/";
     public final static String FILE_SUFFIX_URL = SERVER_BASE_URL + "attachFile/";
 
@@ -126,6 +129,12 @@ public interface RetrofitApi {
     // 학부모의 자녀정보
 //    @GET("member/{parentMemberSeq}/students")
 //    Call<SearchChildStudentsResponse> searchChildStudents(@Path("parentMemberSeq") int parentMemberSeq);
+    // 설정조회
+    @GET("settings")
+    Call<SettingItemListResponse> getSettingItems();
+    // 설정저장
+    @POST("setting")
+    Call<BaseResponse> updateSettingItems(@Body SettingItemData data);
     // 로그아웃
     @POST("member/logout")
     Call<BaseResponse> logout(@Query("memberSeq") int memberSeq);
@@ -355,6 +364,9 @@ public interface RetrofitApi {
     // 버스 목록 조회
     @GET("buses")
     Call<BusInfoResponse> getBusesInfo(@Query("busAcaName") String busAcaName);
+    // 버스 운행 이력 조회
+    @GET("bus/drive")
+    Call<BusDriveHistoryResponse> getBusDriveHistory(@Query("busAcaName") String busAcaName, @Query("busCode") int busCode);
     // 버스 노선 조회
     @GET("bus/route")
     Call<BusRouteResponse> getBusRoute(@Query("busAcaName") String busAcaName, @Query("busCode") int busCode);

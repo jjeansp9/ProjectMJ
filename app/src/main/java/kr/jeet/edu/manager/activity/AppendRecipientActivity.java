@@ -56,6 +56,7 @@ import kr.jeet.edu.manager.model.data.DepartmentData;
 import kr.jeet.edu.manager.model.data.RecipientData;
 import kr.jeet.edu.manager.model.data.RecipientStudentData;
 import kr.jeet.edu.manager.model.data.SchoolData;
+import kr.jeet.edu.manager.model.data.SettingItemData;
 import kr.jeet.edu.manager.model.response.GetClassListResponse;
 import kr.jeet.edu.manager.model.response.GetClstListResponse;
 import kr.jeet.edu.manager.model.response.GetDeptListResponse;
@@ -123,6 +124,7 @@ public class AppendRecipientActivity extends BaseActivity implements MonthPicker
     int _sfCode = 0;
     String searchWord = "";
     Menu _menu;
+    boolean isIgnoreRecipientType = false;
     //endregion
     private Handler _handler = new Handler(Looper.getMainLooper()) {
         @Override
@@ -219,7 +221,9 @@ public class AppendRecipientActivity extends BaseActivity implements MonthPicker
             if(intent.hasExtra(IntentParams.PARAM_RECIPIENT_FILTERTYPE)) {
                 _filterType = (Constants.RecipientFilterType) intent.getSerializableExtra(IntentParams.PARAM_RECIPIENT_FILTERTYPE);
             }
-
+            if(intent.hasExtra(IntentParams.PARAM_IGNORE_RECIPIENT_TYPE)) {
+                isIgnoreRecipientType = intent.getBooleanExtra(IntentParams.PARAM_IGNORE_RECIPIENT_TYPE, false);
+            }
         }
     }
     void initView() {
@@ -557,16 +561,21 @@ public class AppendRecipientActivity extends BaseActivity implements MonthPicker
                 }
             }
         });
+        if(isIgnoreRecipientType) {
+            _adapterRecipient.setShowColumns(Constants.ShowCheckboxColumnType.TYPE_BOTH);
+        }else{
+            SettingItemData item = DataManager.getInstance().getSettingItemData(Constants.SETTING_TYPE_RECIPIENT);
+            if(item != null) {
+                _adapterRecipient.setShowColumns(Constants.ShowCheckboxColumnType.getByCode(item.value));
+            }else{
+                _adapterRecipient.setShowColumns(Constants.ShowCheckboxColumnType.TYPE_BOTH);
+            }
+        }
         _recyclerRecipient.setAdapter(_adapterRecipient);
+
 //        _recyclerRecipient.addItemDecoration(new DividerItemDecoration(mContext, DividerItemDecoration.VERTICAL));
         //endregion
         //region checkbox
-        layoutCheckBoxTotal = findViewById(R.id.layout_total_checkbox);
-        layoutCheckBoxTotal.setOnClickListener(this);
-        layoutCheckBoxStudentTotal = findViewById(R.id.layout_student_checkbox);
-        layoutCheckBoxStudentTotal.setOnClickListener(this);
-        layoutCheckBoxParentTotal = findViewById(R.id.layout_parent_checkbox);
-        layoutCheckBoxParentTotal.setOnClickListener(this);
         cbTotal = findViewById(R.id.checkbox_total);
 //        cbTotal.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 //            @Override
@@ -593,6 +602,45 @@ public class AppendRecipientActivity extends BaseActivity implements MonthPicker
 //                _handler.sendEmptyMessage(CMD_NOTIFY_DATASET_CHANGED);
 //            }
 //        });
+        layoutCheckBoxTotal = findViewById(R.id.layout_total_checkbox);
+        layoutCheckBoxStudentTotal = findViewById(R.id.layout_student_checkbox);
+        layoutCheckBoxParentTotal = findViewById(R.id.layout_parent_checkbox);
+        if(isIgnoreRecipientType) {
+            layoutCheckBoxTotal.setVisibility(View.VISIBLE);
+            layoutCheckBoxParentTotal.setVisibility(View.VISIBLE);
+            layoutCheckBoxStudentTotal.setVisibility(View.VISIBLE);
+        }else{
+            SettingItemData settingItem = DataManager.getInstance().getSettingItemData(Constants.SETTING_TYPE_RECIPIENT);
+            if(settingItem != null) {
+                switch(Constants.ShowCheckboxColumnType.getByCode(settingItem.value)) {
+                    case TYPE_BOTH: //학부모 + 원생
+                        layoutCheckBoxTotal.setVisibility(View.VISIBLE);
+                        layoutCheckBoxParentTotal.setVisibility(View.VISIBLE);
+                        layoutCheckBoxStudentTotal.setVisibility(View.VISIBLE);
+                        break;
+                    case TYPE_PARENT_ONLY: //학부모
+                        layoutCheckBoxTotal.setVisibility(View.GONE);
+                        layoutCheckBoxParentTotal.setVisibility(View.VISIBLE);
+                        layoutCheckBoxStudentTotal.setVisibility(View.GONE);
+                        break;
+                    case TYPE_STUDENT_ONLY: //원생
+                        layoutCheckBoxTotal.setVisibility(View.GONE);
+                        layoutCheckBoxParentTotal.setVisibility(View.GONE);
+                        layoutCheckBoxStudentTotal.setVisibility(View.VISIBLE);
+                        break;
+                    default:
+                        break;
+                }
+            }else{
+                layoutCheckBoxTotal.setVisibility(View.VISIBLE);
+                layoutCheckBoxParentTotal.setVisibility(View.VISIBLE);
+                layoutCheckBoxStudentTotal.setVisibility(View.VISIBLE);
+            }
+        }
+        layoutCheckBoxTotal.setOnClickListener(this);
+        layoutCheckBoxStudentTotal.setOnClickListener(this);
+        layoutCheckBoxParentTotal.setOnClickListener(this);
+
         //endregion
         toggleFilterLayout();
         checkEmptyRecyclerView();

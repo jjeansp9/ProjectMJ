@@ -58,6 +58,9 @@
 
     <dimen name="dot_sex_size">10dp</dimen>
     <dimen name="layout_sex_size">30dp</dimen>
+    <dimen name="layout_total_checkbox_width">46dp</dimen>
+    <dimen name="layout_checkbox_width">50dp</dimen>
+    <dimen name="layout_index_width">20dp</dimen>
 
     <dimen name="test_reserve_detail_item_margin">8dp</dimen>
     <dimen name="test_reserve_detail_item_title_margin">10dp</dimen>
@@ -82,4 +85,5 @@
     <dimen name="inner_line_width">1dp</dimen>
 
     <dimen name="report_card_show_info">6dp</dimen>
+    <dimen name="setting_radiogroup_height">30dp</dimen>
 </resources>

@@ -99,7 +99,8 @@
                 app:layout_constraintEnd_toStartOf="@id/spinner_class"
                 app:layout_constraintHorizontal_bias="0"
                 app:layout_constraintTop_toBottomOf="@id/guideline_calendar_h50"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/tv_total_count"
+                app:layout_constraintVertical_chainStyle="packed"
                 android:layout_marginStart="@dimen/layout_margin_small"
                 android:textSize="@dimen/font_size"
                 android:textColor="@color/font_color_default"
@@ -133,7 +134,7 @@
                 android:id="@+id/spinner_class"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:layout_constraintWidth_percent="0.6"
+                app:layout_constraintWidth_percent="0.5"
                 app:layout_constraintStart_toEndOf="@id/tv_department"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/guideline_calendar_h50"
@@ -158,6 +159,23 @@
                 app:spinner_popup_animation="dropdown"
                 app:spinner_popup_elevation="2dp"
                 android:background="@drawable/selector_spinner_normal"/>
+            <TextView
+                android:id="@+id/tv_total_count"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/spinner_class"
+                app:layout_constraintTop_toBottomOf="@id/tv_department"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintHorizontal_bias="0"
+                android:layout_marginStart="@dimen/layout_margin_small"
+                android:hint="총 0 명"
+                android:text=""
+                android:textColor="@color/font_color_999"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:textSize="@dimen/font_size_small"
+                />
         </androidx.constraintlayout.widget.ConstraintLayout>
 <!--        <View-->
 <!--            android:layout_width="match_parent"-->
@@ -196,7 +214,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            app:layout_constraintGuide_begin="@dimen/layout_sex_size" />
+            app:layout_constraintGuide_begin="@dimen/layout_total_checkbox_width" />
         <com.google.android.material.checkbox.MaterialCheckBox
             android:id="@+id/checkbox_all"
             android:layout_width="wrap_content"
@@ -205,7 +223,6 @@
             app:layout_constraintEnd_toStartOf="@id/guideline_title"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:padding="@dimen/layout_margin_small"
             android:checked="false"
             android:clickable="false"
             />
@@ -232,11 +249,11 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/tv_select_all"
             app:layout_constraintEnd_toStartOf="@id/guideline_ve100"
-            app:layout_constraintHorizontal_bias="1"
+            app:layout_constraintHorizontal_bias="0.1"
             android:paddingHorizontal="@dimen/layout_margin_xxxsmall"
             android:layout_marginEnd="@dimen/layout_margin_xxsmall"
             android:textColor="@color/font_color_999"
-            android:hint="@string/hint_count"
+            android:hint="0 명 선택"
             android:textStyle="normal"
             android:textSize="@dimen/font_size_small"
             android:maxLines="1"

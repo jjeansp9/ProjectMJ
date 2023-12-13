@@ -321,21 +321,37 @@ public class Constants {
     }
     public enum ShowCheckboxColumnType {
         /**
-         * 모두 표시하지 않음
+         * 모두 표시
          */
-        TYPE_NONE,
-        /**
-         * 학생만 표시
-         */
-        TYPE_STUDENT_ONLY,
+        TYPE_BOTH(0),
         /**
          * 부모만 표시
          */
-        TYPE_PARENT_ONLY,
+        TYPE_PARENT_ONLY(1),
         /**
-         * 모두 표시
+         * 학생만 표시
          */
-        TYPE_BOTH
+        TYPE_STUDENT_ONLY(2),
+        /**
+         * 모두 표시하지 않음
+         */
+        TYPE_NONE(9);
+        private int code;
+        private ShowCheckboxColumnType(int code) {
+            this.code = code;
+        }
+
+        public int getCode() {
+            return code;
+        }
+        public static ShowCheckboxColumnType getByCode(int code) {
+            for(ShowCheckboxColumnType type : ShowCheckboxColumnType.values()) {
+                if(type.getCode() == code) {
+                    return type;
+                }
+            }
+            return null;
+        }
     }
     public enum BriefingType{
         TYPE_OPEN,  //예약
@@ -516,4 +532,8 @@ public class Constants {
     public static String QNA_STATE_SUBSCRIPTION = "1"; // 신청
     public static String QNA_STATE_RECEPTION = "2";    // 접수
     public static String QNA_STATE_COMPLETE = "3";     // 완료
+
+    //setting
+    public static String SETTING_TYPE_RECIPIENT = "receiverStep";
+
 }

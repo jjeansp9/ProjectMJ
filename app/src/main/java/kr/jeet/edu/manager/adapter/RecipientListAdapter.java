@@ -27,7 +27,9 @@ import java.util.stream.Collectors;
 
 import kr.jeet.edu.manager.R;
 import kr.jeet.edu.manager.common.Constants;
+import kr.jeet.edu.manager.common.DataManager;
 import kr.jeet.edu.manager.model.data.RecipientStudentData;
+import kr.jeet.edu.manager.model.data.SettingItemData;
 import kr.jeet.edu.manager.utils.LogMgr;
 import kr.jeet.edu.manager.utils.Utils;
 
@@ -96,13 +98,13 @@ public class RecipientListAdapter extends RecyclerView.Adapter<RecipientListAdap
             holder.layoutCheckBoxBoth.setClickable(true);
             holder.layoutCheckBoxStudent.setClickable(true);
             holder.layoutCheckBoxParent.setClickable(true);
-            if (_columnType != Constants.ShowCheckboxColumnType.TYPE_NONE) {
+            if (_columnType == Constants.ShowCheckboxColumnType.TYPE_BOTH) {
                 holder.layoutCheckBoxBoth.setVisibility(View.VISIBLE);
             } else {
                 holder.layoutCheckBoxBoth.setVisibility(View.GONE);
             }
-            if (_columnType.ordinal() >= Constants.ShowCheckboxColumnType.TYPE_PARENT_ONLY.ordinal()) {
-                holder.cbParent.setVisibility(View.VISIBLE);
+            if (_columnType.ordinal() <= Constants.ShowCheckboxColumnType.TYPE_PARENT_ONLY.ordinal()) {
+                holder.layoutCheckBoxParent.setVisibility(View.VISIBLE);
                 if (!Utils.checkPhoneNumber(recipientData.parentPhoneNumber)) {
                     holder.cbParent.setEnabled(false);
                     holder.cbParent.setBackground(disableDrawable);
@@ -117,11 +119,11 @@ public class RecipientListAdapter extends RecyclerView.Adapter<RecipientListAdap
                     }
                 }
             } else {
-                holder.cbParent.setVisibility(View.INVISIBLE);
+                holder.layoutCheckBoxParent.setVisibility(View.GONE);
             }
             if (_columnType == Constants.ShowCheckboxColumnType.TYPE_STUDENT_ONLY ||
                     _columnType == Constants.ShowCheckboxColumnType.TYPE_BOTH) {
-                holder.cbStudent.setVisibility(View.VISIBLE);
+                holder.layoutCheckBoxStudent.setVisibility(View.VISIBLE);
                 if (!Utils.checkPhoneNumber(recipientData.stPhoneNumber)) {
                     holder.cbStudent.setEnabled(false);
                     holder.cbStudent.setBackground(disableDrawable);
@@ -136,7 +138,7 @@ public class RecipientListAdapter extends RecyclerView.Adapter<RecipientListAdap
                     }
                 }
             } else {
-                holder.cbStudent.setVisibility(View.INVISIBLE);
+                holder.layoutCheckBoxStudent.setVisibility(View.GONE);
             }
             if (_isIgnoreInstalled) {
                 if (holder.cbStudent.getVisibility() == View.VISIBLE && recipientData.stInstall.equals("Y")) {

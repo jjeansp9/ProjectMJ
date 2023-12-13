@@ -73,12 +73,12 @@
         android:maxLines="1" />
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/layout_checkbox_student"
-        android:layout_width="@dimen/checkbox_size_xxlarge"
+        android:layout_width="wrap_content"
         android:layout_height="@dimen/checkbox_size_xlarge"
-        app:layout_constraintEnd_toStartOf="@id/guideline_v80"
+        app:layout_constraintEnd_toStartOf="@id/layout_checkbox_parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:gravity="right"
+        android:gravity="center_vertical|right"
         android:orientation="horizontal">
         <View android:id="@+id/view_student_install"
             android:layout_height="24dp"
@@ -97,12 +97,14 @@
     </androidx.appcompat.widget.LinearLayoutCompat>
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/layout_checkbox_parent"
-        android:layout_width="@dimen/checkbox_size_xxlarge"
+        android:layout_width="0dp"
         android:layout_height="@dimen/checkbox_size_xlarge"
+        app:layout_constraintStart_toEndOf="@id/guideline_v80"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:gravity="right"
+        app:layout_constraintHorizontal_bias="1"
+        android:gravity="center_vertical|right"
         android:orientation="horizontal">
         <View android:id="@+id/view_parent_install"
             android:layout_height="24dp"

@@ -62,6 +62,40 @@
                     android:paddingStart="@dimen/layout_margin_small"
                     />
             </androidx.appcompat.widget.LinearLayoutCompat>
+            <!-- 상담 희망시간 -->
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="100">
+
+                <TextView
+                    android:id="@+id/tv_title_time"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="25"
+                    android:paddingVertical="@dimen/layout_margin_xxsmall"
+                    android:text="@string/title_counsel_time"
+                    android:textSize="@dimen/font_size_small"
+                    android:textColor="@color/font_color_default"
+                    android:textStyle="bold"
+                    android:gravity="end"
+                    android:maxLines="1"
+                    android:ellipsize="start"
+                    />
+                <TextView
+                    android:id="@+id/tv_content_time"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="75"
+                    android:paddingVertical="@dimen/layout_margin_xxsmall"
+                    android:textSize="@dimen/font_size"
+                    android:gravity="left"
+                    android:hint="(정보 없음)"
+                    android:textColor="@color/black"
+                    android:paddingStart="@dimen/layout_margin_small"
+                    />
+            </androidx.appcompat.widget.LinearLayoutCompat>
             <!--캠퍼스 -->
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
@@ -183,6 +217,39 @@
                     />
                 <TextView
                     android:id="@+id/tv_content_phone_num"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="75"
+                    android:paddingVertical="@dimen/layout_margin_xxsmall"
+                    android:textSize="@dimen/font_size"
+                    android:gravity="left"
+                    android:hint="(정보 없음)"
+                    android:textColor="@color/black"
+                    android:paddingStart="@dimen/layout_margin_small"
+                    />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+            <!-- 분류 -->
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="100">
+                <TextView
+                    android:id="@+id/tv_title_bag"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="25"
+                    android:paddingVertical="@dimen/layout_margin_xxsmall"
+                    android:text="@string/bag"
+                    android:textSize="@dimen/font_size_small"
+                    android:textColor="@color/font_color_default"
+                    android:textStyle="bold"
+                    android:gravity="end"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    />
+                <TextView
+                    android:id="@+id/tv_content_bag"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="75"

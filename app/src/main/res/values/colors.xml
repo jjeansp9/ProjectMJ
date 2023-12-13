@@ -31,6 +31,7 @@
     <color name="line_set">#EDEDED</color>
     <color name="gray">#cccccc</color>
     <color name="darkgray">#999999</color>
+    <color name="darkergray">#777777</color>
     <color name="blackgray">#666666</color>
     <color name="blackgray2">#555555</color>
     <color name="bg_gray_transparent">#99666666</color>

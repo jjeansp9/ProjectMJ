@@ -888,6 +888,7 @@ public class EditNoticeActivity extends BaseActivity {
         Intent appendIntent = new Intent(mContext, AppendRecipientActivity.class);
         appendIntent.putExtra(IntentParams.PARAM_STU_ACACODE, PreferenceUtil.getAcaCode(mContext));
         appendIntent.putExtra(IntentParams.PARAM_RECIPIENT_FILTERTYPE, Constants.RecipientFilterType.TYPE_CLASS);
+        appendIntent.putExtra(IntentParams.PARAM_IGNORE_RECIPIENT_TYPE, true); //Main에서 가져온 RecipientType 사용하지 않음.
         recipientResultLauncher.launch(appendIntent);
     }
     private void requestGradeList(String acaCode, boolean selectable) {

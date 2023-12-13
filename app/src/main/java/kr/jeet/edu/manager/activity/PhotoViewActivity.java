@@ -36,43 +36,53 @@ import kr.jeet.edu.manager.utils.Utils;
 import kr.jeet.edu.manager.view.CustomViewPager;
 
 public class PhotoViewActivity extends BaseActivity {
-    private String TAG = PhotoViewActivity.class.getSimpleName();
+    private String TAG = "PhotoViewActivity";
 
     private TextView tvPage;
     private RelativeLayout layoutHeader;
 
     private ArrayList<FileData> mImageList = new ArrayList<>();
+    private ArrayList<String> _webImageList = new ArrayList<>();
     private int position = 0;
     private CustomViewPager mPager;
     private PhotoViewPagerAdapter mAdapter;
     private ImageView ivDownload;
     private DownloadReceiver _downloadReceiver = null;
+    /**
+     * 게시판 등에서 보여주는 이미지 구조인지, 차량에서 보여주는 웹 링크인지
+     */
+    boolean isFileData = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_photo_view);
         mContext = this;
-        initData();
+        initIntentData();
         initView();
     }
 
-    private void initData(){
+    private void initIntentData(){
         try {
             Intent intent = getIntent();
-            if (intent != null &&
-                    intent.hasExtra(IntentParams.PARAM_ANNOUNCEMENT_DETAIL_IMG) &&
+            if (intent == null) return;
+            if (intent.hasExtra(IntentParams.PARAM_ANNOUNCEMENT_DETAIL_IMG) &&
                     intent.hasExtra(IntentParams.PARAM_ANNOUNCEMENT_DETAIL_IMG_POSITION)){
-
+                isFileData = true;
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU){
                     mImageList = intent.getParcelableArrayListExtra(IntentParams.PARAM_ANNOUNCEMENT_DETAIL_IMG, FileData.class);
                 }else{
                     mImageList = intent.getParcelableArrayListExtra(IntentParams.PARAM_ANNOUNCEMENT_DETAIL_IMG);
                 }
-
                 position = intent.getIntExtra(IntentParams.PARAM_ANNOUNCEMENT_DETAIL_IMG_POSITION, position);
-
+                if(mImageList.isEmpty()) finish();
                 for (FileData file : mImageList) LogMgr.e(TAG+"ImgTest", RetrofitApi.FILE_SUFFIX_URL + file.path + file.saveName + " position : " + position);
+            }else if(intent.hasExtra(IntentParams.PARAM_WEB_DETAIL_IMG) &&
+                    intent.hasExtra(IntentParams.PARAM_WEB_DETAIL_IMG_POSITION)) {
+                isFileData = false;
+                _webImageList = intent.getStringArrayListExtra(IntentParams.PARAM_WEB_DETAIL_IMG);
+                position = intent.getIntExtra(IntentParams.PARAM_WEB_DETAIL_IMG_POSITION, position);
+                if(_webImageList.isEmpty()) finish();
             }
 
         }catch (Exception e){ LogMgr.e(TAG + " Exception : ", e.getMessage()); }
@@ -81,9 +91,40 @@ public class PhotoViewActivity extends BaseActivity {
 
     void initView() {
         tvPage = findViewById(R.id.tv_photoview_page);
+        mPager = (CustomViewPager) findViewById(R.id.view_pager);
+        if(isFileData) {
+            if (mImageList != null && mImageList.size() > 0)
+                tvPage.setText(position + 1 + " / " + mImageList.size());
+            mAdapter = new PhotoViewPagerAdapter(mImageList, tvPage);
+        }else{
+            if (_webImageList != null && _webImageList.size() > 0)
+                tvPage.setText(position + 1 + " / " + _webImageList.size());
+            mAdapter = new PhotoViewPagerAdapter(tvPage, _webImageList);
+        }
 
-        if (mImageList != null && mImageList.size() > 0) tvPage.setText(position + 1 + " / " + mImageList.size());
-
+        mPager.setAdapter(mAdapter);
+        mPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
+            @Override
+            public void onPageSelected(int index) {
+                LogMgr.w(TAG, "page selected " + index);
+                if(isFileData) {
+                    tvPage.setText(index + 1 + " / " + mImageList.size());
+                    position = index;
+                    FileData item = mImageList.get(position);
+                    checkEnableForDownload(item);
+                }else{
+                    tvPage.setText(index + 1 + " / " + _webImageList.size());
+                    position = index;
+                    String item = _webImageList.get(position);
+                    checkEnableForDownload(item);
+                }
+            }
+            @Override
+            public void onPageScrollStateChanged(int state) {}
+        });
+        mPager.setCurrentItem(position);
         ImageView ivClose = findViewById(R.id.img_close);
         ivClose.setColorFilter(getColor(R.color.white));
         ivClose.setOnClickListener(this);
@@ -92,40 +133,23 @@ public class PhotoViewActivity extends BaseActivity {
         ivDownload.setOnClickListener(this);
         layoutHeader = findViewById(R.id.layout_header);
 
-        mPager = (CustomViewPager) findViewById(R.id.view_pager);
-        mAdapter = new PhotoViewPagerAdapter(mImageList, tvPage);
-        mPager.setAdapter(mAdapter);
-        mPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
-            @Override
-            public void onPageSelected(int index) {
-                LogMgr.w(TAG, "page selected " + index);
-                tvPage.setText(index + 1 + " / " + mImageList.size());
-                position = index;
-                FileData item = mImageList.get(position);
-                checkEnableForDownload(item);
-            }
-            @Override
-            public void onPageScrollStateChanged(int state) {}
-        });
         if (Utils.isLandscapeMode(mContext)) { // 가로모드일때
-            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) layoutHeader.getLayoutParams();
+            ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) layoutHeader.getLayoutParams();
             params.leftMargin = Utils.fromDpToPx(30); // 양쪽 마진 설정. 네비게이션바 겹쳐져서 다운로드 아이콘 클릭 잘 안됨
             params.rightMargin = Utils.fromDpToPx(30);
             layoutHeader.setLayoutParams(params);
 
         }else { // 세로모드일때
-            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) layoutHeader.getLayoutParams();
+            ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) layoutHeader.getLayoutParams();
             params.topMargin = statusBarHeight(mContext); // 상단의 상태 바 size만큼 margin 값 주기
             layoutHeader.setLayoutParams(params);
         }
-
         setStatusBarTransparent();
-        if(position == 0) { //0일 때는 onPageSelected가 호출되지 않음.
-            checkEnableForDownload(mImageList.get(0));
-        }
-        mPager.setCurrentItem(position);
+//        if(position == 0) { //0일 때는 onPageSelected가 호출되지 않음.
+//            if(isFileData) checkEnableForDownload(mImageList.get(0));
+//            else checkEnableForDownload(_webImageList.get(0));
+//        }
+
     }
 
     /**
@@ -134,6 +158,17 @@ public class PhotoViewActivity extends BaseActivity {
      */
     private void checkEnableForDownload(FileData item) {
         String url = RetrofitApi.FILE_SUFFIX_URL + item.path + "/" + item.saveName;
+        url = FileUtils.replaceMultipleSlashes(url);
+        FileUtils.isImageUrlValid(mContext, url, new FileUtils.ImageValidationListener() {
+            @Override
+            public void onImageValidation(boolean isValid) {
+                LogMgr.e(" image isValid =" + isValid);
+                FileUtils.setImageViewEnabledWithColor(mContext, ivDownload, isValid, R.color.white, R.color.blackgray);
+            }
+        });
+    }
+    private void checkEnableForDownload(String item) {
+        String url = item;
         url = FileUtils.replaceMultipleSlashes(url);
         FileUtils.isImageUrlValid(mContext, url, new FileUtils.ImageValidationListener() {
             @Override
@@ -229,13 +264,18 @@ public class PhotoViewActivity extends BaseActivity {
     }
 
     private void downloadImage(){
-        String url = RetrofitApi.FILE_SUFFIX_URL + mImageList.get(position).path + "/" + mImageList.get(position).saveName;
-        url = FileUtils.replaceMultipleSlashes(url);
+        String url, fileName = "";
+        if(isFileData) {
+            url = RetrofitApi.FILE_SUFFIX_URL + mImageList.get(position).path + "/" + mImageList.get(position).saveName;
+            url = FileUtils.replaceMultipleSlashes(url);
 
-        LogMgr.w("download file uri = " + url);
+            LogMgr.w("download file uri = " + url);
 
-        String fileName = mImageList.get(position).orgName;
-
+            fileName = mImageList.get(position).orgName;
+        }else{
+            url = _webImageList.get(position);
+            fileName = url.contains("/")? url.substring(url.lastIndexOf("/")).replace("/", "") : url;
+        }
         FileUtils.downloadFile(mContext, url, fileName);
         // BroadcastReceiver 등록
         _downloadReceiver = new DownloadReceiver(new DownloadReceiver.DownloadListener() {

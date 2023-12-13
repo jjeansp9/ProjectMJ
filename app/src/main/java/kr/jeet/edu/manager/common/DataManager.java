@@ -10,6 +10,7 @@ import kr.jeet.edu.manager.model.data.BoardAttributeData;
 import kr.jeet.edu.manager.model.data.LTCData;
 import kr.jeet.edu.manager.model.data.RecipientData;
 import kr.jeet.edu.manager.model.data.SchoolData;
+import kr.jeet.edu.manager.model.data.SettingItemData;
 import kr.jeet.edu.manager.model.data.StudentGradeData;
 
 /**
@@ -53,6 +54,8 @@ public class DataManager {
     private ArrayMap<String, BoardAttributeData> BoardListMap = new ArrayMap<>();
     //수신인 리스트 (등록 후 삭제됨)
     private ArrayList<RecipientData> RecipientList = new ArrayList<>();
+    //Setting 리스트
+    private ArrayMap<String, SettingItemData> SettingListMap = new ArrayMap<>();
 
     public ArrayMap<String, ACAData> getACAListMap() {
         return ACAListMap;
@@ -206,6 +209,42 @@ public class DataManager {
         String key = data.boardType;
         if(!BoardListMap.containsKey(key)) {
             BoardListMap.put(key, data);
+            return true;
+        }
+        return false;
+    }
+    //settings
+    public ArrayMap<String, SettingItemData> getSettingItemList() {
+        return SettingListMap;
+    }
+    public void setSettingListMap(ArrayMap<String, SettingItemData> map) {
+        this.SettingListMap =  map;
+    }
+    public boolean initSettingListMap(List<SettingItemData> list)
+    {
+        if(list == null) return false;
+        if(!SettingListMap.isEmpty()) SettingListMap.clear();
+        for(SettingItemData item : list) {
+            item.settingItemName = item.settingsType.replaceAll("[0-9]", "");
+            String key = item.settingItemName;
+            if (!SettingListMap.containsKey(key)) {
+                SettingListMap.put(key, item);
+            }
+        }
+        return true;
+    }
+    public SettingItemData getSettingItemData(String itemType) {
+        if(SettingListMap.containsKey(itemType)) {
+            return SettingListMap.get(itemType);
+        }
+        return null;
+    }
+    public boolean setSettingItemData(SettingItemData data) {
+        if(data == null) return false;
+        data.settingItemName = data.settingsType.replaceAll("[^0-9]", "");
+        String key = data.settingItemName;
+        if(!SettingListMap.containsKey(key)) {
+            SettingListMap.put(key, data);
             return true;
         }
         return false;

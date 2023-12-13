@@ -61,6 +61,18 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@id/img_icon_bus"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintVertical_chainStyle="packed"/>
+    <TextView
+        android:id="@+id/tv_arrive_date"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/layout_margin_xsmall"
+        android:textColor="@color/font_color_999"
+        android:textSize="@dimen/font_size_small"
+        app:layout_constraintTop_toBottomOf="@id/tv_bp_name"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/img_icon_bus"
         app:layout_constraintEnd_toEndOf="parent"/>
 
 <!--    <CheckBox-->

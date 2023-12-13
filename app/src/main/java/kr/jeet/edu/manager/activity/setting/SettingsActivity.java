@@ -15,20 +15,27 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.List;
 
 import kr.jeet.edu.manager.R;
 import kr.jeet.edu.manager.activity.BaseActivity;
 import kr.jeet.edu.manager.activity.WebViewActivity;
 import kr.jeet.edu.manager.activity.login.LoginActivity;
 import kr.jeet.edu.manager.common.Constants;
+import kr.jeet.edu.manager.common.DataManager;
 import kr.jeet.edu.manager.common.IntentParams;
 import kr.jeet.edu.manager.model.data.ManagerInfo;
+import kr.jeet.edu.manager.model.data.SettingItemData;
 import kr.jeet.edu.manager.model.request.UpdatePushStatusRequest;
 import kr.jeet.edu.manager.model.response.BaseResponse;
 import kr.jeet.edu.manager.model.response.GetManagerInfoResponse;
+import kr.jeet.edu.manager.model.response.SettingItemListResponse;
 import kr.jeet.edu.manager.server.RetrofitApi;
 import kr.jeet.edu.manager.server.RetrofitClient;
 import kr.jeet.edu.manager.utils.LogMgr;
@@ -48,8 +55,9 @@ public class SettingsActivity extends BaseActivity {
     private Switch mSwAnnouncement, mSwInformationSession, mSwAttendance, mSwSystem, mSwAll;
     private AppCompatButton btnSetAccount;
     private RetrofitApi mRetrofitApi;
-    private ConstraintLayout layoutFirst, layoutSecond, layoutThird;
-
+    private ConstraintLayout layoutFirst, layoutSecond, layoutThird, layoutFourth;
+    private RadioGroup radioGroupRecipient;
+    private RadioButton radioBtnStudent, radioBtnParent, radioBtnBoth;
     private UpdatePushStatusRequest updatePushStatus;
 
     private String pushNotice = "";
@@ -120,17 +128,49 @@ public class SettingsActivity extends BaseActivity {
         mTvUserGubun = (TextView) findViewById(R.id.tv_set_user_gubun);
         mTvName = (TextView) findViewById(R.id.tv_set_name);
         mTvPhoneNum = (TextView) findViewById(R.id.tv_set_phone_num);
-        if(_userGubun == Constants.USER_TYPE_SUPER_ADMIN) {
-            mTvPhoneNum.setVisibility(View.GONE);
-        }else{
-            mTvPhoneNum.setVisibility(View.VISIBLE);
-        }
-        mTvAppVersionBadge = (TextView) findViewById(R.id.tv_app_version_update);
-        mTvAppVersion = (TextView) findViewById(R.id.tv_app_version);
 
         layoutFirst = findViewById(R.id.layout_first);
         layoutSecond = findViewById(R.id.layout_second);
         layoutThird = findViewById(R.id.layout_third);
+        layoutFourth = findViewById(R.id.layout_fourth);
+
+        radioGroupRecipient = findViewById(R.id.radioGroup);
+        radioBtnBoth = findViewById(R.id.radioBtn0);
+        radioBtnParent = findViewById(R.id.radioBtn1);
+        radioBtnStudent = findViewById(R.id.radioBtn2);
+
+        if(_userGubun == Constants.USER_TYPE_SUPER_ADMIN) {
+            mTvPhoneNum.setVisibility(View.GONE);
+            layoutThird.setVisibility(View.VISIBLE);
+            setRadioButton();
+            radioGroupRecipient.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(RadioGroup group, int checkedId) {
+                    int value = 0;
+                    switch(checkedId) {
+                        case R.id.radioBtn0:
+                            value = 0;
+                            break;
+                        case R.id.radioBtn1:
+                            value = 1;
+                            break;
+                        case R.id.radioBtn2:
+                            value = 2;
+                            break;
+                        default:
+                            return;
+                    }
+                    requestUpdateSetting(Constants.SETTING_TYPE_RECIPIENT, value);
+                }
+            });
+        }else{
+            mTvPhoneNum.setVisibility(View.VISIBLE);
+            layoutThird.setVisibility(View.GONE);
+        }
+        mTvAppVersionBadge = (TextView) findViewById(R.id.tv_app_version_update);
+        mTvAppVersion = (TextView) findViewById(R.id.tv_app_version);
+
+
 
         mSwAnnouncement = (Switch) findViewById(R.id.sw_set_announcement_state);
         mSwInformationSession = (Switch) findViewById(R.id.sw_set_information_session_state);
@@ -186,6 +226,23 @@ public class SettingsActivity extends BaseActivity {
         mSwInformationSession.setOnCheckedChangeListener((view, isChecked) -> checkConfirm());
         mSwAttendance.setOnCheckedChangeListener((view, isChecked) -> checkConfirm());
         mSwSystem.setOnCheckedChangeListener((view, isChecked) -> checkConfirm());
+    }
+    public void setRadioButton() {
+        SettingItemData settingItem = DataManager.getInstance().getSettingItemData(Constants.SETTING_TYPE_RECIPIENT);
+        if(settingItem == null) return;
+        switch(Constants.ShowCheckboxColumnType.values()[settingItem.value]) {
+            case TYPE_BOTH:
+                radioBtnBoth.setChecked(true);
+                break;
+            case TYPE_PARENT_ONLY:
+                radioBtnParent.setChecked(true);
+                break;
+            case TYPE_STUDENT_ONLY:
+                radioBtnStudent.setChecked(true);
+                break;
+            default:
+                break;
+        }
     }
 
     @Override
@@ -374,6 +431,94 @@ public class SettingsActivity extends BaseActivity {
             });
         }
     }
+    // 세팅 변경
+    private void requestUpdateSetting(String type, int val){
+        if(RetrofitClient.getInstance() != null) {
+            SettingItemData item = new SettingItemData();
+            SettingItemData originItem = DataManager.getInstance().getSettingItemData(Constants.SETTING_TYPE_RECIPIENT);
+            if(originItem != null){
+                try {
+//                    item = (SettingItemData) DataManager.getInstance().getSettingItemData(type).clone();
+                    item.seq = originItem.seq;
+//                    item.value = val;
+                    item.memberSeq = _memberSeq;
+                    item.settingsType = originItem.settingItemName + String.valueOf(val);
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }else{
+                item.seq = 1;
+                item.memberSeq = _memberSeq;
+                item.settingsType = type + String.valueOf(val);
+            }
+
+
+            SettingItemData finalItem = item;
+            RetrofitClient.getApiInterface().updateSettingItems(item).enqueue(new Callback<BaseResponse>() {
+                @Override
+                public void onResponse(Call<BaseResponse> call, Response<BaseResponse> response) {
+                    try {
+                        if (response.isSuccessful()){
+                            if ("SUCCESS".equals(response.body().msg)) {
+                                DataManager.getInstance().setSettingItemData(finalItem);
+                            }
+
+                        }else{
+                            Toast.makeText(mContext, R.string.server_fail, Toast.LENGTH_SHORT).show();
+                            requestSettingItems();
+                            LogMgr.e(TAG, "requestMemberInfo() errBody : " + response.errorBody().string());
+                        }
+
+                    }catch (Exception e){ LogMgr.e(TAG + "requestMemberInfo() Exception : ", e.getMessage()); }
+
+                }
+
+                @Override
+                public void onFailure(Call<BaseResponse> call, Throwable t) {
+                    try { LogMgr.e(TAG, "requestMemberInfo() onFailure >> " + t.getMessage()); }
+                    catch (Exception e) { LogMgr.e(TAG + "requestMemberInfo() Exception : ", e.getMessage()); }
+                    requestSettingItems();
+                }
+            });
+        }
+    }
+    //설정사항 가져오기
+    private void requestSettingItems(){
+        if (RetrofitClient.getInstance() != null){
+            RetrofitClient.getApiInterface().getSettingItems().enqueue(new Callback<SettingItemListResponse>() {
+                @Override
+                public void onResponse(Call<SettingItemListResponse> call, Response<SettingItemListResponse> response) {
+                    try {
+                        if (response.isSuccessful()){
+                            List<SettingItemData> getData = null;
+
+                            if (response.body() != null) {
+                                getData = response.body().data;
+                                DataManager.getInstance().initSettingListMap(getData);
+                                setRadioButton();
+                            }
+                        }else{
+//                            Toast.makeText(mContext, R.string.server_fail, Toast.LENGTH_SHORT).show();
+                        }
+                    }catch (Exception e){
+                        LogMgr.e(TAG + "requestBoardList() Exception : ", e.getMessage());
+                    }finally {
+
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<SettingItemListResponse> call, Throwable t) {
+                    setRadioButton();
+                    try {
+                        LogMgr.e(TAG, "requestBoardList() onFailure >> " + t.getMessage());
+                    }catch (Exception e){
+                    }
+                }
+            });
+        }
+    }
     // 로그아웃
     private void requestLogOut(int managerSeq){
         if(RetrofitClient.getInstance() != null) {
@@ -432,8 +577,16 @@ public class SettingsActivity extends BaseActivity {
                     Utils.animateLayoutMoveLeft(layoutSecond, mContext);
                 }
                 else if (view == layoutSecond) {
-                    animateLayout(layoutThird);
-                    Utils.animateLayoutMoveLeft(layoutThird, mContext);
+                    if(layoutThird.getVisibility() == View.VISIBLE) {
+                        animateLayout(layoutThird);
+                        Utils.animateLayoutMoveLeft(layoutThird, mContext);
+                    }else{
+                        animateLayout(layoutFourth);
+                        Utils.animateLayoutMoveLeft(layoutFourth, mContext);
+                    }
+                }else if(view == layoutThird) {
+                    animateLayout(layoutFourth);
+                    Utils.animateLayoutMoveLeft(layoutFourth, mContext);
                 }
             }
         });

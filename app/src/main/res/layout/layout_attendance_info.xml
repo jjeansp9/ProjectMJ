@@ -6,7 +6,8 @@
     android:layout_height="wrap_content"
     android:focusable="true"
     android:clickable="true"
-    android:paddingHorizontal="@dimen/layout_margin_small"
+    android:paddingStart="@dimen/layout_margin_xxxsmall"
+    android:paddingEnd="@dimen/layout_margin_small"
     android:paddingVertical="@dimen/layout_margin_xxxxsmall"
     android:id="@+id/attendance_item_root"
     android:foreground="?android:attr/selectableItemBackground">
@@ -17,16 +18,37 @@
         android:orientation="vertical"
         app:layout_constraintGuide_end="100dp" />
     <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_index"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="@dimen/layout_index_width" />
+    <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_title"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        app:layout_constraintGuide_begin="@dimen/layout_sex_size" />
+        app:layout_constraintGuide_begin="@dimen/layout_checkbox_width" />
+    <TextView
+        android:id="@+id/tv_index"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/guideline_index"
+        app:layout_constraintHorizontal_bias="1"
+        android:textColor="@color/font_color_999"
+        android:hint="   "
+        android:textStyle="bold"
+        android:textSize="@dimen/font_size_xsmall"
+        android:maxLines="1"
+        android:ellipsize="end"/>
     <View
         android:id="@+id/view_gender"
         android:layout_height="@dimen/dot_sex_size"
         android:layout_width="@dimen/dot_sex_size"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@id/guideline_index"
         app:layout_constraintEnd_toStartOf="@id/guideline_title"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/edit_attendance_note"
@@ -37,7 +59,7 @@
         android:id="@+id/checkbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@id/guideline_index"
         app:layout_constraintEnd_toStartOf="@id/guideline_title"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/edit_attendance_note"

@@ -38,12 +38,14 @@ import kr.jeet.edu.manager.model.data.LTCData;
 import kr.jeet.edu.manager.model.data.MainMenuItemData;
 import kr.jeet.edu.manager.model.data.ManagerInfo;
 import kr.jeet.edu.manager.model.data.SchoolData;
+import kr.jeet.edu.manager.model.data.SettingItemData;
 import kr.jeet.edu.manager.model.response.AnnouncementListResponse;
 import kr.jeet.edu.manager.model.response.BoardAttributeResponse;
 import kr.jeet.edu.manager.model.response.GetACAListResponse;
 import kr.jeet.edu.manager.model.response.GetManagerInfoResponse;
 import kr.jeet.edu.manager.model.response.LTCListResponse;
 import kr.jeet.edu.manager.model.response.SchoolListResponse;
+import kr.jeet.edu.manager.model.response.SettingItemListResponse;
 import kr.jeet.edu.manager.server.RetrofitApi;
 import kr.jeet.edu.manager.server.RetrofitClient;
 import kr.jeet.edu.manager.utils.LogMgr;
@@ -111,6 +113,7 @@ public class MainActivity extends BaseActivity {
     private final int CMD_GET_MANAGER_INFO = 5;       // 강사정보 가져오기
     private final int CMD_GET_BOARD_INFO = 6;       // 게시판정보 가져오기
     private final int CMD_GET_LAST_ANNOUNCEMENT_BOARD = 7;       // 공지사항게시판정보 가져오기
+    private final int CMD_GET_RECIPIENT_SETTING = 8;       // 설정조회 (수신인)
 
 
 //    private final int CMD_PUSH_MESSAGE_RECEIVED = 5;
@@ -173,7 +176,9 @@ public class MainActivity extends BaseActivity {
                         requestAnnouncementBoardList("", "");
                     }
                     break;
-
+                case CMD_GET_RECIPIENT_SETTING:
+                    requestSettingItems();
+                    break;
 //                case CMD_PUSH_MESSAGE_RECEIVED:
 //                    break;
             }
@@ -729,6 +734,7 @@ public class MainActivity extends BaseActivity {
                         LogMgr.e(TAG + "requestBoardList() Exception : ", e.getMessage());
                     }finally {
                         setAnnouncementView();
+                        mHandler.sendEmptyMessage(CMD_GET_RECIPIENT_SETTING);
                     }
                 }
 
@@ -740,11 +746,45 @@ public class MainActivity extends BaseActivity {
                     }
                     Toast.makeText(mContext, R.string.server_error, Toast.LENGTH_SHORT).show();
                     setAnnouncementView();
+                    mHandler.sendEmptyMessage(CMD_GET_RECIPIENT_SETTING);
                 }
             });
         }
     }
+    //설정사항 가져오기
+    private void requestSettingItems(){
+        if (RetrofitClient.getInstance() != null){
+            RetrofitClient.getApiInterface().getSettingItems().enqueue(new Callback<SettingItemListResponse>() {
+                @Override
+                public void onResponse(Call<SettingItemListResponse> call, Response<SettingItemListResponse> response) {
+                    try {
+                        if (response.isSuccessful()){
+                            List<SettingItemData> getData = null;
 
+                            if (response.body() != null) {
+                                getData = response.body().data;
+                                DataManager.getInstance().initSettingListMap(getData);
+                            }
+                        }else{
+//                            Toast.makeText(mContext, R.string.server_fail, Toast.LENGTH_SHORT).show();
+                        }
+                    }catch (Exception e){
+                        LogMgr.e(TAG + "requestBoardList() Exception : ", e.getMessage());
+                    }finally {
+
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<SettingItemListResponse> call, Throwable t) {
+                    try {
+                        LogMgr.e(TAG, "requestBoardList() onFailure >> " + t.getMessage());
+                    }catch (Exception e){
+                    }
+                }
+            });
+        }
+    }
     private void initMenus() {
         if(menuList != null) {
             menuList.clear();
