@@ -14,11 +14,12 @@ import org.threeten.bp.format.DateTimeFormatter;
 import org.threeten.bp.format.DateTimeFormatterBuilder;
 import org.threeten.bp.temporal.ChronoField;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.Map;
 
 @Entity(tableName = "tbl_push_message")
-public class PushMessage implements Parcelable {
+public class PushMessage implements Serializable {
 
     @PrimaryKey(autoGenerate = true)
     public long id;
@@ -58,27 +59,27 @@ public class PushMessage implements Parcelable {
         this.isRead = isRead;
     }
 
-    protected PushMessage(Parcel in) {
-        readFromParcel(in);
-    }
+//    protected PushMessage(Parcel in) {
+//        readFromParcel(in);
+//    }
     private static final DateTimeFormatter dateTimeFormatter = new DateTimeFormatterBuilder()
             .appendPattern("yyyy-MM-dd HH:mm:ss")
             .optionalStart()
             .appendFraction(ChronoField.MILLI_OF_SECOND, 0, 3, true)
             .optionalEnd()
             .toFormatter();
-    public static final Creator<PushMessage> CREATOR = new Creator<PushMessage>() {
-
-        @Override
-        public PushMessage createFromParcel(Parcel in) {
-            return new PushMessage(in);
-        }
-
-        @Override
-        public PushMessage[] newArray(int size) {
-            return new PushMessage[size];
-        }
-    };
+//    public static final Creator<PushMessage> CREATOR = new Creator<PushMessage>() {
+//
+//        @Override
+//        public PushMessage createFromParcel(Parcel in) {
+//            return new PushMessage(in);
+//        }
+//
+//        @Override
+//        public PushMessage[] newArray(int size) {
+//            return new PushMessage[size];
+//        }
+//    };
 
     public static PushMessage buildFromMap(Map<String, String> map) {
         long id = 0L;
@@ -96,31 +97,31 @@ public class PushMessage implements Parcelable {
         return new PushMessage(id, title, content, acaCode, date, pushType, connSeq, pushId, false);
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-    public void readFromParcel(Parcel in) {
-        id = in.readLong();
-        title = in.readString();
-        body = in.readString();
-        acaCode = in.readString();
-        date = LocalDateTime.parse(in.readString(), dateTimeFormatter);
-        pushType = in.readString();
-        connSeq = in.readInt();
-        pushId = in.readString();
-        isRead = in.readByte() != 0;
-    }
-    @Override
-    public void writeToParcel(@NonNull Parcel parcel, int i) {
-        parcel.writeLong(id);
-        parcel.writeString(title);
-        parcel.writeString(body);
-        parcel.writeString(acaCode);
-        parcel.writeString(date.format(dateTimeFormatter));
-        parcel.writeString(pushType);
-        parcel.writeInt(connSeq);
-        parcel.writeString(pushId);
-        parcel.writeByte((byte) (isRead ? 1 : 0));
-    }
+//    @Override
+//    public int describeContents() {
+//        return 0;
+//    }
+//    public void readFromParcel(Parcel in) {
+//        id = in.readLong();
+//        title = in.readString();
+//        body = in.readString();
+//        acaCode = in.readString();
+//        date = LocalDateTime.parse(in.readString(), dateTimeFormatter);
+//        pushType = in.readString();
+//        connSeq = in.readInt();
+//        pushId = in.readString();
+//        isRead = in.readByte() != 0;
+//    }
+//    @Override
+//    public void writeToParcel(@NonNull Parcel parcel, int i) {
+//        parcel.writeLong(id);
+//        parcel.writeString(title);
+//        parcel.writeString(body);
+//        parcel.writeString(acaCode);
+//        parcel.writeString(date.format(dateTimeFormatter));
+//        parcel.writeString(pushType);
+//        parcel.writeInt(connSeq);
+//        parcel.writeString(pushId);
+//        parcel.writeByte((byte) (isRead ? 1 : 0));
+//    }
 }

@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.media.AudioManager;
 import android.media.RingtoneManager;
 import android.os.Build;
+import android.os.Bundle;
 import android.text.TextUtils;
 import android.widget.Toast;
 
@@ -204,7 +205,9 @@ public class FCMManager {
     private void createNotification(PushMessage msg) {
         Intent intent = new Intent(_context, IntroActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        intent.putExtra(IntentParams.PARAM_PUSH_MESSAGE, msg);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(IntentParams.PARAM_PUSH_MESSAGE, msg);
+        intent.putExtras(bundle);
         String tickerText = "";
         switch(msg.pushType) {
             case MSG_TYPE_NOTICE:

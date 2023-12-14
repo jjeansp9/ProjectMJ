@@ -397,12 +397,14 @@ public class LoginActivity extends BaseActivity {
                         } catch (IOException e) {
                         }
                     }
+                    btnPush = false;
                 }
                 @Override
                 public void onFailure(Call<LoginResponse> call, Throwable t) {
                     hideProgressDialog();
                     LogMgr.e(TAG, "requestLogin() onFailure >> " + t.getMessage());
                     Toast.makeText(mContext, R.string.server_error, Toast.LENGTH_SHORT).show();
+                    btnPush = false;
                 }
             });
         }
@@ -538,17 +540,18 @@ public class LoginActivity extends BaseActivity {
                         }
                     }
                     hideProgressDialog();
+                    btnPush = false;
                 }
                 @Override
                 public void onFailure(Call<LoginResponse> call, Throwable t) {
                     hideProgressDialog();
                     LogMgr.e(TAG, "requestLogin() onFailure >> " + t.getMessage());
                     Toast.makeText(mContext, R.string.server_error, Toast.LENGTH_SHORT).show();
+                    btnPush = false;
                 }
             });
         }
     }
-
 
 //    private void hideKeyboard() {
 //        InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);

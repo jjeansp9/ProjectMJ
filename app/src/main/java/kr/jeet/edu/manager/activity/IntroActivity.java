@@ -230,18 +230,31 @@ public class IntroActivity extends BaseActivity {
     private void initIntentData() {
         Intent intent = getIntent();
         if(intent != null) {
-            if(intent.hasExtra(IntentParams.PARAM_PUSH_MESSAGE)){
-                LogMgr.e(TAG, "push msg ");
-                _pushMessage = intent.getParcelableExtra(IntentParams.PARAM_PUSH_MESSAGE);
-                LogMgr.e(TAG, "msg = " + _pushMessage.body);
-            }else{
-                LogMgr.e(TAG, "push msg is null");
-            }
-            if(intent.getExtras() != null) {
-                Bundle map = intent.getExtras();
-                for (String key : map.keySet()) {
-                    LogMgr.e(TAG, "key = " + key + " : value = " + map.get(key));
-                }
+//            if(intent.hasExtra(IntentParams.PARAM_PUSH_MESSAGE)){
+//                LogMgr.e(TAG, "push msg ");
+//                _pushMessage = intent.getParcelableExtra(IntentParams.PARAM_PUSH_MESSAGE);
+//                LogMgr.e(TAG, "msg = " + _pushMessage.body);
+//            }else{
+//                LogMgr.e(TAG, "push msg is null");
+//            }
+            Bundle bundle = intent.getExtras();
+            if(bundle != null) {
+//                Bundle bundle = intent.getExtras();
+//                if(bundle.containsKey(IntentParams.PARAM_PUSH_MESSAGE)){
+//                    LogMgr.e(TAG, "push msg ");
+//                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+//                        _pushMessage = bundle.getSerializable(IntentParams.PARAM_PUSH_MESSAGE, PushMessage.class);
+//                    }else{
+//                        _pushMessage = (PushMessage) bundle.getSerializable(IntentParams.PARAM_PUSH_MESSAGE);
+//                    }
+//                    LogMgr.e(TAG, "msg = " + _pushMessage.body);
+//                }else{
+//                    LogMgr.e(TAG, "push msg is null");
+//                }
+                _pushMessage = Utils.getSerializableExtra(bundle, IntentParams.PARAM_PUSH_MESSAGE, PushMessage.class);
+//                for (String key : map.keySet()) {
+//                    LogMgr.e(TAG, "key = " + key + " : value = " + map.get(key));
+//                }
             }
         }else{
             LogMgr.e(TAG, "intent is null");
@@ -332,7 +345,10 @@ public class IntroActivity extends BaseActivity {
         //푸쉬전송을 눌러서 들어온 경우에 로그인이 되어 있을 때
         if(_pushMessage != null && PreferenceUtil.getUserGubun(this) < USER_TYPE_STUDENT && PreferenceUtil.getUserSeq(this) != -1) {  //isFromPush
             Intent intent = new Intent(this, MainActivity.class);
-            intent.putExtra(IntentParams.PARAM_PUSH_MESSAGE, _pushMessage);
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(IntentParams.PARAM_PUSH_MESSAGE, _pushMessage);
+            intent.putExtras(bundle);
+//            intent.putExtra(IntentParams.PARAM_PUSH_MESSAGE, _pushMessage);
             startActivity(intent);
             finish();
 

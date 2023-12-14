@@ -50,6 +50,7 @@ import kr.jeet.edu.manager.server.RetrofitApi;
 import kr.jeet.edu.manager.server.RetrofitClient;
 import kr.jeet.edu.manager.utils.LogMgr;
 import kr.jeet.edu.manager.utils.PreferenceUtil;
+import kr.jeet.edu.manager.utils.Utils;
 import kr.jeet.edu.manager.view.CustomAppbarLayout;
 import kr.jeet.edu.manager.view.decoration.LastIndexDeleteDecoration;
 import retrofit2.Call;
@@ -61,6 +62,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -308,19 +310,10 @@ public class MainActivity extends BaseActivity {
     private void initData() {
         Intent intent = getIntent();
         if(intent != null) {
-            if (intent.hasExtra(IntentParams.PARAM_PUSH_MESSAGE)) {
-                LogMgr.e(TAG, "push msg ");
-                _pushMessage = intent.getParcelableExtra(IntentParams.PARAM_PUSH_MESSAGE);
-                LogMgr.e(TAG, "msg = " + _pushMessage.body);
-            } else {
-                LogMgr.e(TAG, "push msg is null");
-            }
-            if (intent.getExtras() != null) {
-                Bundle map = intent.getExtras();
-                for (String key : map.keySet()) {
-                    LogMgr.e(TAG, "key = " + key + " : value = " + map.get(key));
-                }
-            }
+
+            Bundle bundle = intent.getExtras();
+            if(bundle != null)
+                _pushMessage = Utils.getSerializableExtra(bundle, IntentParams.PARAM_PUSH_MESSAGE, PushMessage.class);
         }
 //        showProfileDate();
 

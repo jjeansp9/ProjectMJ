@@ -7,6 +7,8 @@ import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.InsetDrawable;
+import android.os.Build;
+import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -24,6 +26,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.skydoves.powerspinner.PowerSpinnerView;
 
+import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.text.MessageFormat;
 import java.text.ParseException;
@@ -492,5 +495,19 @@ public class Utils {
     public static boolean isLandscapeMode(Context context) {
         int orientation = context.getResources().getConfiguration().orientation;
         return orientation == Configuration.ORIENTATION_LANDSCAPE;
+    }
+    public static <T extends Serializable> T getSerializableExtra(Bundle bundle, String key, Class<T> clazz) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            // Android TIRAMISU 이상에서는 getSerializableExtra 메서드의 두 번째 파라미터를 사용하는 방법이 필요합니다.
+            // 이 예시에서는 일반적인 방법을 사용합니다.
+            // 적절한 오버로드 또는 대체 방법이 있는 경우 이를 사용하세요.
+            return clazz.cast(bundle.getSerializable(key, clazz));
+        } else {
+            Serializable temp = bundle.getSerializable(key);
+            if (clazz.isInstance(temp)) {
+                return clazz.cast(temp);
+            }
+            return null;
+        }
     }
 }
