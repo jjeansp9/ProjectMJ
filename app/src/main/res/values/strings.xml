@@ -492,4 +492,6 @@
     <string name="title_bus_start">출발</string>
     <string name="btn_title_phone_call">전화하기</string>
     <string name="btn_title_bus_timetable_">등/하원 시간표</string>
+
+    <string name="msg_inappupdate_fail">앱 업데이트가 정상적으로 완료되지 않았습니다.</string>
 </resources>
