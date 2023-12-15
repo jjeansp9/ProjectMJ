@@ -33,6 +33,7 @@
     <string name="find_id_pw">계정 찾기</string>
     <string name="cancel">취소</string>
     <string name="ok">확인</string>
+    <string name="msg_continue">계속하기</string>
     <string name="contact">연락처</string>
     <string name="phone">전화번호</string>
     <string name="bag">분류</string>
@@ -491,7 +492,8 @@
     <string name="qna_unset_main_success">공지가 해제되었습니다.</string>
     <string name="title_bus_start">출발</string>
     <string name="btn_title_phone_call">전화하기</string>
-    <string name="btn_title_bus_timetable_">등/하원 시간표</string>
+    <string name="btn_title_bus_timetable_">승/하차 시간표</string>
 
     <string name="msg_inappupdate_fail">앱 업데이트가 정상적으로 완료되지 않았습니다.</string>
+    <string name="received_ssl_error_msg">이 사이트의 보안 인증서는 신뢰하는 보안 인증서가 아닙니다. 계속하시겠습니까?</string>
 </resources>

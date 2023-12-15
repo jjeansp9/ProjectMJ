@@ -5,7 +5,9 @@ import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.net.http.SslError;
 import android.view.View;
+import android.webkit.SslErrorHandler;
 import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
@@ -137,6 +139,17 @@ public class MyWebViewClient extends WebViewClient {
 
         // 오류가 났을 때 대체 페이지 로드
         //wv.loadUrl("");
+    }
+
+    @Override
+    public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
+        super.onReceivedSslError(view, handler, error);
+        final androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(activity);
+        builder.setMessage(activity.getString(R.string.received_ssl_error_msg));
+        builder.setPositiveButton(activity.getString(R.string.msg_continue), (dialog, which) -> handler.proceed());
+        builder.setNegativeButton(activity.getString(R.string.cancel), (dialog, whitch) -> handler.cancel());
+        final androidx.appcompat.app.AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     private void showProgressDialog() {
