@@ -87,8 +87,10 @@ public interface RetrofitApi {
 //    public final static String SERVER_BASE_URL = "http://192.168.2.51:7777/";   //kyt local
     //public final static String SERVER_BASE_URL = "http://192.168.2.55:7777/";   //pjh local
     //public final static String SERVER_BASE_URL = "http://192.168.2.77:7777/";  //khj local
+    public final static String SERVER_BASE_URL = "http://192.168.2.83:7777/"; // jwj local
     //public final static String SERVER_BASE_URL = "http://211.252.86.237:7777/";  //cloud
-    public final static String SERVER_BASE_URL = "http://211.252.86.6/"; // 신규 cloud local
+    //public final static String SERVER_BASE_URL = "http://211.252.86.6/"; // 신규 cloud local
+    //public final static String SERVER_BASE_URL = "https://www.jeetapp.kr/"; // domain
 
     public final static String PREFIX = "mobile/api/";
     public final static String FILE_SUFFIX_URL = SERVER_BASE_URL + "attachFile/";
@@ -399,7 +401,8 @@ public interface RetrofitApi {
             @Query("memberSeq") int memberSeq,
             @Query("userGubun") int userGubun,
             @Query("acaCode") String acaCode,
-            @Query("acaGubunCode") String acaGubunCode
+            @Query("acaGubunCode") String acaGubunCode,
+            @Query("state") String state
     );
     //QnA 상세조회
     @GET("qna/detail")

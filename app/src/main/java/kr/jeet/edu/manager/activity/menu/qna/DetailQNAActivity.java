@@ -216,11 +216,11 @@ public class DetailQNAActivity extends BaseActivity {
             }
             mTvDate.setText(_currentData.insertDate); // 작성날짜
             mTvQuestion.setText(_currentData.content); // 내용
-            if(_currentData.state.equals(Constants.QNA_STATE_SUBSCRIPTION)){    //신청
+            if(_currentData.state.equals(Constants.QNAState.SUBSCRIPTION.getCodeStr())){    //신청
                 layoutAnswer.setVisibility(View.GONE);
                 layoutControlManager.setVisibility(View.GONE);
                 _recyclerViewAnswerer.setVisibility(View.GONE);
-            }else if(_currentData.state.equals(Constants.QNA_STATE_RECEPTION)){ //접수
+            }else if(_currentData.state.equals(Constants.QNAState.RECEPTION.getCodeStr())){ //접수
                 layoutAnswer.setVisibility(View.GONE);
                 if(_currentData.userGubun <= Constants.USER_TYPE_TEACHER) { //강사/관리자가 작성한 글
                     layoutControlManager.setVisibility(View.GONE);
@@ -237,7 +237,7 @@ public class DetailQNAActivity extends BaseActivity {
                     requestSpecifiedAnswererList(_currentSeq);
                 }
                 requestSpecifiedAnswererList(_currentSeq);
-            }else if(_currentData.state.equals(Constants.QNA_STATE_COMPLETE)) { //완료
+            }else if(_currentData.state.equals(Constants.QNAState.COMPLETE.getCodeStr())) { //완료
                 layoutAnswer.setVisibility(View.VISIBLE);
                 mTvAnswer.setText(_currentData.reply);
                 if(_currentData.userGubun <= Constants.USER_TYPE_TEACHER) { //강사/관리자가 작성한 글
@@ -278,13 +278,13 @@ public class DetailQNAActivity extends BaseActivity {
                 } else {
                     if (_currentData.userGubun >= Constants.USER_TYPE_STUDENT) {
                         if (!TextUtils.isEmpty(_currentData.state)) {
-                            if (_currentData.state.equals(Constants.QNA_STATE_SUBSCRIPTION)) {
+                            if (_currentData.state.equals(Constants.QNAState.SUBSCRIPTION.getCodeStr())) {
                                 addTag(R.color.color_subscription, "신청");
 
-                            } else if(_currentData.state.equals(Constants.QNA_STATE_RECEPTION)) {
+                            } else if(_currentData.state.equals(Constants.QNAState.RECEPTION.getCodeStr())) {
                                 addTag(R.color.color_receiption, "접수");
 
-                            } else if(_currentData.state.equals(Constants.QNA_STATE_COMPLETE)) {
+                            } else if(_currentData.state.equals(Constants.QNAState.COMPLETE.getCodeStr())) {
                                 addTag(R.color.color_complete, "완료");
 
                             }
@@ -304,11 +304,11 @@ public class DetailQNAActivity extends BaseActivity {
             //endregion TAG
             //region Bottom
             //중간관리자 이고 신청단계에서 담당자 지정
-            if("Y".equals(_currentData.isSubAdmin) && _currentData.state.equals(Constants.QNA_STATE_SUBSCRIPTION)) {
+            if("Y".equals(_currentData.isSubAdmin) && _currentData.state.equals(Constants.QNAState.SUBSCRIPTION.getCodeStr())) {
 //                ViewCompat.setBackgroundTintList(layoutBottom, ColorStateList.valueOf(ContextCompat.getColor(mContext, R.color.blackgray)));
                 layoutBottom.setVisibility(View.VISIBLE);
                 tvBottomTitle.setText(R.string.title_select_manager);
-            }else if("Y".equals(_currentData.isReplyAdmin) && _currentData.state.equals(Constants.QNA_STATE_RECEPTION)) {
+            }else if("Y".equals(_currentData.isReplyAdmin) && _currentData.state.equals(Constants.QNAState.RECEPTION.getCodeStr())) {
 //                ViewCompat.setBackgroundTintList(layoutBottom, ColorStateList.valueOf(ContextCompat.getColor(mContext, R.color.red)));
                 layoutBottom.setVisibility(View.VISIBLE);
                 tvBottomTitle.setText(R.string.title_do_answer);
@@ -325,7 +325,7 @@ public class DetailQNAActivity extends BaseActivity {
         if(_userGubun < Constants.USER_TYPE_TEACHER) {
             if (_answererList != null && !_answererList.isEmpty()) {
                 _recyclerViewAnswerer.setVisibility(View.VISIBLE);
-                if (_currentData.state.equals(Constants.QNA_STATE_COMPLETE)) {
+                if (_currentData.state.equals(Constants.QNAState.COMPLETE.getCodeStr())) {
                     _answererList.stream().filter(t -> t.sfCode == _currentData.sfCode).forEach(item -> item.isWrited = true);
                 }
                 tvAnswererCount.setText(getString(R.string.content_recipient_counts, _answererListAdapter.getItemCount()));
@@ -340,9 +340,9 @@ public class DetailQNAActivity extends BaseActivity {
     public void onClick(View view) {
         switch(view.getId()) {
             case R.id.layout_bottom:
-                if("Y".equals(_currentData.isSubAdmin) && _currentData.state.equals(Constants.QNA_STATE_SUBSCRIPTION)) {    //담당자 지정
+                if("Y".equals(_currentData.isSubAdmin) && _currentData.state.equals(Constants.QNAState.SUBSCRIPTION.getCodeStr())) {    //담당자 지정
                     navigate2SelectAnswererActivity();
-                }else if("Y".equals(_currentData.isReplyAdmin) && _currentData.state.equals(Constants.QNA_STATE_RECEPTION)) {   //답변하기
+                }else if("Y".equals(_currentData.isReplyAdmin) && _currentData.state.equals(Constants.QNAState.RECEPTION.getCodeStr())) {   //답변하기
                     navigate2EditQNAActivity(true);
                 }
                 break;

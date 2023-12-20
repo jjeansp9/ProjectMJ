@@ -67,7 +67,7 @@ public class MenuQNAActivity extends BaseActivity {
     private QnaListAdapter mAdapter;
     private SwipeRefreshLayout mSwipeRefresh;
     private TextView mTvListEmpty;
-    private PowerSpinnerView mSpinnerCampus, mSpinnerGrade;
+    private PowerSpinnerView mSpinnerCampus, mSpinnerGrade, _spinnerState;
 
     private List<ACAData> _ACAList = new ArrayList<>();
     private List<String> _ACANameList = new ArrayList<>();
@@ -85,6 +85,7 @@ public class MenuQNAActivity extends BaseActivity {
     private String _appAcaCode = "";
     private ACAData _selectedLocalACA = null;
     private StudentGradeData _selectedGrade = null;
+    private Constants.QNAState _selectedState = null;
 
     private Menu _menu;
 
@@ -349,6 +350,31 @@ public class MenuQNAActivity extends BaseActivity {
 
         mSpinnerGrade.setSpinnerOutsideTouchListener((view, motionEvent) -> mSpinnerGrade.dismiss());
         mSpinnerGrade.setLifecycleOwner(this);
+
+        _spinnerState = findViewById(R.id.spinner_state);
+        _spinnerState.setIsFocusable(true);
+        {
+            WrapContentSpinnerAdapter adapter = new WrapContentSpinnerAdapter(mContext, Constants.QNAState.getNameList(), _spinnerState);
+            _spinnerState.setSpinnerAdapter(adapter);
+        }
+        //spinner 목록에 전체가 선택된 상태로 보이게하고 spinner에는 힌트 표시////
+        _spinnerState.selectItemByIndex(0);
+        _spinnerState.clearSelectedItem();
+        //////////////////////////////////////
+        _spinnerState.setOnSpinnerItemSelectedListener((oldIndex, oldItem, newIndex, newItem) -> {
+            LogMgr.e(newItem + " selected");
+            if(oldItem != null && oldItem.equals(newItem)) return;
+            Constants.QNAState selectedData = null;
+            selectedData = Constants.QNAState.getByName(newItem.toString());
+            _selectedState = selectedData;
+            if(_selectedState != null) {
+                LogMgr.w("selectedState = " + _selectedState.getNameKor());
+            }
+            requestQnaList();
+        });
+
+        _spinnerState.setSpinnerOutsideTouchListener((view, motionEvent) -> _spinnerState.dismiss());
+        _spinnerState.setLifecycleOwner(this);
     }
 
     private void setSelectAcaCode() {
@@ -393,12 +419,13 @@ public class MenuQNAActivity extends BaseActivity {
         if(lastSeq != null && lastSeq.length > 0) lastNoticeSeq = lastSeq[0];
         String acaCode = "";
         String gradeCode = "";
+        String stateCode = "";
         if(_selectedLocalACA != null) acaCode = _selectedLocalACA.acaCode;
         if(_selectedGrade != null) gradeCode = String.valueOf(_selectedGrade.gubunCode);
-
+        if(_selectedState != null) stateCode = _selectedState.getCodeStr();
         if (RetrofitClient.getInstance() != null) {
             int finalLastNoticeSeq = lastNoticeSeq;
-            RetrofitClient.getApiInterface().getQnaList(lastNoticeSeq, _memberSeq, _userGubun, acaCode, gradeCode).enqueue(new Callback<QnaListResponse>() {
+            RetrofitClient.getApiInterface().getQnaList(lastNoticeSeq, _memberSeq, _userGubun, acaCode, gradeCode, stateCode).enqueue(new Callback<QnaListResponse>() {
                 @Override
                 public void onResponse(Call<QnaListResponse> call, Response<QnaListResponse> response) {
                     try {

@@ -90,6 +90,10 @@ public class BriefingReservedListAdapter extends RecyclerView.Adapter<BriefingRe
                     holder.tvPhoneNum.setText(Utils.blindPhoneNumber(phoneNum));
                 }
 
+                if (!TextUtils.isEmpty(item.isStudent)) {
+                    if (item.isStudent.equals("Y")) holder.tvIsStudent.setText(mContext.getString(R.string.stu));
+                    else holder.tvIsStudent.setText(mContext.getString(R.string.stu_non));
+                }
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -104,7 +108,7 @@ public class BriefingReservedListAdapter extends RecyclerView.Adapter<BriefingRe
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
-        private TextView tvName, tvPhoneNum, tvGrade;
+        private TextView tvName, tvPhoneNum, tvGrade, tvIsStudent;
         private View deleteView;
 
         public ViewHolder(@NonNull View itemView){
@@ -114,6 +118,7 @@ public class BriefingReservedListAdapter extends RecyclerView.Adapter<BriefingRe
             tvPhoneNum = itemView.findViewById(R.id.tv_brf_reserved_phone_number);
 //            tvSchool = itemView.findViewById(R.id.tv_brf_school);
             tvGrade = itemView.findViewById(R.id.tv_brf_grade);
+            tvIsStudent = itemView.findViewById(R.id.tv_brf_is_student);
             deleteView = itemView.findViewById(R.id.view_delete);
             deleteView.setOnClickListener(v -> {
                 int position = getBindingAdapterPosition();

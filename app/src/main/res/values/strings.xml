@@ -38,6 +38,8 @@
     <string name="phone">전화번호</string>
     <string name="bag">분류</string>
     <string name="cancel_reservation">예약취소</string>
+    <string name="stu">재원생</string>
+    <string name="stu_non">비재원생</string>
 
     <string name="id_pattern">0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_-</string>
 
@@ -290,6 +292,7 @@
     <string name="msg_empty_announcement_full">공지사항이 없습니다.</string>
     <string name="description_announcement_recipient">공지사항 알림을 보낼 수신인을 추가해 주세요.</string>
     <string name="qna_answerer_confirm_select">선택한 %d 명을 Q&amp;A 답변 담당자로 지정하시겠습니까?</string>
+    <string name="hint_select_qna_state">진행 상태</string>
 
     <!-- 원생정보 -->
     <string name="format_count_per_all">%d / %d</string>

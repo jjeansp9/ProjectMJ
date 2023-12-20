@@ -7,4 +7,5 @@ public class BriefingReservedListData {
     public String schoolNm; //학교명
     public String grade;
     public int participantsCnt;
+    public String isStudent;
 }

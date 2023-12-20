@@ -79,13 +79,13 @@ public class QnaListAdapter extends RecyclerView.Adapter<QnaListAdapter.ViewHold
                 holder.qnaRoot.setBackgroundColor(mContext.getColor(R.color.white));
                 if (item.userGubun >= Constants.USER_TYPE_STUDENT) { // 부모, 원생의 경우
                     if (!TextUtils.isEmpty(item.state)) {
-                        if (item.state.equals(Constants.QNA_STATE_SUBSCRIPTION)) {
+                        if (item.state.equals(Constants.QNAState.SUBSCRIPTION.getCodeStr())) {
                             addTag(holder.layoutStatus, R.color.color_subscription, "신청");
 
-                        } else if(item.state.equals(Constants.QNA_STATE_RECEPTION)) {
+                        } else if(item.state.equals(Constants.QNAState.RECEPTION.getCodeStr())) {
                             addTag(holder.layoutStatus, R.color.color_receiption, "접수");
 
-                        } else if(item.state.equals(Constants.QNA_STATE_COMPLETE)) {
+                        } else if(item.state.equals(Constants.QNAState.COMPLETE.getCodeStr())) {
                             addTag(holder.layoutStatus, R.color.color_complete, "완료");
                         }
                     }

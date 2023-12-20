@@ -76,9 +76,21 @@
 <!--        android:textSize="@dimen/font_size"-->
 <!--        android:textColor="@color/font_color_666"/>-->
     <TextView
+        android:id="@+id/tv_brf_is_student"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/guideline_start"
+        app:layout_constraintTop_toTopOf="@id/guideline_h50"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:hint="@string/menu_stu_info_empty"
+        android:gravity="start"
+        android:textSize="@dimen/font_size_small"
+        android:textColor="@color/font_color_777"/>
+    <TextView
         android:id="@+id/tv_brf_grade"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/tv_brf_is_student"
         app:layout_constraintEnd_toStartOf="@id/view_delete"
         app:layout_constraintTop_toTopOf="@id/guideline_h50"
         app:layout_constraintBottom_toBottomOf="parent"

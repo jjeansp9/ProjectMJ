@@ -529,10 +529,56 @@ public class Constants {
     // 태그 : 공지, 비공개, 신청, 접수, 완료, 본인
 //    public static String QNA_STATE_NOTICE = "Y";       // 공지
 //    public static String QNA_STATE_OPEN = "Y";         // 비공개
-    public static String QNA_STATE_SUBSCRIPTION = "1"; // 신청
-    public static String QNA_STATE_RECEPTION = "2";    // 접수
-    public static String QNA_STATE_COMPLETE = "3";     // 완료
+//    public static String QNA_STATE_SUBSCRIPTION = "1"; // 신청
+//    public static String QNA_STATE_RECEPTION = "2";    // 접수
+//    public static String QNA_STATE_COMPLETE = "3";     // 완료
+    public enum QNAState{
+        ALL(0, "전체"),
+        SUBSCRIPTION(1, "신청"),
+        RECEPTION(2, "접수"),
+        COMPLETE(3, "완료")
+        ;
 
+        private int code;
+        private String nameKor;
+        private QNAState(int code, String name) {
+            this.code = code;
+            this.nameKor = name;
+        }
+        public int getCode() {
+            return code;
+        }
+        public String getCodeStr() {
+            if(code == 0) return "";
+            return String.valueOf(code);
+        }
+        public String getNameKor() {
+            return nameKor;
+        }
+        public static QNAState getByCode(int code) {
+            for (QNAState type : QNAState.values()) {
+                if (type.getCode() == code) {
+                    return type;
+                }
+            }
+            return null; // 해당하는 코드 값이 없을 경우 null 반환 또는 다른 처리
+        }
+        public static QNAState getByName(String name) {
+            for (QNAState status : QNAState.values()) {
+                if (status.getNameKor().equals(name)) {
+                    return status;
+                }
+            }
+            return null; // 해당하는 코드 값이 없을 경우 null 반환 또는 다른 처리
+        }
+        public static List<String> getNameList() {
+            List<String> nameList = new ArrayList<>();
+            for (QNAState status : QNAState.values()) {
+                nameList.add(status.getNameKor());
+            }
+            return nameList;
+        }
+    }
     //setting
     public static String SETTING_TYPE_RECIPIENT = "receiverStep";
 

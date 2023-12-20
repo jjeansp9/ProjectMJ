@@ -678,9 +678,7 @@ public class MainActivity extends BaseActivity {
                             LogMgr.e(TAG, "requestBoardInfoList() errBody : " + response.errorBody().string());
                         } catch (IOException e) {
                         }
-
                     }
-
                 }
 
                 @Override

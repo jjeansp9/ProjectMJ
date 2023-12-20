@@ -7,9 +7,12 @@ import android.text.TextUtils;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.List;
+
 import kr.jeet.edu.manager.R;
 import kr.jeet.edu.manager.common.Constants;
 import kr.jeet.edu.manager.common.IntentParams;
+import kr.jeet.edu.manager.db.JeetDatabase;
 import kr.jeet.edu.manager.db.PushMessage;
 import kr.jeet.edu.manager.model.data.CounselData;
 import kr.jeet.edu.manager.model.response.CounselDetailResponse;
@@ -118,7 +121,19 @@ public class CounselDetailActivity extends BaseActivity {
 
         }else if(_currentSeq != -1) {
             requestCounselDetail(_currentSeq);
+            changeMessageState2Read();
         }
+    }
+    void changeMessageState2Read() {
+        new Thread(() -> {
+            List<PushMessage> pushMessages = JeetDatabase.getInstance(getApplicationContext()).pushMessageDao().getMessageBySeqNType(_currentSeq, Constants.NoticeType.COUNSEL.name());
+            if(!pushMessages.isEmpty()) {
+                for(PushMessage message : pushMessages) {
+                    message.isRead = true;
+                    JeetDatabase.getInstance(getApplicationContext()).pushMessageDao().update(message);
+                }
+            }
+        }).start();
     }
     private void requestCounselDetail(int ptSeq){
         if (RetrofitClient.getInstance() != null){

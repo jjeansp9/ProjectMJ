@@ -239,6 +239,7 @@ public class LoginActivity extends BaseActivity {
             mRetrofitApi.signIn(request.id, request.pw).enqueue(new Callback<LoginResponse>() {
                 @Override
                 public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                    btnPush = false;
                     hideProgressDialog();
                     if (response.isSuccessful()) {
                         PreferenceUtil.setUserId(mContext, request.id);
@@ -397,14 +398,13 @@ public class LoginActivity extends BaseActivity {
                         } catch (IOException e) {
                         }
                     }
-                    btnPush = false;
                 }
                 @Override
                 public void onFailure(Call<LoginResponse> call, Throwable t) {
+                    btnPush = false;
                     hideProgressDialog();
                     LogMgr.e(TAG, "requestLogin() onFailure >> " + t.getMessage());
                     Toast.makeText(mContext, R.string.server_error, Toast.LENGTH_SHORT).show();
-                    btnPush = false;
                 }
             });
         }
@@ -418,6 +418,7 @@ public class LoginActivity extends BaseActivity {
             mRetrofitApi.signInSNS(SnsId, Constants.APP_TYPE).enqueue(new Callback<LoginResponse>() {
                 @Override
                 public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                    btnPush = false;
                     hideProgressDialog();
                     if(response.isSuccessful()) {
                         PreferenceUtil.setAutoLogin(mContext, mAutoLoginCb.isChecked());
@@ -540,18 +541,18 @@ public class LoginActivity extends BaseActivity {
                         }
                     }
                     hideProgressDialog();
-                    btnPush = false;
                 }
                 @Override
                 public void onFailure(Call<LoginResponse> call, Throwable t) {
+                    btnPush = false;
                     hideProgressDialog();
                     LogMgr.e(TAG, "requestLogin() onFailure >> " + t.getMessage());
                     Toast.makeText(mContext, R.string.server_error, Toast.LENGTH_SHORT).show();
-                    btnPush = false;
                 }
             });
         }
     }
+
 
 //    private void hideKeyboard() {
 //        InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
