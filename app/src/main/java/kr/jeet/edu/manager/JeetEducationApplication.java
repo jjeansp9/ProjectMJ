@@ -2,6 +2,7 @@ package kr.jeet.edu.manager;
 
 import android.app.Application;
 
+import com.jakewharton.threetenabp.AndroidThreeTen;
 import com.kakao.sdk.common.util.Utility;
 
 import kr.jeet.edu.manager.db.JeetDatabase;
@@ -16,6 +17,7 @@ public class JeetEducationApplication extends Application {
         String keyhash = Utility.INSTANCE.getKeyHash(this);
         LogMgr.d("keyhash : " + keyhash);
         JeetDatabase.getInstance(this);
+        AndroidThreeTen.init(this);
     }
 
     @Override

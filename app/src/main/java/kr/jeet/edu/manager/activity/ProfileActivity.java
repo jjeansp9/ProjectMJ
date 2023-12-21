@@ -147,8 +147,10 @@ public class ProfileActivity extends BaseActivity {
             tvPhoneNo.setText(Utils.formatPhoneNumber(_currentManagerData.phoneNumber));
             if(_currentManagerData.gender.equals("M")) {
                 ivProfile.setBackground(getDrawable(R.drawable.img_profile_teacher_man));
-            }else{
+            }else if(_currentManagerData.gender.equals("F")){
                 ivProfile.setBackground(getDrawable(R.drawable.img_profile_teacher_woman));
+            }else{
+                ivProfile.setBackground(getDrawable(R.drawable.ic_vector_profile_teacher_default));
             }
             requestGetClassList(_sfCode);
 

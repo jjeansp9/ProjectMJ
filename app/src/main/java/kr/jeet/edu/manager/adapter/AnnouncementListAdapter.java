@@ -3,6 +3,7 @@ package kr.jeet.edu.manager.adapter;
 import static androidx.recyclerview.widget.RecyclerView.NO_POSITION;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.text.TextUtils;
 import android.util.ArrayMap;
 import android.view.LayoutInflater;
@@ -17,7 +18,6 @@ import androidx.constraintlayout.widget.Guideline;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 
 import java.util.List;
@@ -28,6 +28,7 @@ import kr.jeet.edu.manager.common.DataManager;
 import kr.jeet.edu.manager.model.data.ACAData;
 import kr.jeet.edu.manager.model.data.AnnouncementData;
 import kr.jeet.edu.manager.model.data.FileData;
+import kr.jeet.edu.manager.model.data.ReadData;
 import kr.jeet.edu.manager.server.RetrofitApi;
 import kr.jeet.edu.manager.utils.FileUtils;
 import kr.jeet.edu.manager.utils.LogMgr;
@@ -37,6 +38,7 @@ import kr.jeet.edu.manager.view.DrawableAlwaysCrossFadeFactory;
 
 
 public class AnnouncementListAdapter extends RecyclerView.Adapter<AnnouncementListAdapter.ViewHolder> {
+    private static final String TAG = "announceListAdapter";
     public enum ViewMode{
         SUMMARY,
         NORMAL
@@ -46,13 +48,13 @@ public class AnnouncementListAdapter extends RecyclerView.Adapter<AnnouncementLi
         public void onItemClick(AnnouncementData item, int position);
     }
     private Context mContext;
-    private List<AnnouncementData> mList;
+    private List<ReadData> mList;
     private onItemClickListener _listener;
 //    private String selectedACACode = "";
     private ArrayMap<String, ACAData> ACAArrayMap;
     ViewMode _currentViewMode = ViewMode.NORMAL;
     int _userGubun = 0;
-    public AnnouncementListAdapter(Context mContext, List<AnnouncementData> mList, onItemClickListener listener) {
+    public AnnouncementListAdapter(Context mContext, List<ReadData> mList, onItemClickListener listener) {
         this.mContext = mContext;
         this.mList = mList;
         this._listener = listener;
@@ -75,7 +77,7 @@ public class AnnouncementListAdapter extends RecyclerView.Adapter<AnnouncementLi
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         if(position == NO_POSITION) return;
-        AnnouncementData item = mList.get(position);
+        AnnouncementData item = (AnnouncementData) mList.get(position);
 
         if (item.fileList != null && item.fileList.size() > 0){
 
@@ -116,6 +118,12 @@ public class AnnouncementListAdapter extends RecyclerView.Adapter<AnnouncementLi
 
         holder.tvTitle.setText(TextUtils.isEmpty(item.title) ? "" : item.title);
         if(_currentViewMode == ViewMode.NORMAL){
+            LogMgr.e(TAG, "isRead: " + item.isRead);
+            if (!item.isRead) { // 읽지 않은 게시글
+                holder.layoutRoot.setBackgroundColor(mContext.getColor(R.color.bg_is_read));
+            } else {
+                holder.layoutRoot.setBackgroundColor(Color.TRANSPARENT);
+            }
             holder.tvName.setVisibility(View.VISIBLE);
             holder.tvName.setText(TextUtils.isEmpty(item.memberResponseVO.name) ? "" : item.memberResponseVO.name);
             holder.tvCampus.setVisibility(View.VISIBLE);
@@ -127,6 +135,7 @@ public class AnnouncementListAdapter extends RecyclerView.Adapter<AnnouncementLi
                 }
             }
         }else{
+            holder.layoutRoot.setBackgroundColor(Color.TRANSPARENT);
             holder.tvName.setVisibility(View.GONE);
             if(_userGubun <= Constants.USER_TYPE_ADMIN) {
                 holder.tvCampus.setVisibility(View.VISIBLE);
@@ -165,14 +174,14 @@ public class AnnouncementListAdapter extends RecyclerView.Adapter<AnnouncementLi
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
-        private ConstraintLayout brfRoot;
+        private ConstraintLayout layoutRoot;
         private Guideline guideline;
         private ImageView imgAnnouncement, imgRead;
         private TextView tvDate, tvTitle, tvName, tvState, tvCampus, tvAnnouncementDate, tvReadCount;
 
         public ViewHolder(@NonNull View itemView){
             super(itemView);
-            brfRoot = itemView.findViewById(R.id.brf_root);
+            layoutRoot = itemView.findViewById(R.id.brf_root);
             tvDate = itemView.findViewById(R.id.tv_brf_date);
             tvTitle = itemView.findViewById(R.id.tv_brf_title);
             tvName = itemView.findViewById(R.id.tv_writer_name);
@@ -186,7 +195,7 @@ public class AnnouncementListAdapter extends RecyclerView.Adapter<AnnouncementLi
 
             itemView.setOnClickListener(v -> {
                 int position = getBindingAdapterPosition();
-                if (position != NO_POSITION) if (mList.size() > 0) _listener.onItemClick(mList.get(position), position);
+                if (position != NO_POSITION) if (mList.size() > 0) _listener.onItemClick((AnnouncementData) mList.get(position), position);
             });
         }
     }

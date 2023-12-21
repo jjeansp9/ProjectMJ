@@ -3,14 +3,12 @@ package kr.jeet.edu.manager.model.data;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import androidx.annotation.NonNull;
-
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class BriefingData implements Parcelable {
+public class BriefingData implements Parcelable, ReadData {
     @SerializedName("seq")
     public int seq;
     @SerializedName("title")
@@ -43,12 +41,15 @@ public class BriefingData implements Parcelable {
     public String isSendSMS;
     @SerializedName("fileId")
     public String fileId;
+    public boolean isRead = false; // 읽음 유무
+    @SerializedName("memberResponseVO")
+    public MemberResponseVO memberResponseVO;
     @SerializedName("fileList")
     public List<FileData> fileList = new ArrayList<>();
 
 
     public BriefingData(){}
-    public BriefingData(int seq, String title, String content, String acaCode, String acaName, String date, String ptTime, String place, int participantsCnt, int reservationCnt, String isSendSMS, String fileId, List<FileData> fileList) {
+    public BriefingData(int seq, String title, String content, String acaCode, String acaName, String date, String ptTime, String place, int participantsCnt, int reservationCnt, String isSendSMS, String fileId, MemberResponseVO memberResponseVO, List<FileData> fileList) {
         this.seq = seq;
         this.title = title;
         this.content = content;
@@ -61,6 +62,7 @@ public class BriefingData implements Parcelable {
         this.reservationCnt = reservationCnt;
         this.isSendSMS = isSendSMS;
         this.fileId = fileId;
+        this.memberResponseVO = memberResponseVO;
         if(fileList != null)
             this.fileList = fileList;
     }
@@ -82,6 +84,8 @@ public class BriefingData implements Parcelable {
         rdcnt = in.readInt();
         isSendSMS = in.readString();
         fileId = in.readString();
+        isRead = in.readByte() != 0;
+        memberResponseVO = in.readParcelable(MemberResponseVO.class.getClassLoader());
         fileList = in.createTypedArrayList(FileData.CREATOR);
     }
 
@@ -103,6 +107,8 @@ public class BriefingData implements Parcelable {
         dest.writeInt(rdcnt);
         dest.writeString(isSendSMS);
         dest.writeString(fileId);
+        dest.writeByte((byte) (isRead ? 1 : 0));
+        dest.writeParcelable(memberResponseVO, flags);
         dest.writeTypedList(fileList);
     }
 
@@ -122,5 +128,43 @@ public class BriefingData implements Parcelable {
             return new BriefingData[size];
         }
     };
+
+    @Override
+    public String getDate() {
+        return date;
+    }
+
+    @Override
+    public String getTime() {
+        return ptTime;
+    }
+
+    public boolean getIsRead() {
+        return isRead;
+    }
+
+    @Override
+    public int getSeq() {
+        return seq;
+    }
+
+    @Override
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    @Override
+    public void setTime(String time) {
+        this.ptTime = time;
+    }
+
+    @Override
+    public void setSeq(int seq) {
+        this.seq = seq;
+    }
+
+    public void setIsRead(boolean read) {
+        isRead = read;
+    }
 }
 

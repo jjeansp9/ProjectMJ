@@ -11,7 +11,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AnnouncementData implements Parcelable {
+public class AnnouncementData implements Parcelable, ReadData {
     @SerializedName("seq")
     public int seq;
 
@@ -44,7 +44,7 @@ public class AnnouncementData implements Parcelable {
     @SerializedName("fileList")
     public List<FileData> fileList;
     public ArrayList<RecipientData> receiverList;
-
+    public boolean isRead = false;
     public AnnouncementData(){}
 
     protected AnnouncementData(Parcel in) {
@@ -59,6 +59,7 @@ public class AnnouncementData implements Parcelable {
         acaGubunName = in.readString();
         insertDate = in.readString();
         memberResponseVO = in.readParcelable(MemberResponseVO.class.getClassLoader());
+        isRead = in.readByte() != 0;
         fileList = in.createTypedArrayList(FileData.CREATOR);
         receiverList = in.createTypedArrayList(RecipientData.CREATOR);
     }
@@ -76,6 +77,7 @@ public class AnnouncementData implements Parcelable {
         dest.writeString(acaGubunName);
         dest.writeString(insertDate);
         dest.writeParcelable(memberResponseVO, flags);
+        dest.writeByte((byte) (isRead ? 1 : 0));
         dest.writeTypedList(fileList);
         dest.writeTypedList(receiverList);
     }
@@ -97,26 +99,50 @@ public class AnnouncementData implements Parcelable {
         }
     };
 
-    public void readFromParcel(Parcel in) {
-        seq = in.readInt();
-        title = in.readString();
-        content = in.readString();
-        rdcnt = in.readInt();
-        fileId = in.readString();
-        acaCode = in.readString();
-        insertDate = in.readString();
-        memberResponseVO = in.readParcelable(MemberResponseVO.class.getClassLoader());
-        int size = in.readInt();
-        fileList = new ArrayList<>();
-        for(int i = 0; i < size; i++) {
-            fileList.add(in.readParcelable(FileData.class.getClassLoader()));
-        }
-    }
-
     @NonNull
     @Override
     public String toString() {
         String jsonString = new Gson().toJson(this);
         return jsonString;
+    }
+
+    @Override
+    public String getDate() {
+        return insertDate;
+    }
+
+    @Override
+    public String getTime() {
+        return null;
+    }
+
+    @Override
+    public int getSeq() {
+        return seq;
+    }
+
+    @Override
+    public boolean getIsRead() {
+        return isRead;
+    }
+
+    @Override
+    public void setDate(String date) {
+        this.insertDate = date; // yyyy-MM-dd HH:ss
+    }
+
+    @Override
+    public void setTime(String time) {
+        // 공지사항엔 time 파라미터가 없음. date 파라미터 참고
+    }
+
+    @Override
+    public void setSeq(int seq) {
+        this.seq = seq;
+    }
+
+    @Override
+    public void setIsRead(boolean isRead) {
+        this.isRead = isRead;
     }
 }

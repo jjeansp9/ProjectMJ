@@ -241,7 +241,7 @@ public class LoginActivity extends BaseActivity {
                 public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                     btnPush = false;
                     hideProgressDialog();
-                    if (response.isSuccessful()) {
+                    if (response != null && response.isSuccessful()) {
                         PreferenceUtil.setUserId(mContext, request.id);
                         PreferenceUtil.setAutoLogin(mContext, mAutoLoginCb.isChecked());
                         PreferenceUtil.setLoginType(mContext, Constants.LOGIN_TYPE_NORMAL);
@@ -420,7 +420,7 @@ public class LoginActivity extends BaseActivity {
                 public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                     btnPush = false;
                     hideProgressDialog();
-                    if(response.isSuccessful()) {
+                    if(response != null && response.isSuccessful()) {
                         PreferenceUtil.setAutoLogin(mContext, mAutoLoginCb.isChecked());
                         if(response.body() != null) {
                             LoginResponse res = response.body();

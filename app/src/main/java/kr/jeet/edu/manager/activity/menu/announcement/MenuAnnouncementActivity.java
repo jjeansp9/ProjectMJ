@@ -46,11 +46,13 @@ import kr.jeet.edu.manager.db.PushMessage;
 import kr.jeet.edu.manager.fcm.FCMManager;
 import kr.jeet.edu.manager.model.data.ACAData;
 import kr.jeet.edu.manager.model.data.AnnouncementData;
+import kr.jeet.edu.manager.model.data.ReadData;
 import kr.jeet.edu.manager.model.data.StudentGradeData;
 import kr.jeet.edu.manager.model.response.AnnouncementListResponse;
 import kr.jeet.edu.manager.model.response.StudentGradeListResponse;
 import kr.jeet.edu.manager.server.RetrofitApi;
 import kr.jeet.edu.manager.server.RetrofitClient;
+import kr.jeet.edu.manager.utils.DBUtils;
 import kr.jeet.edu.manager.utils.LogMgr;
 import kr.jeet.edu.manager.utils.PreferenceUtil;
 import kr.jeet.edu.manager.utils.Utils;
@@ -74,9 +76,9 @@ public class MenuAnnouncementActivity extends BaseActivity {
     List<ACAData> _ACAList = new ArrayList<>();
     List<String> _ACANameList = new ArrayList<>();
     List<StudentGradeData> _GradeList = new ArrayList<>();
-    private ArrayList<AnnouncementData> mList = new ArrayList<>();
+    private ArrayList<ReadData> mList = new ArrayList<>();
     int _userGubun = 1;
-    int _seq = 0;
+    int _memberSeq = 0;
     int _sfCode = 0;
 
     private String _acaCode = "";
@@ -122,7 +124,6 @@ public class MenuAnnouncementActivity extends BaseActivity {
                 if(intent == null) return;
                 if(intent.hasExtra(IntentParams.PARAM_BOARD_ADDED)) {
                     boolean added = intent.getBooleanExtra(IntentParams.PARAM_BOARD_ADDED, false);
-
                     if(added) {
                         if(_selectedLocalACA != null)
                             LogMgr.e("acaCode = " + _selectedLocalACA.acaCode);
@@ -140,10 +141,8 @@ public class MenuAnnouncementActivity extends BaseActivity {
                 }else if(intent.hasExtra(IntentParams.PARAM_BOARD_EDITED)) {
                     boolean edited = intent.getBooleanExtra(IntentParams.PARAM_BOARD_EDITED, false);
                     AnnouncementData changedItem = null;
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                        changedItem = intent.getParcelableExtra(IntentParams.PARAM_BOARD_ITEM, AnnouncementData.class);
-                    }else{
-                        changedItem = intent.getParcelableExtra(IntentParams.PARAM_BOARD_ITEM);
+                    if(intent.hasExtra(IntentParams.PARAM_BOARD_ITEM)) {
+                        changedItem = Utils.getParcelableExtra(intent, IntentParams.PARAM_BOARD_ITEM, AnnouncementData.class);
                     }
                     LogMgr.w("edited =" + changedItem);
                     int position = intent.getIntExtra(IntentParams.PARAM_BOARD_POSITION, -1);
@@ -183,9 +182,9 @@ public class MenuAnnouncementActivity extends BaseActivity {
         _acaCode = PreferenceUtil.getAcaCode(mContext);
         _appAcaCode = PreferenceUtil.getAppAcaCode(mContext);
         _userGubun = PreferenceUtil.getUserGubun(this);
-        _seq = PreferenceUtil.getUserSeq(this);
+        _memberSeq = PreferenceUtil.getUserSeq(this);
         _sfCode = PreferenceUtil.getUserSFCode(this);
-        LogMgr.e(_userGubun + "/" + _seq + "/" + _sfCode);
+        LogMgr.e(_userGubun + "/" + _memberSeq + "/" + _sfCode);
         initAppbar();
         initView();
         getData();
@@ -333,7 +332,7 @@ public class MenuAnnouncementActivity extends BaseActivity {
                         && newState == RecyclerView.SCROLL_STATE_IDLE
                         && (mList != null && !mList.isEmpty()))
                 {
-                    int lastNoticeSeq = mList.get(mList.size() - 1).seq;
+                    int lastNoticeSeq = mList.get(mList.size() - 1).getSeq();
                     requestBoardList(lastNoticeSeq);
                 }
             }
@@ -370,7 +369,18 @@ public class MenuAnnouncementActivity extends BaseActivity {
                                     }
                                     mList.addAll(getData);
 
-                                    mAdapter.notifyDataSetChanged();
+                                    DBUtils.setReadDB(mContext, mList, _memberSeq, DataManager.BOARD_NOTICE, new DBUtils.onQueryCompletedListener() {
+                                        @Override
+                                        public void onComplete() {
+                                            runOnUiThread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    mAdapter.notifyDataSetChanged();
+                                                }
+                                            });
+
+                                        }
+                                    });
                                     checkEmptyRecyclerView();
                                     if(finalLastNoticeSeq == 0 && mList.size() > 0 && mRecyclerView != null) {
                                         _handler.postDelayed(() -> mRecyclerView.smoothScrollToPosition(0), scrollToTopDelay);

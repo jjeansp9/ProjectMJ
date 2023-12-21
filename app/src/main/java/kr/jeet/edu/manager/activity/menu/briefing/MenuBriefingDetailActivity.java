@@ -4,7 +4,6 @@ import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.RecyclerView;
@@ -45,8 +44,10 @@ import kr.jeet.edu.manager.adapter.BoardDetailFileListAdapter;
 import kr.jeet.edu.manager.adapter.BoardDetailImageListAdapter;
 import kr.jeet.edu.manager.adapter.RecipientChipListAdapter;
 import kr.jeet.edu.manager.common.Constants;
+import kr.jeet.edu.manager.common.DataManager;
 import kr.jeet.edu.manager.common.IntentParams;
 import kr.jeet.edu.manager.db.PushMessage;
+import kr.jeet.edu.manager.fcm.FCMManager;
 import kr.jeet.edu.manager.model.data.BriefingData;
 import kr.jeet.edu.manager.model.data.FileData;
 import kr.jeet.edu.manager.model.data.RecipientData;
@@ -56,6 +57,7 @@ import kr.jeet.edu.manager.model.response.BriefingRecipientListResponse;
 import kr.jeet.edu.manager.receiver.DownloadReceiver;
 import kr.jeet.edu.manager.server.RetrofitApi;
 import kr.jeet.edu.manager.server.RetrofitClient;
+import kr.jeet.edu.manager.utils.DBUtils;
 import kr.jeet.edu.manager.utils.FileUtils;
 import kr.jeet.edu.manager.utils.LogMgr;
 import kr.jeet.edu.manager.utils.PreferenceUtil;
@@ -88,7 +90,7 @@ public class MenuBriefingDetailActivity extends BaseActivity {
     int _currentDataPosition = 0;
     Menu _menu;
     int _userGubun = 1;
-    int _seq = 0;
+    int _memberSeq = 0;
     int _sfCode = 0;
     private boolean isEdited = false;
     private int _currentSeq = -1;
@@ -140,7 +142,7 @@ public class MenuBriefingDetailActivity extends BaseActivity {
         });
         mContext = this;
         _userGubun = PreferenceUtil.getUserGubun(this);
-        _seq = PreferenceUtil.getUserSeq(this);
+        _memberSeq = PreferenceUtil.getUserSeq(this);
         _sfCode = PreferenceUtil.getUserSFCode(this);
         initIntentData();
         initView();
@@ -169,7 +171,7 @@ public class MenuBriefingDetailActivity extends BaseActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         if(_currentData != null) {
-            if ((_userGubun == Constants.USER_TYPE_ADMIN && _currentData.writerSeq == _seq)
+            if ((_userGubun == Constants.USER_TYPE_ADMIN && _currentData.writerSeq == _memberSeq)
                 || _userGubun == Constants.USER_TYPE_SUPER_ADMIN){
                 getMenuInflater().inflate(R.menu.menu_edit, menu);
                 this._menu = menu;
@@ -214,22 +216,18 @@ public class MenuBriefingDetailActivity extends BaseActivity {
         if(intent != null) {
 
             if (intent.hasExtra(IntentParams.PARAM_BRIEFING_INFO)){
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                    _currentData = intent.getParcelableExtra(IntentParams.PARAM_BRIEFING_INFO, BriefingData.class);
-                }else{
-                    _currentData = intent.getParcelableExtra(IntentParams.PARAM_BRIEFING_INFO);
-                }
-
+                _currentData = Utils.getParcelableExtra(intent, IntentParams.PARAM_BRIEFING_INFO, BriefingData.class);
                 _currentSeq = _currentData.seq;
-            }else if(intent.hasExtra(IntentParams.PARAM_PUSH_MESSAGE)) {
-                PushMessage message = null;
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                    message = intent.getParcelableExtra(IntentParams.PARAM_PUSH_MESSAGE, PushMessage.class);
-                }else{
-                    message = intent.getParcelableExtra(IntentParams.PARAM_PUSH_MESSAGE);
-                }
-                _currentSeq = message.connSeq;
             }
+//            else if(intent.hasExtra(IntentParams.PARAM_PUSH_MESSAGE)) {
+//                PushMessage message = null;
+//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+//                    message = intent.getParcelableExtra(IntentParams.PARAM_PUSH_MESSAGE, PushMessage.class);
+//                }else{
+//                    message = intent.getParcelableExtra(IntentParams.PARAM_PUSH_MESSAGE);
+//                }
+//                _currentSeq = message.connSeq;
+//            }
             _currentDataPosition = intent.getIntExtra(IntentParams.PARAM_BOARD_POSITION, -1);
         }
         if(_currentData == null) {
@@ -279,7 +277,7 @@ public class MenuBriefingDetailActivity extends BaseActivity {
 
     private void initData() {
         if (_currentData != null) {
-            if(_currentData.writerSeq == _seq) {
+            if(_currentData.writerSeq == _memberSeq) {
                 invalidateOptionsMenu();
             }
             mImageList.clear();
@@ -460,6 +458,9 @@ public class MenuBriefingDetailActivity extends BaseActivity {
                                 BriefingData data = response.body().data;
                                 if (data != null){
                                     _currentData = data;
+                                    _currentData.isRead = true;
+                                    DBUtils.insertReadDB(mContext, _currentData, _memberSeq, DataManager.BOARD_PT);
+
                                     initData();
                                 }else LogMgr.e(TAG+" DetailData is null");
                             }

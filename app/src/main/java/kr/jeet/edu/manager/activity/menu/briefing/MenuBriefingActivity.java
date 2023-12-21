@@ -49,11 +49,13 @@ import kr.jeet.edu.manager.db.PushMessage;
 import kr.jeet.edu.manager.fcm.FCMManager;
 import kr.jeet.edu.manager.model.data.ACAData;
 import kr.jeet.edu.manager.model.data.BriefingData;
+import kr.jeet.edu.manager.model.data.ReadData;
 import kr.jeet.edu.manager.model.data.StudentGradeData;
 import kr.jeet.edu.manager.model.response.BriefingResponse;
 import kr.jeet.edu.manager.model.response.StudentGradeListResponse;
 import kr.jeet.edu.manager.server.RetrofitApi;
 import kr.jeet.edu.manager.server.RetrofitClient;
+import kr.jeet.edu.manager.utils.DBUtils;
 import kr.jeet.edu.manager.utils.LogMgr;
 import kr.jeet.edu.manager.utils.PreferenceUtil;
 import kr.jeet.edu.manager.utils.Utils;
@@ -75,7 +77,7 @@ public class MenuBriefingActivity extends BaseActivity implements MonthPickerDia
     private BriefingListAdapter _listAdapter;
     private TextView _tvCalendar, tvEmptyList;
     private Button _btnCalendarPrev, _btnCalendarNext;
-    private List<BriefingData> _list = new ArrayList<>();
+    private ArrayList<ReadData> _list = new ArrayList<>();
     private RetrofitApi mRetrofitApi;
     List<ACAData> _ACAList = new ArrayList<>();
     ACAData _selectedACA = null;
@@ -84,7 +86,7 @@ public class MenuBriefingActivity extends BaseActivity implements MonthPickerDia
     Date _selectedDate = new Date();
     SimpleDateFormat _dateFormat = new SimpleDateFormat(Constants.DATE_FORMATTER_YYYY_MM_KOR);
     int _userGubun = 1;
-    int _seq = 0;
+    int _memberSeq = 0;
     int _sfCode = 0;
 
     private String _acaCode = "";
@@ -201,9 +203,9 @@ public class MenuBriefingActivity extends BaseActivity implements MonthPickerDia
         _acaCode = PreferenceUtil.getAcaCode(mContext);
         _appAcaCode = PreferenceUtil.getAppAcaCode(mContext);
         _userGubun = PreferenceUtil.getUserGubun(this);
-        _seq = PreferenceUtil.getUserSeq(this);
+        _memberSeq = PreferenceUtil.getUserSeq(this);
         _sfCode = PreferenceUtil.getUserSFCode(this);
-        LogMgr.e(_userGubun + "/" + _seq + "/" + _sfCode);
+        LogMgr.e(_userGubun + "/" + _memberSeq + "/" + _sfCode);
         //test
 
         initAppbar();
@@ -464,15 +466,27 @@ public class MenuBriefingActivity extends BaseActivity implements MonthPickerDia
             RetrofitClient.getApiInterface().getBriefingList(acaCode, gradeCode, year, month).enqueue(new Callback<BriefingResponse>() {
                 @Override
                 public void onResponse(Call<BriefingResponse> call, Response<BriefingResponse> response) {
-                    _list.clear();
-
                     try {
-                        if (response.isSuccessful()) {
+                        if (response != null && response.isSuccessful()) {
                             if (response.body() != null) {
-
+                                _list.clear();
                                 List<BriefingData> list = response.body().data;
-                                if (list != null && !list.isEmpty()) {
+                                if (list != null) {
                                     _list.addAll(list);
+                                    DBUtils.setReadDB(mContext, _list, _memberSeq, DataManager.BOARD_PT, new DBUtils.onQueryCompletedListener() {
+                                        @Override
+                                        public void onComplete() {
+                                            runOnUiThread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    if(_listAdapter != null) {
+                                                        _listAdapter.notifyDataSetChanged();
+                                                    }
+                                                }
+                                            });
+
+                                        }
+                                    });
                                 }
                             }
                         } else {
@@ -482,11 +496,7 @@ public class MenuBriefingActivity extends BaseActivity implements MonthPickerDia
                         LogMgr.e(TAG + "requestTestReserveList() Exception : ", e.getMessage());
                     }
 
-                    if(_listAdapter != null) {
-                        LogMgr.d(TAG, "_selectedACACode = " + _selectedACA.acaCode);
-//                        _listAdapter.setWholeCampusMode(TextUtils.isEmpty(_selectedACA.acaCode));
-                        _listAdapter.notifyDataSetChanged();
-                    }
+
                     if(_list.size() > 0 && _recyclerView != null) {
                         _handler.postDelayed(() -> _recyclerView.smoothScrollToPosition(0), scrollToTopDelay);
                     }

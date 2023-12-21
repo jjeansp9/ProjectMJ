@@ -40,7 +40,7 @@ public class PushMessage implements Serializable {
     @ColumnInfo(name="pushId")
     public String pushId;
     @ColumnInfo(name="isRead", defaultValue = "false")
-    public boolean isRead = false;
+    public Boolean isRead = false;
     public PushMessage() {
     }
     public PushMessage(long id, String title, String body, String acaCode, String date, String pushType,int connSeq, String pushId, boolean isRead) {

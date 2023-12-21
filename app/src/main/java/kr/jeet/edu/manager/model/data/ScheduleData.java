@@ -3,6 +3,8 @@ package kr.jeet.edu.manager.model.data;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +25,7 @@ public class ScheduleData implements Parcelable {
     public int writerSeq;
     public String isSendSMS;
     public ArrayList<RecipientData> receiverList;
+    public MemberResponseVO memberResponseVO;
 
     public ScheduleData(){}
 
@@ -41,6 +44,7 @@ public class ScheduleData implements Parcelable {
         writerSeq = in.readInt();
         isSendSMS = in.readString();
         receiverList = in.createTypedArrayList(RecipientData.CREATOR);
+        memberResponseVO = in.readParcelable(MemberResponseVO.class.getClassLoader());
     }
 
     @Override
@@ -59,6 +63,7 @@ public class ScheduleData implements Parcelable {
         dest.writeInt(writerSeq);
         dest.writeString(isSendSMS);
         dest.writeTypedList(receiverList);
+        dest.writeParcelable(memberResponseVO, flags);
     }
 
     @Override

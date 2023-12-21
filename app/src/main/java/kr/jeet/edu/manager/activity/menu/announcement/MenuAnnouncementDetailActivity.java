@@ -18,7 +18,6 @@ import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.RecyclerView;
@@ -36,13 +35,14 @@ import java.util.List;
 import kr.jeet.edu.manager.R;
 import kr.jeet.edu.manager.activity.BaseActivity;
 import kr.jeet.edu.manager.activity.PhotoViewActivity;
-import kr.jeet.edu.manager.activity.menu.announcement.EditAnnouncementActivity;
 import kr.jeet.edu.manager.adapter.BoardDetailFileListAdapter;
 import kr.jeet.edu.manager.adapter.BoardDetailImageListAdapter;
 import kr.jeet.edu.manager.adapter.RecipientChipListAdapter;
 import kr.jeet.edu.manager.common.Constants;
+import kr.jeet.edu.manager.common.DataManager;
 import kr.jeet.edu.manager.common.IntentParams;
 import kr.jeet.edu.manager.db.PushMessage;
+import kr.jeet.edu.manager.fcm.FCMManager;
 import kr.jeet.edu.manager.model.data.AnnouncementData;
 import kr.jeet.edu.manager.model.data.FileData;
 import kr.jeet.edu.manager.model.data.RecipientData;
@@ -51,6 +51,7 @@ import kr.jeet.edu.manager.model.response.BoardDetailResponse;
 import kr.jeet.edu.manager.receiver.DownloadReceiver;
 import kr.jeet.edu.manager.server.RetrofitApi;
 import kr.jeet.edu.manager.server.RetrofitClient;
+import kr.jeet.edu.manager.utils.DBUtils;
 import kr.jeet.edu.manager.utils.FileUtils;
 import kr.jeet.edu.manager.utils.LogMgr;
 import kr.jeet.edu.manager.utils.PreferenceUtil;
@@ -84,7 +85,7 @@ public class MenuAnnouncementDetailActivity extends BaseActivity {
     List<RecipientData> _recipientList = new ArrayList<>();
 
     Menu _menu;
-    int _seq = -1;
+    int _memberSeq = -1;
     int _userGubun = 1;
     private boolean isEdited = false;
     private int _currentSeq = -1;
@@ -139,7 +140,7 @@ public class MenuAnnouncementDetailActivity extends BaseActivity {
         });
         mContext = this;
         _userGubun = PreferenceUtil.getUserGubun(this);
-        _seq = PreferenceUtil.getUserSeq(this);
+        _memberSeq = PreferenceUtil.getUserSeq(this);
         initIntentData();
         initAppbar();
         initView();
@@ -154,20 +155,13 @@ public class MenuAnnouncementDetailActivity extends BaseActivity {
 
         if(intent.hasExtra(IntentParams.PARAM_ANNOUNCEMENT_INFO)) {
             LogMgr.w("param is recived");
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                _currentData = intent.getParcelableExtra(IntentParams.PARAM_ANNOUNCEMENT_INFO, AnnouncementData.class);
-            }else{
-                _currentData = intent.getParcelableExtra(IntentParams.PARAM_ANNOUNCEMENT_INFO);
-            }
+            _currentData = Utils.getParcelableExtra(intent, IntentParams.PARAM_ANNOUNCEMENT_INFO, AnnouncementData.class);
 
-        }else if(intent.hasExtra(IntentParams.PARAM_PUSH_MESSAGE)) {
-            PushMessage message = null;
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                message = intent.getParcelableExtra(IntentParams.PARAM_PUSH_MESSAGE, PushMessage.class);
-            }else{
-                message = intent.getParcelableExtra(IntentParams.PARAM_PUSH_MESSAGE);
-            }
-            _currentSeq = message.connSeq;
+        }
+        Bundle bundle = intent.getExtras();
+        if(bundle != null) {
+            PushMessage message = Utils.getSerializableExtra(bundle, IntentParams.PARAM_PUSH_MESSAGE, PushMessage.class);
+            if(message != null) _currentSeq = message.connSeq;
         }
 
         LogMgr.w("currentData = " + _currentData);
@@ -262,7 +256,7 @@ public class MenuAnnouncementDetailActivity extends BaseActivity {
     private void initData() {
         if (_currentData != null) {
             //작성자만 삭제 및 수정 가능
-            if(_currentData.memberResponseVO.seq == _seq) {
+            if(_currentData.memberResponseVO.seq == _memberSeq) {
                 invalidateOptionsMenu();
             }
             mTvTitle.setText(_currentData.title); // 제목
@@ -310,7 +304,7 @@ public class MenuAnnouncementDetailActivity extends BaseActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         if(_currentData != null) {
-            if ((_userGubun == Constants.USER_TYPE_ADMIN && _currentData.memberResponseVO.seq == _seq)
+            if ((_userGubun == Constants.USER_TYPE_ADMIN && _currentData.memberResponseVO.seq == _memberSeq)
                 || _userGubun == Constants.USER_TYPE_SUPER_ADMIN) {
                 getMenuInflater().inflate(R.menu.menu_edit, menu);
                 this._menu = menu;
@@ -390,13 +384,16 @@ public class MenuAnnouncementDetailActivity extends BaseActivity {
                 @Override
                 public void onResponse(Call<BoardDetailResponse> call, Response<BoardDetailResponse> response) {
                     try {
-                        if (response.isSuccessful()) {
+                        if (response != null && response.isSuccessful()) {
 
                             if (response.body() != null) {
 
                                 AnnouncementData getData = response.body().data;
                                 if (getData != null) {
                                     _currentData = getData;
+                                    _currentData.isRead = true;
+                                    //insertDB(_currentData);
+                                    DBUtils.insertReadDB(mContext, _currentData, _memberSeq, DataManager.BOARD_NOTICE);
                                     initData();
 
                                 } else LogMgr.e(TAG + " DetailData is null");

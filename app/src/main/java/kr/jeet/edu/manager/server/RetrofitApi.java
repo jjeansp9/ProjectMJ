@@ -23,6 +23,7 @@ import kr.jeet.edu.manager.model.response.BCListResponse;
 import kr.jeet.edu.manager.model.response.BaseResponse;
 import kr.jeet.edu.manager.model.response.BoardAttributeResponse;
 import kr.jeet.edu.manager.model.response.BoardDetailResponse;
+import kr.jeet.edu.manager.model.response.BoardNewResponse;
 import kr.jeet.edu.manager.model.response.BriefingDetailResponse;
 import kr.jeet.edu.manager.model.response.BriefingRecipientListResponse;
 import kr.jeet.edu.manager.model.response.BoardRegisterResponse;
@@ -431,4 +432,11 @@ public interface RetrofitApi {
     //QnA 삭제
     @DELETE("qna/{qnaSeq}")
     Call<BaseResponse> deleteQna(@Path("qnaSeq") int qnaSeq);
+
+    // 공지사항 일주일 이내 글 SEQ - 공지사항 메뉴아이콘에 New 표시하기위한 api
+    @GET("notices/new")
+    Call<BoardNewResponse> getNoticeNewList();
+    // 설명회예약 일주일 이내 글 SEQ - 설명회에약 메뉴아이콘에 New 표시하기위한 api
+    @GET("pts/new")
+    Call<BoardNewResponse> getPtNewList();
 }

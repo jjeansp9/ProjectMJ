@@ -378,7 +378,7 @@ public class IntroActivity extends BaseActivity {
                 @Override
                 public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                     hideProgressDialog();
-                    if(response.isSuccessful()) {
+                    if(response != null && response.isSuccessful()) {
                         if(response.body() != null) {
                             PreferenceUtil.setLoginType(mContext, Constants.LOGIN_TYPE_NORMAL);
                             LoginResponse res = response.body();
@@ -529,34 +529,45 @@ public class IntroActivity extends BaseActivity {
                 @Override
                 public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                     hideProgressDialog();
-                    if(response.isSuccessful()) {
+                    if(response != null && response.isSuccessful()) {
 
-
-                        LoginResponse res = response.body();
-                        PreferenceUtil.setUserSeq(mContext, res.data.seq);
-                        PreferenceUtil.setUserGubun(mContext, res.data.userGubun);
-                        if(res.data.pushStatus != null){
-                            //공지사항
-                            PreferenceUtil.setNotificationAnnouncement(mContext, res.data.pushStatus.pushNotice.equals("Y"));
-                            //설명회
-                            PreferenceUtil.setNotificationSeminar(mContext, res.data.pushStatus.pushInformationSession.equals("Y"));
-                            //출석
-                            PreferenceUtil.setNotificationAttendance(mContext, res.data.pushStatus.pushAttendance.equals("Y"));
-                            //시스템알림
-                            PreferenceUtil.setNotificationSystem(mContext, res.data.pushStatus.pushSystem.equals("Y"));
+                        if(response.body() != null) {
+                            LoginResponse res = response.body();
+                            PreferenceUtil.setUserSeq(mContext, res.data.seq);
+                            PreferenceUtil.setUserGubun(mContext, res.data.userGubun);
+                            if (res.data.pushStatus != null) {
+                                //공지사항
+                                PreferenceUtil.setNotificationAnnouncement(mContext, res.data.pushStatus.pushNotice.equals("Y"));
+                                //설명회
+                                PreferenceUtil.setNotificationSeminar(mContext, res.data.pushStatus.pushInformationSession.equals("Y"));
+                                //출석
+                                PreferenceUtil.setNotificationAttendance(mContext, res.data.pushStatus.pushAttendance.equals("Y"));
+                                //시스템알림
+                                PreferenceUtil.setNotificationSystem(mContext, res.data.pushStatus.pushSystem.equals("Y"));
+                            } else {
+                                //공지사항
+                                PreferenceUtil.setNotificationAnnouncement(mContext, true);
+                                //설명회
+                                PreferenceUtil.setNotificationSeminar(mContext, true);
+                                //출석
+                                PreferenceUtil.setNotificationAttendance(mContext, true);
+                                //시스템알림
+                                PreferenceUtil.setNotificationSystem(mContext, true);
+                            }
+                            Utils.refreshPushToken(mContext, res.data.seq);
+                            startActivity(new Intent(mContext, MainActivity.class));
+                            finish();
                         }else{
-                            //공지사항
-                            PreferenceUtil.setNotificationAnnouncement(mContext, true);
-                            //설명회
-                            PreferenceUtil.setNotificationSeminar(mContext, true);
-                            //출석
-                            PreferenceUtil.setNotificationAttendance(mContext, true);
-                            //시스템알림
-                            PreferenceUtil.setNotificationSystem(mContext, true);
+                            PreferenceUtil.setPrefPushToken(mContext, "");
+                            PreferenceUtil.setUserSeq(mContext, -1);
+                            PreferenceUtil.setLoginType(mContext, Constants.LOGIN_TYPE_NORMAL);
+                            PreferenceUtil.setUserId(mContext, "");
+                            PreferenceUtil.setUserPw(mContext, "");
+                            PreferenceUtil.setSNSUserId(mContext, "");
+                            PreferenceUtil.setAutoLogin(mContext, false);
+                            Toast.makeText(mContext, R.string.server_fail, Toast.LENGTH_SHORT).show();
+                            startLogin();
                         }
-                        Utils.refreshPushToken(mContext, res.data.seq);
-                        startActivity(new Intent(mContext, MainActivity.class));
-                        finish();
 
                     } else {
 //                        Utils.refreshPushToken(mContext, PreferenceUtil.getUserSeq(mContext), "");

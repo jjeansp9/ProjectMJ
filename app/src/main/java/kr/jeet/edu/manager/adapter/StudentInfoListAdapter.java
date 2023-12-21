@@ -4,6 +4,7 @@ import static androidx.recyclerview.widget.RecyclerView.NO_POSITION;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
 import android.text.SpannableString;
 import android.text.TextUtils;
@@ -19,6 +20,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
+import androidx.core.view.ViewCompat;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -154,9 +157,12 @@ public class StudentInfoListAdapter extends RecyclerView.Adapter<StudentInfoList
                 holder.btnEditBigo.setVisibility(View.GONE);
                 //set gender
                 if("M".equals(item.stSex)){
-                    holder.viewGender.setBackground(_context.getDrawable(R.drawable.bg_circle_male));
+//                    holder.viewGender.setBackground(_context.getDrawable(R.drawable.bg_circle_male));
+                    ViewCompat.setBackgroundTintList(holder.viewGender, ColorStateList.valueOf(ContextCompat.getColor(_context, R.color.color_male)));
+                }else if ("F".equals(item.stSex)){
+                    ViewCompat.setBackgroundTintList(holder.viewGender, ColorStateList.valueOf(ContextCompat.getColor(_context, R.color.color_female)));
                 }else{
-                    holder.viewGender.setBackground(_context.getDrawable(R.drawable.bg_circle_female));
+                    ViewCompat.setBackgroundTintList(holder.viewGender, ColorStateList.valueOf(ContextCompat.getColor(_context, R.color.darkgray)));
                 }
                 //set tv status
                 Constants.AttendanceStatus status = Constants.AttendanceStatus.getByCode(item.attendGubun);

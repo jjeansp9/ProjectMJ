@@ -2,22 +2,19 @@ package kr.jeet.edu.manager.db;
 
 import android.content.Context;
 
-import androidx.annotation.NonNull;
 import androidx.room.Database;
-import androidx.room.DatabaseConfiguration;
-import androidx.room.InvalidationTracker;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
-import androidx.sqlite.db.SupportSQLiteOpenHelper;
 
 import kr.jeet.edu.manager.utils.Converters;
 
-@Database(entities = {PushMessage.class}, version = 1, exportSchema = true)
+@Database(entities = {PushMessage.class, NewBoardData.class}, version = 2, exportSchema = true)
 @TypeConverters(Converters.class)
 public abstract class JeetDatabase extends RoomDatabase {
     private static JeetDatabase JeetDBInstance = null;
     public abstract PushMessageDao pushMessageDao();
+    public abstract NewBoardDao newBoardDao();
 
     public static JeetDatabase getInstance(Context context) {
         if(JeetDBInstance == null) {

@@ -6,12 +6,14 @@ public class MainMenuItemData {
     private String type;
     private String title;   //서버에서 받은 board Attribute 내 해당 Type의 이름을 update 함
 //    private boolean isMemberOnly = true;
+    private boolean isNew;
     private Class<?> targetClass;
 
-    public MainMenuItemData(String type, int img_res, int title_res, Class<?> cls) {
+    public MainMenuItemData(String type, int img_res, int title_res, boolean isNew,  Class<?> cls) {
         this.type = type;
         this.imgRes = img_res;
         this.titleRes = title_res;
+        this.isNew = isNew;
         this.targetClass = cls;
 //        this.isMemberOnly = only_member;
     }
@@ -39,6 +41,8 @@ public class MainMenuItemData {
 //    public boolean isMemberOnly() {
 //        return isMemberOnly;
 //    }
+    public void setIsNew(boolean isNew) {this.isNew = isNew;}
+    public boolean getIsNew() {return isNew;}
 
     public Class<?> getTargetClass() {
         return targetClass;

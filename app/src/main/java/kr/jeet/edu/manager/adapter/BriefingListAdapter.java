@@ -1,6 +1,7 @@
 package kr.jeet.edu.manager.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,7 +11,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -24,6 +24,7 @@ import java.util.Locale;
 import kr.jeet.edu.manager.R;
 import kr.jeet.edu.manager.model.data.BriefingData;
 import kr.jeet.edu.manager.model.data.FileData;
+import kr.jeet.edu.manager.model.data.ReadData;
 import kr.jeet.edu.manager.server.RetrofitApi;
 import kr.jeet.edu.manager.utils.FileUtils;
 import kr.jeet.edu.manager.utils.LogMgr;
@@ -36,7 +37,7 @@ public class BriefingListAdapter extends RecyclerView.Adapter<BriefingListAdapte
     public interface ItemClickListener{ public void onItemClick(BriefingData item, int position); }
 
     private Context mContext;
-    private List<BriefingData> mList;
+    private List<ReadData> mList;
     private ItemClickListener _listener;
     /**
      * 전체 선택 시에는 캠퍼스 정보를 숨김 -> 모두 보임
@@ -45,7 +46,7 @@ public class BriefingListAdapter extends RecyclerView.Adapter<BriefingListAdapte
     private final boolean IMG_IS_EMPTY = true;
     private final boolean IMG_IS_NOT_EMPTY = false;
 
-    public BriefingListAdapter(Context mContext, List<BriefingData> mList, ItemClickListener listener) {
+    public BriefingListAdapter(Context mContext, List<ReadData> mList, ItemClickListener listener) {
         this.mContext = mContext;
         this._listener = listener;
         this.mList = mList;
@@ -62,7 +63,7 @@ public class BriefingListAdapter extends RecyclerView.Adapter<BriefingListAdapte
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        BriefingData item = mList.get(position);
+        BriefingData item = (BriefingData) mList.get(position);
         try{
             holder.tvDate.setText(TextUtils.isEmpty(item.date) || TextUtils.isEmpty(item.ptTime) ? "" : Utils.formatDate(item.date, item.ptTime, false));
             holder.tvTitle.setText(TextUtils.isEmpty(item.title) ? "" : item.title);
@@ -101,7 +102,11 @@ public class BriefingListAdapter extends RecyclerView.Adapter<BriefingListAdapte
                 holder.tvState.setBackground(mContext.getDrawable(R.drawable.bg_layout_manager));
                 cnt = "예약";
             }
-
+            if (!item.isRead) { // 읽지 않은 게시글
+                holder.brfRoot.setBackgroundColor(mContext.getColor(R.color.bg_is_read));
+            } else {
+                holder.brfRoot.setBackgroundColor(Color.TRANSPARENT);
+            }
             holder.tvState.setText(cnt);
             holder.tvReadCount.setText(Utils.decimalFormat(item.rdcnt));
 
@@ -190,7 +195,7 @@ public class BriefingListAdapter extends RecyclerView.Adapter<BriefingListAdapte
 
             itemView.setOnClickListener(v -> {
                 int position = getBindingAdapterPosition();
-                _listener.onItemClick(mList.get(position), position);
+                _listener.onItemClick((BriefingData) mList.get(position), position);
             });
         }
     }

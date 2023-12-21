@@ -87,7 +87,7 @@ public class MenuLevelTestDetailActivity extends BaseActivity {
 
         str = "";
         if(mInfo.sex != null) {
-            str = mInfo.sex.equals("M") ? getString(R.string.male) : getString(R.string.female);
+            str = mInfo.sex.equals("M") ? getString(R.string.male) : mInfo.sex.equals("F") ? getString(R.string.female) : "";
         }
         ((TextView)findViewById(R.id.txt_gender)).setText(str);
 

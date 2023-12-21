@@ -19,10 +19,11 @@ import java.util.List;
 
 import kr.jeet.edu.manager.R;
 import kr.jeet.edu.manager.model.data.MainMenuItemData;
+import kr.jeet.edu.manager.utils.LogMgr;
 import kr.jeet.edu.manager.view.DrawableAlwaysCrossFadeFactory;
 
 public class MainMenuListAdapter extends RecyclerView.Adapter<MainMenuListAdapter.ViewHolder> {
-
+    private static final String TAG= "mainmenuadapter";
     public interface onItemClickListener{
         public void onItemClick(MainMenuItemData item);
     }
@@ -60,6 +61,12 @@ public class MainMenuListAdapter extends RecyclerView.Adapter<MainMenuListAdapte
             }else{
                 holder.tvMenu.setText(item.getTitle());
             }
+            LogMgr.e(TAG, "item.name = " + item.getType() + " / " + item.getIsNew());
+            if (item.getIsNew()) {
+                holder.tvNew.setVisibility(View.VISIBLE);
+            } else {
+                holder.tvNew.setVisibility(View.GONE);
+            }
 //        }
     }
 
@@ -72,13 +79,14 @@ public class MainMenuListAdapter extends RecyclerView.Adapter<MainMenuListAdapte
     public class ViewHolder extends RecyclerView.ViewHolder{
         private ConstraintLayout rootLayout;
         private ImageView imgMenu;
-        private TextView tvMenu;
+        private TextView tvMenu, tvNew;
 
         public ViewHolder(@NonNull View itemView){
             super(itemView);
             rootLayout = itemView.findViewById(R.id.root);
             imgMenu = itemView.findViewById(R.id.img_menu);
             tvMenu = itemView.findViewById(R.id.tv_menu);
+            tvNew = itemView.findViewById(R.id.tv_new);
 
             itemView.setOnClickListener(v -> {
                 int position = getBindingAdapterPosition();
