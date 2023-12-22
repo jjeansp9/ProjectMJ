@@ -8,6 +8,8 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 import java.util.List;
 
+import kr.jeet.edu.manager.common.DataManager;
+
 public class BriefingData implements Parcelable, ReadData {
     @SerializedName("seq")
     public int seq;
@@ -46,7 +48,7 @@ public class BriefingData implements Parcelable, ReadData {
     public MemberResponseVO memberResponseVO;
     @SerializedName("fileList")
     public List<FileData> fileList = new ArrayList<>();
-
+    String type = DataManager.BOARD_PT;
 
     public BriefingData(){}
     public BriefingData(int seq, String title, String content, String acaCode, String acaName, String date, String ptTime, String place, int participantsCnt, int reservationCnt, String isSendSMS, String fileId, MemberResponseVO memberResponseVO, List<FileData> fileList) {
@@ -87,6 +89,7 @@ public class BriefingData implements Parcelable, ReadData {
         isRead = in.readByte() != 0;
         memberResponseVO = in.readParcelable(MemberResponseVO.class.getClassLoader());
         fileList = in.createTypedArrayList(FileData.CREATOR);
+        type = in.readString();
     }
 
     @Override
@@ -110,6 +113,7 @@ public class BriefingData implements Parcelable, ReadData {
         dest.writeByte((byte) (isRead ? 1 : 0));
         dest.writeParcelable(memberResponseVO, flags);
         dest.writeTypedList(fileList);
+        dest.writeString(type);
     }
 
     @Override
@@ -139,6 +143,7 @@ public class BriefingData implements Parcelable, ReadData {
         return ptTime;
     }
 
+    @Override
     public boolean getIsRead() {
         return isRead;
     }
@@ -163,8 +168,14 @@ public class BriefingData implements Parcelable, ReadData {
         this.seq = seq;
     }
 
+    @Override
     public void setIsRead(boolean read) {
         isRead = read;
+    }
+
+    @Override
+    public String getType() {
+        return type;
     }
 }
 

@@ -5,6 +5,9 @@ public interface ReadData {
     String getTime();
     int getSeq();
     boolean getIsRead();
+    default String getType() {
+        return "";
+    }
 
     void setDate(String date);
     void setTime(String time);

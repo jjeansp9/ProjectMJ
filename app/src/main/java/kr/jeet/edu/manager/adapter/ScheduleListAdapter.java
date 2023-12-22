@@ -89,6 +89,7 @@ public class ScheduleListAdapter extends RecyclerView.Adapter<ScheduleListAdapte
 
         holder.tvDate.setText(formattedDate);
         holder.tvTitle.setText(TextUtils.isEmpty(item.title) ? "" : item.title);
+        holder.tvName.setText(TextUtils.isEmpty(item.memberResponseVO.name) ? "" : item.memberResponseVO.name);
 
         String str = TextUtils.isEmpty(item.acaGubunName) ? "" : "["+item.acaGubunName+"]";
 
@@ -170,7 +171,7 @@ public class ScheduleListAdapter extends RecyclerView.Adapter<ScheduleListAdapte
     }
     public class ViewHolder extends RecyclerView.ViewHolder{
 
-        private TextView tvDate, tvTarget, tvTitle, tvCampus;
+        private TextView tvDate, tvTarget, tvTitle, tvName, tvCampus;
 
         public ViewHolder(@NonNull View itemView){
             super(itemView);
@@ -178,6 +179,7 @@ public class ScheduleListAdapter extends RecyclerView.Adapter<ScheduleListAdapte
             tvDate = itemView.findViewById(R.id.tv_schedule_date);
             tvTarget = itemView.findViewById(R.id.tv_schedule_target);
             tvTitle = itemView.findViewById(R.id.tv_schedule_title);
+            tvName = itemView.findViewById(R.id.tv_schedule_name);
             tvCampus = itemView.findViewById(R.id.tv_schedule_campus);
 
             itemView.setOnClickListener(v -> {

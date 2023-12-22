@@ -2,6 +2,8 @@ package kr.jeet.edu.manager.common;
 
 import android.util.ArrayMap;
 
+import org.threeten.bp.LocalDateTime;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,6 +39,8 @@ public class DataManager {
     public static final String BOARD_STUDENT_INFO = "studentinfo"; //원생정보
     public static final String BOARD_BUS = "bus";  //차량정보
     public static final String BOARD_SCHEDULE = "schedule";
+
+    public LocalDateTime sevenDaysAgo = null;
     //Dot size
     public float DOT_SIZE = 10f;
     // 캠퍼스 리스트

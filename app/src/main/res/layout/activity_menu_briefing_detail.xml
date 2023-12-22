@@ -43,15 +43,14 @@
                 android:id="@+id/tv_brf_detail_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/layout_margin_xxxsmall"
+                android:layout_marginTop="@dimen/layout_margin_xxxxsmall"
                 android:layout_marginHorizontal="@dimen/layout_margin"
                 android:ellipsize="end"
                 android:hint="이름"
                 android:maxLines="1"
                 android:textColor="@color/font_color_default"
                 android:textSize="@dimen/font_size"
-                app:layout_constraintTop_toBottomOf="@id/tv_brf_detail_title"
-                android:visibility="gone"/>
+                app:layout_constraintTop_toBottomOf="@id/tv_brf_detail_title"/>
 <!--            <View-->
 <!--                android:id="@+id/line_top"-->
 <!--                android:layout_width="match_parent"-->

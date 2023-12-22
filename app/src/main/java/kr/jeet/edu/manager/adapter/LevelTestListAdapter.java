@@ -68,7 +68,7 @@ public class LevelTestListAdapter extends RecyclerView.Adapter<LevelTestListAdap
                 holder.tvCampus.setText(sb.toString());
             }
             holder.tvSubject.setText(Utils.getStr(item.subjectName));
-            String date = Utils.formatDate(item.insertDate, Constants.DATE_FORMATTER_YYYY_MM_DD_HH_mm_ss, Constants.DATE_FORMATTER_YYYY_MM_DD);
+            String date = Utils.formatDate(item.insertDate, Constants.DATE_FORMATTER_YYYY_MM_DD_HH_mm, Constants.DATE_FORMATTER_YYYY_MM_DD);
             holder.tvRegisterDate.setText(date);
         }
     }

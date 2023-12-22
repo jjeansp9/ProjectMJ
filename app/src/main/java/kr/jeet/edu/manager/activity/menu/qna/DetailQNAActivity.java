@@ -208,12 +208,12 @@ public class DetailQNAActivity extends BaseActivity {
                 invalidateOptionsMenu();
 //            }
             mTvTitle.setText(_currentData.title); // 제목
-            if(_currentData.userGubun >= Constants.USER_TYPE_STUDENT) {
+//            if(_currentData.userGubun >= Constants.USER_TYPE_STUDENT) {
                 mTvName.setVisibility(View.VISIBLE);
                 mTvName.setText(_currentData.writerNm); // 작성자 이름
-            }else{
-                mTvName.setVisibility(View.GONE);
-            }
+//            }else{
+//                mTvName.setVisibility(View.GONE);
+//            }
             mTvDate.setText(_currentData.insertDate); // 작성날짜
             mTvQuestion.setText(_currentData.content); // 내용
             if(_currentData.state.equals(Constants.QNAState.SUBSCRIPTION.getCodeStr())){    //신청

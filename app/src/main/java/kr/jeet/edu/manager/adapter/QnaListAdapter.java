@@ -113,12 +113,12 @@ public class QnaListAdapter extends RecyclerView.Adapter<QnaListAdapter.ViewHold
             else str += item.acaGubunName;
         }
         holder.tvCampus.setText(str);
-        if(item.userGubun >= Constants.USER_TYPE_STUDENT) {
+//        if(item.userGubun >= Constants.USER_TYPE_STUDENT) {
             holder.tvWriter.setVisibility(View.VISIBLE);
             holder.tvWriter.setText(item.writerNm);
-        }else{
-            holder.tvWriter.setVisibility(View.GONE);
-        }
+//        }else{
+//            holder.tvWriter.setVisibility(View.GONE);
+//        }
         holder.tvDate.setText(Utils.getStr(item.insertDate));
 
         try { holder.tvRdCnt.setText(Utils.decimalFormat(item.rdcnt)); }

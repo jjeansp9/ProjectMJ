@@ -190,6 +190,9 @@ public class MenuScheduleDetailActivity extends BaseActivity { //implements Tool
             String str = TextUtils.isEmpty(_currentData.acaName) ? "" : _currentData.acaName;
             tvCampus.setText(str);
 
+            str = TextUtils.isEmpty(_currentData.memberResponseVO.name) ? "" : _currentData.memberResponseVO.name;
+            tvWriter.setText(str);
+
             str = TextUtils.isEmpty(_currentData.title) ? "" : _currentData.title;
             tvTitle.setText(str);
 

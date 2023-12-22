@@ -61,7 +61,6 @@ public class MainMenuListAdapter extends RecyclerView.Adapter<MainMenuListAdapte
             }else{
                 holder.tvMenu.setText(item.getTitle());
             }
-            LogMgr.e(TAG, "item.name = " + item.getType() + " / " + item.getIsNew());
             if (item.getIsNew()) {
                 holder.tvNew.setVisibility(View.VISIBLE);
             } else {

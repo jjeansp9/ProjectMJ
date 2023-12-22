@@ -582,7 +582,7 @@ public class Constants {
     //setting
     public static String SETTING_TYPE_RECIPIENT = "receiverStep";
 
-    public static final int IS_READ_DELETE_DAY = 7;
+    public static final int IS_READ_DELETE_DAY = 6;
 
 
 }

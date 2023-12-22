@@ -9,12 +9,12 @@
     android:background="@color/white"
     android:id="@+id/brf_root">
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.77" />
+<!--    <androidx.constraintlayout.widget.Guideline-->
+<!--        android:id="@+id/guideline"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:orientation="vertical"-->
+<!--        app:layout_constraintGuide_percent="0.77" />-->
 
     <TextView
         android:id="@+id/tv_brf_state"
@@ -38,7 +38,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toEndOf="@id/tv_brf_state"
-        app:layout_constraintEnd_toStartOf="@id/guideline"
+        app:layout_constraintEnd_toStartOf="@id/img_brf"
         android:layout_marginStart="4dp"
         android:layout_marginEnd="8dp"
         android:maxLines="1"
@@ -52,9 +52,9 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/tv_brf_date"
-        app:layout_constraintBottom_toTopOf="@+id/tv_brf_campus"
+        app:layout_constraintBottom_toTopOf="@+id/tv_brf_name"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/guideline"
+        app:layout_constraintEnd_toStartOf="@id/img_brf"
         app:layout_constraintVertical_bias="1"
         android:layout_marginEnd="8dp"
         android:maxLines="1"
@@ -65,12 +65,26 @@
         android:textSize="@dimen/font_size_large"/>
 
     <TextView
+        android:id="@+id/tv_brf_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/tv_brf_campus"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/img_brf"
+        android:layout_marginEnd="8dp"
+        android:hint="이름"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:textColor="@color/font_color_default"
+        android:textSize="@dimen/font_size_small"/>
+
+    <TextView
         android:id="@+id/tv_brf_campus"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toTopOf="@id/tv_brf_location"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/guideline"
+        app:layout_constraintEnd_toStartOf="@id/img_brf"
         android:layout_marginEnd="8dp"
         android:hint="캠퍼스"
         android:maxLines="1"
@@ -89,7 +103,6 @@
         android:textColor="@color/font_color_default"
         android:textSize="@dimen/font_size_small"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/guideline"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintHorizontal_bias="0"/>
 

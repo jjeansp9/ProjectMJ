@@ -48,14 +48,13 @@
                 android:id="@+id/tv_sc_detail_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/layout_margin_xxxsmall"
+                android:layout_marginTop="@dimen/layout_margin_xxxxsmall"
                 android:ellipsize="end"
                 android:hint="이름"
                 android:maxLines="1"
                 android:textColor="@color/font_color_default"
                 android:textSize="@dimen/font_size"
-                app:layout_constraintTop_toBottomOf="@id/tv_board_detail_title"
-                android:visibility="gone"/>
+                app:layout_constraintTop_toBottomOf="@id/tv_board_detail_title"/>
 
             <View
                 android:layout_width="match_parent"

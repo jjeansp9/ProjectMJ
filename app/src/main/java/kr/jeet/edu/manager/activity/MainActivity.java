@@ -4,7 +4,6 @@ import static kr.jeet.edu.manager.fcm.FCMManager.MSG_TYPE_ATTEND;
 import static kr.jeet.edu.manager.fcm.FCMManager.MSG_TYPE_COUNSEL;
 import static kr.jeet.edu.manager.fcm.FCMManager.MSG_TYPE_NOTICE;
 import static kr.jeet.edu.manager.fcm.FCMManager.MSG_TYPE_LEVEL_TEST;
-import static kr.jeet.edu.manager.fcm.FCMManager.MSG_TYPE_PT;
 import static kr.jeet.edu.manager.fcm.FCMManager.MSG_TYPE_QNA;
 import static kr.jeet.edu.manager.fcm.FCMManager.MSG_TYPE_QNA_COMPLETE;
 import static kr.jeet.edu.manager.fcm.FCMManager.MSG_TYPE_QNA_ING;
@@ -30,6 +29,7 @@ import kr.jeet.edu.manager.common.Constants;
 import kr.jeet.edu.manager.common.DataManager;
 import kr.jeet.edu.manager.common.IntentParams;
 import kr.jeet.edu.manager.db.JeetDatabase;
+import kr.jeet.edu.manager.db.NewBoardDao;
 import kr.jeet.edu.manager.db.NewBoardData;
 import kr.jeet.edu.manager.db.PushMessage;
 import kr.jeet.edu.manager.dialog.PushPopupDialog;
@@ -89,9 +89,11 @@ import com.google.android.flexbox.FlexboxLayoutManager;
 import com.google.android.flexbox.JustifyContent;
 
 import org.threeten.bp.LocalDateTime;
+import org.threeten.bp.LocalTime;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.OptionalInt;
 import java.util.stream.Collectors;
@@ -104,7 +106,8 @@ public class MainActivity extends BaseActivity {
 //    TextView tvProfileDate;
     TextView tvManagerName, tvManagerDesignation, tvCampusName, tvDepartmentName;
 //    ConstraintLayout layoutCounsel;
-    ImageView ivNewCounsel;
+//    ImageView ivNewCounsel;
+    TextView tvNew;
     RecyclerView _recyclerViewAnnouncement;
     TextView tvEmptyList;
     AnnouncementListAdapter _announcementListAdapter;
@@ -135,6 +138,8 @@ public class MainActivity extends BaseActivity {
     private PushMessage _pushMessage;
     List<ReadData> announcementList = new ArrayList<>();
     ManagerInfo _managerInfo = null;
+    NewBoardDao _newBoardDAO = null;
+
     private BroadcastReceiver pushNotificationReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -191,7 +196,8 @@ public class MainActivity extends BaseActivity {
                     requestSettingItems();
                     break;
                 case CMD_GET_BOARD_NEW_CONTENT:
-                    requestBoardNew();
+                    requestBoardNew(DataManager.BOARD_NOTICE);
+                    requestBoardNew(DataManager.BOARD_PT);
                     break;
 //                case CMD_PUSH_MESSAGE_RECEIVED:
 //                    break;
@@ -203,14 +209,23 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mContext = this;
+        _newBoardDAO = JeetDatabase.getInstance(mContext).newBoardDao();
         _userGubun = PreferenceUtil.getUserGubun(this);
         _memberSeq = PreferenceUtil.getUserSeq(this);
         _sfCode = PreferenceUtil.getUserSFCode(this);
         LogMgr.e(_userGubun + "/" + _memberSeq + "/" + _sfCode);
-
+        DataManager.getInstance().sevenDaysAgo = LocalDateTime.now().minusDays(Constants.IS_READ_DELETE_DAY); // 현재 날짜에서 7일을 뺀 날짜
         initView();
-        initData();
+        initIntentData();
+        removeOldDBData();
         mHandler.sendEmptyMessage(CMD_GET_ACALIST);
+    }
+    private void removeOldDBData() {
+        new Thread(() -> {
+            List<NewBoardData> getOldList = _newBoardDAO.getOldReadInfoList(DataManager.getInstance().sevenDaysAgo);
+            LogMgr.e(TAG, "getOldList size = " + getOldList.size());
+            getOldList.forEach(item -> _newBoardDAO.delete(item));
+        }).start();
     }
     void initAppbar() {
         CustomAppbarLayout customAppbar = findViewById(R.id.customAppbar);
@@ -299,7 +314,7 @@ public class MainActivity extends BaseActivity {
         }else{
             layoutTeacherProfile.setVisibility(View.VISIBLE);
             layoutRequestConsulting.setVisibility(View.VISIBLE);
-            ivNewCounsel = findViewById(R.id.img_consulting_new);
+            tvNew = findViewById(R.id.tv_new);
         }
         tvEmptyList = findViewById(R.id.tv_main_empty_list);
         _recyclerViewAnnouncement = findViewById(R.id.recycler_announcement);
@@ -319,38 +334,13 @@ public class MainActivity extends BaseActivity {
         initMenus();
         initAppbar();
     }
-    private void initData() {
+    private void initIntentData() {
         Intent intent = getIntent();
         if(intent != null) {
-//            if (intent.hasExtra(IntentParams.PARAM_PUSH_MESSAGE)) {
-//                LogMgr.e(TAG, "push msg ");
-//                _pushMessage = intent.getParcelableExtra(IntentParams.PARAM_PUSH_MESSAGE);
-//                LogMgr.e(TAG, "msg = " + _pushMessage.body);
-//            } else {
-//                LogMgr.e(TAG, "push msg is null");
-//            }
             Bundle bundle = intent.getExtras();
-//            if(bundle.containsKey(IntentParams.PARAM_PUSH_MESSAGE)){
-//                LogMgr.e(TAG, "push msg ");
-//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-//                    _pushMessage = bundle.getSerializable(IntentParams.PARAM_PUSH_MESSAGE, PushMessage.class);
-//                }else{
-//                    _pushMessage = (PushMessage) bundle.getSerializable(IntentParams.PARAM_PUSH_MESSAGE);
-//                }
-//                LogMgr.e(TAG, "msg = " + _pushMessage.body);
-//            }else{
-//                LogMgr.e(TAG, "push msg is null");
-//            }
             if(bundle != null)
                 _pushMessage = Utils.getSerializableExtra(bundle, IntentParams.PARAM_PUSH_MESSAGE, PushMessage.class);
-//            if (intent.getExtras() != null) {
-//                Bundle map = intent.getExtras();
-//                for (String key : map.keySet()) {
-//                    LogMgr.e(TAG, "key = " + key + " : value = " + map.get(key));
-//                }
-//            }
         }
-//        showProfileDate();
 
         if(_pushMessage != null) {
             switch(_pushMessage.pushType) {
@@ -439,13 +429,13 @@ public class MainActivity extends BaseActivity {
     }
     void setNewCounselContent(boolean isNew) {
         runOnUiThread(()->{
-            if(ivNewCounsel != null) {
+            if(tvNew != null) {
                 if (isNew) {
 //                    layoutCounsel.setBackground(getDrawable(R.drawable.selector_main_box_new));
-                    ivNewCounsel.setVisibility(View.VISIBLE);
+                    tvNew.setVisibility(View.VISIBLE);
                 } else {
 //                    layoutCounsel.setBackground(getDrawable(R.drawable.selector_main_box));
-                    ivNewCounsel.setVisibility(View.INVISIBLE);
+                    tvNew.setVisibility(View.INVISIBLE);
                 }
             }
         });
@@ -470,23 +460,27 @@ public class MainActivity extends BaseActivity {
 //        tvProfileDate.setText(formatTime);
 //    }
     // 공지사항 or 설명회 메뉴아이콘에 new 표시
-    private void updateMenusNew(Context context, int memberSeq, String type, int readNum) {
+    private void updateMenusNew(Context context, int memberSeq, String type, List<Integer> newContentList) {
         if(menuList == null) return;
         new Thread(() -> {
-            LocalDateTime today = LocalDateTime.now(); // 현재날짜
-            LocalDateTime sevenDaysAgo = today.minusDays(Constants.IS_READ_DELETE_DAY); // 현재 날짜에서 7일을 뺀 날짜
-            List<NewBoardData> getReadList = JeetDatabase.getInstance(context).newBoardDao().getReadInfoList(memberSeq, type, sevenDaysAgo);
-            LogMgr.e(TAG, "getReadList size = " + getReadList.size());
-            for (NewBoardData data : getReadList) LogMgr.e(TAG, "read connSeq: " + data.connSeq);
 
-            boolean hasAttention = readNum > getReadList.size(); // 최근 7일간의 게시글 size > read insert data size
+            List<NewBoardData> getReadList = JeetDatabase.getInstance(context).newBoardDao().getReadInfoList(memberSeq, type, DataManager.getInstance().sevenDaysAgo);
+            boolean hasAttention = false;
+            if(getReadList.isEmpty()) {
+                if(!newContentList.isEmpty()){
+                    hasAttention = true;
+                }
+            }else {
+
+                hasAttention = !(newContentList.stream().allMatch(seq -> getReadList.stream().anyMatch(data -> data.connSeq == seq)));
+            }
             LogMgr.e(TAG, "hasAttention = " + hasAttention);
             OptionalInt optionalIndex = IntStream.range(0, menuList.size()).filter(i -> type.equals(menuList.get(i).getType())).findFirst();
             if(optionalIndex.isPresent()) {
                 updateViewNew(optionalIndex.getAsInt(), hasAttention);
             }
 
-            runOnUiThread(() -> mListAdapter.notifyDataSetChanged());
+
         }).start();
     }
 
@@ -494,8 +488,9 @@ public class MainActivity extends BaseActivity {
             int position,
             boolean hasAttention
     ) {
-        if (position >= 0 && menuList.size() > position) {
+        if (position >= 0 && menuList.size() > position && menuList.get(position) != null && menuList.get(position).getIsNew() != hasAttention) {
             menuList.get(position).setIsNew(hasAttention);
+            runOnUiThread(() -> mListAdapter.notifyItemChanged(position));
         }
     }
     private void requestACAList(){
@@ -754,10 +749,23 @@ public class MainActivity extends BaseActivity {
         }
     }
     // 공지사항 일주일 이내 글 seq - 메뉴아이콘 new 표시 관련
-    private void requestBoardNew(){
+    private void requestBoardNew(String type){
         if(RetrofitClient.getInstance() != null) {
             mRetrofitApi = RetrofitClient.getApiInterface();
-            mRetrofitApi.getNoticeNewList().enqueue(new Callback<BoardNewResponse>() {
+            Call<BoardNewResponse> call = null;
+            switch(type) {
+                case DataManager.BOARD_NOTICE:
+                    call = mRetrofitApi.getNoticeNewList();
+                    break;
+                case DataManager.BOARD_PT:
+                    call = mRetrofitApi.getPtNewList();
+                    break;
+                default:
+                    break;
+            }
+            if(call == null) return;
+            final String finalType = type;
+            call.enqueue(new Callback<BoardNewResponse>() {
                 @Override
                 public void onResponse(Call<BoardNewResponse> call, Response<BoardNewResponse> response) {
                     try {
@@ -765,7 +773,7 @@ public class MainActivity extends BaseActivity {
                             if (response.body() != null)  {
                                 List<Integer> getData = response.body().data;
                                 if (getData != null) {
-                                    updateMenusNew(mContext, _memberSeq, DataManager.BOARD_NOTICE, getData.size());
+                                    updateMenusNew(mContext, _memberSeq, finalType, getData);
                                 }
                             }
                         }else{

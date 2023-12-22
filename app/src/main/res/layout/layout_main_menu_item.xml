@@ -24,7 +24,7 @@
         android:layout_width="24dp"
         android:layout_height="24dp"
         app:layout_constraintEnd_toEndOf="@id/img_menu"
-        app:layout_constraintBottom_toBottomOf="@id/img_menu"
+        app:layout_constraintTop_toTopOf="@id/img_menu"
         android:text="N"
         android:textSize="@dimen/font_size_small"
         android:textStyle="bold"
@@ -33,7 +33,7 @@
         android:background="@drawable/bg_circle"
         android:backgroundTint="@color/red_sub"
         android:paddingHorizontal="8dp"
-        android:visibility="visible"/>
+        android:visibility="invisible"/>
 
     <TextView
         android:id="@+id/tv_menu"

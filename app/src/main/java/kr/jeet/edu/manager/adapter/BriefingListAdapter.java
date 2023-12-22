@@ -67,6 +67,7 @@ public class BriefingListAdapter extends RecyclerView.Adapter<BriefingListAdapte
         try{
             holder.tvDate.setText(TextUtils.isEmpty(item.date) || TextUtils.isEmpty(item.ptTime) ? "" : Utils.formatDate(item.date, item.ptTime, false));
             holder.tvTitle.setText(TextUtils.isEmpty(item.title) ? "" : item.title);
+            holder.tvName.setText(TextUtils.isEmpty(item.memberResponseVO.name) ? "" : item.memberResponseVO.name);
             holder.tvLocation.setText(TextUtils.isEmpty(item.place) ? "" : item.place);
 
 //            if (isWholeCampusMode) {
@@ -178,7 +179,7 @@ public class BriefingListAdapter extends RecyclerView.Adapter<BriefingListAdapte
     public class ViewHolder extends RecyclerView.ViewHolder{
         private ConstraintLayout brfRoot;
         private ImageView imgBrf, imgRead;
-        private TextView tvDate, tvTitle, tvLocation, tvState, tvCampus, tvReadCount;;
+        private TextView tvDate, tvTitle, tvLocation, tvState, tvCampus, tvName, tvReadCount;
 
         public ViewHolder(@NonNull View itemView){
             super(itemView);
@@ -189,6 +190,7 @@ public class BriefingListAdapter extends RecyclerView.Adapter<BriefingListAdapte
             tvLocation = itemView.findViewById(R.id.tv_brf_location);
             tvState = itemView.findViewById(R.id.tv_brf_state);
             tvCampus = itemView.findViewById(R.id.tv_brf_campus);
+            tvName = itemView.findViewById(R.id.tv_brf_name);
             imgBrf = itemView.findViewById(R.id.img_brf);
             imgRead = itemView.findViewById(R.id.img_rd_cnt);
             tvReadCount = itemView.findViewById(R.id.tv_rd_cnt);

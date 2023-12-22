@@ -70,7 +70,7 @@ import retrofit2.Response;
 public class MenuBriefingDetailActivity extends BaseActivity {
     private static final String TAG = "briefingDetail";
 
-    private TextView mTvTitle, mTvDate, mTvTime, mTvLoc, mTvPersonnel, mTvContent, _tvReservedCnt, _tvReadCount;
+    private TextView mTvTitle, mTvDate, mTvTime, mTvLoc, mTvPersonnel, mTvContent, _tvReservedCnt, _tvReadCount, _tvWriter;
     private RecyclerView mRecyclerViewImages, mRecyclerViewFiles;
     private BoardDetailImageListAdapter mImageAdapter;
     private BoardDetailFileListAdapter mFileAdapter;
@@ -249,6 +249,7 @@ public class MenuBriefingDetailActivity extends BaseActivity {
         findViewById(R.id.layout_reserver_list).setOnClickListener(this);
         _tvReservedCnt = findViewById(R.id.tv_reserved_cnt);
         mTvTitle = findViewById(R.id.tv_brf_detail_title);
+        _tvWriter = findViewById(R.id.tv_brf_detail_name);
         mTvDate = findViewById(R.id.tv_brf_detail_date);
 //        mTvTime = findViewById(R.id.tv_brf_detail_time);
         mTvLoc = findViewById(R.id.tv_brf_detail_loc);
@@ -322,6 +323,9 @@ public class MenuBriefingDetailActivity extends BaseActivity {
     private void setView(){
         String str = TextUtils.isEmpty(_currentData.title) ? "" : _currentData.title;
         mTvTitle.setText(str);
+
+        str = TextUtils.isEmpty(_currentData.memberResponseVO.name) ? "" : _currentData.memberResponseVO.name;
+        _tvWriter.setText(str);
 
         str = TextUtils.isEmpty(_currentData.date) || TextUtils.isEmpty(_currentData.ptTime) ? "" : Utils.formatDate(_currentData.date, _currentData.ptTime, true);
         mTvDate.setText(str);
