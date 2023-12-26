@@ -154,6 +154,9 @@ public class AuthPhoneNumberView extends LinearLayout implements View.OnClickLis
         mAuthTimerTxt.setVisibility(View.VISIBLE);
     }
     public Boolean checkValid() {
+        if (mAuthPhoneNo.contains("01288411004")) { // 테스트용 계정으로 회원가입시 휴대폰인증 하지 않고 넘어가게 하기
+            return true;
+        }
         if(Utils.isEmptyContainSpace(mAuthPhoneNo)) {
             Toast.makeText(_context, R.string.empty_phonenumber, Toast.LENGTH_SHORT).show();
             return false;

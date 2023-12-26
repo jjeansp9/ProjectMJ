@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <network-security-config>
-    <domain-config cleartextTrafficPermitted="false">
-        <domain includeSubdomains="true">jeetapp.kr</domain>
+    <domain-config cleartextTrafficPermitted="true">
+<!--        <domain includeSubdomains="true">jeetapp.kr</domain>-->
+        <domain includeSubdomains="true">m.jeet.kr</domain>
+        <domain includeSubdomains="true">jeet.kr</domain>
+        <domain includeSubdomains="true">121.78.145.90</domain>
     </domain-config>
 
 </network-security-config>

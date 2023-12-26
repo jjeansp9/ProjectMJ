@@ -25,6 +25,7 @@
         android:layout_height="24dp"
         app:layout_constraintEnd_toEndOf="@id/img_menu"
         app:layout_constraintTop_toTopOf="@id/img_menu"
+        android:layout_marginTop="@dimen/layout_margin_xxxsmall"
         android:text="N"
         android:textSize="@dimen/font_size_small"
         android:textStyle="bold"
