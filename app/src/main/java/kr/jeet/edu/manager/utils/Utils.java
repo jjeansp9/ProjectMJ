@@ -14,6 +14,7 @@ import android.os.Parcelable;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.PopupWindow;
 import android.widget.Toast;
@@ -204,12 +205,17 @@ public class Utils {
 //            }
 //        }
 //    }
+    public static void hideKeyboard(Context mContext, View focus) {
+        InputMethodManager inputMethodManager = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (inputMethodManager == null) return;
+        inputMethodManager.hideSoftInputFromWindow(focus.getWindowToken(), 0);
+    }
     /**
      * 휴대폰번호 유효성검사
      * */
     public static boolean checkPhoneNumber(String str) {
         if(TextUtils.isEmpty(str)) return false;
-        return Pattern.matches("^01(?:0|1|[6-9])[-]?(?:\\d{3}|\\d{4})[-]?\\d{4}$", str);
+        return Pattern.matches("^01(?:0|1|2)[-]?(?:\\d{3}|\\d{4})[-]?\\d{4}$", str);
     }
     /**
      * 전화번호에 - 붙은 Format 으로 변환

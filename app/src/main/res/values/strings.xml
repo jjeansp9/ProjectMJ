@@ -100,6 +100,8 @@
     <string name="empty_user_info">사용자 정보가 없습니다.</string>
     <string name="empty_phonenumber">휴대폰번호 정보가 없습니다.</string>
     <string name="msg_re_auth">휴대폰번호를 다시 인증해 주세요.</string>
+    <string name="pattern_mismatch_phonenumber">휴대폰번호를 확인해주세요.</string>
+    <string name="mismatch_phonenumber">인증번호가 상이합니다.</string>
     <string name="check_id_empty">아이디를 입력해 주세요.</string>
     <string name="check_name_pattern">이름 형식이 올바르지 않습니다.</string>
     <string name="check_id_min_length">아이디는 최소 4글자 이상 입력해주세요.</string>

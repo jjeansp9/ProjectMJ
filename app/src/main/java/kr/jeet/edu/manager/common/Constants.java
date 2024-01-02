@@ -584,5 +584,6 @@ public class Constants {
 
     public static final int IS_READ_DELETE_DAY = 6;
 
-
+    public static int LOGOUT_TYPE_APP_FINISH = 0; // 앱종료로 로그아웃 api 호출할 때
+    public static int LOGOUT_TYPE_LOGOUT = 1; // 설정에서 로그아웃 api 호출할 때
 }

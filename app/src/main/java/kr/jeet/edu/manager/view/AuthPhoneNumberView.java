@@ -1,5 +1,6 @@
 package kr.jeet.edu.manager.view;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.CountDownTimer;
 import android.text.Editable;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import java.io.IOException;
 
@@ -39,10 +41,10 @@ public class AuthPhoneNumberView extends LinearLayout implements View.OnClickLis
         void onRequestHide();
     }
     private ShowProgressDialogDelegate showProgressDelegate;
+    private ConstraintLayout mLayoutAuthNo;
     private Context _context;
     private EditText mEditPhoneNo, mEditAuthNo;
-    private TextView mCheckPhoneTxt, mAuthTimerTxt;
-    private LinearLayout layoutAuthNo;
+    private TextView mCheckPhoneTxt, mAuthTimerTxt, mTvPatternMismatch;
     private Button btnCheckNumber;
     private AuthNumberTimer mTimer = null;
     private int mAuthNum = 0;
@@ -81,10 +83,15 @@ public class AuthPhoneNumberView extends LinearLayout implements View.OnClickLis
         LayoutInflater inflater = (LayoutInflater) _context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.view_auth_phone_number, this, true);
 
+        mLayoutAuthNo = findViewById(R.id.layout_input_auth_no);
         btnCheckNumber = findViewById(R.id.btn_check_phone);
+        mTvPatternMismatch = findViewById(R.id.tv_pattern_mismatch);
+        mCheckPhoneTxt = findViewById(R.id.check_txt_phone);
         btnCheckNumber.setOnClickListener(this);
-        btnCheckNumber.setEnabled(false);
+        //btnCheckNumber.setEnabled(false);
+        btnCheckNumber.setBackgroundResource(R.drawable.bt_demand_nor);
         mEditPhoneNo = (EditText) findViewById(R.id.edit_phonenum);
+        mEditAuthNo = (EditText) findViewById(R.id.edit_phone_authnum);
         mEditPhoneNo.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -94,43 +101,113 @@ public class AuthPhoneNumberView extends LinearLayout implements View.OnClickLis
             @Override
             public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
                 if(charSequence!= null) {
-                    if(charSequence.length() >=11) {
-                        btnCheckNumber.setEnabled(true);
-                        mAuthPhoneNo = charSequence.toString().trim();
+                    if(Utils.checkPhoneNumber(charSequence.toString().trim())) {
+                        btnCheckNumber.setBackgroundResource(R.drawable.bt_demand_sel);
                     }else{
-                        btnCheckNumber.setEnabled(false);
-                        mAuthPhoneNo = charSequence.toString().trim();
+                        btnCheckNumber.setBackgroundResource(R.drawable.bt_demand_nor);
+                    }
+                    mAuthPhoneNo = charSequence.toString().trim();
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+        mEditPhoneNo.setOnFocusChangeListener(new OnFocusChangeListener(){
+
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if(hasFocus) {
+//                    mEditPhoneNo.setText("");
+//                    mAuthPhoneNo = "";
+                    //mEditAuthNo.setEnabled(false);
+                    release();
+                    mAuthTimerTxt.setVisibility(View.INVISIBLE);
+
+                    if (mTvPatternMismatch.getVisibility() == View.VISIBLE) {
+                        mTvPatternMismatch.setVisibility(View.GONE);
+                    }
+                    if (mLayoutAuthNo.getVisibility() == View.VISIBLE) {
+                        mLayoutAuthNo.setVisibility(View.GONE);
+                    }
+                    if (mEditAuthNo.getVisibility() == View.VISIBLE) {
+                        mEditAuthNo.setVisibility(View.GONE);
+                    }
+                    if (mCheckPhoneTxt.getVisibility() == View.VISIBLE) {
+                        mCheckPhoneTxt.setVisibility(View.GONE);
+                    }
+                }else{
+                    if(Utils.checkPhoneNumber(mEditPhoneNo.getText().toString().trim())) {
+                        if (mTvPatternMismatch.getVisibility() == View.VISIBLE) {
+                            mTvPatternMismatch.setVisibility(View.GONE);
+                        }
+                    }else{
+                        if (mTvPatternMismatch.getVisibility() == View.GONE) {
+                            mTvPatternMismatch.setVisibility(View.VISIBLE);
+                        }
+                    }
+                }
+            }
+        });
+        mEditAuthNo.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
+                if(charSequence!= null) {
+                    if (charSequence.length() == 6) {
+                        if(mTimer != null && mAuthNum == Integer.parseInt(mEditAuthNo.getText().toString().trim())) {
+                            //Toast.makeText(_context, R.string.check_auth_number, Toast.LENGTH_SHORT).show();
+                            mCheckPhoneTxt.setText(_context.getString(R.string.auth_complete));
+                            mCheckPhoneTxt.setVisibility(View.VISIBLE);
+                            mEditAuthNo.setEnabled(false);
+                            Utils.hideKeyboard(_context, mEditAuthNo);
+
+                        } else {
+                            mCheckPhoneTxt.setText(_context.getString(R.string.mismatch_phonenumber));
+                        }
                     }
                 }
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if(editable != null) {
-                    if(!editable.toString().equals(mAuthCompletedPhoneNo)) {
-                        mEditAuthNo.setText("");
-                    }
-                }
+
             }
         });
-        mEditPhoneNo.setOnFocusChangeListener(new View.OnFocusChangeListener(){
-
+        mEditAuthNo.setOnFocusChangeListener(new OnFocusChangeListener(){
             @Override
             public void onFocusChange(View view, boolean hasFocus) {
                 if(hasFocus) {
-                    mEditPhoneNo.setText("");
-                    mAuthPhoneNo = "";
-                    mEditAuthNo.setEnabled(false);
-                    release();
-                    mAuthTimerTxt.setVisibility(View.INVISIBLE);
-                }else{
 
+                }else{
+                    if (mLayoutAuthNo.getVisibility() == View.VISIBLE) {
+                        if (!mEditAuthNo.getText().toString().isEmpty()) {
+                            if(mTimer == null || mAuthNum != Integer.parseInt(mEditAuthNo.getText().toString().trim())) {
+                                //Toast.makeText(_context, R.string.check_auth_number, Toast.LENGTH_SHORT).show();
+                                if (mLayoutAuthNo.getVisibility() == View.VISIBLE) {
+                                    mCheckPhoneTxt.setText(_context.getString(R.string.mismatch_phonenumber));
+                                    mCheckPhoneTxt.setVisibility(View.VISIBLE);
+                                } else {
+                                    mCheckPhoneTxt.setVisibility(View.GONE);
+                                }
+
+                            }
+                        }
+
+                    } else {
+                        mCheckPhoneTxt.setVisibility(View.GONE);
+                    }
                 }
             }
         });
         mEditAuthNo = (EditText) findViewById(R.id.edit_phone_authnum);
         mCheckPhoneTxt = (TextView) findViewById(R.id.check_txt_phone);
-        layoutAuthNo = (LinearLayout) findViewById(R.id.layout_input_auth_no);
         mAuthTimerTxt = (TextView) findViewById(R.id.timer);
         mAuthTimerTxt.setVisibility(View.INVISIBLE);
 
@@ -154,7 +231,7 @@ public class AuthPhoneNumberView extends LinearLayout implements View.OnClickLis
         mAuthTimerTxt.setVisibility(View.VISIBLE);
     }
     public Boolean checkValid() {
-        if (mAuthPhoneNo.contains("01288411004")) { // 테스트용 계정으로 회원가입시 휴대폰인증 하지 않고 넘어가게 하기
+        if (mAuthPhoneNo.contains("01288411004")) { // 테스트용 번호로 회원가입시 휴대폰인증 하지 않고 넘어가게 하기
             return true;
         }
         if(Utils.isEmptyContainSpace(mAuthPhoneNo)) {
@@ -162,16 +239,25 @@ public class AuthPhoneNumberView extends LinearLayout implements View.OnClickLis
             return false;
         }
 
-        if(!mAuthCompletedPhoneNo.equals(mAuthPhoneNo)) {
-            Toast.makeText(_context, R.string.msg_re_auth, Toast.LENGTH_SHORT).show();
-            return false;
-        }
         // 인증번호 체크
         if(mEditAuthNo.getText().toString().isEmpty()) {
-            Toast.makeText(_context, _context.getString(R.string.input_auth_number) + " " + _context.getString(R.string.empty_info), Toast.LENGTH_SHORT).show();
+            Toast.makeText(_context, _context.getText(R.string.input_auth_number)  + " " + _context.getText(R.string.empty_info), Toast.LENGTH_SHORT).show();
             return false;
+
         } else if(mTimer == null || mAuthNum != Integer.parseInt(mEditAuthNo.getText().toString().trim())) {
+            if (mLayoutAuthNo.getVisibility() == View.VISIBLE) {
+                mCheckPhoneTxt.setText(_context.getString(R.string.mismatch_phonenumber));
+                mCheckPhoneTxt.setVisibility(View.VISIBLE);
+            } else {
+                mCheckPhoneTxt.setVisibility(View.GONE);
+            }
             Toast.makeText(_context, R.string.check_auth_number, Toast.LENGTH_SHORT).show();
+
+            return false;
+        }
+
+        if (!mAuthCompletedPhoneNo.equals(mAuthPhoneNo)){
+            Toast.makeText(_context, R.string.msg_re_auth, Toast.LENGTH_SHORT).show();
             return false;
         }
         return true;
@@ -184,13 +270,26 @@ public class AuthPhoneNumberView extends LinearLayout implements View.OnClickLis
 
             case R.id.btn_check_phone:
                 LogMgr.d("btn check phone clicked");
+                mCheckPhoneTxt.setVisibility(View.GONE);
+                mEditAuthNo.setText("");
+                mAuthNum = 0;
+                mEditAuthNo.setEnabled(true);
+
                 if(Utils.isEmptyContainSpace(mEditPhoneNo.getText().toString())) {
                     Toast.makeText(_context, R.string.empty_phonenumber, Toast.LENGTH_SHORT).show();
                     return ;
                 }
-                mEditAuthNo.setEnabled(true);
-                requestAuth();
-                mEditAuthNo.requestFocus();
+
+                if(Utils.checkPhoneNumber(mEditPhoneNo.getText().toString().trim())) {
+                    //mEditAuthNo.setEnabled(true);
+                    mLayoutAuthNo.setVisibility(View.VISIBLE);
+                    mEditAuthNo.setVisibility(View.VISIBLE);
+                    requestAuth();
+                    mEditAuthNo.requestFocus();
+                }else{
+                    Toast.makeText(_context, R.string.pattern_mismatch_phonenumber, Toast.LENGTH_SHORT).show();
+                    return ;
+                }
                 break;
         }
     }

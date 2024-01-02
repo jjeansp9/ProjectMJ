@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
     <!-- 휴대폰번호 -->
     <TextView
@@ -20,7 +20,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginBottom="10dp"
         android:weightSum="5"
         >
 
@@ -34,7 +33,7 @@
             android:textColor="@color/font_color_default"
             android:padding="@dimen/editbox_padding"
             android:inputType="number"
-            android:maxLength="20"
+            android:maxLength="11"
             />
 
         <android.widget.Button
@@ -52,20 +51,32 @@
 
     </LinearLayout>
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/tv_pattern_mismatch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="@string/pattern_mismatch_phonenumber"
+        android:textSize="@dimen/font_size_small"
+        android:textColor="@color/red"
+        android:visibility="gone"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_input_auth_no"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-
-        android:weightSum="5"
-        >
+        android:layout_marginTop="10dp"
+        android:visibility="gone">
 
         <EditText
             android:id="@+id/edit_phone_authnum"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="4"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             android:background="@drawable/bg_edittext"
             android:hint="@string/input_auth_number"
             android:textColorHint="@color/font_color_999"
@@ -73,22 +84,25 @@
             android:textColor="@color/font_color_default"
             android:padding="@dimen/editbox_padding"
             android:inputType="number"
-            android:enabled="false"
             android:maxLength="10"
             />
+        <!--        android:enabled="false"-->
 
         <TextView
             android:id="@+id/timer"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             android:text="00:00"
-            android:textColor="@color/blackgray"
+            android:gravity="center"
+            android:textColor="@color/font_color_default"
             android:textSize="@dimen/font_size_small"
-            android:layout_marginStart="10dp"
-            android:layout_weight="1"
+            android:layout_marginEnd="10dp"
             />
 
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
         android:id="@+id/check_txt_phone"
@@ -98,6 +112,5 @@
         android:textSize="@dimen/font_size_small"
         android:textColor="@color/font_color_default"
         android:layout_marginTop="4dp"
-        android:visibility="gone"
-        />
+        android:visibility="gone" />
 </LinearLayout>

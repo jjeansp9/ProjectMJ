@@ -79,6 +79,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
@@ -104,6 +105,7 @@ public class MainActivity extends BaseActivity {
     private static final String TAG = "mainActivity";
 
 //    TextView tvProfileDate;
+    private AppCompatActivity mActivity;
     TextView tvManagerName, tvManagerDesignation, tvCampusName, tvDepartmentName;
 //    ConstraintLayout layoutCounsel;
 //    ImageView ivNewCounsel;
@@ -208,6 +210,7 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mActivity = this;
         mContext = this;
         _newBoardDAO = JeetDatabase.getInstance(mContext).newBoardDao();
         _userGubun = PreferenceUtil.getUserGubun(this);
@@ -220,6 +223,7 @@ public class MainActivity extends BaseActivity {
         removeOldDBData();
         mHandler.sendEmptyMessage(CMD_GET_ACALIST);
     }
+
     private void removeOldDBData() {
         new Thread(() -> {
             List<NewBoardData> getOldList = _newBoardDAO.getOldReadInfoList(DataManager.getInstance().sevenDaysAgo);
