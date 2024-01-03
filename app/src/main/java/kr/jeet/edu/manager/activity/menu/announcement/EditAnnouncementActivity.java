@@ -83,6 +83,7 @@ import kr.jeet.edu.manager.utils.LogMgr;
 import kr.jeet.edu.manager.utils.PreferenceUtil;
 import kr.jeet.edu.manager.utils.Utils;
 import kr.jeet.edu.manager.view.CustomAppbarLayout;
+import kr.jeet.edu.manager.view.LimitableEditText;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -100,7 +101,7 @@ public class EditAnnouncementActivity extends BaseActivity {
     NestedScrollView scrollView;
     ImageButton btnAttachPhoto, btnAttachFile;
     EditText etSubject;
-    EditText etContent;
+    LimitableEditText etContent;
     RecyclerView _recyclerViewAttachedImage;
     RecyclerView _recyclerViewAttachedFile;
     LinearLayout layoutSendSMS; //layoutSendNotify,
@@ -768,7 +769,7 @@ public class EditAnnouncementActivity extends BaseActivity {
     }
     private RequestBody buildRequestData() {
         _currentData.title = etSubject.getText().toString();
-        _currentData.content = etContent.getText().toString();
+        _currentData.content = etContent.getText();
         _currentData.acaCode = selectedACA.acaCode;
         AnnouncementRequest request = null;
         if(boardEditMode == Constants.BoardEditMode.New) {
@@ -913,7 +914,6 @@ public class EditAnnouncementActivity extends BaseActivity {
         RequestBody reqBody = buildRequestData();
         List<MultipartBody.Part> reqMultipartBodyList = buildRequestFiles();
         if(boardEditMode == Constants.BoardEditMode.New) {
-
             RetrofitClient.getApiInterface().insertAnnouncement(reqBody, reqMultipartBodyList).enqueue(new Callback<BoardRegisterResponse>(){
 
                 @Override

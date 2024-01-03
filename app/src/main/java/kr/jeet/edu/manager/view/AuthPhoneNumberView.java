@@ -160,17 +160,20 @@ public class AuthPhoneNumberView extends LinearLayout implements View.OnClickLis
             @Override
             public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
                 if(charSequence!= null) {
-                    if (charSequence.length() == 6) {
-                        if(mTimer != null && mAuthNum == Integer.parseInt(mEditAuthNo.getText().toString().trim())) {
-                            //Toast.makeText(_context, R.string.check_auth_number, Toast.LENGTH_SHORT).show();
-                            mCheckPhoneTxt.setText(_context.getString(R.string.auth_complete));
-                            mCheckPhoneTxt.setVisibility(View.VISIBLE);
-                            mEditAuthNo.setEnabled(false);
-                            Utils.hideKeyboard(_context, mEditAuthNo);
-
-                        } else {
-                            mCheckPhoneTxt.setText(_context.getString(R.string.mismatch_phonenumber));
+                    try {
+                        if (charSequence.length() == String.valueOf(mAuthNum).length()) {
+                            int inputNumber = Integer.parseInt(mEditAuthNo.getText().toString().trim());
+                            if (mTimer != null && mAuthNum == inputNumber) {
+                                mCheckPhoneTxt.setText(_context.getString(R.string.auth_complete));
+                                mCheckPhoneTxt.setVisibility(View.VISIBLE);
+                                mEditAuthNo.setEnabled(false);
+                                Utils.hideKeyboard(_context, mEditAuthNo);
+                            } else {
+                                mCheckPhoneTxt.setText(_context.getString(R.string.mismatch_phonenumber));
+                            }
                         }
+                    } catch (NumberFormatException e) {
+                        if (e.getMessage() != null) LogMgr.e(TAG, e.getMessage());
                     }
                 }
             }
@@ -183,20 +186,22 @@ public class AuthPhoneNumberView extends LinearLayout implements View.OnClickLis
         mEditAuthNo.setOnFocusChangeListener(new OnFocusChangeListener(){
             @Override
             public void onFocusChange(View view, boolean hasFocus) {
-                if(hasFocus) {
-
-                }else{
+                if(!hasFocus) {
                     if (mLayoutAuthNo.getVisibility() == View.VISIBLE) {
                         if (!mEditAuthNo.getText().toString().isEmpty()) {
-                            if(mTimer == null || mAuthNum != Integer.parseInt(mEditAuthNo.getText().toString().trim())) {
-                                //Toast.makeText(_context, R.string.check_auth_number, Toast.LENGTH_SHORT).show();
-                                if (mLayoutAuthNo.getVisibility() == View.VISIBLE) {
-                                    mCheckPhoneTxt.setText(_context.getString(R.string.mismatch_phonenumber));
-                                    mCheckPhoneTxt.setVisibility(View.VISIBLE);
-                                } else {
-                                    mCheckPhoneTxt.setVisibility(View.GONE);
+                            try {
+                                int inputNumber = Integer.parseInt(mEditAuthNo.getText().toString().trim());
+                                if(mTimer == null || mAuthNum != inputNumber) {
+                                    //Toast.makeText(_context, R.string.check_auth_number, Toast.LENGTH_SHORT).show();
+                                    if (mLayoutAuthNo.getVisibility() == View.VISIBLE) {
+                                        mCheckPhoneTxt.setText(_context.getString(R.string.mismatch_phonenumber));
+                                        mCheckPhoneTxt.setVisibility(View.VISIBLE);
+                                    } else {
+                                        mCheckPhoneTxt.setVisibility(View.GONE);
+                                    }
                                 }
-
+                            }catch (NumberFormatException e) {
+                                if (e.getMessage() != null) LogMgr.e(TAG, e.getMessage());
                             }
                         }
 

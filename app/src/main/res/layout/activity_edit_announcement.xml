@@ -142,19 +142,16 @@
                 android:layout_marginBottom="@dimen/layout_margin_xxsmall"
                 />
 
-            <EditText
+            <kr.jeet.edu.manager.view.LimitableEditText
                 android:id="@+id/et_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/bg_edittext"
                 android:hint="@string/hint_input_content"
+                android:maxLength="@integer/maxlength_content"
                 android:textSize="@dimen/font_size"
                 android:textColor="@color/font_color_default"
                 android:minLines="4"
-                android:inputType="textMultiLine|textNoSuggestions"
-                android:padding="@dimen/editbox_padding"
-                android:gravity="top"
-                />
+                android:gravity="top" />
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

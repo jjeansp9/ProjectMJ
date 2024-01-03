@@ -34,7 +34,7 @@ import kr.jeet.edu.manager.utils.LogMgr;
 import kr.jeet.edu.manager.utils.Utils;
 
 public class RecipientListAdapter extends RecyclerView.Adapter<RecipientListAdapter.ViewHolder> implements Filterable {
-
+    private static final String TAG = "recipientAdapter";
     public interface onItemClickListener {
         void onItemClick(RecipientStudentData item);
         void onCheckedParent(int position, boolean b);
@@ -95,75 +95,132 @@ public class RecipientListAdapter extends RecyclerView.Adapter<RecipientListAdap
         holder.tvName.setText(recipientData.stName);
         if(_isEditMode) {   //수정모드
             holder.rootView.setClickable(false);
-            holder.layoutCheckBoxBoth.setClickable(true);
-            holder.layoutCheckBoxStudent.setClickable(true);
-            holder.layoutCheckBoxParent.setClickable(true);
+
             if (_columnType == Constants.ShowCheckboxColumnType.TYPE_BOTH) {
                 holder.layoutCheckBoxBoth.setVisibility(View.VISIBLE);
-            } else {
-                holder.layoutCheckBoxBoth.setVisibility(View.GONE);
-            }
-            if (_columnType.ordinal() <= Constants.ShowCheckboxColumnType.TYPE_PARENT_ONLY.ordinal()) {
                 holder.layoutCheckBoxParent.setVisibility(View.VISIBLE);
+                holder.layoutCheckBoxStudent.setVisibility(View.VISIBLE);
+                holder.layoutCheckBoxBoth.setClickable(true);
+                holder.layoutCheckBoxStudent.setClickable(true);
+                holder.layoutCheckBoxParent.setClickable(true);
                 if (!Utils.checkPhoneNumber(recipientData.parentPhoneNumber)) {
                     holder.cbParent.setEnabled(false);
+                    holder.cbParent.setChecked(false);
                     holder.cbParent.setBackground(disableDrawable);
                     holder.viewParentInstall.setBackground(null);
                 } else {
-                    holder.cbParent.setEnabled(true);
-                    holder.cbParent.setBackground(null);
-                    if (recipientData.parentInstall.equals("Y")) {
-                        holder.viewParentInstall.setBackground(installedDrawable);
-                    } else {
-                        holder.viewParentInstall.setBackground(uninstalledDrawable);
+                    if(_isIgnoreInstalled) {
+                        if (recipientData.parentInstall.equals("Y")) {
+                            holder.cbParent.setEnabled(false);
+                            holder.cbParent.setChecked(false);
+                            holder.cbParent.setBackground(disableDrawable);
+                            holder.viewParentInstall.setBackground(installedDrawable);
+                        } else {
+                            holder.cbParent.setEnabled(true);
+                            holder.cbParent.setChecked(recipientData.isCheckParent);
+                            holder.cbParent.setBackground(null);
+                            holder.viewParentInstall.setBackground(uninstalledDrawable);
+                        }
+                    }else{
+                        holder.cbParent.setEnabled(true);
+                        holder.cbParent.setChecked(recipientData.isCheckParent);
+                        holder.cbParent.setBackground(null);
+                        holder.viewParentInstall.setBackground(null);
                     }
                 }
-            } else {
-                holder.layoutCheckBoxParent.setVisibility(View.GONE);
-            }
-            if (_columnType == Constants.ShowCheckboxColumnType.TYPE_STUDENT_ONLY ||
-                    _columnType == Constants.ShowCheckboxColumnType.TYPE_BOTH) {
-                holder.layoutCheckBoxStudent.setVisibility(View.VISIBLE);
                 if (!Utils.checkPhoneNumber(recipientData.stPhoneNumber)) {
                     holder.cbStudent.setEnabled(false);
+                    holder.cbStudent.setChecked(false);
                     holder.cbStudent.setBackground(disableDrawable);
                     holder.viewStudentInstall.setBackground(null);
                 } else {
-                    holder.cbStudent.setEnabled(true);
-                    holder.cbStudent.setBackground(null);
-                    if (recipientData.stInstall.equals("Y")) {
-                        holder.viewStudentInstall.setBackground(installedDrawable);
-                    } else {
-                        holder.viewStudentInstall.setBackground(uninstalledDrawable);
+                    if(_isIgnoreInstalled) {
+                        if (recipientData.stInstall.equals("Y")) {
+                            holder.cbStudent.setEnabled(false);
+                            holder.cbStudent.setChecked(false);
+                            holder.cbStudent.setBackground(disableDrawable);
+                            holder.viewStudentInstall.setBackground(installedDrawable);
+                        } else {
+                            holder.cbStudent.setEnabled(true);
+                            holder.cbStudent.setChecked(recipientData.isCheckStudent);
+                            holder.cbStudent.setBackground(null);
+                            holder.viewStudentInstall.setBackground(uninstalledDrawable);
+                        }
+                    }else{
+                        holder.cbStudent.setEnabled(true);
+                        holder.cbStudent.setChecked(recipientData.isCheckStudent);
+                        holder.cbStudent.setBackground(null);
+                        holder.viewStudentInstall.setBackground(null);
                     }
                 }
-            } else {
+            } else if(_columnType == Constants.ShowCheckboxColumnType.TYPE_PARENT_ONLY) {
+                holder.layoutCheckBoxBoth.setVisibility(View.GONE);
+                holder.layoutCheckBoxParent.setVisibility(View.VISIBLE);
                 holder.layoutCheckBoxStudent.setVisibility(View.GONE);
-            }
-            if (_isIgnoreInstalled) {
-                if (holder.cbStudent.getVisibility() == View.VISIBLE && recipientData.stInstall.equals("Y")) {
-                    holder.cbStudent.setEnabled(false);
-                    holder.cbStudent.setBackground(disableDrawable);
-                }
-                if (holder.cbParent.getVisibility() == View.VISIBLE && recipientData.parentInstall.equals("Y")) {
+                holder.layoutCheckBoxBoth.setClickable(false);
+                holder.layoutCheckBoxStudent.setClickable(false);
+                holder.layoutCheckBoxParent.setClickable(true);
+                if (!Utils.checkPhoneNumber(recipientData.parentPhoneNumber)) {
                     holder.cbParent.setEnabled(false);
-                    holder.cbParent.setBackground(disableDrawable);
-                }
-            }
-            if (holder.cbParent.getVisibility() == View.VISIBLE) {
-                if (holder.cbParent.isEnabled()) {
-                    holder.cbParent.setChecked(recipientData.isCheckParent);
-                } else {
                     holder.cbParent.setChecked(false);
-                }
-            }
-            if (holder.cbStudent.getVisibility() == View.VISIBLE) {
-                if (holder.cbStudent.isEnabled()) {
-                    holder.cbStudent.setChecked(recipientData.isCheckStudent);
+                    holder.cbParent.setBackground(disableDrawable);
+                    holder.viewParentInstall.setBackground(null);
                 } else {
-                    holder.cbStudent.setChecked(false);
+                    if(_isIgnoreInstalled) {
+                        if (recipientData.parentInstall.equals("Y")) {
+                            holder.cbParent.setEnabled(false);
+                            holder.cbParent.setChecked(false);
+                            holder.cbParent.setBackground(disableDrawable);
+                            holder.viewParentInstall.setBackground(installedDrawable);
+                        } else {
+                            holder.cbParent.setEnabled(true);
+                            holder.cbParent.setChecked(recipientData.isCheckParent);
+                            holder.cbParent.setBackground(null);
+                            holder.viewParentInstall.setBackground(uninstalledDrawable);
+                        }
+                    }else{
+                        holder.cbParent.setEnabled(true);
+                        holder.cbParent.setChecked(recipientData.isCheckParent);
+                        holder.cbParent.setBackground(null);
+                        holder.viewParentInstall.setBackground(null);
+                    }
                 }
+            } else if(_columnType == Constants.ShowCheckboxColumnType.TYPE_STUDENT_ONLY) {
+                holder.layoutCheckBoxBoth.setVisibility(View.GONE);
+                holder.layoutCheckBoxParent.setVisibility(View.GONE);
+                holder.layoutCheckBoxStudent.setVisibility(View.VISIBLE);
+                holder.layoutCheckBoxBoth.setClickable(false);
+                holder.layoutCheckBoxStudent.setClickable(true);
+                holder.layoutCheckBoxParent.setClickable(false);
+                if (!Utils.checkPhoneNumber(recipientData.stPhoneNumber)) {
+                    holder.cbStudent.setEnabled(false);
+                    holder.cbStudent.setChecked(false);
+                    holder.cbStudent.setBackground(disableDrawable);
+                    holder.viewStudentInstall.setBackground(null);
+                } else {
+                    if(_isIgnoreInstalled) {
+                        if (recipientData.stInstall.equals("Y")) {
+                            holder.cbStudent.setEnabled(false);
+                            holder.cbStudent.setChecked(false);
+                            holder.cbStudent.setBackground(disableDrawable);
+                            holder.viewStudentInstall.setBackground(installedDrawable);
+                        } else {
+                            holder.cbStudent.setEnabled(true);
+                            holder.cbStudent.setChecked(recipientData.isCheckStudent);
+                            holder.cbStudent.setBackground(null);
+                            holder.viewStudentInstall.setBackground(uninstalledDrawable);
+                        }
+                    }else{
+                        holder.cbStudent.setEnabled(true);
+                        holder.cbStudent.setChecked(recipientData.isCheckStudent);
+                        holder.cbStudent.setBackground(null);
+                        holder.viewStudentInstall.setBackground(null);
+                    }
+                }
+            } else{
+                LogMgr.e(TAG, "columnType ???" + _columnType.name());
             }
+
             if (holder.cbBoth.getVisibility() == View.VISIBLE) {
                 if (!holder.cbParent.isEnabled() && !holder.cbStudent.isEnabled()) {
                     holder.cbBoth.setEnabled(false);
@@ -177,6 +234,8 @@ public class RecipientListAdapter extends RecyclerView.Adapter<RecipientListAdap
                             (recipientData.isCheckParent || !Utils.checkPhoneNumber(recipientData.parentPhoneNumber) || (_isIgnoreInstalled && recipientData.parentInstall.equals("Y")))
                                     && (recipientData.isCheckStudent || !Utils.checkPhoneNumber(recipientData.stPhoneNumber) || (_isIgnoreInstalled && recipientData.stInstall.equals("Y")))
                     );
+                }else {
+                    holder.cbBoth.setChecked(false);
                 }
             }else{
                 holder.cbBoth.setBackground(null);
@@ -186,37 +245,68 @@ public class RecipientListAdapter extends RecyclerView.Adapter<RecipientListAdap
             holder.layoutCheckBoxBoth.setClickable(false);
             holder.layoutCheckBoxStudent.setClickable(false);
             holder.layoutCheckBoxParent.setClickable(false);
-            holder.cbParent.setVisibility(View.INVISIBLE);
-            if(_columnType == Constants.ShowCheckboxColumnType.TYPE_BOTH ||
-                _columnType == Constants.ShowCheckboxColumnType.TYPE_PARENT_ONLY) {
+            holder.layoutCheckBoxBoth.setVisibility(View.GONE);
+            holder.layoutCheckBoxStudent.setVisibility(View.INVISIBLE);
+            holder.layoutCheckBoxParent.setVisibility(View.INVISIBLE);
+
+            if (_columnType == Constants.ShowCheckboxColumnType.TYPE_BOTH) {
                 if (!Utils.checkPhoneNumber(recipientData.parentPhoneNumber)) {
                     holder.viewParentInstall.setBackground(null);
                 } else {
-                    if (recipientData.parentInstall.equals("Y")) {
-                        holder.viewParentInstall.setBackground(installedDrawable);
-                    } else {
-                        holder.viewParentInstall.setBackground(uninstalledDrawable);
+                    if(_isIgnoreInstalled) {
+                        if (recipientData.parentInstall.equals("Y")) {
+                            holder.viewParentInstall.setBackground(installedDrawable);
+                        } else {
+                            holder.viewParentInstall.setBackground(uninstalledDrawable);
+                        }
+                    }else{
+                        holder.viewParentInstall.setBackground(null);
                     }
                 }
-            }else{
-                holder.viewParentInstall.setBackground(null);
-            }
-            holder.cbStudent.setVisibility(View.INVISIBLE);
-            if(_columnType == Constants.ShowCheckboxColumnType.TYPE_BOTH ||
-                    _columnType == Constants.ShowCheckboxColumnType.TYPE_STUDENT_ONLY) {
                 if (!Utils.checkPhoneNumber(recipientData.stPhoneNumber)) {
                     holder.viewStudentInstall.setBackground(null);
                 } else {
-                    if (recipientData.stInstall.equals("Y")) {
-                        holder.viewStudentInstall.setBackground(installedDrawable);
-                    } else {
-                        holder.viewStudentInstall.setBackground(uninstalledDrawable);
+                    if(_isIgnoreInstalled) {
+                        if (recipientData.stInstall.equals("Y")) {
+                            holder.viewStudentInstall.setBackground(installedDrawable);
+                        } else {
+                            holder.viewStudentInstall.setBackground(uninstalledDrawable);
+                        }
+                    }else{
+                        holder.viewStudentInstall.setBackground(null);
                     }
                 }
-            }else{
-                holder.viewStudentInstall.setBackground(null);
+            } else if(_columnType == Constants.ShowCheckboxColumnType.TYPE_PARENT_ONLY) {
+                if (!Utils.checkPhoneNumber(recipientData.parentPhoneNumber)) {
+                    holder.viewParentInstall.setBackground(null);
+                } else {
+                    if(_isIgnoreInstalled) {
+                        if (recipientData.parentInstall.equals("Y")) {
+                            holder.viewParentInstall.setBackground(installedDrawable);
+                        } else {
+                            holder.viewParentInstall.setBackground(uninstalledDrawable);
+                        }
+                    }else{
+                        holder.viewParentInstall.setBackground(null);
+                    }
+                }
+            } else if(_columnType == Constants.ShowCheckboxColumnType.TYPE_STUDENT_ONLY) {
+                if (!Utils.checkPhoneNumber(recipientData.stPhoneNumber)) {
+                    holder.viewStudentInstall.setBackground(null);
+                } else {
+                    if(_isIgnoreInstalled) {
+                        if (recipientData.stInstall.equals("Y")) {
+                            holder.viewStudentInstall.setBackground(installedDrawable);
+                        } else {
+                            holder.viewStudentInstall.setBackground(uninstalledDrawable);
+                        }
+                    }else{
+                        holder.viewStudentInstall.setBackground(null);
+                    }
+                }
+            } else{
+                LogMgr.e(TAG, "columnType ???" + _columnType.name());
             }
-            holder.layoutCheckBoxBoth.setVisibility(View.GONE);
         }
     }
 

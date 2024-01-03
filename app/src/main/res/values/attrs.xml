@@ -8,4 +8,11 @@
     <declare-styleable name="IntervalTimePicker">
         <attr name="interval" format="integer|reference" />
     </declare-styleable>
+    <declare-styleable name="LimitableEditText">
+        <attr name="android:minLines" />
+        <attr name="android:maxLength" />
+        <attr name="android:textSize" />
+        <attr name="android:textColor" />
+        <attr name="android:hint" />
+    </declare-styleable>
 </resources>

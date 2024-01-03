@@ -4,4 +4,11 @@
     <integer name="screen_in_time">375</integer>
     <integer name="btn_push_duration">100</integer>
     <integer name="scroll_to_top_delay">100</integer>
+
+    <integer name="maxlength_title">100</integer>
+    <integer name="maxlength_content">3000</integer>
+    <integer name="maxlength_sms">500</integer>
+    <integer name="maxlength_memo_counsel">300</integer>
+    <integer name="maxlength_memo_reportcard">255</integer>
+    <integer name="maxlength_qna">1000</integer>
 </resources>

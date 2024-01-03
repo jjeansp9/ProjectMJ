@@ -245,18 +245,21 @@ public class MenuReportCardActivity extends BaseActivity {
             _selectedACA = DataManager.getInstance().getACAData(_acaCode);
             _handler.sendEmptyMessage(CMD_GET_REPORT_CARD);
         }else {
-            Optional option = _ACAList.stream().filter(t -> t.acaCode.equals(_acaCode)).findFirst();
-            if (option.isPresent()) {
-                _selectedACA = (ACAData) option.get();
-            }
-            if (_selectedACA != null) {
-                int selectedIndex = _ACAList.indexOf(_selectedACA);
-                spinnerCampus.selectItemByIndex(selectedIndex);
-
-            } else {
-                if (!_ACAList.isEmpty()) {
-                    spinnerCampus.selectItemByIndex(0);
-                }
+//            Optional option = _ACAList.stream().filter(t -> t.acaCode.equals(_acaCode)).findFirst();
+//            if (option.isPresent()) {
+//                _selectedACA = (ACAData) option.get();
+//            }
+//            if (_selectedACA != null) {
+//                int selectedIndex = _ACAList.indexOf(_selectedACA);
+//                spinnerCampus.selectItemByIndex(selectedIndex);
+//
+//            } else {
+//                if (!_ACAList.isEmpty()) {
+//                    spinnerCampus.selectItemByIndex(0);
+//                }
+//            }
+            if(spinnerCampus.getSpinnerAdapter().getItemCount() > 0) {
+                spinnerCampus.selectItemByIndex(0);
             }
         }
     }

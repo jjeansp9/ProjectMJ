@@ -142,7 +142,9 @@ public class MenuNoticeActivity extends BaseActivity implements MonthPickerDialo
                         case COUNSEL:
 
                             if(_selectedACA == null) {
-                                selAcaCode = _acaCode;
+                                if(_userGubun >= Constants.USER_TYPE_TEACHER) {
+                                    selAcaCode = _acaCode;
+                                }
                             }else{
                                 selAcaCode = _selectedACA.acaCode;
                             }

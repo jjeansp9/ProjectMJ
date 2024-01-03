@@ -281,7 +281,7 @@ public class MenuManageStudentActivity extends BaseActivity {
                 }
                 if(_adapterRecipient != null) {
 //                    _adapterRecipient.notifyDataSetChanged();
-                    _adapterRecipient.notifyItemRangeChanged(0, _recipientStudentList.size());
+                    _adapterRecipient.notifyItemRangeChanged(0, _adapterRecipient.getItemCount());
                 }
                 invalidateOptionsMenu();    //onCreateOptionsMenu 호출됨
                 break;
@@ -303,9 +303,9 @@ public class MenuManageStudentActivity extends BaseActivity {
                     _swipeRefreshLayout.setEnabled(false);
                 }
                 if(_adapterRecipient != null) {
-//                    _adapterRecipient.notifyDataSetChanged();
-                    _adapterRecipient.notifyItemRangeChanged(0, _recipientStudentList.size());
+                    _adapterRecipient.notifyItemRangeChanged(0, _adapterRecipient.getItemCount());
                 }
+                updateCount();
                 invalidateOptionsMenu();    //onCreateOptionsMenu 호출됨
                 break;
             default:
