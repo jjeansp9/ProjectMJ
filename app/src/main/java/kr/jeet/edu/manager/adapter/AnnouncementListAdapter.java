@@ -139,15 +139,16 @@ public class AnnouncementListAdapter extends RecyclerView.Adapter<AnnouncementLi
             holder.tvName.setVisibility(View.GONE);
             if(_userGubun <= Constants.USER_TYPE_ADMIN) {
                 holder.tvCampus.setVisibility(View.VISIBLE);
-                if(!TextUtils.isEmpty(item.acaCode)) {
-                    if(TextUtils.isEmpty(item.acaGubunName)) {
-                        holder.tvCampus.setText(item.acaName);
-                    }else{
-                        holder.tvCampus.setText(item.acaName + " / " + item.acaGubunName);
-                    }
-                }
             }else{
-                holder.tvCampus.setVisibility(View.GONE);
+                //holder.tvCampus.setVisibility(View.GONE);
+                holder.tvCampus.setVisibility(View.VISIBLE);
+            }
+            if(!TextUtils.isEmpty(item.acaCode)) {
+                if(TextUtils.isEmpty(item.acaGubunName)) {
+                    holder.tvCampus.setText(item.acaName);
+                }else{
+                    holder.tvCampus.setText(item.acaName + " / " + item.acaGubunName);
+                }
             }
         }
         LogMgr.w("test", "insertDate=" + item.insertDate);

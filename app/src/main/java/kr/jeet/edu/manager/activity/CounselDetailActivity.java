@@ -95,8 +95,8 @@ public class CounselDetailActivity extends BaseActivity {
     }
     private void initData() {
         if (_currentData != null) {
-            tvDate.setText(Utils.getStr(_currentData.counselDate));
-            tvTime.setText(Utils.getStr(_currentData.callWishDate));
+//            tvDate.setText(Utils.getStr(_currentData.counselDate));
+//            tvTime.setText(Utils.getStr(_currentData.callWishDate));
             tvCampus.setText(Utils.getStr(_currentData.acaName));
             tvClass.setText(Utils.getStr(_currentData.clsName));
             StringBuilder sb = new StringBuilder();
@@ -115,7 +115,7 @@ public class CounselDetailActivity extends BaseActivity {
                 }
             }
             tvName.setText(sb.toString());
-            tvBag.setText(Utils.getStr(_currentData.bagName));
+            //tvBag.setText(Utils.getStr(_currentData.bagName));
             tvMemo.setText(Utils.getStr(_currentData.memo));
             tvPhone.setText(Utils.formatPhoneNumber(_currentData.phoneNumber));
 

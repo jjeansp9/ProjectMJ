@@ -14,7 +14,7 @@ import kr.jeet.edu.manager.R;
 public class Constants {
 
     public final static String MAIN_CONTACT = "031-276-8003"; // 캠퍼스 대표번호 [캠퍼스 필터 전체로 선택시]
-    public final static int GRADE_TOTAL_CODE = 0; // 캠퍼스 구분 전체로 선택시 해당 코드는 0으로
+    public final static int CAMPUS_OR_GRADE_TOTAL_CODE = 0; // 캠퍼스, 캠퍼스 구분 전체로 선택시 해당 코드는 0으로
 
     // 사용자 구분 타입
     public final static int USER_TYPE_SUPER_ADMIN = -10;

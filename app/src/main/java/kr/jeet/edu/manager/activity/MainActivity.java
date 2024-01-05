@@ -186,11 +186,12 @@ public class MainActivity extends BaseActivity {
                     requestBoardInfoList();
                     break;
                 case CMD_GET_LAST_ANNOUNCEMENT_BOARD:
-                    if(_userGubun >= Constants.USER_TYPE_TEACHER) {
-                        requestAnnouncementBoardList(PreferenceUtil.getAppAcaCode(mContext), "");
-                    }else {
-                        requestAnnouncementBoardList("", "");
-                    }
+//                    if(_userGubun >= Constants.USER_TYPE_TEACHER) {
+//                        requestAnnouncementBoardList(PreferenceUtil.getAppAcaCode(mContext), "");
+//                    }else {
+//                        requestAnnouncementBoardList("", "");
+//                    }
+                    requestAnnouncementBoardList("", "");
                     break;
                 case CMD_GET_RECIPIENT_SETTING:
                     requestSettingItems();

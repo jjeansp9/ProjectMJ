@@ -415,8 +415,10 @@ public class EditAnnouncementActivity extends BaseActivity {
         tvFileCount = findViewById(R.id.tv_count);
         //ACA list for spinner
         //전체 추가 -> 전체 제거
+        try {
+            _ACAList.add(new ACAData(String.valueOf(Constants.CAMPUS_OR_GRADE_TOTAL_CODE), getString(R.string.item_total), Constants.MAIN_CONTACT)); // 전체
+        }catch (Exception e) {}
 
-        _ACAList.add(new ACAData(getString(R.string.item_total), getString(R.string.item_total), Constants.MAIN_CONTACT)); // 전체
         _ACAList.addAll(DataManager.getInstance().getLocalACAListMap().values());
         if(_ACAList != null) _ACANameList = _ACAList.stream().map(t -> t.acaName).collect(Collectors.toList());
 //        {
@@ -437,9 +439,9 @@ public class EditAnnouncementActivity extends BaseActivity {
                 selectedACA = selectedData;
                 LogMgr.w("selectedACA = " + selectedACA.acaCode + " / " +selectedACA.acaName);
 
-                if (selectedACA.acaCode.equals(getString(R.string.item_total))) {
+                if (selectedACA.acaName.equals(getString(R.string.item_total))) {
                     try {
-                        selectedGrade = new StudentGradeData(String.valueOf(Constants.GRADE_TOTAL_CODE), getString(R.string.item_total));
+                        selectedGrade = new StudentGradeData(String.valueOf(Constants.CAMPUS_OR_GRADE_TOTAL_CODE), getString(R.string.item_total));
                         LogMgr.w("selectedACA. selectedGrade = " + selectedGrade.gubunCode + " / " +selectedGrade.gubunName);
                         spinnerGrade.setText(""); // 이렇게 안하면 UI가 뭔가 어색함
                         spinnerGrade.setHint(selectedGrade.gubunName);
@@ -639,7 +641,12 @@ public class EditAnnouncementActivity extends BaseActivity {
                     int selectedIndex = _ACAList.indexOf(selectedACA);
                     spinnerCampus.selectItemByIndex(selectedIndex);
                 }
-
+            } else {
+                //전체선택
+                spinnerCampus.selectItemByIndex(0);
+                spinnerGrade.setText(""); // 이렇게 안하면 UI가 뭔가 어색함
+                spinnerGrade.setHint(getString(R.string.item_total));
+                spinnerGrade.setEnabled(false);
             }
         }else {
             layoutBottom.setVisibility(View.GONE);
@@ -788,7 +795,7 @@ public class EditAnnouncementActivity extends BaseActivity {
         AnnouncementRequest request = null;
         if(boardEditMode == Constants.BoardEditMode.New) {
             String smsSender = "";
-            if (selectedACA.acaCode.equals(getString(R.string.item_total))) {
+            if (selectedACA.acaName.equals(getString(R.string.item_total))) {
                 smsSender = Constants.MAIN_CONTACT;
             } else {
                 smsSender = DataManager.getInstance().getLocalACAData(selectedACA.acaCode).acaTel.replaceAll("[^0-9]", "");
@@ -868,7 +875,7 @@ public class EditAnnouncementActivity extends BaseActivity {
                             List<StudentGradeData> list = response.body().data;
                             if(_GradeList != null) _GradeList.clear();
                             try {
-                                _GradeList.add(new StudentGradeData(String.valueOf(Constants.GRADE_TOTAL_CODE), getString(R.string.item_total)));
+                                _GradeList.add(new StudentGradeData(String.valueOf(Constants.CAMPUS_OR_GRADE_TOTAL_CODE), getString(R.string.item_total)));
                             }catch (Exception e) {}
 
                             _GradeList.addAll(list);

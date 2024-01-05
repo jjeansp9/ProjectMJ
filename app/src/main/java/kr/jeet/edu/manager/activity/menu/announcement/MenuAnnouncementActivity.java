@@ -472,7 +472,8 @@ public class MenuAnnouncementActivity extends BaseActivity {
                 if (selectedACA != null) {
                     int selectedIndex = _ACAList.indexOf(selectedACA);
                     if(selectedIndex >= 0 && selectedIndex <= _ACAList.size()) {
-                        mSpinnerCampus.selectItemByIndex(selectedIndex); //전체
+                        //mSpinnerCampus.selectItemByIndex(selectedIndex); //전체
+                        mSpinnerCampus.selectItemByIndex(0); //전체
                     }
                 } else {
                     mSpinnerCampus.selectItemByIndex(0);
