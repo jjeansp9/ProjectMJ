@@ -74,12 +74,19 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/bg_edittext"
-                    android:textSize="@dimen/font_size_large"
+                    android:textSize="@dimen/font_size"
                     android:textColor="@color/font_color_default"
                     android:layout_marginTop="12dp"
                     android:padding="@dimen/editbox_padding"
                     android:visibility="gone"/>
-
+                <kr.jeet.edu.manager.view.LimitableEditText
+                    android:id="@+id/limitable_edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/font_size"
+                    android:textColor="@color/font_color_default"
+                    android:layout_marginTop="12dp"
+                    android:visibility="gone"/>
                 <TextView
                     android:id="@+id/not_match"
                     android:layout_width="match_parent"

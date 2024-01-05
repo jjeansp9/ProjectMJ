@@ -89,6 +89,7 @@ import kr.jeet.edu.manager.utils.LogMgr;
 import kr.jeet.edu.manager.utils.PreferenceUtil;
 import kr.jeet.edu.manager.utils.Utils;
 import kr.jeet.edu.manager.view.CustomAppbarLayout;
+import kr.jeet.edu.manager.view.LimitableEditText;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -105,7 +106,8 @@ public class EditBriefingActivity extends BaseActivity implements DatePickerFrag
     //views
     PowerSpinnerView spinnerCampus, spinnerGrade;
     ImageButton btnAttachPhoto, btnAttachFile;
-    EditText etTitle, etContent, etLocation, etMemberCount;
+    EditText etTitle, etLocation, etMemberCount;
+    LimitableEditText etContent;
     TextView tvDate, tvTime;
     RecyclerView _recyclerViewAttachedImage;
     RecyclerView _recyclerViewAttachedFile;
@@ -812,7 +814,7 @@ public class EditBriefingActivity extends BaseActivity implements DatePickerFrag
     private void updateCurrentData() {
         if(_currentData == null) _currentData = new BriefingData();
         _currentData.title = etTitle.getText().toString().trim();
-        _currentData.content = etContent.getText().toString().trim();
+        _currentData.content = etContent.getText().trim();
         _currentData.acaCode = selectedACA.acaCode;
         _currentData.acaName = selectedACA.acaName;
         String gubunName = "";
@@ -938,7 +940,7 @@ public class EditBriefingActivity extends BaseActivity implements DatePickerFrag
             return false;
         }
         if(Utils.isEmptyContainSpace(etContent.getText())) {   //내용
-            showKeyboard(etContent);
+            showKeyboard(etContent.getEditText());
             Toast.makeText(mContext, R.string.error_message_empty_content, Toast.LENGTH_SHORT).show();
             return false;
         }
@@ -980,7 +982,7 @@ public class EditBriefingActivity extends BaseActivity implements DatePickerFrag
     }
     private RequestBody buildRequestData() {
         _currentData.title = etTitle.getText().toString();
-        _currentData.content = etContent.getText().toString();
+        _currentData.content = etContent.getText();
         _currentData.acaCode = selectedACA.acaCode;
         _currentData.isSendSMS = cbSendSMS.isChecked()? "Y" : "N";
         BriefingRequest request = null;

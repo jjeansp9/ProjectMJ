@@ -45,6 +45,7 @@ import kr.jeet.edu.manager.server.RetrofitClient;
 import kr.jeet.edu.manager.utils.LogMgr;
 import kr.jeet.edu.manager.utils.PreferenceUtil;
 import kr.jeet.edu.manager.view.CustomAppbarLayout;
+import kr.jeet.edu.manager.view.LimitableEditText;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -56,7 +57,7 @@ public class ConfirmReportCardActivity extends BaseActivity {
     private SelectReportCardListAdapter _listAdapter;
     private TextView tvStudentName, tvCampus, tvCount;
 //    private TextView tvEmptyList;
-    private EditText etContent;
+    private LimitableEditText etContent;
     private PowerSpinnerView _spinnerReportCardMultiple;
     LinearLayout layoutCheckSMS;
     CheckBox cbSendSMS;
@@ -195,7 +196,7 @@ public class ConfirmReportCardActivity extends BaseActivity {
     private boolean checkValid() {
         if(TextUtils.isEmpty(etContent.getText())){
             Toast.makeText(mContext, R.string.empty_reportcard_content, Toast.LENGTH_SHORT).show();
-            showKeyboard(etContent);
+            showKeyboard(etContent.getEditText());
             return false;
         }
         if(_reportCardList.stream().anyMatch(t->t.etTitleGubun < 0)) {
@@ -252,7 +253,7 @@ public class ConfirmReportCardActivity extends BaseActivity {
                     _sfCode,
                     _currentStudent.stCode,
                     _currentStudent.stName,
-                    etContent.getText().toString(),
+                    etContent.getText(),
                     _currentStudent.acaCode,
                     DataManager.getInstance().getACAData(_currentStudent.acaCode).acaName,
                     cbSendSMS.isChecked()? "Y" : "N",

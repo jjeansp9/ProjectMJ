@@ -180,6 +180,6 @@
         android:paddingVertical="@dimen/layout_margin_xxxxsmall"
         android:inputType="textMultiLine"
         android:maxLines="10"
-        android:maxLength="500"
+        android:maxLength="@integer/maxlength_content"
         />
 </androidx.constraintlayout.widget.ConstraintLayout>

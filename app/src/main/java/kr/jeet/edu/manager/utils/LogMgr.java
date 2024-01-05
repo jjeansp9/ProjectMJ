@@ -12,7 +12,7 @@ import java.io.IOException;
 
 public class LogMgr {
 
-    public static boolean DEBUG = true;
+    public static boolean DEBUG = false;
 
     public static final String TAG = "Jeet";
 

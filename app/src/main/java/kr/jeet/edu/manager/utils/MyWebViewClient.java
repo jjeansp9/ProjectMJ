@@ -139,7 +139,7 @@ public class MyWebViewClient extends WebViewClient {
             if (error.getDescription() != null) {
                 CharSequence description = error.getDescription();
 
-                if(!description.toString().equals("ERR_CLEARTEXT_NOT_PERMITTED")) {
+                if(!description.toString().contains("ERR_CLEARTEXT_NOT_PERMITTED")) {
                     // onLoad할 때 network_config_xml에 선언하지 않은 http url 주소가 load될 때가 있음
                     LogMgr.e(TAG, "onReceivedError() Code: " + errorCode + ", Description: " + description);
 

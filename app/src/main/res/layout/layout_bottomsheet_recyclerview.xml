@@ -55,7 +55,7 @@
             android:inputType="text"
             android:padding="@dimen/editbox_padding"
             android:maxLines="1"
-            android:maxLength="100"
+            android:maxLength="@integer/maxlength_title"
             />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

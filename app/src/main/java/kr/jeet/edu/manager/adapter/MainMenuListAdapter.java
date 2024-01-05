@@ -56,6 +56,7 @@ public class MainMenuListAdapter extends RecyclerView.Adapter<MainMenuListAdapte
             Glide.with(mContext)
                     .load(item.getImgRes())
                     .into(holder.imgMenu);
+            LogMgr.e( "MainMenu: ", item.getTitle() + "," + item.getTitleRes());
             if(TextUtils.isEmpty(item.getTitle())) {
                 holder.tvMenu.setText(item.getTitleRes());
             }else{

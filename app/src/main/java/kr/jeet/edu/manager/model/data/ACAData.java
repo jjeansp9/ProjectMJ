@@ -13,5 +13,6 @@ public class ACAData {
     public ACAData(String code, String name, String acaTel) {
         this.acaName = name;
         this.acaCode = code;
+        this.acaTel = acaTel;
     }
 }

@@ -127,7 +127,7 @@
                 android:inputType="text"
                 android:padding="@dimen/editbox_padding"
                 android:maxLines="1"
-                android:maxLength="100"
+                android:maxLength="@integer/maxlength_title"
                 />
 
             <!-- 내용-->
@@ -151,7 +151,8 @@
                 android:textSize="@dimen/font_size"
                 android:textColor="@color/font_color_default"
                 android:minLines="4"
-                android:gravity="top" />
+                android:gravity="top"
+                />
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

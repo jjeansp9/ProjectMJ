@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.text.Editable;
+import android.text.InputFilter;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -24,12 +25,15 @@ import androidx.annotation.Nullable;
 import kr.jeet.edu.manager.R;
 import kr.jeet.edu.manager.common.Constants;
 import kr.jeet.edu.manager.utils.Utils;
+import kr.jeet.edu.manager.view.LimitableEditText;
 
 public class PopupDialog extends Dialog {
 
     private Context context;
     private TextView titleTv, contentTv, noteTv, notMatchTv;
     private EditText editText;
+    private LimitableEditText limitEditText;
+    private boolean isUsingLimitEditText = false;
     private Button cancelBtn, okBtn;
     //checkbox
     private LinearLayout layoutCheckbox;
@@ -87,6 +91,7 @@ public class PopupDialog extends Dialog {
         titleTv = (TextView) findViewById(R.id.title);
         contentTv = (TextView) findViewById(R.id.content);
         editText = (EditText) findViewById(R.id.edit);
+        limitEditText = findViewById(R.id.limitable_edit);
         noteTv = (TextView) findViewById(R.id.note);
         notMatchTv = (TextView) findViewById(R.id.not_match);
         cancelBtn = (Button) findViewById(R.id.cancelBtn);
@@ -131,24 +136,53 @@ public class PopupDialog extends Dialog {
         }
     }
 
-    public void setEdit(boolean isVisible){
-        if (isVisible) {
-            editText.setVisibility(View.VISIBLE);
-            editText.addTextChangedListener(etTextWatcher);
-        }
-        else {
+    public void setEdit(boolean isVisible, boolean isLimitable){
+        isUsingLimitEditText = isLimitable;
+        if(isUsingLimitEditText) {
+            if (isVisible) {
+                limitEditText.setVisibility(View.VISIBLE);
+                limitEditText.getEditText().addTextChangedListener(etTextWatcher);
+            } else {
+                limitEditText.setVisibility(View.GONE);
+                limitEditText.getEditText().removeTextChangedListener(etTextWatcher);
+            }
             editText.setVisibility(View.GONE);
             editText.removeTextChangedListener(etTextWatcher);
+        }else{
+            if (isVisible) {
+                editText.setVisibility(View.VISIBLE);
+                editText.addTextChangedListener(etTextWatcher);
+            } else {
+                editText.setVisibility(View.GONE);
+                editText.removeTextChangedListener(etTextWatcher);
+            }
+            limitEditText.setVisibility(View.GONE);
+            limitEditText.getEditText().removeTextChangedListener(etTextWatcher);
         }
     }
     public void setEditText(String content) {
-        editText.setText(content);
-        editText.requestFocus();
+        EditText edit = editText;
+        if(isUsingLimitEditText) {
+            edit = limitEditText.getEditText();
+            limitEditText.setText(content);
+        }else{
+            editText.setText(content);
+        }
+        edit.requestFocus();
         InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
-        editText.postDelayed(() -> imm.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT), Constants.SHOW_KEBOARD_DELAY);
+        View finalEdit = edit;
+        editText.postDelayed(() -> imm.showSoftInput(finalEdit, InputMethodManager.SHOW_IMPLICIT), Constants.SHOW_KEBOARD_DELAY);
     }
     public void setEditMinMaxLines(int min, int max) {
-//        if(editText.getVisibility() == View.VISIBLE) {
+        if(isUsingLimitEditText) {
+            limitEditText.getEditText().setMinLines(min);
+            limitEditText.getEditText().setMaxLines(max);
+            if(min == 1 && max == 1) {
+                limitEditText.getEditText().setGravity(Gravity.START);
+            }else {
+                limitEditText.getEditText().setGravity(Gravity.TOP);
+            }
+        }else{
             editText.setMinLines(min);
             editText.setMaxLines(max);
             if(min == 1 && max == 1) {
@@ -156,12 +190,21 @@ public class PopupDialog extends Dialog {
             }else {
                 editText.setGravity(Gravity.TOP);
             }
-//        }
+        }
+    }
+    public void setEditMaxLength(int maxLength) {
+        if(isUsingLimitEditText) {
+            limitEditText.setMaxLength(maxLength);
+        }else{
+            editText.setFilters(new InputFilter[]{new InputFilter.LengthFilter(maxLength)});
+        }
     }
     public void setEditTextInputType(int type) {
-//        if(editText.getVisibility() == View.VISIBLE) {
+        if(isUsingLimitEditText) {
+            limitEditText.getEditText().setInputType(type);
+        }else{
             editText.setInputType(type);
-//        }
+        }
     }
     public void setCheckBox(String cbTitle, boolean defaultCheck) {
         if(layoutCheckbox != null) layoutCheckbox.setVisibility(View.VISIBLE);
@@ -200,12 +243,23 @@ public class PopupDialog extends Dialog {
     }
 
     public String getInputText(){
-        mInputText = editText.getText().toString().trim();
+        if(isUsingLimitEditText) {
+            mInputText = limitEditText.getText().trim();
+        }else{
+            mInputText = editText.getText().toString().trim();
+        }
+
         return mInputText;
     }
     @Override
     public void dismiss() {
-        if(editText != null && editText.getVisibility() == View.VISIBLE) editText.removeTextChangedListener(etTextWatcher);
+        if(isUsingLimitEditText) {
+            if (limitEditText != null && limitEditText.getEditText().getVisibility() == View.VISIBLE)
+                limitEditText.getEditText().removeTextChangedListener(etTextWatcher);
+        }else{
+            if (editText != null && editText.getVisibility() == View.VISIBLE)
+                editText.removeTextChangedListener(etTextWatcher);
+        }
         super.dismiss();
 
     }

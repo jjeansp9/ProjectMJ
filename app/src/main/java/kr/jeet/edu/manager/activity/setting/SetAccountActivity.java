@@ -303,7 +303,8 @@ public class SetAccountActivity extends BaseActivity {
         popupDialog = new PopupDialog(mContext);
         popupDialog.setTitle(getString(R.string.dialog_title_pw_confirm));
         popupDialog.setContent(getString(R.string.msg_pw_confirm));
-        popupDialog.setEdit(true);
+        popupDialog.setEdit(true, false);
+        popupDialog.setEditMaxLength(getResources().getInteger(R.integer.maxlength_id_and_pw));
         popupDialog.setEditMinMaxLines(1,1);
         popupDialog.setEditText("");
         popupDialog.setEditTextInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);

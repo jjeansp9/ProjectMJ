@@ -48,7 +48,7 @@
                 android:hint="@string/hint_input_subject"
                 android:textSize="@dimen/font_size"
                 android:maxLines="1"
-                android:maxLength="1000"
+                android:maxLength="@integer/maxlength_title"
                 android:inputType="text"
                 android:textColor="@color/font_color_default"
                 android:paddingHorizontal="@dimen/editbox_padding"
@@ -362,21 +362,18 @@
                     app:spinner_popup_elevation="@dimen/spinner_popup_elevation" />
             </androidx.constraintlayout.widget.ConstraintLayout>
             <!-- 내용-->
-            <EditText
+            <kr.jeet.edu.manager.view.LimitableEditText
                 android:id="@+id/et_content_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/layout_margin_xxsmall"
                 android:layout_marginBottom="@dimen/layout_margin_xxsmall"
-                android:background="@drawable/bg_edittext"
                 android:hint="@string/hint_input_schedule_memo"
                 android:textSize="@dimen/font_size"
                 android:minLines="4"
-                android:inputType="textMultiLine|textNoSuggestions"
+                android:maxLength="@integer/maxlength_content"
                 android:gravity="top"
-                android:textColor="@color/font_color_default"
-                android:paddingHorizontal="@dimen/editbox_padding"
-                android:paddingVertical="@dimen/layout_margin_xsmall"/>
+                android:textColor="@color/font_color_default" />
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/layout_recipient_control"
                 android:layout_width="match_parent"

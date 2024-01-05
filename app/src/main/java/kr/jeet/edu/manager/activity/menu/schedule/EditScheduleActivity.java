@@ -73,6 +73,7 @@ import kr.jeet.edu.manager.utils.LogMgr;
 import kr.jeet.edu.manager.utils.PreferenceUtil;
 import kr.jeet.edu.manager.utils.Utils;
 import kr.jeet.edu.manager.view.CustomAppbarLayout;
+import kr.jeet.edu.manager.view.LimitableEditText;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -84,7 +85,8 @@ public class EditScheduleActivity extends BaseActivity implements DatePickerFrag
     SimpleDateFormat _dateTransferFormat = new SimpleDateFormat(Constants.DATE_FORMATTER_YYYY_MM_DD);
     //region views
     PowerSpinnerView spinnerCampus, spinnerGrade;
-    EditText etTitle, etContent;
+    EditText etTitle;
+    LimitableEditText etContent;
     TextView tvDate, tvDateStart, tvDateEnd;
     RecyclerView _recyclerViewRecipient;
     Button btnAppendRecipient;
@@ -556,7 +558,7 @@ public class EditScheduleActivity extends BaseActivity implements DatePickerFrag
         if(_currentData == null) _currentData = new ScheduleData();
         _currentData.writerSeq = _seq;
         _currentData.title = etTitle.getText().toString().trim();
-        _currentData.content = etContent.getText().toString().trim();
+        _currentData.content = etContent.getText().trim();
         _currentData.acaCode = _selectedACA.acaCode;
         _currentData.acaName = _selectedACA.acaName;
         String gubunName = "";

@@ -11,6 +11,7 @@ import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -22,11 +23,12 @@ import androidx.annotation.Nullable;
 
 import kr.jeet.edu.manager.R;
 import kr.jeet.edu.manager.utils.Utils;
+import kr.jeet.edu.manager.view.LimitableEditText;
 
 public class SendSMSDialog extends Dialog {
     private Context context;
     private TextView tvTitle, tvRecipientCount, tvSMSLength;
-    private EditText editTextContent;
+    private LimitableEditText editTextContent;
     private Button cancelBtn, okBtn;
     //checkbox
     private ViewGroup titleLayout;
@@ -90,8 +92,8 @@ public class SendSMSDialog extends Dialog {
         tvSMSLength = (TextView) findViewById(R.id.tv_sms_length);
         cancelBtn = (Button) findViewById(R.id.cancelBtn);
         okBtn = (Button) findViewById(R.id.okBtn);
-        editTextContent = (EditText) findViewById(R.id.edit);
-        editTextContent.addTextChangedListener(etWatcher);
+        editTextContent = (LimitableEditText) findViewById(R.id.edit);
+        editTextContent.getEditText().addTextChangedListener(etWatcher);
 
 
         titleLayout.setVisibility(View.GONE);
@@ -109,7 +111,7 @@ public class SendSMSDialog extends Dialog {
     public void setEditText(String content) {
 //        if(editText.getVisibility() == View.VISIBLE) {
         editTextContent.setText(content);
-        editTextContent.requestFocus();
+        editTextContent.getEditText().requestFocus();
 //        }
     }
     public void setRecipientCount(int count) {
@@ -134,8 +136,8 @@ public class SendSMSDialog extends Dialog {
 
     @Override
     public void dismiss() {
-        _updateContentlistener.onUpdatedContents(editTextContent.getText().toString());
-        if(editTextContent != null) editTextContent.removeTextChangedListener(etWatcher);
+        _updateContentlistener.onUpdatedContents(editTextContent.getText());
+        if(editTextContent != null) editTextContent.getEditText().removeTextChangedListener(etWatcher);
         super.dismiss();
 
     }

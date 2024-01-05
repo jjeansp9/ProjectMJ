@@ -277,7 +277,8 @@ public class MenuStudentInfoActivity extends BaseActivity implements DatePickerF
                 popupDialog = new PopupDialog(mContext);
                 popupDialog.setTitle(getString(R.string.dialog_title_edit_note));
                 popupDialog.setContent(data.stName);
-                popupDialog.setEdit(true);
+                popupDialog.setEdit(true, true);
+                popupDialog.setEditMaxLength(getResources().getInteger(R.integer.maxlength_content));
                 popupDialog.setEditTextInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_MULTI_LINE);
                 popupDialog.setEditMinMaxLines(4, 4);
                 popupDialog.setEditText(data.attendBigoWrite);

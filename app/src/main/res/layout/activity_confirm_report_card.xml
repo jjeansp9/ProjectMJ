@@ -80,7 +80,7 @@
                     android:maxLines="1"
                     android:ellipsize="end"
                     />
-                <EditText
+                <kr.jeet.edu.manager.view.LimitableEditText
                     android:id="@+id/et_content"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -89,17 +89,13 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     android:layout_marginTop="@dimen/layout_margin_xxsmall"
-                    android:background="@drawable/bg_edittext"
-                    android:textSize="@dimen/font_size_large"
+                    android:textSize="@dimen/font_size"
                     android:textColor="@color/font_color_default"
                     android:minLines="4"
                     android:hint="@string/hint_reportcard_content"
-
-                    android:inputType="textMultiLine|textNoSuggestions"
-                    android:padding="@dimen/editbox_padding"
                     android:gravity="top"
+                    android:maxLength="@integer/maxlength_memo_reportcard"
                     />
-
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

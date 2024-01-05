@@ -11,4 +11,7 @@
     <integer name="maxlength_memo_counsel">300</integer>
     <integer name="maxlength_memo_reportcard">255</integer>
     <integer name="maxlength_qna">1000</integer>
+    <integer name="maxlength_default">45</integer>
+    <integer name="maxlength_id_and_pw">100</integer>
+
 </resources>

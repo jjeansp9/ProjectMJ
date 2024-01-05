@@ -2,6 +2,7 @@ package kr.jeet.edu.manager.view;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.text.Editable;
 import android.text.InputFilter;
@@ -62,19 +63,27 @@ public class LimitableEditText extends ConstraintLayout implements TextWatcher {
     private void setTypeArray(TypedArray typedArray) {
         maxLength = typedArray.getInt(R.styleable.LimitableEditText_android_maxLength, DEFAULT_MAX_LENGTH);
         int minLines = typedArray.getInt(R.styleable.LimitableEditText_android_minLines, 1);
+        int maxLines = typedArray.getInt(R.styleable.LimitableEditText_android_maxLines, 0);
         String hint = typedArray.getString(R.styleable.DeletableTextView_android_hint);
 //        float textSize = typedArray.getDimension(R.styleable.LimitableEditText_android_textSize, 0);
         float textSizeInPixels = typedArray.getDimensionPixelSize(R.styleable.LimitableEditText_android_textSize, 0);
         int textColor = typedArray.getColor(R.styleable.LimitableEditText_android_textColor, _context.getColor(R.color.font_color_default));
         editText.setFilters(new InputFilter[] {new InputFilter.LengthFilter(maxLength)});
         editText.setMinLines(minLines);
+        if(maxLines > 0) {
+            editText.setMaxLines(maxLines);
+        }
         editText.setHint(hint);
         LogMgr.w(TAG, "font textSizeInPixels = " + textSizeInPixels);
         editText.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSizeInPixels);
         editText.setTextColor(textColor);
         setTextCount(0);
     }
-
+    public void setMaxLength(int length) {
+        maxLength = length;
+        editText.setFilters(new InputFilter[] {new InputFilter.LengthFilter(maxLength)});
+        setTextCount(0);
+    }
     private void init() {
         LayoutInflater inflater = (LayoutInflater) _context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.view_limitable_edittext, this, true);
@@ -111,6 +120,9 @@ public class LimitableEditText extends ConstraintLayout implements TextWatcher {
         if(editText.getText() == null) return "";
         return editText.getText().toString();
     }
+    public EditText getEditText() {
+        return editText;
+    }
     @Override
     public final void onTextChanged(final CharSequence s, final int start, final int before, final int count) {
         if (editText.isFocused()) {
@@ -126,6 +138,10 @@ public class LimitableEditText extends ConstraintLayout implements TextWatcher {
     public void afterTextChanged(Editable s) {
     }
 
-
-
+    @Override
+    public void setEnabled(boolean enabled) {
+        super.setEnabled(enabled);
+        this.rootView.setEnabled(enabled);
+        this.editText.setEnabled(enabled);
+    }
 }

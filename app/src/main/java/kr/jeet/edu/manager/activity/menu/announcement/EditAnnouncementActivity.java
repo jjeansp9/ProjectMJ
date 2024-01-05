@@ -146,9 +146,9 @@ public class EditAnnouncementActivity extends BaseActivity {
                     break;
                 case CMD_GET_GRADE_LIST:
                     if (_GradeList != null) {
-                        if(boardEditMode == Constants.BoardEditMode.New) {
-                            if (spinnerGrade != null) spinnerGrade.setEnabled(true);
-                        }
+//                        if(boardEditMode == Constants.BoardEditMode.New) {
+//                            if (spinnerGrade != null) spinnerGrade.setEnabled(true);
+//                        }
                         Utils.updateSpinnerList(spinnerGrade, _GradeList.stream().map(t -> t.gubunName).collect(Collectors.toList()));
                     }
                     if(boardEditMode == Constants.BoardEditMode.Edit){
@@ -415,7 +415,8 @@ public class EditAnnouncementActivity extends BaseActivity {
         tvFileCount = findViewById(R.id.tv_count);
         //ACA list for spinner
         //전체 추가 -> 전체 제거
-//        _ACAList.add(new ACAData(getString(R.string.item_total), ""));
+
+        _ACAList.add(new ACAData(getString(R.string.item_total), getString(R.string.item_total), Constants.MAIN_CONTACT)); // 전체
         _ACAList.addAll(DataManager.getInstance().getLocalACAListMap().values());
         if(_ACAList != null) _ACANameList = _ACAList.stream().map(t -> t.acaName).collect(Collectors.toList());
 //        {
@@ -435,16 +436,27 @@ public class EditAnnouncementActivity extends BaseActivity {
                 }
                 selectedACA = selectedData;
                 LogMgr.w("selectedACA = " + selectedACA.acaCode + " / " +selectedACA.acaName);
-                if(boardEditMode == Constants.BoardEditMode.New) {
-                    requestGradeList(selectedACA.acaCode);
-                    if (selectedGrade != null) {
-                        selectedGrade = null;
-                    }
-                    if (spinnerGrade != null) spinnerGrade.clearSelectedItem();
-                }else{
-                    requestGradeList(selectedACA.acaCode);
-                }
 
+                if (selectedACA.acaCode.equals(getString(R.string.item_total))) {
+                    try {
+                        selectedGrade = new StudentGradeData(String.valueOf(Constants.GRADE_TOTAL_CODE), getString(R.string.item_total));
+                        LogMgr.w("selectedACA. selectedGrade = " + selectedGrade.gubunCode + " / " +selectedGrade.gubunName);
+                        spinnerGrade.setText(""); // 이렇게 안하면 UI가 뭔가 어색함
+                        spinnerGrade.setHint(selectedGrade.gubunName);
+                        spinnerGrade.setEnabled(false);
+
+                    }catch (Exception e) {}
+                } else {
+                    if(boardEditMode == Constants.BoardEditMode.New) {
+                        if (selectedGrade != null) selectedGrade = null;
+                        if (spinnerGrade != null) {
+                            spinnerGrade.clearSelectedItem();
+                            spinnerGrade.setHint(getString(R.string.msg_empty_school_grade));
+                            spinnerGrade.setEnabled(true);
+                        }
+                    }
+                }
+                requestGradeList(selectedACA.acaCode);
             }
         });
         spinnerCampus.setSpinnerOutsideTouchListener(new OnSpinnerOutsideTouchListener() {
@@ -751,9 +763,11 @@ public class EditAnnouncementActivity extends BaseActivity {
             Toast.makeText(mContext, R.string.error_message_unselected_campus, Toast.LENGTH_SHORT).show();
             return false;
         }
-        if(selectedGrade == null) {   //등급 선택
-            Toast.makeText(mContext, R.string.msg_empty_school_grade, Toast.LENGTH_SHORT).show();
-            return false;
+        if (!selectedACA.acaName.equals(getString(R.string.item_total))) { // 전체선택이 아닌 경우
+            if(selectedGrade == null) {   //등급 선택
+                Toast.makeText(mContext, R.string.msg_empty_school_grade, Toast.LENGTH_SHORT).show();
+                return false;
+            }
         }
         if(Utils.isEmptyContainSpace(etSubject.getText())) {   //제목
             showKeyboard(etSubject);
@@ -761,7 +775,7 @@ public class EditAnnouncementActivity extends BaseActivity {
             return false;
         }
         if(Utils.isEmptyContainSpace(etContent.getText())) {   //내용
-            showKeyboard(etContent);
+            showKeyboard(etContent.getEditText());
             Toast.makeText(mContext, R.string.error_message_empty_content, Toast.LENGTH_SHORT).show();
             return false;
         }
@@ -773,8 +787,25 @@ public class EditAnnouncementActivity extends BaseActivity {
         _currentData.acaCode = selectedACA.acaCode;
         AnnouncementRequest request = null;
         if(boardEditMode == Constants.BoardEditMode.New) {
-            String smsSender = DataManager.getInstance().getLocalACAData(selectedACA.acaCode).acaTel.replaceAll("[^0-9]", "");
-            request = AnnouncementRequest.initNewDataFromAnnouncementData(_currentData, selectedACA.acaCode, selectedACA.acaName, String.valueOf(selectedGrade.gubunCode), selectedGrade.gubunName, _seq, /*cbIsSendNotify.isChecked(),*/ cbIsSendSMS.isChecked(), smsSender);
+            String smsSender = "";
+            if (selectedACA.acaCode.equals(getString(R.string.item_total))) {
+                smsSender = Constants.MAIN_CONTACT;
+            } else {
+                smsSender = DataManager.getInstance().getLocalACAData(selectedACA.acaCode).acaTel.replaceAll("[^0-9]", "");
+            }
+            String acaName = "";
+            if (selectedACA != null && selectedACA.acaName != null) {
+                if (selectedACA.acaName.equals(getString(R.string.item_total))) {
+                    acaName = getString(R.string.item_total_campus);
+                } else {
+                    acaName = selectedACA.acaName;
+                }
+            }
+            if (selectedGrade != null) {
+                // 캠퍼스 전체로 선택시 캠퍼스구분코드 0, 구분이름은 "전체"로
+                request = AnnouncementRequest.initNewDataFromAnnouncementData(_currentData, selectedACA.acaCode, acaName, String.valueOf(selectedGrade.gubunCode), selectedGrade.gubunName, _seq, /*cbIsSendNotify.isChecked(),*/ cbIsSendSMS.isChecked(), smsSender);
+            }
+
         }else if(boardEditMode == Constants.BoardEditMode.Edit){
             request = AnnouncementRequest.initUpdateDataFromAnnouncementData(_currentData, _deleteFileSeqList);
         }
@@ -833,10 +864,13 @@ public class EditAnnouncementActivity extends BaseActivity {
                 @Override
                 public void onResponse(Call<StudentGradeListResponse> call, Response<StudentGradeListResponse> response) {
                     if(response.isSuccessful()) {
-
                         if(response.body() != null) {
                             List<StudentGradeData> list = response.body().data;
                             if(_GradeList != null) _GradeList.clear();
+                            try {
+                                _GradeList.add(new StudentGradeData(String.valueOf(Constants.GRADE_TOTAL_CODE), getString(R.string.item_total)));
+                            }catch (Exception e) {}
+
                             _GradeList.addAll(list);
                             Collections.sort(_GradeList, new Comparator<StudentGradeData>() {
                                 @Override
@@ -914,6 +948,7 @@ public class EditAnnouncementActivity extends BaseActivity {
         RequestBody reqBody = buildRequestData();
         List<MultipartBody.Part> reqMultipartBodyList = buildRequestFiles();
         if(boardEditMode == Constants.BoardEditMode.New) {
+
             RetrofitClient.getApiInterface().insertAnnouncement(reqBody, reqMultipartBodyList).enqueue(new Callback<BoardRegisterResponse>(){
 
                 @Override

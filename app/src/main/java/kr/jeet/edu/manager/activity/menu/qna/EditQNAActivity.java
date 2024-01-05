@@ -63,6 +63,7 @@ import kr.jeet.edu.manager.utils.LogMgr;
 import kr.jeet.edu.manager.utils.PreferenceUtil;
 import kr.jeet.edu.manager.utils.Utils;
 import kr.jeet.edu.manager.view.CustomAppbarLayout;
+import kr.jeet.edu.manager.view.LimitableEditText;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -74,7 +75,8 @@ public class EditQNAActivity extends BaseActivity {
     //views
     PowerSpinnerView spinnerCampus, spinnerGrade;
     NestedScrollView scrollView;
-    EditText etSubject, etContent, etAnswer;
+    EditText etSubject;
+    LimitableEditText etContent, etAnswer;
     LinearLayout layoutNotice, layoutPrivate;
     CheckBox cbIsNotice, cbIsPrivate;
     TextView tvAnswer;
@@ -489,7 +491,7 @@ public class EditQNAActivity extends BaseActivity {
             _handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    showKeyboard(etAnswer);
+                    showKeyboard(etAnswer.getEditText());
                 }
             }, 500);
 
@@ -569,12 +571,12 @@ public class EditQNAActivity extends BaseActivity {
             return false;
         }
         if(Utils.isEmptyContainSpace(etContent.getText())) {   //내용
-            showKeyboard(etContent);
+            showKeyboard(etContent.getEditText());
             Toast.makeText(mContext, R.string.error_message_empty_content, Toast.LENGTH_SHORT).show();
             return false;
         }
         if(Utils.isEmptyContainSpace(etAnswer.getText())) {   //내용
-            showKeyboard(etAnswer);
+            showKeyboard(etAnswer.getEditText());
             Toast.makeText(mContext, R.string.error_message_empty_answer, Toast.LENGTH_SHORT).show();
             return false;
         }
@@ -582,7 +584,7 @@ public class EditQNAActivity extends BaseActivity {
     }
     private BaseRequest buildRequestData() {
         _currentData.title = etSubject.getText().toString();
-        _currentData.content = etContent.getText().toString();
+        _currentData.content = etContent.getText();
         _currentData.acaCode = selectedACA.acaCode;
         BaseRequest request = null;
         if(boardEditMode == Constants.BoardEditMode.New) {
@@ -595,10 +597,10 @@ public class EditQNAActivity extends BaseActivity {
                     selectedGrade.gubunCode,
                     selectedGrade.gubunName,
                     etSubject.getText().toString(),
-                    etContent.getText().toString(),
+                    etContent.getText(),
                     cbIsPrivate.isChecked()? "N" : "Y",
                     cbIsNotice.isChecked()? "Y" : "N",
-                    etAnswer.getText().toString(),
+                    etAnswer.getText(),
                     _memberSeq,
                     _memberName,
                     _sfCode
@@ -609,15 +611,15 @@ public class EditQNAActivity extends BaseActivity {
                     _currentData.seq,
                     _userGubun,
                     etSubject.getText().toString(),
-                    etContent.getText().toString(),
+                    etContent.getText(),
                     cbIsPrivate.isChecked()? "N" : "Y",
                     cbIsNotice.isChecked()? "Y" : "N",
-                    etAnswer.getText().toString()
+                    etAnswer.getText()
             );
         }else if(boardEditMode == Constants.BoardEditMode.Reply) {
             request = new QnaReplyRequest(
                     _currentData.seq,
-                    etAnswer.getText().toString(),
+                    etAnswer.getText(),
                     _memberSeq,
                     _memberName,
                     _sfCode

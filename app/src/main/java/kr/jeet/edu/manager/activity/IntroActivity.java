@@ -343,8 +343,7 @@ public class IntroActivity extends BaseActivity {
     private void startIntro() {
         LogMgr.e(TAG, PreferenceUtil.getUserGubun(this) + " / " + PreferenceUtil.getUserSeq(this));
         //푸쉬전송을 눌러서 들어온 경우에 로그인이 되어 있을 때
-        int memberSeq = PreferenceUtil.getUserSeq(this);
-        if(_pushMessage != null && PreferenceUtil.getUserGubun(this) < USER_TYPE_STUDENT && memberSeq != -1) {  //isFromPush
+        if(_pushMessage != null && PreferenceUtil.getUserGubun(this) < USER_TYPE_STUDENT && PreferenceUtil.getUserSeq(this) != -1) {  //isFromPush
             Intent intent = new Intent(this, MainActivity.class);
             Bundle bundle = new Bundle();
             bundle.putSerializable(IntentParams.PARAM_PUSH_MESSAGE, _pushMessage);

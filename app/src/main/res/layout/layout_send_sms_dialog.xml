@@ -53,20 +53,18 @@
 
                 >
 
-                <EditText
+                <kr.jeet.edu.manager.view.LimitableEditText
                     android:id="@+id/edit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/bg_edittext"
-                    android:textSize="@dimen/font_size_large"
+                    android:textSize="@dimen/font_size"
                     android:textColor="@color/font_color_default"
                     android:hint="@string/error_message_empty_content"
                     android:gravity="left|top"
                     android:layout_marginTop="12dp"
-                    android:padding="@dimen/editbox_padding"
                     android:minLines="6"
                     android:maxLines="6"
-                    android:maxLength="1000"
+                    android:maxLength="@integer/maxlength_sms"
                     />
 
                 <LinearLayout

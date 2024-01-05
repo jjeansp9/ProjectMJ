@@ -80,6 +80,7 @@ import kr.jeet.edu.manager.utils.LogMgr;
 import kr.jeet.edu.manager.utils.PreferenceUtil;
 import kr.jeet.edu.manager.utils.Utils;
 import kr.jeet.edu.manager.view.CustomAppbarLayout;
+import kr.jeet.edu.manager.view.LimitableEditText;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -96,7 +97,8 @@ public class EditNoticeActivity extends BaseActivity {
     //region member views
     PowerSpinnerView spinnerCampus, spinnerGrade;
     ImageButton btnAttachPhoto, btnAttachFile;
-    EditText etTitle, etContent;
+    EditText etTitle;
+    LimitableEditText etContent;
     RecyclerView _recyclerViewAttachedImage;
     RecyclerView _recyclerViewAttachedFile;
     RecyclerView _recyclerViewRecipient;
@@ -590,7 +592,7 @@ public class EditNoticeActivity extends BaseActivity {
         if(_currentData == null) _currentData = new NoticeData();
         _currentData.writerSeq = _seq;
         _currentData.title = etTitle.getText().toString().trim();
-        _currentData.content = etContent.getText().toString().trim();
+        _currentData.content = etContent.getText().trim();
         _currentData.acaCode = selectedACA.acaCode;
         _currentData.acaName = selectedACA.acaName;
         _currentData.acaGubunCode = String.valueOf(_selectedGrade.gubunCode);
@@ -674,7 +676,7 @@ public class EditNoticeActivity extends BaseActivity {
             return false;
         }
         if(Utils.isEmptyContainSpace(etContent.getText())) {   //내용
-            showKeyboard(etContent);
+            showKeyboard(etContent.getEditText());
             Toast.makeText(mContext, R.string.error_message_empty_content, Toast.LENGTH_SHORT).show();
             return false;
         }
@@ -706,7 +708,7 @@ public class EditNoticeActivity extends BaseActivity {
     }
     private RequestBody buildRequestData() {
         _currentData.title = etTitle.getText().toString();
-        _currentData.content = etContent.getText().toString();
+        _currentData.content = etContent.getText();
         _currentData.acaCode = selectedACA.acaCode;
         NoticeRequest request = null;
         int recipientCnt = (_recipientSet != null)? _recipientSet.size() : 0;

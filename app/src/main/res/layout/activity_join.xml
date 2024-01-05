@@ -93,7 +93,7 @@
                 android:textSize="@dimen/font_size"
                 android:textColor="@color/font_color_default"
                 android:padding="@dimen/editbox_padding"
-                android:maxLength="40"
+                android:maxLength="@integer/maxlength_default"
                 />
 
             <!--  성별 -->
@@ -167,7 +167,7 @@
                     android:inputType="textVisiblePassword"
                     android:digits="@string/id_pattern"
                     android:padding="@dimen/editbox_padding"
-                    android:maxLength="100"
+                    android:maxLength="@integer/maxlength_id_and_pw"
                     />
 
                 <!-- 비밀번호 -->
@@ -191,6 +191,7 @@
                     android:textColor="@color/font_color_default"
                     android:inputType="textPassword"
                     android:padding="@dimen/editbox_padding"
+                    android:maxLength="@integer/maxlength_id_and_pw"
                     />
 
                 <TextView
@@ -226,7 +227,7 @@
                     android:textColor="@color/font_color_default"
                     android:inputType="textPassword"
                     android:padding="@dimen/editbox_padding"
-                    android:maxLength="100"
+                    android:maxLength="@integer/maxlength_id_and_pw"
                     />
 
             </LinearLayout>

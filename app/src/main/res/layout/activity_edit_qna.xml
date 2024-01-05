@@ -127,7 +127,7 @@
                 android:inputType="text"
                 android:padding="@dimen/editbox_padding"
                 android:maxLines="1"
-                android:maxLength="100"
+                android:maxLength="@integer/maxlength_title"
                 />
 
             <!-- 내용-->
@@ -142,17 +142,15 @@
                 android:layout_marginBottom="@dimen/layout_margin_xxsmall"
                 />
 
-            <EditText
+            <kr.jeet.edu.manager.view.LimitableEditText
                 android:id="@+id/et_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/bg_edittext"
                 android:hint="@string/hint_input_content"
                 android:textSize="@dimen/font_size"
                 android:textColor="@color/font_color_default"
                 android:minLines="4"
-                android:inputType="textMultiLine|textNoSuggestions"
-                android:padding="@dimen/editbox_padding"
+                android:maxLength="@integer/maxlength_qna"
                 android:gravity="top"
                 />
             <!-- 답변-->
@@ -168,17 +166,15 @@
                 android:layout_marginBottom="@dimen/layout_margin_xxsmall"
                 />
 
-            <EditText
+            <kr.jeet.edu.manager.view.LimitableEditText
                 android:id="@+id/et_answer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/bg_edittext"
                 android:hint="@string/hint_input_answer"
                 android:textSize="@dimen/font_size"
                 android:textColor="@color/font_color_default"
                 android:minLines="4"
-                android:inputType="textMultiLine|textNoSuggestions"
-                android:padding="@dimen/editbox_padding"
+                android:maxLength="@integer/maxlength_qna"
                 android:gravity="top"
                 />
             <View

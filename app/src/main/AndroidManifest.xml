@@ -84,8 +84,8 @@
             android:name=".activity.menu.qna.EditQNAActivity"
             android:configChanges="smallestScreenSize|screenSize|screenLayout"
             android:exported="false"
-            android:windowSoftInputMode="adjustPan"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|stateHidden">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -112,7 +112,8 @@
             android:name=".activity.menu.reportcard.ConfirmReportCardActivity"
             android:configChanges="smallestScreenSize|screenSize|screenLayout"
             android:exported="false"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|stateHidden">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -221,7 +222,8 @@
             android:name=".activity.menu.schedule.EditScheduleActivity"
             android:configChanges="smallestScreenSize|screenSize|screenLayout"
             android:exported="false"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|stateHidden">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -257,7 +259,8 @@
             android:name=".activity.menu.notice.EditNoticeActivity"
             android:configChanges="smallestScreenSize|screenSize|screenLayout"
             android:exported="false"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|stateHidden">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -302,7 +305,8 @@
             android:name=".activity.menu.briefing.EditBriefingActivity"
             android:configChanges="smallestScreenSize|screenSize|screenLayout"
             android:exported="false"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|stateHidden">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -366,7 +370,7 @@
             android:configChanges="smallestScreenSize|screenSize|screenLayout"
             android:exported="false"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan">
+            android:windowSoftInputMode="adjustPan|stateHidden">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />

@@ -230,7 +230,7 @@
                 android:background="@drawable/bg_edittext"
                 android:textSize="@dimen/font_size"
                 android:maxLines="1"
-                android:maxLength="1000"
+                android:maxLength="@integer/maxlength_default"
                 android:inputType="text"
                 android:hint="@string/hint_search_name"
                 android:textColor="@color/font_color_default"

@@ -13,6 +13,9 @@ import kr.jeet.edu.manager.R;
 
 public class Constants {
 
+    public final static String MAIN_CONTACT = "031-276-8003"; // 캠퍼스 대표번호 [캠퍼스 필터 전체로 선택시]
+    public final static int GRADE_TOTAL_CODE = 0; // 캠퍼스 구분 전체로 선택시 해당 코드는 0으로
+
     // 사용자 구분 타입
     public final static int USER_TYPE_SUPER_ADMIN = -10;
     public final static int USER_TYPE_ADMIN = 0;
@@ -584,6 +587,5 @@ public class Constants {
 
     public static final int IS_READ_DELETE_DAY = 6;
 
-    public static int LOGOUT_TYPE_APP_FINISH = 0; // 앱종료로 로그아웃 api 호출할 때
-    public static int LOGOUT_TYPE_LOGOUT = 1; // 설정에서 로그아웃 api 호출할 때
+
 }

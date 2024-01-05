@@ -7,4 +7,10 @@ public class SchoolData {
     public String scName; // 학교 이름
     @SerializedName("scCode")
     public int scCode; // 학교 코드
+
+    public SchoolData() {}
+    public SchoolData(String scName, int scCode) {
+        this.scName = scName;
+        this.scCode = scCode;
+    }
 }
